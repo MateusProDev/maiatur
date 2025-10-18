@@ -193,18 +193,58 @@
   .header-container-modern {
     padding: 0 1rem;
     height: 70px;
+    gap: 1rem; /* Espaçamento entre logo e botão */
+  }
+
+  /* Logo maior e com flex-grow para ocupar espaço disponível */
+  .header-logo-modern {
+    flex: 1; /* Ocupa espaço disponível */
+    max-width: calc(100% - 60px); /* Deixa espaço fixo para o botão */
   }
 
   .header-logo-modern img {
-    height: 45px;
+    height: 55px; /* Logo maior no mobile */
+    max-width: 100%;
   }
 
   .logo-placeholder-modern {
-    font-size: 1.5rem;
+    font-size: 1.6rem; /* Texto maior */
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
   }
 
-  .header-menu-toggle-modern {
+  .logo-text {
     display: block;
+    font-size: 1.6rem;
+  }
+
+  .logo-tagline {
+    display: block;
+    font-size: 0.65rem;
+    opacity: 0.7;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Botão hambúrguer fixo na direita com tamanho definido */
+  .header-menu-toggle-modern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px; /* Largura fixa */
+    height: 48px; /* Altura fixa */
+    flex-shrink: 0; /* Não diminui */
+    background: rgba(102, 126, 234, 0.08);
+    border-radius: 12px;
+    margin-left: auto; /* Empurra para a direita */
+  }
+
+  .header-menu-toggle-modern svg {
+    font-size: 24px;
   }
 
   .header-nav-modern {
@@ -282,12 +322,37 @@
     height: 65px;
   }
 
+  /* Logo ajustado para telas pequenas */
+  .header-logo-modern {
+    flex: 1;
+    max-width: calc(100% - 55px);
+  }
+
   .header-logo-modern img {
-    height: 40px;
+    height: 48px; /* Mantém logo grande mesmo em telas pequenas */
+    max-width: 100%;
   }
 
   .logo-placeholder-modern {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+  }
+
+  .logo-text {
+    font-size: 1.4rem;
+  }
+
+  .logo-tagline {
+    font-size: 0.6rem;
+  }
+
+  /* Botão hambúrguer um pouco menor em telas muito pequenas */
+  .header-menu-toggle-modern {
+    width: 44px;
+    height: 44px;
+  }
+
+  .header-menu-toggle-modern svg {
+    font-size: 22px;
   }
 
   .header-nav-modern {

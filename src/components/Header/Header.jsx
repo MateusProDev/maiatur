@@ -77,7 +77,7 @@ const Header = () => {
         <button 
           className="header-menu-toggle-modern" 
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
         >
           {menuOpen ? <FiX /> : <FiMenu />}
         </button>
