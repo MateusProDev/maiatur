@@ -1,0 +1,129 @@
+/* Container Principal */
+.edit-whatsapp-container {
+  padding: 2rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  text-align: center;
+}
+
+/* Título */
+.edit-whatsapp-container h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+/* Input */
+.edit-whatsapp-container input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.edit-whatsapp-container input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.edit-whatsapp-container input::placeholder {
+  color: #7f8c8d;
+}
+
+/* Botões */
+.edit-whatsapp-container button {
+  padding: 0.7rem 1.5rem;
+  margin: 0 0.5rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.edit-whatsapp-container button:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão Voltar (diferenciação sutil) */
+.edit-whatsapp-container button:last-child {
+  background: #7f8c8d;
+}
+
+.edit-whatsapp-container button:last-child:hover {
+  background: #6c7a89;
+}
+
+/* Mensagem de Carregamento ou Erro */
+.edit-whatsapp-container p {
+  font-size: 1rem;
+  color: #2c3e50;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .edit-whatsapp-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .edit-whatsapp-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .edit-whatsapp-container input {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .edit-whatsapp-container button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-whatsapp-container {
+    padding: 1rem;
+  }
+
+  .edit-whatsapp-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .edit-whatsapp-container input {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .edit-whatsapp-container button {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}

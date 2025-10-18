@@ -1,0 +1,172 @@
+/* Estilos Gerais */
+.view-users {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+
+/* Título */
+.view-users__title {
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Mensagem de Carregando */
+.view-users__loading {
+  text-align: center;
+  padding: 3rem;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 400px;
+}
+
+/* Mensagem de Nenhum Usuário */
+.view-users__empty {
+  text-align: center;
+  color: #555;
+  font-size: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Wrapper da Tabela */
+.view-users__table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Tabela */
+.view-users__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 600px;
+  background: #fff;
+}
+
+/* Cabeçalho da Tabela */
+.view-users__table-head {
+  background-color: #2c3e50;
+}
+
+.view-users__table-header {
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.view-users__table-header:first-child {
+  border-top-left-radius: 8px;
+}
+
+.view-users__table-header:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* Corpo da Tabela */
+.view-users__table-body {
+  background-color: #fff;
+}
+
+.view-users__table-row {
+  transition: background-color 0.2s ease;
+}
+
+.view-users__table-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.view-users__table-row:hover {
+  background-color: #f1f5f9;
+}
+
+.view-users__table-cell {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .view-users {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .view-users__table-header,
+  .view-users__table-cell {
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .view-users {
+    padding: 1rem;
+  }
+
+  .view-users__title {
+    font-size: 1.5rem;
+  }
+
+  /* Tabela vira cards em mobile */
+  .view-users__table-wrapper {
+    border: none;
+    box-shadow: none;
+  }
+
+  .view-users__table {
+    min-width: 100%;
+    display: block;
+  }
+
+  .view-users__table-head {
+    display: none;
+  }
+
+  .view-users__table-row {
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+  }
+
+  .view-users__table-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .view-users__table-cell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #2c3e50;
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+    min-width: 120px;
+  }
+
+  .view-users__table-cell:last-child {
+    border-bottom: none;
+  }
+}

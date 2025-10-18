@@ -1,0 +1,83 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Leitura pública para content (ex: textos institucionais)
+    match /content/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Leitura pública para pacotes (ex: catálogo de viagens)
+    match /pacotes/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Avaliações: leitura e escrita pública (sem autenticação necessária)
+    match /avaliacoes/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite criação sem autenticação
+      allow update, delete: if request.auth != null; // atualização/exclusão só para autenticados
+    }
+
+    // Reservas: leitura só para autenticados, escrita liberada para backend
+    match /reservas/{documentId} {
+      allow read: if request.auth != null; // painel do usuário
+      allow write: if request.auth != null || request.time < timestamp.date(9999, 1, 1); // permite backend/serverless
+    }
+
+    // Usuários: leitura e escrita só para o próprio usuário autenticado
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Motoristas: leitura só autenticados, escrita só admin (exemplo)
+    match /motoristas/{documentId} {
+      allow read: if request.auth != null;
+      allow write: if false; // só via painel admin seguro
+    }
+
+    // Configurações e settings: leitura pública, escrita só admin
+    match /settings/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Produtos, banners, imagens: leitura pública, escrita autenticada
+    match /produtos/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /bannersLojinha/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /bannersTurismo/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /images/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Fallback: negar tudo
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /logos/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

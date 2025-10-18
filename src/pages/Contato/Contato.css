@@ -1,0 +1,416 @@
+.contato-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.contato-main {
+  flex: 1;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #fff5f0 100%);
+}
+
+.contato-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contato-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contato-description {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.contato-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 3rem;
+}
+
+.contato-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-content: start;
+}
+
+.info-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 48px rgba(255, 107, 53, 0.2);
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.05), transparent);
+  transition: left 0.6s;
+}
+
+.info-card:hover::before {
+  left: 100%;
+}
+
+.info-icon {
+  font-size: 2.5rem;
+  color: #ff6b35;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.info-card:hover .info-icon {
+  transform: scale(1.1);
+}
+
+/* WhatsApp Card Especial */
+.whatsapp-card {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+}
+
+.whatsapp-card .info-icon {
+  color: white;
+}
+
+.whatsapp-card h3,
+.whatsapp-card p {
+  color: white;
+}
+
+.whatsapp-icon {
+  font-size: 3rem !important;
+}
+
+.whatsapp-link,
+.email-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 107, 53, 0.1);
+  color: #ff6b35;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.whatsapp-card .whatsapp-link {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.whatsapp-link:hover,
+.email-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+}
+
+.whatsapp-card .whatsapp-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Hours Card - Accordion */
+.hours-card {
+  grid-column: span 2;
+}
+
+.hours-toggle {
+  background: none;
+  border: 2px solid #ff6b35;
+  color: #ff6b35;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem auto 0;
+  transition: all 0.3s ease;
+}
+
+.hours-toggle:hover {
+  background: #ff6b35;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+}
+
+.hours-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 1rem;
+}
+
+.hours-content.expanded {
+  max-height: 500px;
+}
+
+.hour-item {
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  background: rgba(255, 107, 53, 0.05);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #ff6b35;
+}
+
+.info-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.contato-form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.contato-form h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Tooltip */
+.tooltip-container {
+  position: relative;
+}
+
+.info-tooltip {
+  font-size: 1.2rem;
+  color: #ff6b35;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.info-tooltip:hover {
+  background: rgba(255, 107, 53, 0.1);
+  transform: scale(1.1);
+}
+
+.tooltip {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  max-width: 250px;
+  white-space: normal;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #333;
+}
+
+.contato-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contato-form input,
+.contato-form textarea {
+  padding: 1rem;
+  border: 2px solid #f0f0f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.contato-form input:focus,
+.contato-form textarea:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  transform: translateY(-1px);
+}
+
+.whatsapp-submit {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+  border: none;
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.whatsapp-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.whatsapp-submit:hover::before {
+  left: 100%;
+}
+
+.whatsapp-submit:hover {
+  background: linear-gradient(135deg, #128C7E, #075E54);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+}
+
+.button-icon,
+.send-icon {
+  font-size: 1.2rem;
+}
+
+.send-icon {
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-submit:hover .send-icon {
+  transform: translateX(3px);
+}
+
+@media (max-width: 768px) {
+  .contato-main {
+    padding: 2rem 1rem;
+  }
+  
+  .contato-title {
+    font-size: 2.5rem;
+  }
+  
+  .contato-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .contato-info {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .hours-card {
+    grid-column: span 1;
+  }
+  
+  .contato-form {
+    padding: 2rem;
+  }
+  
+  .tooltip {
+    max-width: 200px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contato-main {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .contato-title {
+    font-size: 2rem;
+  }
+  
+  .contato-form {
+    padding: 1.5rem;
+  }
+  
+  .info-card {
+    padding: 1.5rem;
+  }
+  
+  .tooltip {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 280px;
+    z-index: 1001;
+  }
+  
+  .whatsapp-submit {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+}

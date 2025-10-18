@@ -1,0 +1,24 @@
+/* src/pages/AboutPage/AboutPage.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .about-page {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .about-page h1 {
+    text-align: justify;
+
+  }
+  
+  .description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 30px;
+    text-align: justify;
+    color: #333;
+  }
+  

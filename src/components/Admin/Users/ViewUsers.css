@@ -1,0 +1,28 @@
+.user-table {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th {
+  background-color: #f5f5f5;
+  text-align: left;
+  padding: 12px;
+}
+
+.user-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.user-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}

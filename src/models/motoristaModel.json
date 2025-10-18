@@ -1,0 +1,12 @@
+{
+  "motoristas": [
+    {
+      "id": "string",
+      "nome": "string",
+      "email": "string",
+      "senhaHash": "string",
+      "reservasDelegadas": ["reservaId1", "reservaId2"],
+      "lucroTotal": "number"
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+/* Ícones nos inputs */
+.input-icon-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  background: #f1f1f1;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+}
+.input-icon {
+  color: #888;
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+.input-icon-group input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  padding: 12px 0;
+  font-size: 1rem;
+}
+
+/* Botão Google */
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #fff;
+  color: #232946;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.google-btn:hover {
+  background: #f1f1f1;
+  color: #007bff;
+}
+.google-icon {
+  font-size: 1.2rem;
+}
+
+/* Link de reset de senha */
+.reset-link {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-top: 8px;
+  margin-bottom: 0;
+  padding: 0;
+}
+.reset-link:hover {
+  color: #0056b3;
+}
+
+/* Sucesso */
+.admin-login-success {
+  color: #388e3c;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  padding: 5px;
+  background-color: #e6f4ea;
+  border-radius: 4px;
+}
+/* Estilo exclusivo para tela de login admin */
+.admin-login-unique-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f4f4;
+}
+.admin-login-unique-panel {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 28px 20px 24px 20px;
+  background-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(35,41,70,0.13);
+  text-align: center;
+}
+.admin-login-unique-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #232946;
+  margin-bottom: 22px;
+  letter-spacing: 1px;
+}
+.admin-login-unique-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin-login-unique-input-icon-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  background: #f1f1f1;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+}
+.admin-login-unique-input-icon {
+  color: #888;
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+.admin-login-unique-input-icon-group input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  padding: 12px 0;
+  font-size: 1rem;
+}
+.admin-login-unique-btn {
+  padding: 12px 24px;
+  font-size: 1rem;
+  color: white;
+  background-color: #ff8000 !important;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 8px;
+  width: 100%;
+  font-weight: 600;
+}
+.admin-login-unique-btn:hover {
+  background-color: #e06d00 !important;
+}
+.admin-login-unique-google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #fff;
+  color: #232946;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 8px;
+  width: 100%;
+  padding: 12px 0;
+}
+.admin-login-unique-google-btn:hover {
+  background: #f1f1f1;
+  color: #007bff;
+}
+.admin-login-unique-google-icon {
+  font-size: 1.2rem;
+}
+.admin-login-unique-reset-link {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-top: 8px;
+  margin-bottom: 0;
+  padding: 0;
+}
+.admin-login-unique-reset-link:hover {
+  color: #0056b3;
+}
+.admin-login-unique-error {
+  color: #dc3545;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  padding: 5px;
+  background-color: #f8d7da;
+  border-radius: 4px;
+}
+.admin-login-unique-success {
+  color: #388e3c;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  padding: 5px;
+  background-color: #e6f4ea;
+  border-radius: 4px;
+}
+@media (max-width: 768px) {
+  .admin-login-unique-panel {
+    padding: 15px;
+    margin: 30px auto;
+  }
+  .admin-login-unique-input-icon-group input {
+    font-size: 0.95rem;
+  }
+  .admin-login-unique-btn,
+  .admin-login-unique-google-btn {
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+  .admin-login-unique-title {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 480px) {
+  .admin-login-unique-panel {
+    width: 95%;
+    padding: 8px;
+  }
+  .admin-login-unique-input-icon-group input {
+    font-size: 0.9rem;
+    padding: 10px 0;
+  }
+  .admin-login-unique-btn,
+  .admin-login-unique-google-btn {
+    font-size: 0.9rem;
+    padding: 8px 0;
+  }
+  .admin-login-unique-title {
+    font-size: 1.2rem;
+  }
+  .admin-login-unique-error,
+  .admin-login-unique-success {
+    font-size: 0.8rem;
+  }
+}

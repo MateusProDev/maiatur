@@ -1,0 +1,51 @@
+/* src/components/RichTextEditorV2/RichTextEditorV2.css */
+.rich-text-editor-v2 {
+  margin: 16px 0;
+}
+
+.rich-text-editor-v2 .w-md-editor {
+  background-color: #fff !important;
+}
+
+.rich-text-editor-v2 .w-md-editor-text-textarea,
+.rich-text-editor-v2 .w-md-editor-text {
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+}
+
+.rich-text-editor-v2 .w-md-editor-focus {
+  border-color: #1976d2 !important;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2) !important;
+}
+
+/* Estilos para o preview */
+.rich-text-editor-v2 .wmde-markdown {
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.rich-text-editor-v2 .wmde-markdown h1,
+.rich-text-editor-v2 .wmde-markdown h2,
+.rich-text-editor-v2 .wmde-markdown h3 {
+  color: #1976d2;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.rich-text-editor-v2 .wmde-markdown blockquote {
+  border-left: 4px solid #1976d2;
+  background-color: #e3f2fd;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.rich-text-editor-v2 .wmde-markdown ul,
+.rich-text-editor-v2 .wmde-markdown ol {
+  padding-left: 24px;
+}
+
+.rich-text-editor-v2 .wmde-markdown li {
+  margin-bottom: 8px;
+}

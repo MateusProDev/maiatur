@@ -1,0 +1,83 @@
+.destinos-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.destinos-main {
+  flex: 1;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #fff5f0 100%);
+}
+
+.destinos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.destinos-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.destinos-description {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+}
+
+.destinos-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.destino-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.destino-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 48px rgba(255, 107, 53, 0.2);
+}
+
+.destino-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff6b35;
+  margin-bottom: 1rem;
+}
+
+.destino-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .destinos-main {
+    padding: 2rem 1rem;
+  }
+  
+  .destinos-title {
+    font-size: 2.5rem;
+  }
+  
+  .destinos-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

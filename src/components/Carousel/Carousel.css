@@ -1,0 +1,360 @@
+/* Seção do carrossel */
+.carousel-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Título da seção */
+.section-title {
+  text-align: left !important;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Container do carrossel */
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Botões de navegação */
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-nav-btn:hover {
+  background: rgba(255, 107, 53, 0.9);
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+  left: 20px;
+}
+
+.next-btn {
+  right: 20px;
+}
+
+/* Indicadores */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator:hover {
+  background: #bbb;
+  transform: scale(1.2);
+}
+
+.indicator.active {
+  background: #ff6b35;
+  transform: scale(1.3);
+}
+
+/* Item do carrossel */
+.carousel-item {
+  display: none;
+  width: 100%;
+  position: relative;
+}
+
+/* Item ativo */
+.carousel-item.active {
+  display: block;
+}
+
+/* Imagem do carrossel */
+.carousel-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+/* Título sobreposto na imagem */
+.image-title {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  max-width: 85%;
+  text-align: center;
+  line-height: 1.4;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ===================== RESPONSIVIDADE ===================== */
+
+/* Desktop Extra Grande (1400px+) */
+@media (min-width: 1400px) {
+  .carousel-section {
+    padding: 80px 40px;
+  }
+  
+  .carousel {
+    max-width: 1200px;
+  }
+  
+  .carousel-image {
+    height: 500px;
+  }
+  
+  .section-title {
+    font-size: 3rem;
+    margin-bottom: 50px;
+  }
+  
+  .image-title {
+    font-size: 1.5rem;
+    padding: 20px 32px;
+    border-radius: 16px;
+  }
+}
+
+/* Desktop Grande (1200px - 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .carousel-section {
+    padding: 70px 30px;
+  }
+  
+  .carousel {
+    max-width: 1000px;
+  }
+  
+  .carousel-image {
+    height: 450px;
+  }
+  
+  .section-title {
+    font-size: 2.75rem;
+  }
+  
+  .image-title {
+    font-size: 1.4rem;
+    padding: 18px 28px;
+  }
+}
+
+/* Desktop Médio (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .carousel-section {
+    padding: 60px 25px;
+  }
+  
+  .carousel {
+    max-width: 800px;
+  }
+  
+  .carousel-image {
+    height: 400px;
+  }
+  
+  .section-title {
+    text-align: left !important;
+    font-size: 2.5rem;
+  }
+  
+  .image-title {
+    font-size: 1.3rem;
+    padding: 16px 24px;
+  }
+}
+
+/* Tablet (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .carousel-section {
+    padding: 50px 20px;
+  }
+  
+  .carousel {
+    max-width: 600px;
+  }
+  
+  .carousel-image {
+    height: 350px;
+  }
+  
+  .section-title {
+    text-align: left !important;
+    font-size: 2.25rem;
+  }
+  
+  .image-title {
+    font-size: 1.2rem;
+    padding: 14px 20px;
+    max-width: 90%;
+  }
+  
+  .carousel-nav-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  
+  .prev-btn {
+    left: 15px;
+  }
+  
+  .next-btn {
+    right: 15px;
+  }
+}
+
+/* Mobile Grande (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .carousel-section {
+    padding: 40px 15px;
+  }
+  
+  .carousel {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+  
+  .carousel-image {
+    height: 280px;
+    border-radius: 12px;
+  }
+  
+  .section-title {
+    text-align: left !important;
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .image-title {
+    font-size: 1.1rem;
+    padding: 12px 18px;
+    bottom: 15px;
+    max-width: 90%;
+    border-radius: 8px;
+  }
+  
+  .carousel-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .prev-btn {
+    left: 10px;
+  }
+  
+  .next-btn {
+    right: 10px;
+  }
+  
+  .carousel-indicators {
+    margin-top: 25px;
+    gap: 10px;
+  }
+  
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Mobile Pequeno (até 479px) */
+@media (max-width: 479px) {
+  .carousel-section {
+    padding: 30px 10px;
+  }
+  
+  .carousel {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  
+  .carousel-image {
+    height: 220px;
+    border-radius: 8px;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 25px;
+  }
+  
+  .image-title {
+    font-size: 0.95rem;
+    padding: 10px 16px;
+    bottom: 12px;
+    max-width: 95%;
+    border-radius: 6px;
+  }
+  
+  .carousel-nav-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  .prev-btn {
+    left: 8px;
+  }
+  
+  .next-btn {
+    right: 8px;
+  }
+  
+  .carousel-indicators {
+    margin-top: 20px;
+    gap: 8px;
+  }
+  
+  .indicator {
+    width: 8px;
+    height: 8px;
+  }
+}

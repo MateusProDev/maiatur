@@ -1,0 +1,133 @@
+.auth-motorista-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+  }
+  
+  .auth-motorista-container {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .auth-motorista-form {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .auth-motorista-form h2 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  
+  .input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 15px;
+    color: #888;
+    font-size: 1.2rem;
+  }
+  
+  .auth-motorista-form input {
+    width: 100%;
+    padding: 15px 15px 15px 50px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .auth-motorista-form input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  }
+  
+  .auth-error {
+    color: #d9534f;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  .auth-motorista-form button[type="submit"] {
+    padding: 15px;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  
+  .auth-motorista-form button[type="submit"]:hover {
+    background: linear-gradient(45deg, #0056b3, #007bff);
+    transform: translateY(-2px);
+  }
+  
+  .auth-motorista-form button[type="submit"]:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .auth-toggle-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.95rem;
+  }
+  
+  .auth-toggle-link span {
+    color: #555;
+  }
+  
+  .auth-link-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0 5px;
+    font-size: 0.95rem;
+  }
+  
+  .auth-link-btn:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 500px) {
+    .auth-motorista-form {
+      padding: 30px;
+    }
+  
+    .auth-motorista-form h2 {
+      font-size: 1.8rem;
+    }
+  }
+  

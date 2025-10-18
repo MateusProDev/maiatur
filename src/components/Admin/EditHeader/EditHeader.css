@@ -1,0 +1,75 @@
+/* AdminEditHeader - Estilo Geral */
+.admin-edit-header {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+}
+
+.admin-edit-header:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.admin-edit-header h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #222;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Mensagens de erro e sucesso */
+.admin-error, .admin-success {
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.admin-error {
+  color: #ff4d4d;
+  background-color: #ffe5e5;
+  border: 1px solid #ff4d4d;
+}
+
+.admin-success {
+  color: #4caf50;
+  background-color: #e8f5e9;
+  border: 1px solid #4caf50;
+}
+
+/* Estilizando a pré-visualização da logo */
+.admin-logo-preview {
+  display: block;
+  margin: 20px auto;
+  width: 180px;
+  max-width: 200px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);
+  border: 2px solid #ddd;
+  transition: transform 0.3s ease;
+}
+
+.admin-logo-preview:hover {
+  transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .admin-edit-header h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-edit-header h2 {
+    font-size: 1.6rem;
+  }
+}

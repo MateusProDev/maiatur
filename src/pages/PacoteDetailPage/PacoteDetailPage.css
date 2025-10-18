@@ -1,0 +1,328 @@
+/* ============ ROOT VARIABLES ============ */
+:root {
+  --primary-main: #1976d2;
+  --primary-dark: #1565c0;
+  --primary-light: #e3f2fd;
+  --secondary-main: #ff9800;
+  --error-main: #d32f2f;
+  --success-main: #388e3c;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --divider-color: rgba(0, 0, 0, 0.12);
+  --background-default: #f5f5f5;
+  --background-paper: #ffffff;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ============ BASE STYLES ============ */
+.pdp-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding:0 !important;
+  padding-bottom: var(--spacing-lg);
+  min-height: calc(100vh - 160px);
+  box-sizing: border-box;
+}
+
+/* ============ MUI CONTAINER OVERRIDE ============ */
+/* Remove padding lateral do Container MUI */
+.pdp-container .MuiContainer-root,
+.pdp-container [class*="MuiContainer-root"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ============ IMAGE GALLERY ============ */
+.image-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.main-image-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  background-color: var(--background-default);
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: var(--transition);
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  z-index: 10;
+  transition: var(--transition);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.nav-button.prev {
+  left: var(--spacing-sm);
+}
+
+.nav-button.next {
+  right: var(--spacing-sm);
+}
+
+.thumbnail-container {
+  display: flex;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) 0;
+  overflow-x: auto;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 60px;
+  border-radius: 4px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid transparent;
+  opacity: 0.7;
+}
+
+.thumbnail:hover {
+  opacity: 0.9;
+}
+
+.thumbnail.active {
+  border-color: var(--primary-main);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ============ PACKAGE DETAILS ============ */
+.pdp-details-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--spacing-sm);
+}
+
+.pdp-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pdp-highlight-badge {
+  display: inline-block;
+  background-color: var(--secondary-main);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.pdp-short-description {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pdp-price-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-sm) 0;
+}
+
+.pdp-original-price {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+.pdp-current-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--error-main);
+}
+
+.pdp-reserve-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: var(--spacing-md);
+}
+
+.pdp-accordion {
+  margin-top: var(--spacing-sm) !important;
+}
+/* ============ OVERRIDE MATERIAL-UI GRID ============ */
+.MuiGrid-root {
+  margin-top: 0 !important;
+  width: 100% !important;
+}
+
+.MuiGrid-container {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.MuiGrid-item {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ============ GRID CONTAINER ============ */
+.pdp-grid-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============ GRID ITEM ============ */
+.pdp-grid-item {
+  padding: 0;
+  margin: 0;
+}
+/* ============ RESPONSIVE ADJUSTMENTS ============ */
+@media (max-width: 960px) {
+  .main-image-container {
+    height: 350px;
+  }
+  
+  .pdp-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .pdp-container {
+    width: 100% !important;
+
+    padding: var(--spacing-sm);
+  }
+  
+  .main-image-container {
+    height: 250px;
+  }
+  
+  .pdp-title {
+    font-size: 1.5rem;
+  }
+  
+  .pdp-current-price {
+    font-size: 1.5rem;
+  }
+  
+  .pdp-original-price {
+    font-size: 1rem;
+  }
+}
+
+/* ============ ADDITIONAL MUI OVERRIDES ============ */
+/* Override específico para classes geradas pelo MUI */
+[class*="css-"][class*="MuiContainer-root"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Override para a classe específica mencionada */
+.css-5c1adp-MuiContainer-root {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ============ PACOTE DESCRIPTION STYLES ============ */
+.pacote-description {
+  margin-top: 8px;
+}
+
+.pacote-description h1,
+.pacote-description h2,
+.pacote-description h3,
+.pacote-description h4,
+.pacote-description h5,
+.pacote-description h6 {
+  color: #1976d2;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.pacote-description h1:first-child,
+.pacote-description h2:first-child,
+.pacote-description h3:first-child,
+.pacote-description h4:first-child,
+.pacote-description h5:first-child,
+.pacote-description h6:first-child {
+  margin-top: 0;
+}
+
+.pacote-description p {
+  margin-bottom: 16px;
+  color: #424242;
+  line-height: 1.7;
+}
+
+.pacote-description strong,
+.pacote-description b {
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.pacote-description ul,
+.pacote-description ol {
+  margin: 16px 0;
+  padding-left: 20px;
+}
+
+.pacote-description li {
+  margin: 8px 0;
+  color: #424242;
+  line-height: 1.6;
+}
+
+.pacote-description blockquote {
+  background-color: #e3f2fd;
+  border-left-color: #1976d2;
+  color: #1565c0;
+  margin: 20px 0;
+}
+
+.pacote-description a {
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.pacote-description a:hover {
+  color: #1565c0;
+  text-decoration: underline;
+}

@@ -1,0 +1,14 @@
+{
+  "reservas": [
+    {
+      "id": "string",
+      "nomeCliente": "string",
+      "data": "string",
+      "horario": "string",
+      "destino": "string",
+      "status": "pendente|delegada|concluida",
+      "motoristaId": "string|null",
+      "valor": "number"
+    }
+  ]
+}

@@ -1,0 +1,1878 @@
+/* Mobile menu button - só aparece no mobile */
+.pm-mobile-menu-btn {
+  display: none;
+}
+
+.pm-mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+
+@media (max-width: 900px) {
+  .pm-mobile-menu-btn {
+    display: flex;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1001;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .pm-mobile-menu-btn:hover {
+    background: linear-gradient(135deg, #2a5298, #3e6bbf);
+    transform: translateY(-2px);
+  }
+  
+  .pm-mobile-overlay {
+    display: block;
+  }
+}
+
+.pm-navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 220px;
+  background: #181c20;
+  color: #fff;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: transform 0.3s;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+}
+.pm-navbar[data-open="false"] {
+  transform: translateX(-100%);
+}
+.pm-navbar[data-open="true"] {
+  transform: translateX(0);
+}
+.pm-navbar-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid #333;
+  width: 100%;
+}
+
+.pm-navbar-title {
+  margin-left: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.pm-navbar-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.pm-navbar-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 8px;
+}
+.pm-navbar-list button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.08rem;
+  padding: 16px 24px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s, color 0.2s;
+}
+.pm-navbar-list button.active, .pm-navbar-list button:hover {
+  background: #23272c;
+  color: #00c6fb;
+}
+@media (max-width: 900px) {
+  .pm-navbar {
+    width: 70vw;
+    min-width: 160px;
+    max-width: 320px;
+  }
+  .pm-container.pm-motorista-panel {
+    margin-left: 0 !important;
+  }
+}
+.pm-container.pm-motorista-panel {
+  margin-left: 240px;
+  transition: margin 0.3s;
+}
+@media (max-width: 900px) {
+  .pm-container.pm-motorista-panel {
+    margin-left: 0;
+    padding: 24px 4vw;
+  }
+}
+.pm-motorista-ganhos {
+  margin-top: 24px;
+}
+.pm-motorista-ganhos-resumo {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+  justify-content: flex-start;
+}
+.pm-motorista-ganhos-total, .pm-motorista-ganhos-lucro {
+  background: #f7fafd;
+  border-radius: 10px;
+  padding: 18px 28px;
+  font-size: 1.15rem;
+  color: #1976d2;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.pm-motorista-ganhos-lista {
+  margin-top: 18px;
+}
+.pm-motorista-filtros {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}
+.pm-motorista-select, .pm-motorista-date {
+  margin-left: 8px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #cfd8dc;
+  font-size: 1rem;
+  background: #f7fafd;
+  color: #222;
+}
+.pm-motorista-select:focus, .pm-motorista-date:focus {
+  outline: 2px solid #1976d2;
+}
+.pm-btn-hotel .pm-icon {
+  color: #ffb300;
+}
+.pm-btn-aeroporto .pm-icon {
+  color: #1976d2;
+}
+.pm-icon {
+  margin-right: 6px;
+  color: #1976d2;
+  vertical-align: middle;
+}
+.pm-motorista-avatar-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1976d2 0%, #00c6fb 100%);
+  color: #fff;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+}
+.pm-motorista-header h2 {
+  font-size: 2.1rem;
+  color: #1976d2;
+  margin-bottom: 0.2em;
+}
+.pm-motorista-dados span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.08rem;
+  color: #333;
+}
+.pm-motorista-reserva-info > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.05rem;
+}
+.pm-btn-hotel, .pm-btn-aeroporto {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #181c20;
+  color: #e0e0e0;
+  border: 1.5px solid #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+.pm-btn-hotel:hover, .pm-btn-aeroporto:hover {
+  background: #23272c;
+  color: #00c6fb;
+  border-color: #00c6fb;
+}
+.pm-motorista-panel {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(25, 118, 210, 0.10), 0 2px 8px rgba(0,0,0,0.04);
+  padding: 40px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.pm-motorista-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.pm-motorista-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pm-motorista-avatar-circle {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #1976d2 0%, #00c6fb 100%);
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+}
+.pm-motorista-info {
+  flex: 1;
+}
+.pm-motorista-dados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+  color: #444;
+  font-size: 1.05rem;
+}
+.pm-motorista-divider {
+  margin: 32px 0 24px 0;
+  border: none;
+  border-top: 1.5px solid #e3eaf5;
+}
+.pm-motorista-title {
+  color: #1976d2;
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+.pm-motorista-empty {
+  color: #888;
+  text-align: center;
+  margin: 32px 0;
+}
+.pm-motorista-reservas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.pm-motorista-reserva-card {
+  background: #f7fafd;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 5px solid #1976d2;
+}
+.pm-motorista-reserva-info {
+  font-size: 1.08rem;
+  color: #222;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+}
+.pm-motorista-btns {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+.pm-btn-hotel, .pm-btn-aeroporto {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.pm-btn-hotel {
+  background: #1976d2;
+  color: #fff;
+}
+.pm-btn-hotel:hover {
+  background: #125ea2;
+}
+.pm-btn-aeroporto {
+  background: #00c6fb;
+  color: #fff;
+}
+.pm-btn-aeroporto:hover {
+  background: #009ec3;
+}
+.pm-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: #f4f6fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pm-container {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1.5px 6px rgba(0,0,0,0.03);
+  padding: 40px 28px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+.pm-container h2 {
+  color: #1976d2;
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+.pm-container p {
+  color: #555;
+  font-size: 1.1rem;
+}
+
+/* Mobile Media Query */
+@media (max-width: 768px) {
+  .pm-container {
+    flex-direction: column;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .pm-navbar {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 280px;
+    height: 100vh;
+    padding: 60px 20px 20px 20px;
+    z-index: 999;
+    transition: left 0.3s ease;
+    border-radius: 0;
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #3e6bbf);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .pm-navbar.active {
+    left: 0;
+  }
+
+  .pm-content {
+    margin-left: 0;
+    padding: 80px 8px 20px 8px;
+    width: 100%;
+  }
+
+  .pm-mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .pm-mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .pm-navbar-header {
+    margin-bottom: 16px;
+  }
+
+  .pm-motorista-profile {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .pm-motorista-info h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .pm-motorista-info p {
+    font-size: 12px;
+    margin: 2px 0;
+  }
+
+  .pm-reserva-card, .pm-ganhos-card, .pm-graficos-card {
+    margin-bottom: 8px;
+  }
+
+  .pm-reserva-card h4 {
+    font-size: 16px;
+  }
+
+  .pm-reserva-details p {
+    font-size: 12px;
+  }
+
+  .pm-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pm-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .pm-filter-section {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pm-filter-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pm-filter-controls select {
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+/* =================================== */
+/* BOTÕES DE ATUALIZAÇÃO DE STATUS */
+/* =================================== */
+
+.pm-status-btns {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e3eaf5;
+}
+
+.pm-status-label {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.pm-status-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pm-btn-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.pm-btn-confirmar {
+  background: #10b981;
+  color: white;
+  border: 1px solid #059669;
+}
+
+.pm-btn-confirmar:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.pm-btn-concluir {
+  background: #059669;
+  color: white;
+  border: 1px solid #047857;
+}
+
+.pm-btn-concluir:hover {
+  background: #047857;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.pm-btn-cancelar {
+  background: #ef4444;
+  color: white;
+  border: 1px solid #dc2626;
+}
+
+.pm-btn-cancelar:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.pm-status-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.pm-status-aguardando {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pm-status-aprovada {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Estilos da Carteira e Ganhos */
+.pm-carteira-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.pm-carteira-card {
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.pm-carteira-card:hover {
+  transform: translateY(-2px);
+}
+
+.pm-carteira-card h4 {
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  color: #334155;
+}
+
+.pm-saldo-valor {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #16a34a;
+  margin-bottom: 8px;
+}
+
+.pm-saldo-pendente {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #ea580c;
+  margin-bottom: 8px;
+}
+
+.pm-carteira-card small {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.pm-ganhos-detalhes {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.pm-ganhos-detalhes h4 {
+  margin: 0 0 16px 0;
+  color: #334155;
+  font-size: 1.1rem;
+}
+
+.pm-resumo-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.pm-stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.pm-stat-label {
+  font-weight: 500;
+  color: #475569;
+}
+
+.pm-stat-value {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #1e293b;
+}
+
+.pm-viagens-aprovadas {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.pm-viagens-aprovadas h4 {
+  margin: 0 0 16px 0;
+  color: #334155;
+  font-size: 1.1rem;
+}
+
+.pm-empty-message {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  padding: 20px;
+}
+
+.pm-viagens-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pm-viagem-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.pm-viagem-item:hover {
+  background: #dcfce7;
+}
+
+.pm-viagem-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pm-viagem-data {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.pm-viagem-cliente {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.pm-viagem-valor {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #16a34a;
+}
+
+/* Responsividade para carteira */
+@media (max-width: 768px) {
+  .pm-carteira-info {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .pm-saldo-valor,
+  .pm-saldo-pendente {
+    font-size: 1.8rem;
+  }
+  
+  .pm-resumo-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Responsividade para botões de status */
+@media (max-width: 600px) {
+  .pm-status-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .pm-btn-status {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Estilos para Reservas Arquivadas */
+.pm-archived-title {
+  color: #6c757d;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+  margin-top: 40px;
+}
+
+.pm-archived-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.pm-archived-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.pm-archived-card:hover {
+  opacity: 1;
+}
+
+.pm-status-arquivada {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
+}
+
+/* Estilos para Seções de Reservas */
+.pm-section-open {
+  color: #007bff;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.pm-finished-title {
+  color: #28a745;
+  border-bottom: 2px solid #28a745;
+  padding-bottom: 10px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.pm-finished-section {
+  background: linear-gradient(135deg, #f8fff8, #f0f8f0);
+  border: 1px solid #d4edda;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.pm-finished-card {
+  background: #ffffff;
+  border: 1px solid #d4edda;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pm-finished-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(40, 167, 69, 0.2);
+  border-color: #28a745;
+}
+
+.pm-payment-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  border-radius: 6px;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #155724;
+}
+
+@keyframes pulse-blue {
+  0%, 100% {
+    color: #007bff;
+    border-color: #007bff;
+  }
+  50% {
+    color: #0056b3;
+    border-color: #0056b3;
+  }
+}
+
+/* Estilos para Botões de Status */
+.pm-status-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.pm-btn-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.pm-btn-confirmar {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.pm-btn-confirmar:hover {
+  background: linear-gradient(135deg, #20c997, #17a2b8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(32, 201, 151, 0.3);
+}
+
+.pm-btn-concluir {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.pm-btn-concluir:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.pm-btn-cancelar {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+}
+
+.pm-btn-cancelar:hover {
+  background: linear-gradient(135deg, #c82333, #a71e2a);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.pm-status-info {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.pm-aguardando-aprovacao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #ffc107, #fd7e14);
+  color: #212529;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+@keyframes pulse-approval {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+/* Responsividade para botões de status */
+@media (max-width: 600px) {
+  .pm-status-btns {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .pm-btn-status {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .pm-archived-section {
+    padding: 15px;
+  }
+}
+
+/* Estilos para Carteira/Ganhos */
+.pm-wallet-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Estilos para Notificações */
+.pm-notification-box {
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.pm-notification-box .pm-icon {
+  margin-top: 2px;
+  font-size: 1.1rem;
+}
+
+.pm-notification-box span {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.pm-notification-box p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.pm-notification-box div {
+  flex: 1;
+}
+
+.pm-notification-box small {
+  display: block;
+  margin-top: 8px;
+  opacity: 0.8;
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.pm-waiting-approval {
+  background: linear-gradient(135deg, #fff3cd, #fefefe);
+  border: 2px solid #ffc107;
+  color: #856404;
+}
+
+.pm-approved {
+  background: linear-gradient(135deg, #d4edda, #fefefe);
+  border: 2px solid #28a745;
+  color: #155724;
+}
+
+.pm-rejected {
+  background: linear-gradient(135deg, #f8d7da, #fefefe);
+  border: 2px solid #dc3545;
+  color: #721c24;
+}
+
+.pm-observacoes {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* Melhorias nos botões de status */
+.pm-status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 8px;
+  text-transform: capitalize;
+}
+
+.pm-status-pendente {
+  background: linear-gradient(135deg, #ffc107, #fd7e14);
+  color: #212529;
+}
+
+.pm-status-confirmada, .pm-status-delegada {
+  background: linear-gradient(135deg, #17a2b8, #007bff);
+  color: white;
+}
+
+.pm-status-concluida {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.pm-status-aprovada {
+  background: linear-gradient(135deg, #28a745, #155724);
+  color: white;
+}
+
+.pm-status-rejeitada, .pm-status-cancelada {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+}
+
+/* Botões de notificação melhorados */
+.pm-notification-btns {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.pm-btn-hotel, .pm-btn-aeroporto, .pm-btn-whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pm-btn-hotel {
+  background: linear-gradient(135deg, #17a2b8, #138496);
+  color: white;
+}
+
+.pm-btn-hotel:hover {
+  background: linear-gradient(135deg, #138496, #117a8b);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+}
+
+.pm-btn-aeroporto {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.pm-btn-aeroporto:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.pm-btn-aeroporto-destino {
+  background: linear-gradient(135deg, #28a745, #1e7e34);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pm-btn-aeroporto-destino:hover {
+  background: linear-gradient(135deg, #1e7e34, #155724);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.pm-btn-whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: white;
+}
+
+.pm-btn-whatsapp:hover:not(:disabled) {
+  background: linear-gradient(135deg, #128c7e, #075e54);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+}
+
+.pm-btn-whatsapp:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pm-btn-received {
+  background: linear-gradient(135deg, #17a2b8, #138496);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pm-btn-received:hover {
+  background: linear-gradient(135deg, #138496, #117a8b);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pm-wallet-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pm-wallet-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.pm-approved-earnings {
+  border-color: #28a745;
+}
+
+.pm-approved-earnings .pm-wallet-icon {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.pm-pending-earnings {
+  border-color: #ffc107;
+}
+
+.pm-pending-earnings .pm-wallet-icon {
+  background: linear-gradient(135deg, #ffc107, #fd7e14);
+  color: #212529;
+}
+
+.pm-wallet-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pm-wallet-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pm-wallet-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.pm-wallet-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.pm-section-title {
+  color: #495057;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.pm-no-earnings {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+}
+
+.pm-earnings-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pm-earnings-card:hover {
+  transform: translateX(5px);
+  border-color: #28a745;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+}
+
+.pm-earnings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pm-earnings-client {
+  font-weight: 600;
+  color: #495057;
+}
+
+.pm-earnings-value {
+  font-weight: 700;
+  color: #28a745;
+  font-size: 1.1rem;
+}
+
+.pm-earnings-details {
+  color: #6c757d;
+}
+
+/* Responsividade para carteira */
+@media (max-width: 600px) {
+  .pm-wallet-summary {
+    grid-template-columns: 1fr;
+  }
+  
+  .pm-wallet-card {
+    padding: 15px;
+  }
+  
+  .pm-wallet-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .pm-wallet-value {
+    font-size: 1.5rem;
+  }
+  
+  .pm-earnings-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+/* Painel de Resumo */
+.pm-summary-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+  padding: 20px 0;
+}
+
+.pm-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.pm-summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.pm-summary-pending {
+  border-color: #ffc107;
+}
+
+.pm-summary-pending:hover {
+  border-color: #e0a800;
+  background: linear-gradient(135deg, #fff3cd, #ffffff);
+  animation: pulseGlow 1.5s ease-in-out infinite alternate;
+}
+
+.pm-summary-waiting {
+  border-color: #fd7e14;
+}
+
+.pm-summary-waiting:hover {
+  border-color: #e8650c;
+  background: linear-gradient(135deg, #ffe5cc, #ffffff);
+  animation: pulseGlow 1.8s ease-in-out infinite alternate;
+}
+
+.pm-summary-earnings {
+  border-color: #28a745;
+}
+
+.pm-summary-earnings:hover {
+  border-color: #1e7e34;
+  background: linear-gradient(135deg, #d4edda, #ffffff);
+  animation: successPulse 2s ease-in-out infinite alternate;
+}
+
+.pm-summary-total {
+  border-color: #007bff;
+}
+
+.pm-summary-total:hover {
+  border-color: #0056b3;
+  background: linear-gradient(135deg, #cce7ff, #ffffff);
+}
+
+.pm-summary-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+.pm-summary-pending .pm-summary-icon {
+  background: linear-gradient(135deg, #ffc107, #fd7e14);
+}
+
+.pm-summary-waiting .pm-summary-icon {
+  background: linear-gradient(135deg, #fd7e14, #e8650c);
+}
+
+.pm-summary-earnings .pm-summary-icon {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.pm-summary-total .pm-summary-icon {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.pm-summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pm-summary-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #212529;
+  line-height: 1;
+}
+
+.pm-summary-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsividade para painel de resumo */
+@media (max-width: 800px) {
+  .pm-summary-panel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .pm-summary-panel {
+    grid-template-columns: 1fr;
+  }
+  
+  .pm-summary-card {
+    padding: 15px;
+  }
+  
+  .pm-summary-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .pm-summary-number {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================= */
+/* RESPONSIVIDADE APRIMORADA */
+/* ============================= */
+
+/* Tablets em paisagem e telas médias */
+@media (max-width: 1024px) {
+  .pm-container {
+    margin-left: 0;
+    padding: 20px 16px;
+  }
+  
+  .pm-motorista-profile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .pm-motorista-dados {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .pm-summary-panel {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Tablets em retrato */
+@media (max-width: 768px) {
+  .pm-container {
+    padding: 16px 12px;
+  }
+  
+  .pm-motorista-profile {
+    padding: 16px;
+  }
+  
+  .pm-motorista-info h2 {
+    font-size: 1.4rem;
+  }
+  
+  .pm-summary-panel {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .pm-summary-card {
+    padding: 16px;
+  }
+  
+  .pm-summary-number {
+    font-size: 1.4rem;
+  }
+  
+  .pm-motorista-reservas-list {
+    gap: 16px;
+  }
+  
+  .pm-motorista-reserva-card {
+    padding: 16px;
+  }
+  
+  .pm-motorista-reserva-info {
+    font-size: 0.95rem;
+  }
+  
+  .pm-motorista-btns {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .pm-notification-btns,
+  .pm-status-btns {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .pm-btn-hotel,
+  .pm-btn-aeroporto,
+  .pm-btn-whatsapp,
+  .pm-btn-received,
+  .pm-btn-status {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+  }
+}
+
+/* Smartphones grandes */
+@media (max-width: 600px) {
+  .pm-container {
+    padding: 12px 8px;
+  }
+  
+  .pm-motorista-profile {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .pm-motorista-info h2 {
+    font-size: 1.2rem;
+  }
+  
+  .pm-motorista-dado {
+    font-size: 0.9rem;
+  }
+  
+  .pm-summary-panel {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .pm-summary-card {
+    padding: 14px;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .pm-summary-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+  
+  .pm-summary-number {
+    font-size: 1.3rem;
+  }
+  
+  .pm-summary-label {
+    font-size: 0.8rem;
+  }
+  
+  .pm-motorista-filtros {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .pm-motorista-filtros label {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .pm-motorista-select,
+  .pm-motorista-date {
+    width: 100%;
+  }
+  
+  .pm-motorista-reserva-card {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .pm-motorista-reserva-info {
+    font-size: 0.9rem;
+    gap: 6px;
+  }
+  
+  .pm-notification-box {
+    padding: 12px;
+    margin: 8px 0;
+  }
+  
+  .pm-finished-card {
+    padding: 12px;
+  }
+  
+  .pm-info-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* Smartphones pequenos */
+@media (max-width: 480px) {
+  .pm-container {
+    padding: 8px 6px;
+  }
+  
+  .pm-motorista-profile {
+    padding: 10px;
+  }
+  
+  .pm-motorista-info h2 {
+    font-size: 1.1rem;
+  }
+  
+  .pm-motorista-dado {
+    font-size: 0.85rem;
+  }
+  
+  .pm-summary-card {
+    padding: 12px;
+  }
+  
+  .pm-summary-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .pm-summary-number {
+    font-size: 1.2rem;
+  }
+  
+  .pm-summary-label {
+    font-size: 0.75rem;
+  }
+  
+  .pm-motorista-title {
+    font-size: 1.2rem;
+    padding: 10px 0;
+  }
+  
+  .pm-motorista-reserva-card {
+    padding: 10px;
+  }
+  
+  .pm-motorista-reserva-info {
+    font-size: 0.85rem;
+  }
+  
+  .pm-btn-hotel,
+  .pm-btn-aeroporto,
+  .pm-btn-whatsapp,
+  .pm-btn-received,
+  .pm-btn-status {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .pm-notification-box {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+  
+  .pm-status-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+  
+  .pm-observacoes {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Ajustes específicos para elementos inline */
+@media (max-width: 600px) {
+  .pm-motorista-reserva-info > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.4;
+  }
+  
+  .pm-motorista-reserva-info .pm-icon {
+    flex-shrink: 0;
+  }
+  
+  .pm-motorista-reserva-info b {
+    flex-shrink: 0;
+  }
+}
+
+/* Ajustes para navbar responsiva */
+@media (max-width: 900px) {
+  .pm-navbar {
+    transform: translateX(-100%);
+  }
+  
+  .pm-navbar.active {
+    transform: translateX(0);
+  }
+  
+  .pm-mobile-overlay.active {
+    display: block;
+  }
+  
+  .pm-container {
+    margin-left: 0;
+    padding-top: 70px;
+  }
+}
+
+/* Melhorias gerais de usabilidade mobile */
+@media (max-width: 768px) {
+  /* Aumentar área de toque para botões */
+  .pm-btn-hotel,
+  .pm-btn-aeroporto,
+  .pm-btn-whatsapp,
+  .pm-btn-received,
+  .pm-btn-status {
+    min-height: 44px; /* Padrão Apple para área de toque */
+    border-radius: 8px;
+  }
+  
+  /* Melhorar legibilidade dos textos */
+  .pm-motorista-reserva-info {
+    line-height: 1.5;
+  }
+  
+  /* Espaçamento consistente */
+  .pm-motorista-reservas-list {
+    gap: 12px;
+  }
+  
+  /* Cards com cantos mais arredondados em mobile */
+  .pm-motorista-reserva-card,
+  .pm-summary-card,
+  .pm-notification-box {
+    border-radius: 12px;
+  }
+}
+
+/* Orientação landscape em dispositivos móveis */
+@media (max-width: 900px) and (orientation: landscape) {
+  .pm-summary-panel {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .pm-notification-btns {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .pm-status-btns {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 320px) {
+  .pm-container {
+    padding: 6px 4px;
+  }
+  
+  .pm-motorista-profile {
+    padding: 8px;
+  }
+  
+  .pm-summary-card {
+    padding: 10px;
+  }
+  
+  .pm-motorista-reserva-card {
+    padding: 8px;
+  }
+  
+  .pm-motorista-reserva-info {
+    font-size: 0.8rem;
+  }
+  
+  .pm-btn-hotel,
+  .pm-btn-aeroporto,
+  .pm-btn-whatsapp,
+  .pm-btn-received,
+  .pm-btn-status {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+}
+
+/* Animações para os boxes do painel */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    box-shadow: 0 12px 30px rgba(255, 193, 7, 0.3);
+  }
+}
+
+@keyframes successPulse {
+  0% {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    box-shadow: 0 12px 30px rgba(40, 167, 69, 0.3);
+  }
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
