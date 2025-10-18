@@ -73,12 +73,12 @@ const Contato = () => {
 
     // Montar mensagem para WhatsApp
     const mensagemWhatsApp = encodeURIComponent(
-      `*Nova solicitação de contato - 20 Buscar*\n\n` +
+      `*Nova solicitação de contato - Maiatur*\n\n` +
       `*Nome:* ${formData.nome}\n` +
       `*Email:* ${formData.email || 'Não informado'}\n` +
       `*Telefone:* ${formData.telefone || 'Não informado'}\n\n` +
       `*Mensagem:*\n${formData.mensagem}\n\n` +
-      `_Mensagem enviada através do site 20buscar.com_`
+      `_Mensagem enviada através do site maiatur.com_`
     );
 
     // Abrir WhatsApp com a mensagem

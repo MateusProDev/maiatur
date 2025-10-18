@@ -22,8 +22,8 @@ class MercadoPagoService {
     if (typeof window !== 'undefined') {
       const currentDomain = window.location.origin;
       
-      // Se está no seu domínio de produção
-      if (currentDomain.includes('20buscarvacationbeach.com.br')) {
+      // Se está no domínio de produção (domínio antigo mantido para compatibilidade)
+      if (currentDomain.includes('20buscarvacationbeach.com.br') || currentDomain.includes('maiatur.com')) {
         return `${currentDomain}/api`;
       }
       

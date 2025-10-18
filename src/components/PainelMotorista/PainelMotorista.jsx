@@ -290,7 +290,7 @@ Sua reserva foi *RECEBIDA* por nossa equipe de motoristas profissionais:
 Agradecemos a confiança! 
 
 ---
-*20 Buscar - Agência de Turismo*
+*Maiatur - Agência de Turismo*
 _Viagens seguras com motoristas profissionais_`;
 
       // Atualizar status para "confirmada" 
@@ -384,7 +384,7 @@ Você será notificado assim que o pagamento for aprovado!`;
     if (tipo === 'hotel') {
       mensagem = `*Olá, ${cliente}!* 
 
-_Sua transferência com a 20 Buscar - Agência de Turismo_
+_Sua transferência com a Maiatur - Agência de Turismo_
 
 *CHEGADA NO LOCAL DE ORIGEM*
 Já estou te aguardando em: *${origem}*
@@ -405,12 +405,12 @@ _Caso precise de algo ou não me encontre, entre em contato imediatamente pelo W
 *Tenha uma excelente viagem!*
 
 ---
-*20 Buscar - Agência de Turismo*
+*Maiatur - Agência de Turismo*
 _Viagens incríveis com praticidade e segurança_`;
     } else if (tipo === 'aeroporto_chegada') {
       mensagem = `*Olá, ${cliente}!* 
 
-_Sua transferência com a 20 Buscar - Agência de Turismo_
+_Sua transferência com a Maiatur - Agência de Turismo_
 
 ✈️ *CHEGADA NO AEROPORTO*
 Por favor, dirija-se ao *PORTÃO 3* do aeroporto.
@@ -434,12 +434,12 @@ Estarei te aguardando lá!
 *Tenha uma excelente viagem!*
 
 ---
-*20 Buscar - Agência de Turismo*
+*Maiatur - Agência de Turismo*
 _Viagens seguras e confortáveis_`;
     } else if (tipo === 'aeroporto_destino') {
       mensagem = `*Olá, ${cliente}!* 
 
-_Sua transferência com a 20 Buscar - Agência de Turismo_
+_Sua transferência com a Maiatur - Agência de Turismo_
 
 *CHEGANDO AO DESTINO*
 Estamos chegando em: *${destino}*
@@ -459,7 +459,7 @@ _Avalie nossa experiência e nos recomende._
 *Até a próxima viagem!*
 
 ---
-*20 Buscar - Agência de Turismo*
+*Maiatur - Agência de Turismo*
 _Viagens incríveis com praticidade e segurança_`;
     }
     // Busca telefone em vários campos possíveis e formata corretamente

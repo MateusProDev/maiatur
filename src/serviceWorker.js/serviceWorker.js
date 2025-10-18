@@ -1,4 +1,4 @@
-const CACHE_NAME = '20buscar-turismo-cache-v1';
+const CACHE_NAME = 'maiatur-turismo-cache-v1';
 const urlsToCache = [
   '/',
   '/about',
