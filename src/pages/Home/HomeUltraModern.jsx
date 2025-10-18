@@ -288,7 +288,19 @@ const HomeUltraModern = () => {
             <div className="pacotes-grid-ultra">
               {pacotes.map((pacote, index) => {
                 // Suporte para diferentes nomes de campos de imagem
-                const imagemUrl = pacote.imagemUrl || pacote.imagem || pacote.imageUrl || pacote.image || pacote.foto || '';
+                // IMPORTANTE: O Firebase usa 'imagens' como array
+                const imagemUrl = pacote.imagens?.[0] || 
+                                 pacote.imagemUrl || 
+                                 pacote.imagem || 
+                                 pacote.imageUrl || 
+                                 pacote.image || 
+                                 pacote.foto || 
+                                 pacote.thumbnail || 
+                                 pacote.bannerUrl || 
+                                 pacote.cover || 
+                                 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80'; // Fallback
+                
+                console.log(`🖼️ Pacote ${pacote.nome || pacote.titulo}:`, imagemUrl);
                 
                 return (
                 <Link 
@@ -298,17 +310,28 @@ const HomeUltraModern = () => {
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="pacote-image-wrapper">
-                    {imagemUrl ? (
-                      <img 
-                        src={imagemUrl} 
-                        alt={pacote.nome || 'Pacote turístico'} 
-                        onError={(e) => {
+                    <img 
+                      src={imagemUrl} 
+                      alt={pacote.nome || pacote.titulo || 'Pacote turístico'}
+                      loading="lazy"
+                      onLoad={(e) => {
+                        console.log('✅ Imagem carregada:', imagemUrl);
+                        e.target.style.opacity = '1';
+                      }}
+                      onError={(e) => {
+                        console.error('❌ Erro ao carregar imagem:', imagemUrl);
+                        // Tenta usar placeholder do Unsplash
+                        if (!e.target.src.includes('unsplash.com')) {
+                          e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80';
+                        } else {
                           e.target.style.display = 'none';
-                          e.target.nextElementSibling.style.display = 'flex';
-                        }}
-                      />
-                    ) : null}
-                    <div className="pacote-placeholder" style={{ display: imagemUrl ? 'none' : 'flex' }}>
+                          const placeholder = e.target.parentElement.querySelector('.pacote-placeholder');
+                          if (placeholder) placeholder.style.display = 'flex';
+                        }
+                      }}
+                      style={{ opacity: 0, transition: 'opacity 0.3s ease' }}
+                    />
+                    <div className="pacote-placeholder" style={{ display: 'none' }}>
                       <FiMapPin />
                     </div>
                     <div className="pacote-overlay"></div>
@@ -318,10 +341,11 @@ const HomeUltraModern = () => {
                   </div>
                   
                   <div className="pacote-content-ultra">
-                    <h3 className="pacote-title">{pacote.nome}</h3>
+                    <h3 className="pacote-title">{pacote.nome || pacote.titulo}</h3>
                     
                     <p className="pacote-description">
-                      {pacote.descricao?.substring(0, 80)}...
+                      {(pacote.descricao || pacote.descricaoCurta || '')?.substring(0, 80)}
+                      {((pacote.descricao || pacote.descricaoCurta || '').length > 80) ? '...' : ''}
                     </p>
                     
                     <div className="pacote-info-row">
