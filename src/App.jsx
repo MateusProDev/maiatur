@@ -4,7 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
-import Home from "./pages/Home/Home";
+import HomeUltraModern from "./pages/Home/HomeUltraModern";
 import AboutPage from "./pages/AboutPage/AboutPage";
 import PacotesListPage from "./pages/PacotesListPage/PacotesListPage";
 import PacoteDetailPage from "./pages/PacoteDetailPage/PacoteDetailPage";
@@ -84,7 +84,7 @@ const App = () => {
               {/* As rotas de motorista e usuário foram removidas conforme solicitado */}
               
               {/* Rotas Públicas */}
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<HomeUltraModern />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/pacotes" element={<PacotesListPage />} />
               <Route path="/avaliacoes" element={<AvaliacoesPage />} />
