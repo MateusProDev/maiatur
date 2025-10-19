@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../../../firebase/firebase";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { 
   FiUpload, 
@@ -65,14 +64,19 @@ const AdminEditHeader = () => {
 
     try {
       setUploading(true);
-      const timestamp = Date.now();
-      const fileName = `logo_${timestamp}_${file.name}`;
-      const storageRef = ref(storage, `logos/${fileName}`);
       
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "qc7tkpck");
+      formData.append("cloud_name", "doeiv6m4h");
+      formData.append("folder", "logos");
+
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload",
+        formData
+      );
       
-      setNewLogoUrl(downloadURL);
+      setNewLogoUrl(response.data.secure_url);
       showNotification("success", "Imagem enviada com sucesso!");
     } catch (error) {
       console.error("Erro ao fazer upload:", error);
