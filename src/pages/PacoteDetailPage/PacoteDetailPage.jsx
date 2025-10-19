@@ -7,7 +7,6 @@ import {
   Container, 
   Box, 
   Button, 
-  CircularProgress,
   Alert,
   Grid,
   Paper,
@@ -17,6 +16,7 @@ import {
   AccordionDetails
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import Footer from '../../components/Footer/Footer';
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
@@ -116,9 +116,7 @@ const PacoteDetailPage = () => {
 
   if (loading || whatsappLoading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-        <CircularProgress size={60} />
-      </Box>
+      <LoadingSpinner size="large" text="Carregando detalhes do pacote..." fullScreen={true} />
     );
   }
 

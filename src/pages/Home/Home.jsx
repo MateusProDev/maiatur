@@ -4,6 +4,7 @@ import Header from '../../components/Header/Header';
 import Banner from '../../components/Banner/Banner';
 import Boxes from '../../components/Boxes/Boxes';
 import Footer from '../../components/Footer/Footer';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton';
 import Carousel from '../../components/Carousel/Carousel';
 import AvaliacoesSection from '../../components/AvaliacoesSection/AvaliacoesSection';
@@ -99,9 +100,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <Box className="loading-container">
-        <div className="spinner"></div>
-      </Box>
+      <LoadingSpinner size="large" text="Carregando página inicial..." fullScreen={true} />
     );
   }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import './BannerCarousel.css';
 
 const BannerCarousel = () => {
@@ -74,7 +75,7 @@ const BannerCarousel = () => {
   if (loading) {
     return (
       <div className="banner-carousel-loading">
-        <div className="loading-spinner-banner"></div>
+        <LoadingSpinner size="large" text="Carregando banners..." />
       </div>
     );
   }

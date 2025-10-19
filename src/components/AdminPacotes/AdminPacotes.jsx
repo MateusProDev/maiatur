@@ -34,6 +34,7 @@ import {
   Image as ImageIcon,
   AttachMoney as MoneyIcon
 } from "@mui/icons-material";
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import "./AdminPacotes.css";
 
 const AdminPacotes = () => {
@@ -576,9 +577,7 @@ const AdminPacotes = () => {
       </Box>
       
       {loading.list ? (
-        <Box display="flex" justifyContent="center" py={4}>
-          <CircularProgress size={60} />
-        </Box>
+        <LoadingSpinner size="large" text="Carregando pacotes..." />
       ) : pacotes.length === 0 ? (
         <Paper sx={{ 
           p: 6, 

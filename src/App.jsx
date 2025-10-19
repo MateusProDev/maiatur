@@ -27,6 +27,7 @@ import EditCarousel from "./components/Admin/EditCarousel/EditCarousel";
 import EditHours from "./components/Admin/EditHours/EditHours";
 import BannerAdmin from "./components/Admin/BannerAdmin/BannerAdmin";
 import LoadingOverlay from "./components/LoadingOverlay/LoadingOverlay";
+import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import { autoInitialize } from "./utils/firestoreUtils";
 import analyticsService from "./services/analyticsService";
 
@@ -85,14 +86,11 @@ const App = () => {
         <Router>
           <AnalyticsTracker />
           {(loading || initialLoad) && (
-            <LoadingOverlay>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                <CircularProgress size={60} thickness={4} />
-                <Typography variant="h6" color="text.secondary">
-                  Carregando...
-                </Typography>
-              </Box>
-            </LoadingOverlay>
+            <LoadingSpinner 
+              size="large" 
+              text="Carregando experiências incríveis..." 
+              fullScreen={true} 
+            />
           )}
           <ErrorBoundary>
             <Routes>

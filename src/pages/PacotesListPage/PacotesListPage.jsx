@@ -4,6 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { FiSearch, FiX, FiFilter, FiMapPin, FiCalendar, FiTrendingUp, FiStar } from 'react-icons/fi';
 import './PacotesListPage.css';
 
@@ -122,11 +123,8 @@ const PacotesListPage = () => {
     return (
       <>
         <Header />
-        <div className="pacotes-page-modern">
-          <div className="pacotes-loading">
-            <div className="loading-spinner"></div>
-            <p>Carregando pacotes incríveis...</p>
-          </div>
+        <div className="container-pacotes">
+          <LoadingSpinner size="large" text="Carregando pacotes incríveis..." />
         </div>
         <Footer />
       </>
