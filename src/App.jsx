@@ -18,7 +18,7 @@ import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
 import AdminEditPacote from "./components/Admin/AdminEditPacote/AdminEditPacote";
 import ViewUsers from "./components/Admin/Users/ViewUsers";
 import EditHeader from "./components/Admin/EditHeader/EditHeader";
-import EditBanner from "./components/Admin/EditBanner/EditBanner";
+// import EditBanner from "./components/Admin/EditBanner/EditBanner"; // Substituído por AdminBanners
 import EditBoxes from "./components/Admin/EditBoxes/EditBoxes";
 import EditAbout from "./components/Admin/EditAbout/EditAbout";
 import EditFooter from "./components/Admin/EditFooter/EditFooter";
@@ -100,8 +100,9 @@ const App = () => {
               <Route path="/admin/pacotes" element={<ProtectedRoute><AdminPacotes /></ProtectedRoute>} />
               <Route path="/admin/pacotes/editar/:pacoteId" element={<ProtectedRoute><AdminEditPacote /></ProtectedRoute>} />
               <Route path="/admin/banners" element={<ProtectedRoute><AdminBanners /></ProtectedRoute>} />
+              {/* Redirecionar rota antiga do banner para o novo sistema de carrossel */}
+              <Route path="/admin/edit-banner" element={<Navigate to="/admin/banners" replace />} />
               <Route path="/admin/edit-header" element={<ProtectedRoute><EditHeader /></ProtectedRoute>} />
-              <Route path="/admin/edit-banner" element={<ProtectedRoute><EditBanner /></ProtectedRoute>} />
               <Route path="/admin/edit-boxes" element={<ProtectedRoute><EditBoxes /></ProtectedRoute>} />
               <Route path="/admin/edit-about" element={<ProtectedRoute><EditAbout /></ProtectedRoute>} />
               <Route path="/admin/edit-footer" element={<ProtectedRoute><EditFooter /></ProtectedRoute>} />
