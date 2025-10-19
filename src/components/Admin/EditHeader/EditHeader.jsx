@@ -1,136 +1,227 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../../../firebase/firebase"; // Certifique-se de que o caminho está correto
+import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import { 
+  FiUpload, 
+  FiSave, 
+  FiX, 
+  FiImage,
+  FiCheckCircle,
+  FiArrowLeft
+} from "react-icons/fi";
 import "./EditHeader.css";
 
 const AdminEditHeader = () => {
   const navigate = useNavigate();
   const [logoUrl, setLogoUrl] = useState("");
-  const [newLogoUrl, setNewLogoUrl] = useState(""); // URL da imagem
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(""); // Nova variável para mensagem de sucesso
-  const [image, setImage] = useState(null); // Armazena a imagem selecionada
+  const [newLogoUrl, setNewLogoUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [notification, setNotification] = useState({ show: false, type: "", message: "" });
 
   useEffect(() => {
-    // Busca a logo atual no Firestore
-    const fetchHeaderData = async () => {
+    fetchHeaderData();
+  }, []);
+
+  const fetchHeaderData = async () => {
+    try {
       const headerRef = doc(db, "content", "header");
       const headerDoc = await getDoc(headerRef);
 
       if (headerDoc.exists()) {
-        setLogoUrl(headerDoc.data().logoUrl);
-      } else {
-        console.log("Nenhuma logo encontrada!");
+        const url = headerDoc.data().logoUrl;
+        setLogoUrl(url);
+        setNewLogoUrl(url);
       }
-    };
-
-    fetchHeaderData();
-  }, []);
-
-  // Função de upload para o Cloudinary
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    } catch (error) {
+      console.error("Erro ao buscar logo:", error);
+      showNotification("error", "Erro ao carregar logo atual");
+    }
   };
 
-  const handleUpload = async () => {
-    if (!image) {
-      alert("Por favor, selecione uma imagem!");
+  const showNotification = (type, message) => {
+    setNotification({ show: true, type, message });
+    setTimeout(() => {
+      setNotification({ show: false, type: "", message: "" });
+    }, 4000);
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showNotification("error", "Por favor, selecione uma imagem válida");
       return;
     }
 
-    setLoading(true);
-    setError("");
-    setSuccess(""); // Limpar a mensagem de sucesso ao iniciar o processo
-
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", "qc7tkpck"); // Usando seu Upload Preset
-    formData.append("cloud_name", "doeiv6m4h"); // Seu Cloud Name
+    if (file.size > 5 * 1024 * 1024) {
+      showNotification("error", "A imagem deve ter no máximo 5MB");
+      return;
+    }
 
     try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload`, // Usando seu Cloud Name
-        formData
-      );
-
-      const imageUrl = response.data.secure_url;
-      setNewLogoUrl(imageUrl); // Atualiza a URL da imagem no estado
-      alert("Imagem enviada com sucesso!");
+      setUploading(true);
+      const timestamp = Date.now();
+      const fileName = `logo_${timestamp}_${file.name}`;
+      const storageRef = ref(storage, `logos/${fileName}`);
+      
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      
+      setNewLogoUrl(downloadURL);
+      showNotification("success", "Imagem enviada com sucesso!");
     } catch (error) {
-      console.error("Erro ao enviar imagem:", error);
-      alert("Erro ao enviar imagem!");
+      console.error("Erro ao fazer upload:", error);
+      showNotification("error", "Erro ao fazer upload da imagem");
     } finally {
-      setLoading(false);
+      setUploading(false);
     }
   };
 
-  // Função para salvar a nova logo no Firestore
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!newLogoUrl) {
-      setError("Informe a URL da imagem.");
+      showNotification("error", "Por favor, faça upload de uma imagem primeiro");
       return;
     }
 
-    setLoading(true);
-    setError("");
-    setSuccess(""); // Limpar a mensagem de sucesso ao iniciar o processo
-
     try {
-      // Atualiza o Firestore com a nova URL da logo
+      setSaving(true);
       const headerRef = doc(db, "content", "header");
-      await setDoc(headerRef, { logoUrl: newLogoUrl });
+      await setDoc(headerRef, { logoUrl: newLogoUrl }, { merge: true });
 
-      setLogoUrl(newLogoUrl); // Atualiza o estado para exibir a nova logo
-      setSuccess("Logo atualizada com sucesso!"); // Mensagem de sucesso
-      setTimeout(() => navigate("/admin/dashboard"), 2000); // Redireciona após 2 segundos
+      setLogoUrl(newLogoUrl);
+      showNotification("success", "Logo atualizada com sucesso!");
+      
+      setTimeout(() => navigate("/admin"), 2000);
     } catch (error) {
-      console.error("Erro ao atualizar a logo:", error);
-      setError("Erro ao salvar a nova logo.");
+      console.error("Erro ao salvar logo:", error);
+      showNotification("error", "Erro ao salvar a logo");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
+  };
+
+  const handleCancel = () => {
+    setNewLogoUrl(logoUrl);
+    navigate("/admin");
   };
 
   return (
-    <div className="admin-edit-header">
-      <h2>Editar Logo</h2>
-
-      {/* Exibe a mensagem de erro, se houver */}
-      {error && <p className="admin-error">{error}</p>}
-
-      {/* Exibe a imagem atual da logo */}
-      {logoUrl && <img src={logoUrl} alt="Logo Atual" className="admin-logo-preview" />}
-
-      {/* Exibe a mensagem de sucesso, se houver */}
-      {success && <p className="admin-success">{success}</p>}
-
-      {/* Upload da nova logo */}
-      <div>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button onClick={handleUpload} disabled={loading}>
-          {loading ? "Enviando..." : "Enviar Imagem"}
-        </button>
-      </div>
-
-      {/* Exibe a pré-visualização da imagem, se houver uma URL válida */}
-      {newLogoUrl && (
-        <div>
-          <h4>Pré-visualização:</h4>
-          <img src={newLogoUrl} alt="Pré-visualização" className="admin-logo-preview" />
+    <div className="admin-edit-header-container">
+      {/* Notification */}
+      {notification.show && (
+        <div className={`notification notification-${notification.type}`}>
+          {notification.type === "success" ? <FiCheckCircle /> : <FiX />}
+          <span>{notification.message}</span>
         </div>
       )}
 
-      {/* Botão para salvar a nova logo */}
-      <form onSubmit={handleSubmit}>
-        <button type="submit" disabled={loading}>
-          {loading ? "Salvando..." : "Salvar Logo"}
+      {/* Header */}
+      <div className="admin-header">
+        <button className="back-button" onClick={handleCancel}>
+          <FiArrowLeft /> Voltar
         </button>
-      </form>
+        <h1>
+          <FiImage /> Gerenciar Logo
+        </h1>
+      </div>
+
+      {/* Main Content Card */}
+      <div className="edit-header-card">
+        <form onSubmit={handleSubmit}>
+          {/* Current Logo Preview */}
+          <div className="logo-preview-section">
+            <h3>Logo Atual</h3>
+            {logoUrl ? (
+              <div className="logo-preview-wrapper">
+                <img src={logoUrl} alt="Logo atual" className="logo-preview" />
+              </div>
+            ) : (
+              <div className="no-logo">
+                <FiImage />
+                <p>Nenhuma logo configurada</p>
+              </div>
+            )}
+          </div>
+
+          {/* Upload Section */}
+          <div className="upload-section">
+            <h3>Nova Logo</h3>
+            
+            {newLogoUrl && newLogoUrl !== logoUrl ? (
+              <div className="new-logo-preview">
+                <img src={newLogoUrl} alt="Nova logo" />
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => setNewLogoUrl(logoUrl)}
+                  disabled={uploading || saving}
+                >
+                  <FiX /> Remover
+                </button>
+              </div>
+            ) : (
+              <label className="upload-area">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploading || saving}
+                  style={{ display: 'none' }}
+                />
+                <div className="upload-content">
+                  {uploading ? (
+                    <>
+                      <div className="spinner"></div>
+                      <p>Enviando imagem...</p>
+                    </>
+                  ) : (
+                    <>
+                      <FiUpload />
+                      <p>Clique para fazer upload</p>
+                      <span>PNG, JPG ou GIF (máx. 5MB)</span>
+                    </>
+                  )}
+                </div>
+              </label>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="action-buttons">
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={handleCancel}
+              disabled={uploading || saving}
+            >
+              <FiX /> Cancelar
+            </button>
+            <button
+              type="submit"
+              className="save-button"
+              disabled={uploading || saving || !newLogoUrl || newLogoUrl === logoUrl}
+            >
+              {saving ? (
+                <>
+                  <div className="spinner-small"></div>
+                  Salvando...
+                </>
+              ) : (
+                <>
+                  <FiSave /> Salvar Logo
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
