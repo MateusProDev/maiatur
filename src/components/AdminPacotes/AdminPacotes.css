@@ -1,169 +1,497 @@
-/* src/components/Admin/AdminPacotes/AdminPacotes.css */
-.admin-pacotes-container {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
+/* Modern Admin Pacotes Styles - Professional Design */
+
+/* Container Global */
+.MuiContainer-root {
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-.admin-pacotes-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.admin-pacotes-header h1 {
-  color: #2a9d8f;
-  font-size: 1.8rem;
+/* Header Section */
+.MuiBox-root > .MuiTypography-h4 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  font-size: 2.5rem;
+  letter-spacing: -0.5px;
 }
 
-.btn-add-package {
-  padding: 0.8rem 1.5rem;
-  background: #2a9d8f;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
+/* Form Paper - Modern Glassmorphism */
+.MuiPaper-root {
+  border-radius: 20px !important;
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.15) !important;
+  border: 1px solid rgba(102, 126, 234, 0.1);
   transition: all 0.3s ease;
 }
 
-.btn-add-package:hover {
-  background: #21867a;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.MuiPaper-root:hover {
+  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2) !important;
 }
 
-.packages-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem 0;
+/* Form Title */
+.MuiPaper-root > .MuiTypography-h6 {
+  color: #667eea;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.MuiPaper-root > .MuiTypography-h6::before {
+  content: '📦';
+  font-size: 1.75rem;
+}
+
+/* Input Fields - Modern Style */
+.MuiTextField-root {
+  margin-bottom: 0.5rem;
+}
+
+.MuiInputBase-root {
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+}
+
+.MuiOutlinedInput-root:hover {
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+}
+
+.MuiOutlinedInput-root.Mui-focused {
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: #667eea !important;
+  font-weight: 600;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: rgba(102, 126, 234, 0.2) !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(102, 126, 234, 0.4) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #667eea !important;
+  border-width: 2px !important;
+}
+
+/* Checkboxes - Modern Style */
+.MuiCheckbox-root {
+  color: #667eea !important;
+}
+
+.MuiCheckbox-root.Mui-checked {
+  color: #667eea !important;
+}
+
+.MuiFormControlLabel-label {
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Buttons - Gradient Style */
+.MuiButton-containedPrimary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 2rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+.MuiButton-outlined {
+  border-radius: 12px !important;
+  padding: 0.75rem 2rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-color: #667eea !important;
+  color: #667eea !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiButton-outlined:hover {
+  background: rgba(102, 126, 234, 0.05) !important;
+  border-color: #764ba2 !important;
+  transform: translateY(-2px);
+}
+
+/* Image Upload Button */
+.MuiButton-outlined[disabled] {
+  opacity: 0.6;
+}
+
+/* Section Dividers */
+.MuiDivider-root {
+  margin: 2rem 0 !important;
+  border-color: rgba(102, 126, 234, 0.1) !important;
+}
+
+/* Typography Styles */
+.MuiTypography-h6 {
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.MuiTypography-subtitle1 {
+  color: #667eea;
+  font-weight: 600;
+  margin-bottom: 1rem !important;
+  font-size: 1.1rem !important;
+}
+
+.MuiTypography-body1 {
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Alert Notifications */
+.MuiAlert-root {
+  border-radius: 12px !important;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.MuiAlert-standardSuccess {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: white !important;
+}
+
+.MuiAlert-standardError {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  color: white !important;
+}
+
+.MuiAlert-icon {
+  color: white !important;
+}
+
+/* Package Cards - Modern Design */
+.MuiCard-root {
+  border-radius: 20px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  position: relative;
+}
+
+.MuiCard-root:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.25) !important;
+}
+
+.MuiCard-root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.MuiCard-root:hover::before {
+  opacity: 1;
+}
+
+/* Card Media - Image Effects */
+.MuiCardMedia-root {
+  transition: transform 0.4s ease;
+}
+
+.MuiCard-root:hover .MuiCardMedia-root {
+  transform: scale(1.05);
+}
+
+/* Card Content */
+.MuiCardContent-root {
+  padding: 1.5rem !important;
+}
+
+.MuiCardContent-root .MuiTypography-h6 {
+  color: #1f2937;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.MuiCardContent-root .MuiTypography-body2 {
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Price Display */
+.MuiCardContent-root .MuiBox-root .MuiTypography-h6 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+/* Card Actions */
+.MuiCardActions-root {
+  padding: 1rem 1.5rem !important;
+  background: rgba(102, 126, 234, 0.02);
+  border-top: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.MuiCardActions-root .MuiButton-root {
+  border-radius: 8px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1rem !important;
+}
+
+/* Edit Button */
+.MuiCardActions-root .MuiButton-root:first-child {
+  color: #667eea !important;
+  transition: all 0.3s ease;
+}
+
+.MuiCardActions-root .MuiButton-root:first-child:hover {
+  background: rgba(102, 126, 234, 0.1) !important;
+}
+
+/* Delete Button */
+.MuiCardActions-root .MuiButton-colorError {
+  color: #ef4444 !important;
+  transition: all 0.3s ease;
+}
+
+.MuiCardActions-root .MuiButton-colorError:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Badge/Tag Styles */
+.MuiBox-root > span {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+/* Loading State */
+.MuiCircularProgress-root {
+  color: #667eea !important;
+}
+
+/* Grid Layout */
+.MuiGrid-container {
+  margin-top: 0 !important;
+}
+
+/* Section Title */
+.MuiContainer-root > .MuiTypography-h5 {
+  color: #1f2937;
+  font-weight: 700;
+  font-size: 1.75rem;
+  margin: 2.5rem 0 1.5rem 0;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.MuiContainer-root > .MuiTypography-h5::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+/* Image Grid */
+.MuiGrid-container .MuiCard-root .MuiCardMedia-root {
+  border-radius: 8px;
+}
+
+.MuiGrid-container .MuiCard-root .MuiCardActions-root {
+  background: transparent;
+  border: none;
+  padding: 0.5rem !important;
+  justify-content: center;
+}
+
+/* Upload Button Special */
+label[for="upload-image"] .MuiButton-outlined {
+  border: 2px dashed #667eea !important;
+  background: rgba(102, 126, 234, 0.03);
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label[for="upload-image"] .MuiButton-outlined:hover {
+  background: rgba(102, 126, 234, 0.08) !important;
+  border-style: solid !important;
+}
+
+/* Empty State */
+.MuiTypography-body1[color="text.secondary"] {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(102, 126, 234, 0.03);
+  border-radius: 16px;
+  border: 2px dashed rgba(102, 126, 234, 0.2);
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .MuiBox-root > .MuiTypography-h4 {
+    font-size: 2rem;
+  }
+  
+  .MuiPaper-root {
+    padding: 2rem !important;
+  }
 }
 
 @media (max-width: 768px) {
-  .packages-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
+  .MuiBox-root > .MuiTypography-h4 {
+    font-size: 1.75rem;
+  }
+  
+  .MuiPaper-root {
+    padding: 1.5rem !important;
+  }
+  
+  .MuiButton-containedPrimary,
+  .MuiButton-outlined {
+    padding: 0.625rem 1.5rem !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .MuiCard-root {
+    margin-bottom: 1rem;
+  }
+  
+  .MuiCardActions-root {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .MuiCardActions-root .MuiButton-root {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .packages-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  .MuiContainer-root {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .MuiBox-root > .MuiTypography-h4 {
+    font-size: 1.5rem;
+  }
+  
+  .MuiPaper-root {
+    padding: 1rem !important;
+    border-radius: 16px !important;
+  }
+  
+  .MuiButton-containedPrimary,
+  .MuiButton-outlined {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  .MuiCardContent-root .MuiTypography-h6 {
+    font-size: 1rem;
+  }
+  
+  .MuiCardContent-root .MuiBox-root .MuiTypography-h6 {
+    font-size: 1.25rem;
   }
 }
 
-.package-card {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-.package-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.slide-up {
+  animation: slideUp 0.5s ease-out;
 }
 
-.package-image-container {
-  height: 200px;
-  overflow: hidden;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.package-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+/* Focus Visible */
+.MuiButton-root:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
 }
 
-.package-card:hover .package-image {
-  transform: scale(1.05);
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-.package-info {
-  padding: 1.5rem;
+::-webkit-scrollbar-track {
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 10px;
 }
 
-.package-info h3 {
-  margin: 0 0 0.5rem;
-  color: #264653;
-  font-size: 1.2rem;
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
 }
 
-.package-description {
-  color: #666;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.package-price {
-  font-weight: bold;
-  font-size: 1.3rem;
-  color: #2a9d8f;
-  margin-bottom: 1.5rem;
-}
-
-.original-price {
-  text-decoration: line-through;
-  color: #999;
-  margin-left: 0.5rem;
-  font-size: 1rem;
-}
-
-.package-actions {
-  display: flex;
-  gap: 0.8rem;
-}
-
-.btn-edit, .btn-delete {
-  flex: 1;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
-}
-
-.btn-edit {
-  background: #264653;
-  color: white;
-  text-decoration: none;
-  text-align: center;
-}
-
-.btn-edit:hover {
-  background: #1d3557;
-}
-
-.btn-delete {
-  background: #e63946;
-  color: white;
-}
-
-.btn-delete:hover {
-  background: #d62839;
-}
-
-.no-packages {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.loading, .error {
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.2rem;
-}
-
-.error {
-  color: #e63946;
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
 }

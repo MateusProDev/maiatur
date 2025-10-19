@@ -28,7 +28,11 @@ import {
   Save as SaveIcon,
   Delete as DeleteIcon,
   Edit as EditIcon,
-  Close as CloseIcon
+  Close as CloseIcon,
+  Add as AddIcon,
+  Inventory as InventoryIcon,
+  Image as ImageIcon,
+  AttachMoney as MoneyIcon
 } from "@mui/icons-material";
 import "./AdminPacotes.css";
 
@@ -259,14 +263,20 @@ const AdminPacotes = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 4, minHeight: '100vh' }}>
       <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-        <Typography variant="h4" component="h1">
-          Gerenciamento de Pacotes
-        </Typography>
+        <Box>
+          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
+            Gerenciamento de Pacotes
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#6b7280' }}>
+            Crie e gerencie pacotes turísticos com facilidade
+          </Typography>
+        </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Button 
             variant="contained"
+            startIcon={<AddIcon />}
             onClick={() => setCurrentPacote({
               titulo: "",
               descricao: "",
@@ -289,8 +299,14 @@ const AdminPacotes = () => {
               valorParaMotorista: 0,
               porcentagemSinalPadrao: 40
             })}
+            sx={{ 
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+              }
+            }}
           >
-            Novo Pacote
+            Criar Novo Pacote
           </Button>
         </Box>
       </Box>
@@ -306,10 +322,18 @@ const AdminPacotes = () => {
       )}
 
       {/* Formulário de Edição/Criação */}
-      <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-        <Typography variant="h6" gutterBottom>
-          {currentPacote.id ? "Editar Pacote" : "Criar Novo Pacote"}
-        </Typography>
+      <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+          <InventoryIcon sx={{ fontSize: 35, color: '#667eea' }} />
+          <Box>
+            <Typography variant="h6" sx={{ mb: 0 }}>
+              {currentPacote.id ? "Editar Pacote" : "Criar Novo Pacote"}
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#6b7280', fontSize: '0.9rem' }}>
+              {currentPacote.id ? "Atualize as informações do pacote" : "Preencha os dados do novo pacote turístico"}
+            </Typography>
+          </Box>
+        </Box>
         
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
@@ -423,9 +447,21 @@ const AdminPacotes = () => {
             </Grid>
             
             <Grid item xs={12}>
-              <Typography variant="subtitle1" gutterBottom>
-                Imagens do Pacote
-              </Typography>
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 1.5, 
+                mb: 2,
+                p: 2,
+                background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05))',
+                borderRadius: 2,
+                border: '1px solid rgba(102, 126, 234, 0.1)'
+              }}>
+                <ImageIcon sx={{ color: '#667eea', fontSize: 28 }} />
+                <Typography variant="subtitle1" sx={{ mb: 0 }}>
+                  Imagens do Pacote
+                </Typography>
+              </Box>
               
               <Grid container spacing={2}>
                 {currentPacote.imagens.map((img, index) => (
@@ -514,18 +550,58 @@ const AdminPacotes = () => {
       </Paper>
 
       {/* Lista de Pacotes */}
-      <Typography variant="h5" gutterBottom>
-        Pacotes Cadastrados
-      </Typography>
+      <Box sx={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: 2, 
+        mb: 3,
+        mt: 5
+      }}>
+        <InventoryIcon sx={{ fontSize: 32, color: '#667eea' }} />
+        <Typography variant="h5" sx={{ mb: 0 }}>
+          Pacotes Cadastrados
+        </Typography>
+        <Box sx={{ 
+          ml: 'auto', 
+          background: 'linear-gradient(135deg, #667eea, #764ba2)',
+          color: 'white',
+          px: 2,
+          py: 0.5,
+          borderRadius: 20,
+          fontSize: '0.9rem',
+          fontWeight: 600
+        }}>
+          {pacotes.length} {pacotes.length === 1 ? 'pacote' : 'pacotes'}
+        </Box>
+      </Box>
       
       {loading.list ? (
         <Box display="flex" justifyContent="center" py={4}>
           <CircularProgress size={60} />
         </Box>
       ) : pacotes.length === 0 ? (
-        <Typography variant="body1" color="text.secondary">
-          Nenhum pacote cadastrado ainda.
-        </Typography>
+        <Paper sx={{ 
+          p: 6, 
+          textAlign: 'center',
+          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(118, 75, 162, 0.03))',
+          border: '2px dashed rgba(102, 126, 234, 0.2)',
+          borderRadius: 3
+        }}>
+          <InventoryIcon sx={{ fontSize: 64, color: '#667eea', opacity: 0.3, mb: 2 }} />
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+            Nenhum pacote cadastrado ainda
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            Comece criando seu primeiro pacote turístico
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            Criar Primeiro Pacote
+          </Button>
+        </Paper>
       ) : (
         <Grid container spacing={3} sx={{ 
           display: 'grid',
@@ -543,77 +619,153 @@ const AdminPacotes = () => {
                 height: '100%', 
                 display: 'flex', 
                 flexDirection: 'column',
-                minHeight: '400px'
+                minHeight: '420px',
+                position: 'relative',
+                overflow: 'hidden'
               }}>
+                {pacote.destaque && (
+                  <Box sx={{
+                    position: 'absolute',
+                    top: 12,
+                    right: 12,
+                    background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+                    color: 'white',
+                    px: 1.5,
+                    py: 0.5,
+                    borderRadius: 20,
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)',
+                    zIndex: 1
+                  }}>
+                    ⭐ Destaque
+                  </Box>
+                )}
                 {pacote.imagens && pacote.imagens.length > 0 && (
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={pacote.imagens[0]}
-                    alt={pacote.titulo}
-                    sx={{ objectFit: 'cover' }}
-                  />
+                  <Box sx={{ position: 'relative', overflow: 'hidden' }}>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={pacote.imagens[0]}
+                      alt={pacote.titulo}
+                      sx={{ 
+                        objectFit: 'cover',
+                        transition: 'transform 0.4s ease'
+                      }}
+                    />
+                    {pacote.imagens.length > 1 && (
+                      <Box sx={{
+                        position: 'absolute',
+                        bottom: 8,
+                        right: 8,
+                        background: 'rgba(0, 0, 0, 0.7)',
+                        color: 'white',
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: 1,
+                        fontSize: '0.75rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 0.5
+                      }}>
+                        <ImageIcon sx={{ fontSize: 14 }} />
+                        {pacote.imagens.length} fotos
+                      </Box>
+                    )}
+                  </Box>
                 )}
                 
-                <CardContent sx={{ flexGrow: 1, p: 2 }}>
+                <CardContent sx={{ flexGrow: 1, p: 2.5 }}>
                   <Typography gutterBottom variant="h6" sx={{ 
-                    fontSize: '1.1rem',
+                    fontSize: '1.15rem',
                     lineHeight: 1.3,
                     minHeight: '2.6rem',
                     display: '-webkit-box',
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    fontWeight: 700,
+                    color: '#1f2937'
                   }}>
                     {pacote.titulo}
-                    {pacote.destaque && (
-                      <Box component="span" sx={{ 
-                        ml: 1,
-                        fontSize: '0.7rem',
-                        color: 'secondary.main',
-                        fontWeight: 'bold'
-                      }}>
-                        ★ Destaque
-                      </Box>
-                    )}
                   </Typography>
                   
                   <Typography variant="body2" color="text.secondary" sx={{ 
-                    mb: 2,
+                    mb: 2.5,
                     minHeight: '3rem',
                     display: '-webkit-box',
                     WebkitLineClamp: 3,
                     WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    lineHeight: 1.6
                   }}>
                     {pacote.descricaoCurta}
                   </Typography>
                   
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 'auto' }}>
-                    {pacote.precoOriginal && (
-                      <Typography variant="body2" sx={{ textDecoration: 'line-through' }}>
-                        R$ {Number(pacote.precoOriginal).toFixed(2).replace('.', ',')}
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 1.5, 
+                    mt: 'auto',
+                    pt: 2,
+                    borderTop: '1px solid rgba(102, 126, 234, 0.1)'
+                  }}>
+                    <MoneyIcon sx={{ color: '#667eea', fontSize: 24 }} />
+                    <Box>
+                      {pacote.precoOriginal && (
+                        <Typography variant="body2" sx={{ 
+                          textDecoration: 'line-through',
+                          color: '#9ca3af',
+                          fontSize: '0.85rem'
+                        }}>
+                          R$ {Number(pacote.precoOriginal).toFixed(2).replace('.', ',')}
+                        </Typography>
+                      )}
+                      <Typography variant="h6" sx={{ 
+                        fontWeight: 800, 
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        fontSize: '1.5rem',
+                        lineHeight: 1
+                      }}>
+                        R$ {Number(pacote.preco).toFixed(2).replace('.', ',')}
                       </Typography>
-                    )}
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                      R$ {Number(pacote.preco).toFixed(2).replace('.', ',')}
-                    </Typography>
+                    </Box>
                   </Box>
                 </CardContent>
                 
-                <CardActions sx={{ justifyContent: 'space-between', p: 2, pt: 0 }}>
+                <CardActions sx={{ 
+                  justifyContent: 'space-between', 
+                  p: 2, 
+                  pt: 0,
+                  gap: 1
+                }}>
                   <Button
-                    size="small"
+                    size="medium"
                     startIcon={<EditIcon />}
                     onClick={() => editPacote(pacote)}
+                    sx={{ 
+                      flex: 1,
+                      fontWeight: 600,
+                      textTransform: 'none'
+                    }}
                   >
                     Editar
                   </Button>
                   <Button
-                    size="small"
+                    size="medium"
                     startIcon={<DeleteIcon />}
                     color="error"
                     onClick={() => handleDelete(pacote.id)}
+                    sx={{ 
+                      flex: 1,
+                      fontWeight: 600,
+                      textTransform: 'none'
+                    }}
                   >
                     Excluir
                   </Button>
