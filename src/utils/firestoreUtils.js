@@ -1,5 +1,5 @@
 // src/utils/firestoreUtils.js
-import { db } from '../firebase/firebaseConfig';
+import { db } from '../firebase/firebase';
 import { 
   collection, 
   doc, 
@@ -27,6 +27,9 @@ export const initializeFirestoreCollections = async () => {
     
     // 3. Coleção de pacotes com campos de ida e volta
     await initializePacotesIdaVolta();
+    
+    // 4. Inicializar banners do hero
+    await initializeBannersCollection();
     
     console.debug('[firestoreUtils] Estruturas do Firestore inicializadas com sucesso!');
     return true;
@@ -447,6 +450,103 @@ export const calcularValores = (valorTotal, porcentagemSinal) => {
     valorSinal: parseFloat(valorSinal.toFixed(2)),
     valorRestante: parseFloat(valorRestante.toFixed(2))
   };
+};
+
+/**
+ * Inicializa a coleção de banners com exemplos profissionais
+ */
+const initializeBannersCollection = async () => {
+  try {
+    const bannersRef = collection(db, 'banners');
+    const existingBanners = await getDocs(query(bannersRef));
+    
+    if (existingBanners.empty) {
+      console.debug('[firestoreUtils] Criando banners de exemplo...');
+      
+      const bannersExemplo = [
+        {
+          titulo: 'Descubra o Paraíso do Ceará',
+          subtitulo: 'Praias paradisíacas, cultura rica e hospitalidade única',
+          descricao: 'Explore as melhores praias do litoral cearense com conforto e segurança. Transfer exclusivo do aeroporto ao seu destino dos sonhos.',
+          imagem: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80',
+          localizacao: 'Ceará, Brasil',
+          botaoTexto: 'Ver Pacotes',
+          botaoLink: '/pacotes',
+          botaoSecundarioTexto: 'Saiba Mais',
+          botaoSecundarioLink: '/sobre',
+          ativo: true,
+          ordem: 1,
+          createdAt: serverTimestamp()
+        },
+        {
+          titulo: 'Beach Park - Diversão para Toda Família',
+          subtitulo: 'O maior parque aquático da América Latina',
+          descricao: 'Transfer exclusivo com conforto e segurança. Aproveite um dia inesquecível com sua família nas melhores atrações aquáticas.',
+          imagem: 'https://images.unsplash.com/photo-1561738295-5d6c7f9f8e6e?w=1920&q=80',
+          localizacao: 'Aquiraz, Ceará',
+          botaoTexto: 'Ver Pacotes',
+          botaoLink: '/pacotes',
+          botaoSecundarioTexto: 'Saiba Mais',
+          botaoSecundarioLink: '/sobre',
+          ativo: true,
+          ordem: 2,
+          createdAt: serverTimestamp()
+        },
+        {
+          titulo: 'Canoa Quebrada - Beleza Natural',
+          subtitulo: 'Falésias coloridas e pôr do sol inesquecível',
+          descricao: 'Passeios privativos com guias especializados. Conheça as famosas falésias avermelhadas e a animada Broadway de Canoa Quebrada.',
+          imagem: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80',
+          localizacao: 'Canoa Quebrada, Ceará',
+          botaoTexto: 'Ver Pacotes',
+          botaoLink: '/pacotes',
+          botaoSecundarioTexto: 'Saiba Mais',
+          botaoSecundarioLink: '/sobre',
+          ativo: true,
+          ordem: 3,
+          createdAt: serverTimestamp()
+        },
+        {
+          titulo: 'Jericoacoara - Magia e Aventura',
+          subtitulo: 'Uma das praias mais bonitas do mundo',
+          descricao: 'Transfer 4x4 com todo conforto até o paraíso nordestino. Viva experiências únicas entre dunas, lagoas e o famoso pôr do sol na Pedra Furada.',
+          imagem: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80',
+          localizacao: 'Jericoacoara, Ceará',
+          botaoTexto: 'Ver Pacotes',
+          botaoLink: '/pacotes',
+          botaoSecundarioTexto: 'Saiba Mais',
+          botaoSecundarioLink: '/sobre',
+          ativo: true,
+          ordem: 4,
+          createdAt: serverTimestamp()
+        },
+        {
+          titulo: 'Fortaleza - Capital do Sol',
+          subtitulo: 'Cultura, gastronomia e praias urbanas encantadoras',
+          descricao: 'City tour completo pela capital cearense. Conheça o Centro Histórico, mercados tradicionais, praias urbanas e a vida noturna agitada.',
+          imagem: 'https://images.unsplash.com/photo-1516815231560-8f41ec531527?w=1920&q=80',
+          localizacao: 'Fortaleza, Ceará',
+          botaoTexto: 'Ver Pacotes',
+          botaoLink: '/pacotes',
+          botaoSecundarioTexto: 'Saiba Mais',
+          botaoSecundarioLink: '/sobre',
+          ativo: true,
+          ordem: 5,
+          createdAt: serverTimestamp()
+        }
+      ];
+
+      for (const banner of bannersExemplo) {
+        await setDoc(doc(bannersRef), sanitizeFirestoreData(banner));
+      }
+      
+      console.debug(`[firestoreUtils] ${bannersExemplo.length} banners criados com sucesso`);
+    } else {
+      console.debug('[firestoreUtils] Banners já existem, pulando inicialização');
+    }
+  } catch (error) {
+    console.error('[firestoreUtils] Erro ao inicializar banners:', error);
+  }
 };
 
 /**

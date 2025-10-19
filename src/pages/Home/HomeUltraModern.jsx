@@ -1,24 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, query, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton';
+import BannerCarousel from '../../components/BannerCarousel/BannerCarousel';
 import { 
   FiMapPin, 
   FiClock, 
   FiStar, 
   FiArrowRight,
-  FiTrendingUp,
   FiAward,
-  FiUsers,
-  FiGlobe,
-  FiCompass,
   FiSun,
   FiHeart,
   FiCamera,
-  FiNavigation,
   FiShield,
   FiSmile,
   FiCreditCard,
@@ -34,14 +30,6 @@ const HomeUltraModern = () => {
   const [loading, setLoading] = useState(true);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
-  const heroRef = useRef(null);
-
-  const stats = [
-    { icon: <FiUsers />, value: '15.000+', label: 'Clientes Felizes' },
-    { icon: <FiGlobe />, value: '120+', label: 'Destinos' },
-    { icon: <FiAward />, value: '98%', label: 'Satisfação' },
-    { icon: <FiTrendingUp />, value: '12 Anos', label: 'de Experiência' }
-  ];
 
   const services = [
     {
@@ -163,20 +151,7 @@ const HomeUltraModern = () => {
     }
   }, [avaliacoes]);
 
-  // Parallax effect
-  useEffect(() => {
-    const handleScroll = () => {
-      if (heroRef.current) {
-        const scrolled = window.scrollY;
-        heroRef.current.style.transform = `translateY(${scrolled * 0.5}px)`;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleWhatsApp = (message = 'Olá! Gostaria de mais informações sobre os pacotes da Maiatur.') => {
+  const handleWhatsApp = (message = '') => {
     const encodedMessage = encodeURIComponent(message);
     const number = whatsappNumber || '5511999999999';
     window.open(`https://wa.me/${number}?text=${encodedMessage}`, '_blank');
@@ -198,61 +173,8 @@ const HomeUltraModern = () => {
     <div className="home-ultra-modern">
       <Header />
       
-      {/* ========== HERO IMERSIVO ========== */}
-      <section className="hero-ultra" ref={heroRef}>
-        <div className="hero-gradient-overlay"></div>
-        <div className="hero-shapes">
-          <div className="shape shape-1"></div>
-          <div className="shape shape-2"></div>
-          <div className="shape shape-3"></div>
-        </div>
-        
-        <div className="hero-content-ultra">
-          <div className="hero-badge-ultra">
-            <FiCompass className="badge-icon-spin" />
-            <span>Explore o Mundo com Estilo</span>
-          </div>
-          
-          <h1 className="hero-title-ultra">
-            Viva Experiências
-            <span className="title-highlight"> Inesquecíveis</span>
-          </h1>
-          
-          <p className="hero-subtitle-ultra">
-            Descubra destinos paradisíacos com pacotes personalizados, 
-            conforto excepcional e momentos que ficam para sempre na memória.
-          </p>
-          
-          <div className="hero-cta-group">
-            <Link to="/pacotes" className="btn-hero-primary">
-              <FiNavigation />
-              Explorar Destinos
-            </Link>
-            <button onClick={() => handleWhatsApp()} className="btn-hero-secondary">
-              <FaWhatsapp />
-              Falar com Especialista
-            </button>
-          </div>
-
-          {/* Stats flutuantes */}
-          <div className="hero-stats-floating">
-            {stats.map((stat, index) => (
-              <div key={index} className="stat-card-float" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="stat-icon">{stat.icon}</div>
-                <div className="stat-value">{stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="hero-scroll-indicator">
-          <div className="scroll-mouse">
-            <div className="scroll-wheel"></div>
-          </div>
-          <span>Role para explorar</span>
-        </div>
-      </section>
+      {/* Hero Banner Carousel */}
+      <BannerCarousel />
 
       {/* ========== EXPLORAR DESTINOS ========== */}
       <section className="destinos-section-ultra">

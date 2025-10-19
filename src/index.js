@@ -3,10 +3,19 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import { setupErrorSuppression } from "./utils/errorSuppression";
+import { initializeFirestoreCollections } from "./utils/firestoreUtils";
+import "./utils/initBanners"; // Disponibiliza window.initBanners()
 import "./utils/serviceWorkerCleanup"; // Limpar service workers problemáticos
 
 // Configurar supressão de erros não críticos
 setupErrorSuppression();
+
+// Inicializar coleções do Firestore (incluindo banners)
+setTimeout(() => {
+  initializeFirestoreCollections()
+    .then(() => console.log('✅ Firestore inicializado com sucesso!'))
+    .catch((err) => console.error('❌ Erro ao inicializar Firestore:', err));
+}, 2000);
 
 // Criação do root
 const root = ReactDOM.createRoot(document.getElementById("root"));
