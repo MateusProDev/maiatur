@@ -19,7 +19,6 @@ export const uploadToCloudinary = async (file, folder = '') => {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-  formData.append('cloud_name', CLOUDINARY_CONFIG.cloudName);
   
   if (folder) {
     formData.append('folder', folder);

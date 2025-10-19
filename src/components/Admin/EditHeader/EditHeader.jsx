@@ -71,6 +71,13 @@ const AdminEditHeader = () => {
       formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
       formData.append("folder", "logos");
 
+      console.log('Upload config:', {
+        apiUrl: CLOUDINARY_CONFIG.apiUrl,
+        uploadPreset: CLOUDINARY_CONFIG.uploadPreset,
+        fileType: file.type,
+        fileSize: file.size
+      });
+
       const response = await axios.post(
         CLOUDINARY_CONFIG.apiUrl,
         formData
@@ -80,6 +87,7 @@ const AdminEditHeader = () => {
       showNotification("success", "Imagem enviada com sucesso!");
     } catch (error) {
       console.error("Erro ao fazer upload:", error);
+      console.error("Erro detalhado:", error.response?.data);
       showNotification("error", "Erro ao fazer upload da imagem");
     } finally {
       setUploading(false);
