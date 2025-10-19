@@ -3,6 +3,7 @@ import { collection, getDocs, deleteDoc, doc, setDoc, serverTimestamp } from 'fi
 import { db } from '../../firebase/firebase';
 import axios from "axios";
 import RichTextEditorV2 from '../RichTextEditorV2/RichTextEditorV2';
+import { CLOUDINARY_CONFIG } from '../../config/cloudinary';
 
 import { 
   Box,
@@ -109,12 +110,12 @@ const AdminPacotes = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "qc7tkpck");
-    formData.append("cloud_name", "doeiv6m4h");
+    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    formData.append("cloud_name", CLOUDINARY_CONFIG.cloudName);
 
     try {
       const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload",
+        CLOUDINARY_CONFIG.apiUrl,
         formData
       );
       

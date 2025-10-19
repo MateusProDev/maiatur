@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
+import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
 import { useNavigate } from "react-router-dom";
 import { FiUpload, FiSave, FiLoader, FiImage, FiX } from "react-icons/fi";
 import "./EditBanner.css";
@@ -74,12 +75,12 @@ const EditBanner = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "qc7tkpck");
-    formData.append("cloud_name", "doeiv6m4h");
+    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    formData.append("cloud_name", CLOUDINARY_CONFIG.cloudName);
 
     try {
       const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload",
+        CLOUDINARY_CONFIG.apiUrl,
         formData
       );
       setBannerData(prev => ({ ...prev, [field]: response.data.secure_url }));

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
+import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
 import { useNavigate } from "react-router-dom";
 import "./EditCarousel.css";
 
@@ -42,12 +43,12 @@ const EditCarousel = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "qc7tkpck"); // Substitua pelo seu upload preset
-    formData.append("cloud_name", "doeiv6m4h"); // Substitua pelo seu cloud name
+    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    formData.append("cloud_name", CLOUDINARY_CONFIG.cloudName);
 
     try {
       const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/doeiv6m4h/image/upload`, // URL da API do Cloudinary
+        CLOUDINARY_CONFIG.apiUrl,
         formData
       );
       setCarouselData((prev) => ({

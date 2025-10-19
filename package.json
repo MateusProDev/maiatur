@@ -5,6 +5,8 @@
   "dependencies": {
     "@babel/core": "^7.28.0",
     "@babel/runtime": "^7.28.2",
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.22.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mercadopago/sdk-js": "^0.0.3",
