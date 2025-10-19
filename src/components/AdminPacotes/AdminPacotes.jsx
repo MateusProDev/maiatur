@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, deleteDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../firebase/firebaseConfig';
+import { db } from '../../firebase/firebase';
 import axios from "axios";
 import RichTextEditorV2 from '../RichTextEditorV2/RichTextEditorV2';
-import { 
-  migrarTodosPacotes, 
-  atualizarCamposPacote, 
-  calcularValoresPacote 
-} from '../../utils/firestoreAutoFields';
 
 import { 
   Box,
@@ -49,7 +44,7 @@ const AdminPacotes = () => {
     descricao: "",
     descricaoCurta: "",
     preco: 0,
-    precoOriginal: 0,
+    mostrarPreco: true, // Nova opção para ocultar preço
     imagens: [],
     destaque: false,
     slug: "",
@@ -57,15 +52,7 @@ const AdminPacotes = () => {
     isIdaEVolta: false,
     precoIda: 0,
     precoVolta: 0,
-    precoIdaVolta: 0,
-    // Valores fixos divididos
-    valorSinal: 0,
-    valorPrimeiraViagem: 0,
-    valorSegundaViagem: 0,
-    // Campos automáticos calculados (manter compatibilidade)
-    valorSinalCalculado: 0,
-    valorParaMotorista: 0,
-    porcentagemSinalPadrao: 40
+    precoIdaVolta: 0
   });
   const [notification, setNotification] = useState({
     show: false,
@@ -77,21 +64,12 @@ const AdminPacotes = () => {
     const fetchPacotes = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'pacotes'));
-        const pacotesData = [];
-        
-        // Atualizar cada pacote automaticamente com os novos campos
-        for (const docSnap of querySnapshot.docs) {
-          const dadosOriginais = docSnap.data();
-          const dadosAtualizados = await atualizarCamposPacote(docSnap.id, dadosOriginais);
-          
-          pacotesData.push({
-            id: docSnap.id,
-            ...dadosAtualizados
-          });
-        }
+        const pacotesData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
         
         setPacotes(pacotesData);
-        showNotification("success", "Pacotes carregados e atualizados automaticamente!");
       } catch (err) {
         showNotification("error", "Erro ao carregar pacotes");
         console.error("Erro ao buscar pacotes:", err);
@@ -100,7 +78,7 @@ const AdminPacotes = () => {
       }
     };
     fetchPacotes();
-  }, []); // Removendo loading da dependência para evitar loop infinito
+  }, []);
 
   const showNotification = (type, message, duration = 5000) => {
     setNotification({ show: true, type, message });
@@ -108,25 +86,6 @@ const AdminPacotes = () => {
       setNotification({ show: false, type: "", message: "" });
     }, duration);
   };
-
-  // Função para calcular valores automaticamente
-  const calcularValores = (pacote) => {
-    const valoresCalculados = calcularValoresPacote(pacote);
-    return {
-      ...pacote,
-      ...valoresCalculados
-    };
-  };
-
-  // Atualizar valores quando pacote mudar
-  useEffect(() => {
-    if (currentPacote.preco || currentPacote.precoIdaVolta) {
-      const pacoteAtualizado = calcularValores(currentPacote);
-      if (JSON.stringify(pacoteAtualizado) !== JSON.stringify(currentPacote)) {
-        setCurrentPacote(pacoteAtualizado);
-      }
-    }
-  }, [currentPacote.preco, currentPacote.precoIdaVolta, currentPacote.isIdaEVolta, currentPacote.sinalConfig?.tipo, currentPacote.sinalConfig?.valor, currentPacote]);
 
   const handleImageUpload = async (file) => {
     if (!file) return;
@@ -203,24 +162,33 @@ const AdminPacotes = () => {
     }
 
     // Gerar slug automaticamente se estiver vazio
-    if (!currentPacote.slug.trim()) {
-      const slug = currentPacote.titulo
+    let slug = currentPacote.slug;
+    if (!slug.trim()) {
+      slug = currentPacote.titulo
         .toLowerCase()
         .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
         .replace(/\s+/g, '-')
         .replace(/[^\w-]+/g, '');
-      setCurrentPacote(prev => ({ ...prev, slug }));
     }
 
     setLoading({ ...loading, saving: true });
 
     try {
       const pacoteData = {
-        ...currentPacote,
+        titulo: currentPacote.titulo,
+        descricao: currentPacote.descricao || '',
+        descricaoCurta: currentPacote.descricaoCurta || '',
+        preco: Number(currentPacote.preco) || 0,
+        mostrarPreco: currentPacote.mostrarPreco !== false,
+        imagens: currentPacote.imagens || [],
+        destaque: currentPacote.destaque || false,
+        slug: slug,
+        isIdaEVolta: currentPacote.isIdaEVolta || false,
+        precoIda: currentPacote.isIdaEVolta ? Number(currentPacote.precoIda) || 0 : 0,
+        precoVolta: currentPacote.isIdaEVolta ? Number(currentPacote.precoVolta) || 0 : 0,
+        precoIdaVolta: currentPacote.isIdaEVolta ? Number(currentPacote.precoIdaVolta) || 0 : 0,
         createdAt: currentPacote.createdAt || serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        preco: Number(currentPacote.preco),
-        precoOriginal: currentPacote.precoOriginal ? Number(currentPacote.precoOriginal) : null
+        updatedAt: serverTimestamp()
       };
 
       if (currentPacote.id) {
@@ -244,10 +212,14 @@ const AdminPacotes = () => {
         descricao: "",
         descricaoCurta: "",
         preco: 0,
-        precoOriginal: 0,
+        mostrarPreco: true,
         imagens: [],
         destaque: false,
-        slug: ""
+        slug: "",
+        isIdaEVolta: false,
+        precoIda: 0,
+        precoVolta: 0,
+        precoIdaVolta: 0
       });
       
     } catch (error) {
@@ -266,36 +238,6 @@ const AdminPacotes = () => {
     }));
   };
 
-  // Função para auto-dividir valores baseado no preço total
-  const autoDividirValores = () => {
-    const precoBase = currentPacote.preco; // Sempre usar o preço principal
-    
-    if (precoBase > 0) {
-      if (currentPacote.isIdaEVolta) {
-        // Dividir em 3 partes iguais para ida e volta
-        const valorPorParte = precoBase / 3;
-        setCurrentPacote(prev => ({
-          ...prev,
-          valorSinal: valorPorParte,
-          valorPrimeiraViagem: valorPorParte,
-          valorSegundaViagem: valorPorParte
-        }));
-      } else {
-        // Dividir em 2 partes iguais para apenas ida
-        const valorPorParte = precoBase / 2;
-        setCurrentPacote(prev => ({
-          ...prev,
-          valorSinal: valorPorParte,
-          valorPrimeiraViagem: valorPorParte,
-          valorSegundaViagem: 0
-        }));
-      }
-      showNotification("success", "Valores divididos automaticamente!");
-    } else {
-      showNotification("warning", "Configure primeiro o preço do pacote para auto-dividir!");
-    }
-  };
-
   const handleDescriptionChange = (content) => {
     setCurrentPacote(prev => ({ 
       ...prev, 
@@ -306,21 +248,12 @@ const AdminPacotes = () => {
   const editPacote = (pacote) => {
     setCurrentPacote({
       ...pacote,
-      preco: Number(pacote.preco),
-      precoOriginal: pacote.precoOriginal ? Number(pacote.precoOriginal) : null,
-      // Garantir que os novos campos existam
+      preco: Number(pacote.preco) || 0,
+      mostrarPreco: pacote.mostrarPreco !== false,
       isIdaEVolta: pacote.isIdaEVolta || false,
       precoIda: Number(pacote.precoIda) || 0,
       precoVolta: Number(pacote.precoVolta) || 0,
-      precoIdaVolta: Number(pacote.precoIdaVolta) || 0,
-      // Novos campos de valores fixos
-      valorSinal: Number(pacote.valorSinal) || 0,
-      valorPrimeiraViagem: Number(pacote.valorPrimeiraViagem) || 0,
-      valorSegundaViagem: Number(pacote.valorSegundaViagem) || 0,
-      // Campos de compatibilidade
-      valorSinalCalculado: pacote.valorSinalCalculado || 0,
-      valorParaMotorista: pacote.valorParaMotorista || 0,
-      porcentagemSinalPadrao: pacote.porcentagemSinalPadrao || 40
+      precoIdaVolta: Number(pacote.precoIdaVolta) || 0
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -333,36 +266,16 @@ const AdminPacotes = () => {
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Button 
-            variant="outlined"
-            color="info"
-            onClick={async () => {
-              setLoading(prev => ({ ...prev, saving: true }));
-              const resultado = await migrarTodosPacotes();
-              if (resultado.sucesso) {
-                showNotification("success", `${resultado.totalMigrados} pacotes migrados automaticamente!`);
-                // Recarregar pacotes
-                window.location.reload();
-              } else {
-                showNotification("error", "Erro na migração: " + resultado.erro);
-              }
-              setLoading(prev => ({ ...prev, saving: false }));
-            }}
-            disabled={loading.saving}
-          >
-            🔄 Migrar Campos Automaticamente
-          </Button>
-          <Button 
             variant="contained"
             onClick={() => setCurrentPacote({
               titulo: "",
               descricao: "",
               descricaoCurta: "",
               preco: 0,
-              precoOriginal: 0,
+              mostrarPreco: true,
               imagens: [],
               destaque: false,
               slug: "",
-              // Novos campos padrão
               isIdaEVolta: false,
               precoIda: 0,
               precoVolta: 0,
@@ -453,7 +366,7 @@ const AdminPacotes = () => {
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
-                label="Preço Atual"
+                label="Preço do Pacote"
                 name="preco"
                 type="number"
                 value={currentPacote.preco}
@@ -461,19 +374,21 @@ const AdminPacotes = () => {
                 required
                 margin="normal"
                 inputProps={{ step: "0.01", min: "0" }}
+                helperText="Digite 0 se quiser ocultar o preço"
               />
             </Grid>
             
             <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="Preço Original (para desconto)"
-                name="precoOriginal"
-                type="number"
-                value={currentPacote.precoOriginal || ''}
-                onChange={handleChange}
-                margin="normal"
-                inputProps={{ step: "0.01", min: "0" }}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="mostrarPreco"
+                    checked={currentPacote.mostrarPreco !== false}
+                    onChange={(e) => setCurrentPacote({...currentPacote, mostrarPreco: e.target.checked})}
+                  />
+                }
+                label="Mostrar preço no site (desmarque para ocultar)"
+                style={{ marginTop: '20px' }}
               />
             </Grid>
             
@@ -505,127 +420,6 @@ const AdminPacotes = () => {
                 }
                 label="Este pacote oferece opção de ida e volta"
               />
-            </Grid>
-            
-            {/* Seção de Valores Fixos Divididos */}
-            <Grid item xs={12}>
-              <Divider sx={{ my: 2 }} />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Box>
-                  <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    💰 Divisão de Valores (Agência + Motoristas)
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Configure os valores fixos para cada parte da viagem
-                    {currentPacote.isIdaEVolta ? ' (Ida e Volta - 3 partes)' : ' (Apenas Ida - 2 partes)'}
-                  </Typography>
-                </Box>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={autoDividirValores}
-                  sx={{ 
-                    minWidth: 'auto',
-                    px: 2 
-                  }}
-                >
-                  ⚡ Auto-Dividir
-                </Button>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} md={currentPacote.isIdaEVolta ? 4 : 6}>
-              <TextField
-                fullWidth
-                label="Valor Sinal (Agência)"
-                name="valorSinal"
-                type="number"
-                value={currentPacote.valorSinal || ''}
-                onChange={handleChange}
-                margin="normal"
-                inputProps={{ step: "0.01", min: "0" }}
-                helperText="Valor pago para a agência (sinal)"
-              />
-            </Grid>
-
-            <Grid item xs={12} md={currentPacote.isIdaEVolta ? 4 : 6}>
-              <TextField
-                fullWidth
-                label={currentPacote.isIdaEVolta ? "Valor 1ª Viagem (Ida)" : "Valor Motorista"}
-                name="valorPrimeiraViagem"
-                type="number"
-                value={currentPacote.valorPrimeiraViagem || ''}
-                onChange={handleChange}
-                margin="normal"
-                inputProps={{ step: "0.01", min: "0" }}
-                helperText={currentPacote.isIdaEVolta ? "Valor para motorista da ida" : "Valor para o motorista"}
-              />
-            </Grid>
-
-            {currentPacote.isIdaEVolta && (
-              <Grid item xs={12} md={4}>
-                <TextField
-                  fullWidth
-                  label="Valor 2ª Viagem (Volta)"
-                  name="valorSegundaViagem"
-                  type="number"
-                  value={currentPacote.valorSegundaViagem || ''}
-                  onChange={handleChange}
-                  margin="normal"
-                  inputProps={{ step: "0.01", min: "0" }}
-                  helperText="Valor para motorista da volta"
-                />
-              </Grid>
-            )}
-
-            {/* Resumo dos valores */}
-            <Grid item xs={12}>
-              <Box sx={{ 
-                bgcolor: currentPacote.isIdaEVolta ? 'success.light' : 'primary.light', 
-                p: 2, 
-                borderRadius: 2, 
-                border: '1px solid',
-                borderColor: currentPacote.isIdaEVolta ? 'success.main' : 'primary.main'
-              }}>
-                <Typography variant="subtitle1" fontWeight="bold" color={currentPacote.isIdaEVolta ? 'success.dark' : 'primary.dark'} gutterBottom>
-                  📊 Resumo da Divisão {currentPacote.isIdaEVolta ? '(3 partes)' : '(2 partes)'}:
-                </Typography>
-                <Typography variant="body2" color={currentPacote.isIdaEVolta ? 'success.dark' : 'primary.dark'}>
-                  <strong>Total:</strong> R$ {(
-                    (parseFloat(currentPacote.valorSinal) || 0) + 
-                    (parseFloat(currentPacote.valorPrimeiraViagem) || 0) + 
-                    (currentPacote.isIdaEVolta ? (parseFloat(currentPacote.valorSegundaViagem) || 0) : 0)
-                  ).toFixed(2)} • 
-                  <strong>Agência:</strong> R$ {(parseFloat(currentPacote.valorSinal) || 0).toFixed(2)} • 
-                  <strong>Motorista {currentPacote.isIdaEVolta ? 'Ida' : ''}:</strong> R$ {(parseFloat(currentPacote.valorPrimeiraViagem) || 0).toFixed(2)}
-                  {currentPacote.isIdaEVolta && (
-                    <> • <strong>Motorista Volta:</strong> R$ {(parseFloat(currentPacote.valorSegundaViagem) || 0).toFixed(2)}</>
-                  )}
-                </Typography>
-                
-                {/* Verificação se os valores batem com o preço total */}
-                {(() => {
-                  const valorTotal = parseFloat(currentPacote.preco) || 0; // Sempre usar o preço principal
-                  const somaPartes = (parseFloat(currentPacote.valorSinal) || 0) + 
-                                   (parseFloat(currentPacote.valorPrimeiraViagem) || 0) + 
-                                   (currentPacote.isIdaEVolta ? (parseFloat(currentPacote.valorSegundaViagem) || 0) : 0);
-                  const diferenca = Math.abs(valorTotal - somaPartes);
-                  
-                  if (diferenca > 0.01) {
-                    return (
-                      <Typography variant="caption" sx={{ 
-                        display: 'block', 
-                        mt: 1, 
-                        color: 'warning.dark', 
-                        fontWeight: 'bold' 
-                      }}>
-                        ⚠️ Atenção: Soma das partes (R$ {somaPartes.toFixed(2)}) diferente do preço total (R$ {valorTotal.toFixed(2)})
-                      </Typography>
-                    );
-                  }
-                  return null;
-                })()}
-              </Box>
             </Grid>
             
             <Grid item xs={12}>
