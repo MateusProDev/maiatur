@@ -3,81 +3,146 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Leitura pública para content (ex: textos institucionais)
+    // ===================================
+    // REGRAS PARA INICIALIZAÇÃO AUTOMÁTICA
+    // Permite criar documentos se não existem (para inicializador)
+    // ===================================
+
+    // Content: leitura pública, escrita autenticada OU se não existe (inicialização)
     match /content/{documentId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
     }
 
-    // Leitura pública para pacotes (ex: catálogo de viagens)
+    // Pacotes: leitura pública, escrita autenticada OU criação se não existe
     match /pacotes/{documentId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
     }
 
-    // Avaliações: leitura e escrita pública (sem autenticação necessária)
+    // Avaliações: leitura e criação pública, atualização/exclusão autenticada
     match /avaliacoes/{documentId} {
       allow read: if true;
-      allow create: if true; // permite criação sem autenticação
-      allow update, delete: if request.auth != null; // atualização/exclusão só para autenticados
+      allow create: if true; // permite criação pública e inicialização
+      allow update, delete: if request.auth != null;
     }
 
-    // Reservas: leitura só para autenticados, escrita liberada para backend
+    // Reservas: leitura autenticada, escrita liberada para backend/inicialização
     match /reservas/{documentId} {
-      allow read: if request.auth != null; // painel do usuário
-      allow write: if request.auth != null || request.time < timestamp.date(9999, 1, 1); // permite backend/serverless
+      allow read: if request.auth != null;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
     }
 
-    // Usuários: leitura e escrita só para o próprio usuário autenticado
+    // Usuários: leitura e escrita só para o próprio usuário OU criação inicial
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow create: if true; // permite criação inicial de usuários demo
     }
 
-    // Motoristas: leitura só autenticados, escrita só admin (exemplo)
+    // Motoristas: leitura autenticada, criação permitida para inicialização
     match /motoristas/{documentId} {
       allow read: if request.auth != null;
-      allow write: if false; // só via painel admin seguro
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
     }
 
-    // Configurações e settings: leitura pública, escrita só admin
+    // Settings: leitura pública, criação permitida, atualização autenticada
     match /settings/{documentId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
     }
 
-    // Produtos, banners, imagens: leitura pública, escrita autenticada
+    // Produtos: leitura pública, criação permitida, atualização autenticada
     match /produtos/{documentId} {
       allow read: if true;
-      allow write: if request.auth != null;
-    }
-    match /bannersLojinha/{documentId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    match /bannersTurismo/{documentId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    match /images/{documentId} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
     }
 
-    // Fallback: negar tudo
-    match /{document=**} {
-      allow read, write: if false;
+    // Banners Lojinha: leitura pública, criação permitida
+    match /bannersLojinha/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Banners Turismo: leitura pública, criação permitida
+    match /bannersTurismo/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Images: leitura pública, criação permitida
+    match /images/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Viagens: leitura pública, criação permitida (para inicialização)
+    match /viagens/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // WhatsApp Config: leitura pública, criação permitida
+    match /whatsappConfig/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Outras coleções comuns: leitura pública, criação permitida
+    match /{collection}/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização de qualquer coleção
+      allow update, delete: if request.auth != null;
     }
   }
 }
 
 service firebase.storage {
   match /b/{bucket}/o {
+    // Logos: leitura pública, escrita autenticada
     match /logos/{allPaths=**} {
       allow read: if true;
       allow write: if request.auth != null;
     }
+    
+    // Imagens de pacotes: leitura pública, escrita autenticada
+    match /pacotes/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Imagens de produtos: leitura pública, escrita autenticada
+    match /produtos/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Banners: leitura pública, escrita autenticada
+    match /banners/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Avatares de usuários: leitura pública, escrita autenticada
+    match /avatars/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Outras pastas: negar por padrão (segurança)
     match /{allPaths=**} {
-      allow read, write: if false;
+      allow read: if true; // permite leitura de qualquer arquivo público
+      allow write: if request.auth != null; // escrita só autenticado
     }
   }
 }

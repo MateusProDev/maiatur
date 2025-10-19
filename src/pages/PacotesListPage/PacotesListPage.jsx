@@ -1,34 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { 
-  Button, 
-  Container, 
-  Typography, 
-  Grid, 
-  Card, 
-  CardContent, 
-  CardMedia, 
-  Box, 
-  CircularProgress,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Chip,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel
-} from '@mui/material';
-import { Search, Clear, FilterAlt } from '@mui/icons-material';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
+import { FiSearch, FiX, FiFilter, FiMapPin, FiCalendar, FiTrendingUp, FiStar } from 'react-icons/fi';
 import './PacotesListPage.css';
 
 const PacotesListPage = () => {
-  const [pacotes, setPacotes] = useState([]);
+  const [allPacotes, setAllPacotes] = useState([]); // Todos os pacotes do Firebase
   const [filteredPacotes, setFilteredPacotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -36,50 +16,77 @@ const PacotesListPage = () => {
   const [priceRange, setPriceRange] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
 
+  // Busca inicial dos pacotes do Firebase (executa apenas uma vez)
   useEffect(() => {
     const fetchPacotes = async () => {
       try {
-        let q;
-        if (filterDestaque) {
-          q = query(collection(db, 'pacotes'), 
-            where('destaque', '==', true),
-            orderBy('createdAt', 'desc')
-          );
-        } else {
-          q = query(collection(db, 'pacotes'), orderBy('createdAt', 'desc'));
-        }
+        console.log('🔄 Iniciando busca de pacotes...');
         
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(collection(db, 'pacotes'));
         
-        const pacotesData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          preco: Number(doc.data().preco),
-          precoOriginal: doc.data().precoOriginal ? Number(doc.data().precoOriginal) : null
-        }));
+        console.log(`📊 Documentos retornados do Firestore: ${querySnapshot.size}`);
+        
+        const pacotesData = querySnapshot.docs.map(doc => {
+          const data = doc.data();
+          console.log(`📦 Pacote: ${data.titulo} | Destaque: ${data.destaque}`);
+          
+          return {
+            id: doc.id,
+            ...data,
+            preco: Number(data.preco || 0),
+            precoOriginal: data.precoOriginal ? Number(data.precoOriginal) : null
+          };
+        });
 
-        setPacotes(pacotesData);
-        setFilteredPacotes(pacotesData);
+        // Ordena por createdAt
+        pacotesData.sort((a, b) => {
+          if (a.createdAt && b.createdAt) {
+            const aTime = a.createdAt.seconds || a.createdAt;
+            const bTime = b.createdAt.seconds || b.createdAt;
+            return bTime - aTime;
+          }
+          return 0;
+        });
+
+        console.log(`✅ Total de pacotes carregados: ${pacotesData.length}`);
+        setAllPacotes(pacotesData);
       } catch (err) {
-        console.error("Erro ao buscar pacotes:", err);
+        console.error("❌ Erro ao buscar pacotes:", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchPacotes();
-  }, [filterDestaque]);
+  }, []); // Executa apenas uma vez
 
+  // Aplica todos os filtros sempre que algo mudar
   useEffect(() => {
-    let results = pacotes;
+    console.log('🔍 Aplicando filtros...', { 
+      total: allPacotes.length, 
+      destaque: filterDestaque, 
+      busca: searchTerm, 
+      preco: priceRange 
+    });
     
+    let results = [...allPacotes];
+    
+    // Filtro de destaque
+    if (filterDestaque) {
+      results = results.filter(pacote => pacote.destaque === true);
+      console.log(`⭐ Após filtro destaque: ${results.length} pacotes`);
+    }
+    
+    // Filtro de busca
     if (searchTerm) {
       results = results.filter(pacote =>
         pacote.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pacote.descricaoCurta.toLowerCase().includes(searchTerm.toLowerCase())
+        (pacote.descricaoCurta && pacote.descricaoCurta.toLowerCase().includes(searchTerm.toLowerCase()))
       );
+      console.log(`🔎 Após busca: ${results.length} pacotes`);
     }
     
+    // Filtro de preço
     switch (priceRange) {
       case '0-500':
         results = results.filter(pacote => pacote.preco <= 500);
@@ -97,8 +104,13 @@ const PacotesListPage = () => {
         break;
     }
     
+    if (priceRange !== 'all') {
+      console.log(`💰 Após filtro de preço: ${results.length} pacotes`);
+    }
+    
+    console.log(`✅ Total final: ${results.length} pacotes`);
     setFilteredPacotes(results);
-  }, [searchTerm, priceRange, pacotes]);
+  }, [allPacotes, searchTerm, priceRange, filterDestaque]);
 
   const handleClearFilters = () => {
     setSearchTerm('');
@@ -108,205 +120,207 @@ const PacotesListPage = () => {
 
   if (loading) {
     return (
-      <Container maxWidth="lg" className="plp-loading-container">
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-          <CircularProgress size={40} />
-        </Box>
-      </Container>
+      <>
+        <Header />
+        <div className="pacotes-page-modern">
+          <div className="pacotes-loading">
+            <div className="loading-spinner"></div>
+            <p>Carregando pacotes incríveis...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
     );
   }
 
   return (
-    <div className="pacotes-list-page">
+    <div className="pacotes-page-modern">
       <Header />
-      <Container maxWidth="xl" className="plp-container" sx={{ py: 2 }}>
-        <Breadcrumb 
-          currentPage="Pacotes"
-        />
-        
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="h5" gutterBottom className="plp-title">
-            Nossos Pacotes
-          </Typography>
-        
-        <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
-          <TextField
-            placeholder="Buscar..."
-            variant="outlined"
-            size="small"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search fontSize="small" />
-                </InputAdornment>
-              ),
-              endAdornment: searchTerm && (
-                <InputAdornment position="end">
-                  <IconButton size="small" onClick={() => setSearchTerm('')}>
-                    <Clear fontSize="small" />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ flexGrow: 1, maxWidth: 300 }}
-          />
+      
+      {/* Hero Section */}
+      <section className="pacotes-hero">
+        <div className="pacotes-hero-bg"></div>
+        <div className="pacotes-hero-content">
+          <h1 className="pacotes-hero-title">
+            Descubra seu Próximo Destino
+          </h1>
+          <p className="pacotes-hero-subtitle">
+            Pacotes exclusivos com os melhores preços e experiências inesquecíveis
+          </p>
           
-          <Button 
-            size="small"
-            variant={!filterDestaque ? 'contained' : 'outlined'}
-            onClick={() => setFilterDestaque(false)}
-          >
-            Todos
-          </Button>
-          
-          <Button 
-            size="small"
-            variant={filterDestaque ? 'contained' : 'outlined'}
-            onClick={() => setFilterDestaque(true)}
-          >
-            Destaques
-          </Button>
-          
-          <Button 
-            size="small"
-            variant="outlined"
-            onClick={() => setShowFilters(!showFilters)}
-            startIcon={<FilterAlt fontSize="small" />}
-          >
-            Filtros
-          </Button>
-        </Box>
-        
-        {showFilters && (
-          <Box className="advanced-filters" sx={{ 
-            p: 2, 
-            mb: 2, 
-            borderRadius: 1,
-            backgroundColor: 'background.paper',
-            boxShadow: 1
-          }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={3}>
-                <FormControl fullWidth size="small">
-                  <InputLabel>Faixa de Preço</InputLabel>
-                  <Select
-                    value={priceRange}
-                    label="Faixa de Preço"
-                    onChange={(e) => setPriceRange(e.target.value)}
-                  >
-                    <MenuItem value="all">Todas</MenuItem>
-                    <MenuItem value="0-500">Até R$ 500</MenuItem>
-                    <MenuItem value="500-1000">R$ 500-1.000</MenuItem>
-                    <MenuItem value="1000-2000">R$ 1.000-2.000</MenuItem>
-                    <MenuItem value="2000+">Acima de R$ 2.000</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
+          {/* Search Bar */}
+          <div className="pacotes-search-bar">
+            <FiSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Buscar destino, cidade, país..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+            {searchTerm && (
+              <button 
+                className="search-clear"
+                onClick={() => setSearchTerm('')}
+                aria-label="Limpar busca"
+              >
+                <FiX />
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="hero-wave">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0L60 10C120 20 240 40 360 46.7C480 53 600 47 720 43.3C840 40 960 40 1080 46.7C1200 53 1320 67 1380 73.3L1440 80V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V0Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </section>
+
+      {/* Filters Section */}
+      <section className="pacotes-filters-section">
+        <div className="pacotes-container">
+          <div className="filters-header">
+            <div className="filters-tabs">
+              <button 
+                className={`filter-tab ${!filterDestaque ? 'active' : ''}`}
+                onClick={() => setFilterDestaque(false)}
+              >
+                <FiMapPin />
+                Todos os Pacotes
+              </button>
+              <button 
+                className={`filter-tab ${filterDestaque ? 'active' : ''}`}
+                onClick={() => setFilterDestaque(true)}
+              >
+                <FiStar />
+                Destaques
+              </button>
+            </div>
             
-            <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-              <Chip
-                label={`${filteredPacotes.length} itens`}
-                size="small"
-                color="info"
-                variant="outlined"
-              />
-              
-              {(searchTerm || priceRange !== 'all' || filterDestaque) && (
-                <Chip
-                  label="Limpar"
-                  size="small"
-                  onClick={handleClearFilters}
-                  onDelete={handleClearFilters}
-                  deleteIcon={<Clear fontSize="small" />}
-                  variant="outlined"
-                />
-              )}
-            </Box>
-          </Box>
-        )}
-      </Box>
-      
-      <Box className="plp-grid-container">
-        {filteredPacotes.map(pacote => (
-          <Link 
-            to={`/pacote/${pacote.slug || pacote.id}`} 
-            key={pacote.id}
-            className="plp-card-link"
-          >
-            <Card className="plp-pacote-card">
-              {pacote.imagens && pacote.imagens[0] && (
-                <Box className="plp-card-image-container">
-                  <CardMedia
-                    component="img"
-                    image={pacote.imagens[0]}
-                    alt={pacote.titulo}
-                    className="plp-card-image"
-                  />
-                </Box>
-              )}
-              
-              <CardContent className="plp-card-content">
-                <Typography gutterBottom variant="subtitle2" component="h3" className="plp-pacote-title">
-                  {pacote.titulo}
-                  {pacote.destaque && (
-                    <Box component="span" className="plp-destaque-badge">
-                      ★
-                    </Box>
-                  )}
-                </Typography>
-                
-                <Typography variant="caption" color="text.secondary" className="plp-pacote-desc">
-                  {pacote.descricaoCurta}
-                </Typography>
-                
-                <Box className="plp-price-container">
-                  {pacote.precoOriginal && (
-                    <Typography variant="caption" className="plp-original-price">
-                      R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
-                    </Typography>
-                  )}
-                  <Typography variant="subtitle2" className="plp-current-price">
-                    R$ {pacote.preco.toFixed(2).replace('.', ',')}
-                  </Typography>
-                </Box>
-              </CardContent>
-              
-              <Box sx={{ p: 1 }}>
-                <Button
-                  component="div"
-                  variant="contained"
-                  fullWidth
-                  size="small"
-                  className="plp-details-button"
+            <button 
+              className="filter-toggle-btn"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <FiFilter />
+              Filtros Avançados
+            </button>
+          </div>
+
+          {showFilters && (
+            <div className="advanced-filters-modern">
+              <div className="filter-group">
+                <label className="filter-label">
+                  <FiTrendingUp />
+                  Faixa de Preço
+                </label>
+                <select
+                  value={priceRange}
+                  onChange={(e) => setPriceRange(e.target.value)}
+                  className="filter-select"
                 >
-                  Detalhes
-                </Button>
-              </Box>
-            </Card>
-          </Link>
-        ))}
-      </Box>
-      
-      {filteredPacotes.length === 0 && (
-        <Box className="plp-no-results" sx={{ textAlign: 'center', py: 4 }}>
-          <Typography variant="body1">
-            Nenhum pacote encontrado
-          </Typography>
-          <Button 
-            variant="outlined" 
-            size="small"
-            onClick={handleClearFilters}
-            sx={{ mt: 1 }}
-            startIcon={<Clear />}
-          >
-            Limpar filtros
-          </Button>
-        </Box>
-      )}
-      </Container>
+                  <option value="all">Todas as faixas</option>
+                  <option value="0-500">Até R$ 500</option>
+                  <option value="500-1000">R$ 500 - R$ 1.000</option>
+                  <option value="1000-2000">R$ 1.000 - R$ 2.000</option>
+                  <option value="2000+">Acima de R$ 2.000</option>
+                </select>
+              </div>
+
+              <div className="filter-results">
+                <span className="results-count">
+                  {filteredPacotes.length} {filteredPacotes.length === 1 ? 'pacote encontrado' : 'pacotes encontrados'}
+                </span>
+                
+                {(searchTerm || priceRange !== 'all' || filterDestaque) && (
+                  <button 
+                    className="clear-filters-btn"
+                    onClick={handleClearFilters}
+                  >
+                    <FiX />
+                    Limpar Filtros
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Packages Grid */}
+      <section className="pacotes-grid-section">
+        <div className="pacotes-container">
+          {filteredPacotes.length > 0 ? (
+            <div className="pacotes-grid-modern">
+              {filteredPacotes.map((pacote, index) => (
+                <Link 
+                  to={`/pacote/${pacote.slug || pacote.id}`} 
+                  key={pacote.id}
+                  className="pacote-card-modern"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="pacote-card-image">
+                    <img 
+                      src={pacote.imagens?.[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800'} 
+                      alt={pacote.titulo}
+                      onError={(e) => {
+                        e.target.src = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800';
+                      }}
+                    />
+                    {pacote.destaque && (
+                      <div className="pacote-badge-destaque">
+                        <FiStar />
+                        Destaque
+                      </div>
+                    )}
+                    <div className="pacote-card-overlay"></div>
+                  </div>
+                  
+                  <div className="pacote-card-content">
+                    <h3 className="pacote-card-title">{pacote.titulo}</h3>
+                    <p className="pacote-card-description">{pacote.descricaoCurta}</p>
+                    
+                    <div className="pacote-card-footer">
+                      <div className="pacote-price-box">
+                        {pacote.precoOriginal && (
+                          <span className="price-original">
+                            R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
+                          </span>
+                        )}
+                        <span className="price-current">
+                          R$ {pacote.preco.toFixed(2).replace('.', ',')}
+                        </span>
+                      </div>
+                      
+                      <button className="pacote-card-btn">
+                        Ver Detalhes
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="no-results-modern">
+              <div className="no-results-icon">
+                <FiMapPin />
+              </div>
+              <h3>Nenhum pacote encontrado</h3>
+              <p>Tente ajustar seus filtros ou buscar por outros destinos</p>
+              <button 
+                className="btn-primary-modern"
+                onClick={handleClearFilters}
+              >
+                <FiX />
+                Limpar Filtros
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
