@@ -6,12 +6,18 @@
   -webkit-overflow-scrolling: touch;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 .modern-admin-dashboard {
   display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Sidebar Overlay for Mobile */
@@ -194,11 +200,14 @@
 }
 
 /* Dashboard Content */
+/* Dashboard Content */
 .dashboard-content {
   flex: 1;
   margin-left: 280px;
   padding: 2.5rem;
   animation: fadeIn 0.5s ease-in-out;
+  width: calc(100% - 280px);
+  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -630,25 +639,30 @@
 
 @media (max-width: 1024px) {
   .dashboard-content {
-    margin-left: 0;
+    margin-left: 0 !important;
     padding: 1.5rem;
+    width: 100% !important;
+    max-width: 100vw;
   }
 
   .admin-sidebar {
-    transform: translateX(-100%);
+    transform: translateX(-100%) !important;
     box-shadow: 8px 0 40px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    max-width: 85vw;
   }
 
   .admin-sidebar.open {
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
 
   .close-sidebar {
-    display: block;
+    display: block !important;
   }
 
   .mobile-header {
-    display: flex;
+    display: flex !important;
+    width: 100%;
   }
 
   .dashboard-header h1 {
