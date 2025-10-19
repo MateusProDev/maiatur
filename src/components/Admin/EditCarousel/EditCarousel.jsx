@@ -44,7 +44,6 @@ const EditCarousel = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
-    formData.append("cloud_name", CLOUDINARY_CONFIG.cloudName);
 
     try {
       const response = await axios.post(
