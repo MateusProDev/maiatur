@@ -100,16 +100,15 @@ const AdminDashboard = () => {
       '/pacotes': 'Pacotes',
       '/sobre': 'Sobre Nós',
       '/contato': 'Contato',
-      '/admin': 'Admin Dashboard',
-      '/admin/banners': 'Admin Banners',
-      '/admin/pacotes': 'Admin Pacotes',
-      '/admin/edit-about': 'Editar Sobre',
-      '/admin/edit-header': 'Editar Logo',
-      '/admin/edit-boxes': 'Editar Boxes',
-      '/admin/edit-footer': 'Editar Rodapé',
-      '/admin/edit-hours': 'Editar Horários'
+      '/avaliacoes': 'Avaliações',
+      '/destinos': 'Destinos'
     };
     return pageNames[path] || path;
+  };
+
+  // Filter only public site routes (exclude admin routes)
+  const isPublicRoute = (path) => {
+    return !path.startsWith('/admin');
   };
 
   // Calculate percentage
@@ -125,72 +124,26 @@ const AdminDashboard = () => {
     return peak.hour;
   };
 
+  // Filter public pages only
+  const publicPages = topPages.filter(page => isPublicRoute(page.page));
+
   return (
-    <div className="modern-admin-dashboard">
-      {/* Overlay for mobile sidebar */}
-      {sidebarOpen && (
-        <div 
-          className="sidebar-overlay" 
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <div className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
-        <div className="sidebar-header">
-          <h2>
-            <FiSettings /> Admin
-          </h2>
-          <button className="close-sidebar" onClick={() => setSidebarOpen(false)}>
-            <FiX />
-          </button>
+    <div className="modern-admin-dashboard-simple">
+      {/* Header */}
+      <div className="dashboard-header-bar">
+        <div className="header-content">
+          <h1>
+            <FiTrendingUp /> Painel Administrativo
+          </h1>
+          <p>Maiatur Turismo</p>
         </div>
-
-        <nav className="sidebar-nav">
-          <button onClick={() => goTo("/admin")} className="nav-item active">
-            <FiHome /> Dashboard
-          </button>
-          <button onClick={() => goTo("/admin/banners")} className="nav-item">
-            <FiImage /> Banners Hero
-          </button>
-          <button onClick={() => goTo("/admin/pacotes")} className="nav-item">
-            <FiPackage /> Pacotes
-          </button>
-          <button onClick={() => goTo("/admin/edit-about")} className="nav-item">
-            <FiInfo /> Sobre Nós
-          </button>
-          <button onClick={() => goTo("/admin/edit-header")} className="nav-item">
-            <FiImage /> Logo
-          </button>
-          <button onClick={() => goTo("/admin/edit-boxes")} className="nav-item">
-            <FiMessageSquare /> Boxes
-          </button>
-          <button onClick={() => goTo("/admin/edit-footer")} className="nav-item">
-            <FiMail /> Rodapé
-          </button>
-          <button onClick={() => goTo("/admin/edit-hours")} className="nav-item">
-            <FiClock /> Horários
-          </button>
-        </nav>
-
-        <button onClick={handleLogout} className="logout-button">
+        <button onClick={handleLogout} className="logout-btn">
           <FiLogOut /> Sair
         </button>
       </div>
 
-      {/* Mobile Header */}
-      <div className="mobile-header">
-        <button className="menu-toggle" onClick={() => setSidebarOpen(true)}>
-          <FiMenu />
-        </button>
-        <h1>Dashboard</h1>
-        <button onClick={handleLogout} className="mobile-logout">
-          <FiLogOut />
-        </button>
-      </div>
-
       {/* Main Content */}
-      <div className="dashboard-content">
+      <div className="dashboard-main-content">
         <div className="dashboard-header">
           <div>
             <h1>Bem-vindo ao Painel Administrativo</h1>
@@ -334,15 +287,15 @@ const AdminDashboard = () => {
         {/* Top Pages */}
         <div className="section-container">
           <h2 className="section-title">
-            <FiTrendingUp /> Páginas Mais Visitadas
+            <FiTrendingUp /> Páginas Mais Visitadas do Site
           </h2>
           <div className="top-pages-list">
             {loading ? (
               <p className="loading-text">Carregando dados...</p>
-            ) : topPages.length === 0 ? (
+            ) : publicPages.length === 0 ? (
               <p className="no-data-text">Nenhum dado disponível ainda. O tracking começará automaticamente.</p>
             ) : (
-              topPages.map((page, index) => (
+              publicPages.map((page, index) => (
                 <div key={index} className="top-page-item">
                   <div className="page-rank">{index + 1}</div>
                   <div className="page-info">
