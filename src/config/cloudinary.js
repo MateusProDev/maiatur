@@ -5,7 +5,7 @@
 
 export const CLOUDINARY_CONFIG = {
   cloudName: 'dqejvdl8w',
-  uploadPreset: 'qc7tkpck',
+  uploadPreset: 'maiatur',
   apiUrl: 'https://api.cloudinary.com/v1_1/dqejvdl8w/image/upload'
 };
 
