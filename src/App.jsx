@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import { Box, CircularProgress, Typography } from "@mui/material";
@@ -28,9 +28,22 @@ import EditHours from "./components/Admin/EditHours/EditHours";
 import BannerAdmin from "./components/Admin/BannerAdmin/BannerAdmin";
 import LoadingOverlay from "./components/LoadingOverlay/LoadingOverlay";
 import { autoInitialize } from "./utils/firestoreUtils";
+import analyticsService from "./services/analyticsService";
 
 // Contexto para controle global do loading
 export const LoadingContext = React.createContext();
+
+// Analytics Tracker Component
+const AnalyticsTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Track page view on route change
+    analyticsService.trackPageView(location.pathname);
+  }, [location]);
+
+  return null;
+};
 
 const ProtectedRoute = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -70,6 +83,7 @@ const App = () => {
     <LoadingContext.Provider value={{ setLoading }}>
       <AuthProvider>
         <Router>
+          <AnalyticsTracker />
           {(loading || initialLoad) && (
             <LoadingOverlay>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
