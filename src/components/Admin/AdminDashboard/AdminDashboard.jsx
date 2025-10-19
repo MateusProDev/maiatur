@@ -87,10 +87,7 @@ const AdminDashboard = () => {
     { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", color: "#f093fb" },
     { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", color: "#4facfe" },
     { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", color: "#43e97b" },
-    { icon: FiMessageSquare, title: "Boxes", description: "Editar boxes informativos", path: "/admin/edit-boxes", color: "#fa709a" },
-    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", color: "#fee140" },
-    { icon: FiClock, title: "Horários", description: "Configurar horários", path: "/admin/edit-hours", color: "#30cfd0" },
-    { icon: FiSettings, title: "Configurações", description: "Configurações gerais", path: "/admin/settings", color: "#a8edea" }
+    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", color: "#fee140" }
   ];
 
   // Get page name from path
