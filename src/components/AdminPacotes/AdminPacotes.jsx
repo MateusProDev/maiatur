@@ -184,7 +184,7 @@ const AdminPacotes = () => {
         descricao: currentPacote.descricao || '',
         descricaoCurta: currentPacote.descricaoCurta || '',
         preco: Number(currentPacote.preco) || 0,
-        mostrarPreco: currentPacote.mostrarPreco !== false,
+        mostrarPreco: currentPacote.mostrarPreco === true || currentPacote.mostrarPreco === undefined,
         imagens: currentPacote.imagens || [],
         destaque: currentPacote.destaque || false,
         slug: slug,
@@ -254,7 +254,7 @@ const AdminPacotes = () => {
     setCurrentPacote({
       ...pacote,
       preco: Number(pacote.preco) || 0,
-      mostrarPreco: pacote.mostrarPreco !== false,
+      mostrarPreco: pacote.mostrarPreco === true || pacote.mostrarPreco === undefined,
       isIdaEVolta: pacote.isIdaEVolta || false,
       precoIda: Number(pacote.precoIda) || 0,
       precoVolta: Number(pacote.precoVolta) || 0,
@@ -408,7 +408,7 @@ const AdminPacotes = () => {
                 control={
                   <Checkbox
                     name="mostrarPreco"
-                    checked={currentPacote.mostrarPreco !== false}
+                    checked={currentPacote.mostrarPreco === true || currentPacote.mostrarPreco === undefined}
                     onChange={(e) => setCurrentPacote({...currentPacote, mostrarPreco: e.target.checked})}
                   />
                 }
