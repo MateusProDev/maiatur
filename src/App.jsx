@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import { Box, CircularProgress, Typography } from "@mui/material";
@@ -11,6 +12,8 @@ import PacoteDetailPage from "./pages/PacoteDetailPage/PacoteDetailPage";
 import AvaliacoesPage from "./pages/AvaliacoesPage/AvaliacoesPage";
 import Destinos from "./pages/Destinos/Destinos";
 import Contato from "./pages/Contato/Contato";
+import BlogPage from "./pages/BlogPage/BlogPage";
+import BlogPostPage from "./pages/BlogPostPage/BlogPostPage";
 import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
 import AdminDashboard from "./components/Admin/AdminDashboard/AdminDashboard";
 import AdminPacotes from "./components/AdminPacotes/AdminPacotes";
@@ -82,14 +85,15 @@ const App = () => {
   }, []);
 
   return (
-    <LoadingContext.Provider value={{ setLoading }}>
-      <AuthProvider>
-        <Router>
-          <AnalyticsTracker />
-          {(loading || initialLoad) && (
-            <LoadingSpinner 
-              size="large" 
-              text="Carregando experiências incríveis..." 
+    <HelmetProvider>
+      <LoadingContext.Provider value={{ setLoading }}>
+        <AuthProvider>
+          <Router>
+            <AnalyticsTracker />
+            {(loading || initialLoad) && (
+              <LoadingSpinner 
+                size="large" 
+                text="Carregando experiências incríveis..." 
               fullScreen={true} 
             />
           )}
@@ -105,6 +109,8 @@ const App = () => {
               <Route path="/destinos" element={<Destinos />} />
               <Route path="/contato" element={<Contato />} />
               <Route path="/pacote/:pacoteSlug" element={<PacoteDetailPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
 
               {/* Rotas Administrativas */}
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
@@ -132,6 +138,7 @@ const App = () => {
         </Router>
       </AuthProvider>
     </LoadingContext.Provider>
+    </HelmetProvider>
   );
 };
 
