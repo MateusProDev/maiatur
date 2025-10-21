@@ -85,6 +85,7 @@ const AdminDashboard = () => {
   const quickEditLinks = [
     { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", color: "#667eea" },
     { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", color: "#f093fb" },
+    { icon: FiMessageSquare, title: "Blog", description: "Gerenciar posts do blog", path: "/admin/blog", color: "#fa709a" },
     { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", color: "#4facfe" },
     { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", color: "#43e97b" },
     { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", color: "#fee140" }

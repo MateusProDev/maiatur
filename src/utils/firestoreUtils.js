@@ -31,6 +31,9 @@ export const initializeFirestoreCollections = async () => {
     // 4. Inicializar banners do hero
     await initializeBannersCollection();
     
+    // 5. Inicializar blog posts
+    await initializeBlogCollection();
+    
     console.debug('[firestoreUtils] Estruturas do Firestore inicializadas com sucesso!');
     return true;
   } catch (error) {
@@ -546,6 +549,59 @@ const initializeBannersCollection = async () => {
     }
   } catch (error) {
     console.error('[firestoreUtils] Erro ao inicializar banners:', error);
+  }
+};
+
+/**
+ * Inicializa a coleção de posts do blog
+ */
+const initializeBlogCollection = async () => {
+  try {
+    const blogRef = collection(db, 'blogPosts');
+    const snapshot = await getDocs(blogRef);
+    
+    if (snapshot.empty) {
+      console.debug('[firestoreUtils] Criando estrutura inicial do blog...');
+      
+      // Post de exemplo com todos os campos SEO
+      const examplePost = {
+        title: 'Bem-vindo ao Blog Maiatur',
+        slug: 'bem-vindo-ao-blog-maiatur',
+        content: `<h2>Descubra as Melhores Experiências de Viagem</h2>
+<p>Bem-vindo ao blog oficial da Maiatur! Aqui você encontrará dicas exclusivas, destinos incríveis e tudo que precisa saber para planejar sua próxima aventura.</p>
+<h3>O que você encontrará por aqui:</h3>
+<ul>
+<li>Guias completos de destinos turísticos</li>
+<li>Dicas de economia em viagens</li>
+<li>Roteiros personalizados</li>
+<li>Experiências exclusivas</li>
+</ul>
+<p>Fique ligado para muito mais conteúdo!</p>`,
+        excerpt: 'Descubra dicas exclusivas, destinos incríveis e tudo que você precisa para planejar sua próxima aventura com a Maiatur.',
+        featuredImage: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200',
+        author: 'Equipe Maiatur',
+        category: 'Geral',
+        tags: ['viagem', 'turismo', 'dicas'],
+        views: 0,
+        published: true,
+        publishedAt: serverTimestamp(),
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        seo: {
+          metaTitle: 'Bem-vindo ao Blog Maiatur - Dicas e Destinos de Viagem',
+          metaDescription: 'Descubra as melhores dicas de viagem, destinos incríveis e experiências exclusivas no blog oficial da Maiatur.',
+          keywords: 'viagem, turismo, dicas de viagem, destinos turísticos, Maiatur',
+          ogImage: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200'
+        }
+      };
+      
+      await setDoc(doc(db, 'blogPosts', 'bem-vindo-ao-blog-maiatur'), examplePost);
+      console.debug('[firestoreUtils] Post de exemplo do blog criado com sucesso');
+    } else {
+      console.debug('[firestoreUtils] Posts do blog já existem, pulando inicialização');
+    }
+  } catch (error) {
+    console.error('[firestoreUtils] Erro ao inicializar blog:', error);
   }
 };
 

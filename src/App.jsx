@@ -16,6 +16,7 @@ import AdminDashboard from "./components/Admin/AdminDashboard/AdminDashboard";
 import AdminPacotes from "./components/AdminPacotes/AdminPacotes";
 import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
 import AdminEditPacote from "./components/Admin/AdminEditPacote/AdminEditPacote";
+import BlogAdmin from "./components/Admin/BlogAdmin/BlogAdmin";
 import ViewUsers from "./components/Admin/Users/ViewUsers";
 import EditHeader from "./components/Admin/EditHeader/EditHeader";
 // import EditBanner from "./components/Admin/EditBanner/EditBanner"; // Substituído por AdminBanners
@@ -112,6 +113,7 @@ const App = () => {
               <Route path="/admin/pacotes" element={<ProtectedRoute><AdminPacotes /></ProtectedRoute>} />
               <Route path="/admin/pacotes/editar/:pacoteId" element={<ProtectedRoute><AdminEditPacote /></ProtectedRoute>} />
               <Route path="/admin/banners" element={<ProtectedRoute><AdminBanners /></ProtectedRoute>} />
+              <Route path="/admin/blog" element={<ProtectedRoute><BlogAdmin /></ProtectedRoute>} />
               {/* Redirecionar rota antiga do banner para o novo sistema de carrossel */}
               <Route path="/admin/edit-banner" element={<Navigate to="/admin/banners" replace />} />
               <Route path="/admin/edit-header" element={<ProtectedRoute><EditHeader /></ProtectedRoute>} />
