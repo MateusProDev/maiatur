@@ -228,6 +228,19 @@ const FooterUltraModern = () => {
               Feito com <FiHeart className="heart-icon-ultra" /> para quem ama viajar
             </p>
           </div>
+          
+          {/* Crédito Turvia */}
+          <div className="footer-credit-turvia">
+            <a 
+              href="https://turvia.com.br" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="turvia-link"
+              title="Desenvolvido por Turvia"
+            >
+              Criado por Turvia
+            </a>
+          </div>
         </div>
       </div>
     </footer>

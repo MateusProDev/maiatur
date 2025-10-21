@@ -477,6 +477,45 @@
   20%, 40% { transform: scale(1); }
 }
 
+/* Crédito Turvia */
+.footer-credit-turvia {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.turvia-link {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-bottom: 2px;
+  display: inline-block;
+}
+
+.turvia-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.turvia-link:hover {
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+}
+
+.turvia-link:hover::after {
+  width: 100%;
+}
+
 /* ========================================
    RESPONSIVIDADE
    ======================================== */
