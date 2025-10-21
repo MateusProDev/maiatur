@@ -467,21 +467,69 @@
   font-size: 0.85rem;
 }
 
-.editor-quill {
-  height: 400px;
-  margin-bottom: 3rem;
+/* React Draft WYSIWYG Editor Styles */
+.editor-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
-.editor-quill .ql-container {
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  font-size: 1rem;
+.editor-wrapper-class {
+  width: 100%;
 }
 
-.editor-quill .ql-toolbar {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+.editor-toolbar-class {
   background: #f9fafb;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.75rem;
+}
+
+.editor-main-class {
+  min-height: 400px;
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  background: white;
+}
+
+.editor-main-class:focus {
+  outline: none;
+}
+
+/* Estilização do conteúdo do editor */
+.editor-main-class h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.editor-main-class h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.875rem 0;
+}
+
+.editor-main-class h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0.75rem 0;
+}
+
+.editor-main-class ul,
+.editor-main-class ol {
+  margin: 0.5rem 0;
+  padding-left: 2rem;
+}
+
+.editor-main-class li {
+  margin: 0.25rem 0;
+}
+
+.editor-main-class a {
+  color: #667eea;
+  text-decoration: underline;
 }
 
 .checkbox-label {

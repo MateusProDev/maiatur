@@ -1,8 +1,11 @@
 // src/components/Admin/BlogAdmin/BlogAdmin.jsx
 import React, { useState, useEffect } from 'react';
 import { FiPlus, FiEdit2, FiTrash2, FiEye, FiEyeOff, FiSearch, FiSave, FiX, FiImage } from 'react-icons/fi';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import axios from 'axios';
 import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
 import {
@@ -24,6 +27,7 @@ const BlogAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPublished, setFilterPublished] = useState('all');
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const [currentPost, setCurrentPost] = useState({
     title: '',
@@ -46,16 +50,19 @@ const BlogAdmin = () => {
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
   const [tagInput, setTagInput] = useState('');
 
-  // Configuração do editor Quill
-  const quillModules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'color': [] }, { 'background': [] }],
-      ['link', 'image'],
-      ['clean']
-    ]
+  // Configuração do editor Draft.js
+  const editorToolbar = {
+    options: ['inline', 'blockType', 'list', 'textAlign', 'colorPicker', 'link', 'image', 'history'],
+    inline: {
+      options: ['bold', 'italic', 'underline', 'strikethrough']
+    },
+    blockType: {
+      inDropdown: true,
+      options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
+    },
+    list: {
+      options: ['unordered', 'ordered']
+    }
   };
 
   useEffect(() => {
@@ -121,6 +128,7 @@ const BlogAdmin = () => {
         ogImage: ''
       }
     });
+    setEditorState(EditorState.createEmpty());
     setIsEditing(true);
   };
 
@@ -135,6 +143,18 @@ const BlogAdmin = () => {
         ogImage: ''
       }
     });
+    
+    // Converter HTML para EditorState
+    if (post.content) {
+      const contentBlock = htmlToDraft(post.content);
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+        setEditorState(EditorState.createWithContent(contentState));
+      }
+    } else {
+      setEditorState(EditorState.createEmpty());
+    }
+    
     setIsEditing(true);
   };
 
@@ -211,7 +231,10 @@ const BlogAdmin = () => {
   };
 
   const handleSavePost = async () => {
-    if (!currentPost.title || !currentPost.content) {
+    // Converter EditorState para HTML
+    const htmlContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    
+    if (!currentPost.title || !htmlContent.trim()) {
       showNotification('Título e conteúdo são obrigatórios', 'error');
       return;
     }
@@ -219,15 +242,21 @@ const BlogAdmin = () => {
     try {
       setLoading(true);
       
+      const postData = {
+        ...currentPost,
+        content: htmlContent
+      };
+      
       if (currentPost.id) {
-        await updatePost(currentPost.id, currentPost);
+        await updatePost(currentPost.id, postData);
         showNotification('Post atualizado com sucesso!', 'success');
       } else {
-        await createPost(currentPost);
+        await createPost(postData);
         showNotification('Post criado com sucesso!', 'success');
       }
       
       setIsEditing(false);
+      setEditorState(EditorState.createEmpty());
       loadPosts();
     } catch (error) {
       showNotification('Erro ao salvar post', 'error');
@@ -401,13 +430,16 @@ const BlogAdmin = () => {
 
               <div className="form-group">
                 <label>Conteúdo do Post *</label>
-                <ReactQuill
-                  theme="snow"
-                  value={currentPost.content}
-                  onChange={(content) => setCurrentPost({...currentPost, content})}
-                  modules={quillModules}
-                  className="editor-quill"
-                />
+                <div className="editor-wrapper">
+                  <Editor
+                    editorState={editorState}
+                    onEditorStateChange={setEditorState}
+                    toolbar={editorToolbar}
+                    wrapperClassName="editor-wrapper-class"
+                    editorClassName="editor-main-class"
+                    toolbarClassName="editor-toolbar-class"
+                  />
+                </div>
               </div>
 
               <div className="form-group">
