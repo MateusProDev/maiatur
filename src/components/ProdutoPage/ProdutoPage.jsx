@@ -253,7 +253,8 @@ const ProdutoPage = (props) => {
                       e.target.src = placeholderLarge;
                     }}
                   />
-                  {discountPercent > 0 && (
+                  {/* Só mostra badge de desconto se mostrarPreco não for false */}
+                  {produto.mostrarPreco !== false && discountPercent > 0 && (
                     <Chip label={`${discountPercent}% OFF`} color="error" className="discount-badge" />
                   )}
                 </Box>
@@ -283,24 +284,26 @@ const ProdutoPage = (props) => {
                 <Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 1 }}>
                   {isPacoteRoute ? 'Pacote: ' : ''}{produto.name}
                 </Typography>
-                {/* Preço e Desconto */}
-                <Box mb={2.5}>
-                  <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                    {formatCurrency(currentPrice)}
-                  </Typography>
-                  {produto.anchorPrice && (
-                    <Typography variant="h6" sx={{ textDecoration: 'line-through', color: 'text.disabled' }}>
-                      {formatCurrency(produto.anchorPrice)}
+                {/* Preço e Desconto - Só mostra se mostrarPreco não for false */}
+                {produto.mostrarPreco !== false && (
+                  <Box mb={2.5}>
+                    <Typography variant="h4" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                      {formatCurrency(currentPrice)}
                     </Typography>
-                  )}
-                  {discountPercent > 0 && (
-                    <Typography variant="body2" color="error.main" sx={{ fontWeight: 500 }}>
-                      {discountPercent}% de desconto
-                    </Typography>
-                  )}
-                </Box>
-                {/* Condições de Preço */}
-                {produto.priceConditions && produto.priceConditions.length > 0 && (
+                    {produto.anchorPrice && (
+                      <Typography variant="h6" sx={{ textDecoration: 'line-through', color: 'text.disabled' }}>
+                        {formatCurrency(produto.anchorPrice)}
+                      </Typography>
+                    )}
+                    {discountPercent > 0 && (
+                      <Typography variant="body2" color="error.main" sx={{ fontWeight: 500 }}>
+                        {discountPercent}% de desconto
+                      </Typography>
+                    )}
+                  </Box>
+                )}
+                {/* Condições de Preço - Só mostra se mostrarPreco não for false */}
+                {produto.mostrarPreco !== false && produto.priceConditions && produto.priceConditions.length > 0 && (
                   <Box mb={3} sx={{ backgroundColor: '#f8f9fa', p: 2, borderRadius: 1 }}> 
                     <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
                       <LocalOfferIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
