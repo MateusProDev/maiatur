@@ -6,7 +6,9 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { getPostBySlug, incrementPostViews, getRelatedPosts } from '../../services/blogService';
-import { FiCalendar, FiUser, FiTag, FiArrowLeft, FiShare2 } from 'react-icons/fi';
+import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
+import { FiCalendar, FiUser, FiTag, FiArrowLeft, FiShare2, FiMessageCircle, FiHome } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 import './BlogPostPage.css';
 
 const BlogPostPage = () => {
@@ -15,6 +17,7 @@ const BlogPostPage = () => {
   const [post, setPost] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { phoneNumber } = useWhatsAppNumber();
 
   useEffect(() => {
     loadPost();
@@ -68,6 +71,13 @@ const BlogPostPage = () => {
         console.log('Erro ao compartilhar:', error);
       }
     }
+  };
+
+  const handleWhatsAppContact = () => {
+    const message = encodeURIComponent(
+      `Olá! Vi o post "${post.title}" no blog e gostaria de mais informações sobre pacotes de viagem.`
+    );
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
   const formatDate = (timestamp) => {
@@ -130,6 +140,27 @@ const BlogPostPage = () => {
               className="post-body" 
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
+            {/* Call to Action - WhatsApp */}
+            <div className="post-cta-box">
+              <div className="cta-content">
+                <FiMessageCircle className="cta-icon" />
+                <div className="cta-text">
+                  <h3>Gostou deste destino?</h3>
+                  <p>Conheça nossos pacotes de viagem e monte sua experiência personalizada!</p>
+                </div>
+              </div>
+              <div className="cta-buttons">
+                <button className="cta-home-button" onClick={() => navigate('/')}>
+                  <FiHome />
+                  Ver Pacotes
+                </button>
+                <button className="cta-whatsapp-button" onClick={handleWhatsAppContact}>
+                  <FaWhatsapp />
+                  Fale Conosco
+                </button>
+              </div>
+            </div>
 
             {post.tags && post.tags.length > 0 && (
               <div className="post-tags">
