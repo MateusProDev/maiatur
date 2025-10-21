@@ -31,7 +31,18 @@ const BlogPostPage = () => {
       }
 
       setPost(postData);
-      await incrementPostViews(postData.id);
+      
+      // Incrementar views apenas se o usuário não visualizou este post antes
+      const viewKey = `blog_post_viewed_${postData.id}`;
+      const hasViewed = localStorage.getItem(viewKey);
+      
+      if (!hasViewed) {
+        await incrementPostViews(postData.id);
+        localStorage.setItem(viewKey, 'true');
+        console.log(`👁️ View registrada para post: ${postData.title}`);
+      } else {
+        console.log(`✅ Usuário já visualizou este post anteriormente`);
+      }
 
       if (postData.category) {
         const related = await getRelatedPosts(postData.id, postData.category, 3);

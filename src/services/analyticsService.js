@@ -3,11 +3,23 @@ import { db } from '../firebase/firebase';
 import { collection, addDoc, query, where, getDocs, orderBy, limit, Timestamp } from 'firebase/firestore';
 
 class AnalyticsService {
-  // Track page view
+  // Track page view - Otimizado para não gravar múltiplas vezes o mesmo usuário na mesma página
   async trackPageView(page, userAgent = null) {
     try {
       // Check if we're in a browser environment
       if (typeof window === 'undefined') return;
+      
+      // Gera uma chave única para esta página e sessão
+      const today = new Date().toDateString(); // Ex: "Mon Oct 21 2025"
+      const viewKey = `analytics_${page}_${today}`;
+      
+      // Verifica se já registrou view desta página hoje
+      const hasViewed = localStorage.getItem(viewKey);
+      
+      if (hasViewed) {
+        console.log(`📊 Analytics: View já registrada para ${page} hoje`);
+        return; // Não grava novamente
+      }
       
       const ua = userAgent || (typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown');
       
@@ -23,8 +35,32 @@ class AnalyticsService {
         device: this.getDeviceType(ua),
         browser: this.getBrowser(ua)
       });
+      
+      // Marca que já visualizou esta página hoje
+      localStorage.setItem(viewKey, 'true');
+      console.log(`✅ Analytics: View registrada para ${page}`);
+      
+      // Limpa views antigas do localStorage (mais de 7 dias)
+      this.cleanOldViews();
+      
     } catch (error) {
       console.error('Error tracking page view:', error);
+    }
+  }
+  
+  // Limpa registros antigos do localStorage para não acumular dados
+  cleanOldViews() {
+    try {
+      const keys = Object.keys(localStorage);
+      const analyticsKeys = keys.filter(key => key.startsWith('analytics_'));
+      
+      // Mantém apenas os últimos 100 registros
+      if (analyticsKeys.length > 100) {
+        const toRemove = analyticsKeys.slice(0, analyticsKeys.length - 100);
+        toRemove.forEach(key => localStorage.removeItem(key));
+      }
+    } catch (error) {
+      console.error('Error cleaning old views:', error);
     }
   }
 

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMostViewedPosts } from '../../services/blogService';
+import { checkBlogPosts } from '../../utils/checkBlogPosts';
 import { FiArrowRight, FiEye, FiCalendar } from 'react-icons/fi';
 import './BlogPreview.css';
 
@@ -12,14 +13,17 @@ const BlogPreview = () => {
 
   useEffect(() => {
     loadPosts();
+    // Debug: verificar todos os posts
+    checkBlogPosts();
   }, []);
 
   const loadPosts = async () => {
     try {
       const data = await getMostViewedPosts(2);
+      console.log('📰 BlogPreview - Posts carregados:', data);
       setPosts(data);
     } catch (error) {
-      console.error('Erro ao carregar posts:', error);
+      console.error('❌ BlogPreview - Erro ao carregar posts:', error);
     } finally {
       setLoading(false);
     }
@@ -31,7 +35,22 @@ const BlogPreview = () => {
     return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
   };
 
-  if (loading || posts.length === 0) return null;
+  // Mostra loading enquanto carrega
+  if (loading) {
+    return (
+      <section className="blog-preview-section">
+        <div className="blog-preview-container">
+          <p style={{ textAlign: 'center', padding: '2rem' }}>Carregando posts...</p>
+        </div>
+      </section>
+    );
+  }
+
+  // Não mostra nada se não houver posts
+  if (posts.length === 0) {
+    console.log('ℹ️ BlogPreview - Nenhum post publicado encontrado');
+    return null;
+  }
 
   return (
     <section className="blog-preview-section">

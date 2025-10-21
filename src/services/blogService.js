@@ -79,12 +79,15 @@ export const getMostViewedPosts = async (limitNum = 2) => {
     );
 
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
+    const posts = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+    
+    console.log(`📊 getMostViewedPosts - Encontrados ${posts.length} posts publicados`);
+    return posts;
   } catch (error) {
-    console.error('Erro ao buscar posts mais visualizados:', error);
+    console.error('❌ Erro ao buscar posts mais visualizados:', error);
     throw error;
   }
 };
