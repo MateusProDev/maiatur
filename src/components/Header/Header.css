@@ -191,8 +191,8 @@
 /* ========== RESPONSIVO - MOBILE ========== */
 @media (max-width: 768px) {
   .header-container-modern {
-    padding: 0 1rem;
-    height: 70px;
+    padding: 0.75rem 1rem;
+    height: 90px; /* Aumentado de 70px para acomodar logo maior */
     gap: 1rem; /* Espaçamento entre logo e botão */
   }
 
@@ -203,12 +203,12 @@
   }
 
   .header-logo-modern img {
-    height: 55px; /* Logo maior no mobile */
+    height: 90px; /* Logo MUITO maior no mobile - aumentado de 55px para 70px */
     max-width: 100%;
   }
 
   .logo-placeholder-modern {
-    font-size: 1.6rem; /* Texto maior */
+    font-size: 1.8rem; /* Texto maior - aumentado de 1.6rem */
     flex-direction: column;
     align-items: flex-start;
     line-height: 1.2;
@@ -216,7 +216,7 @@
 
   .logo-text {
     display: block;
-    font-size: 1.6rem;
+    font-size: 1.8rem; /* Aumentado de 1.6rem */
   }
 
   .logo-tagline {
@@ -319,7 +319,7 @@
 @media (max-width: 480px) {
   .header-container-modern {
     padding: 0 0.75rem;
-    height: 65px;
+    height: 75px; /* Aumentado de 65px para acomodar logo maior */
   }
 
   /* Logo ajustado para telas pequenas */
@@ -329,20 +329,20 @@
   }
 
   .header-logo-modern img {
-    height: 48px; /* Mantém logo grande mesmo em telas pequenas */
+    height: 60px; /* Logo grande em telas pequenas - aumentado de 48px para 60px */
     max-width: 100%;
   }
 
   .logo-placeholder-modern {
-    font-size: 1.4rem;
+    font-size: 1.6rem; /* Aumentado de 1.4rem */
   }
 
   .logo-text {
-    font-size: 1.4rem;
+    font-size: 1.6rem; /* Aumentado de 1.4rem */
   }
 
   .logo-tagline {
-    font-size: 0.6rem;
+    font-size: 0.7rem; /* Aumentado de 0.6rem */
   }
 
   /* Botão hambúrguer um pouco menor em telas muito pequenas */
