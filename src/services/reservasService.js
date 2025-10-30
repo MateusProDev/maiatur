@@ -1,4 +1,4 @@
-import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { TipoReserva, StatusReserva } from "../types/reservas";
 
@@ -141,19 +141,16 @@ export const buscarReservas = async (filtros = {}) => {
  */
 export const buscarLista = async (tipo) => {
   try {
-    const q = query(
-      collection(db, "listas"),
-      where("tipo", "==", tipo),
-      where("ativo", "==", true),
-      orderBy("ordem", "asc")
-    );
+    // Buscar diretamente pelo ID do documento
+    const docRef = doc(db, "listas", tipo);
+    const docSnap = await getDoc(docRef);
     
-    const snapshot = await getDocs(q);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return data.items || [];
+    }
     
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    return [];
     
   } catch (error) {
     console.error(`❌ Erro ao buscar lista ${tipo}:`, error);

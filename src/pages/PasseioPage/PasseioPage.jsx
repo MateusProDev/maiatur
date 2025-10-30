@@ -39,8 +39,11 @@ const PasseioPage = () => {
   useEffect(() => {
     // Carregar listas do Firestore
     const carregarListas = async () => {
+      console.log("🔄 Carregando listas do Firestore...");
       const passeios = await buscarLista("passeios");
       const veiculos = await buscarLista("veiculos");
+      console.log("✅ Passeios carregados:", passeios);
+      console.log("✅ Veículos carregados:", veiculos);
       setPasseiosDisponiveis(passeios);
       setVeiculosDisponiveis(veiculos);
     };

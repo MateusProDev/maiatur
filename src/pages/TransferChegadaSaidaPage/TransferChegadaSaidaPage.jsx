@@ -37,7 +37,9 @@ const TransferChegadaSaidaPage = () => {
 
   useEffect(() => {
     const carregarListas = async () => {
+      console.log("🔄 [TransferChegadaSaida] Carregando veículos...");
       const veiculos = await buscarLista("veiculos");
+      console.log("✅ [TransferChegadaSaida] Veículos carregados:", veiculos);
       setVeiculosDisponiveis(veiculos);
     };
     carregarListas();

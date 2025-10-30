@@ -37,7 +37,9 @@ const TransferEntreHoteisPage = () => {
 
   useEffect(() => {
     const carregarListas = async () => {
+      console.log("🔄 [TransferEntreHoteis] Carregando veículos...");
       const veiculos = await buscarLista("veiculos");
+      console.log("✅ [TransferEntreHoteis] Veículos carregados:", veiculos);
       setVeiculosDisponiveis(veiculos);
     };
     carregarListas();
