@@ -1,0 +1,111 @@
+.secao-form {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.secao-form h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.campo-form {
+  margin-bottom: 1rem;
+}
+
+.campo-form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.campo-form input,
+.campo-form select,
+.campo-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.campo-form input:focus,
+.campo-form select:focus,
+.campo-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.campos-linha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.campo-pequeno {
+  grid-column: span 1;
+}
+
+.campo-grande {
+  grid-column: span 2;
+}
+
+.erro {
+  display: block;
+  margin-top: 0.3rem;
+  color: #dc3545;
+  font-size: 0.875rem;
+}
+
+.hint {
+  display: block;
+  margin-top: 0.3rem;
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.campo-checkbox {
+  display: flex;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+.campo-checkbox input[type="checkbox"] {
+  margin-top: 0.25rem;
+  width: auto;
+}
+
+.campo-checkbox label {
+  margin: 0;
+  font-weight: normal;
+}
+
+.campo-checkbox a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.rodape-form {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .campos-linha {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-pequeno,
+  .campo-grande {
+    grid-column: span 1;
+  }
+}

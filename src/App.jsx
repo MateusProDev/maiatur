@@ -35,6 +35,16 @@ import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import { autoInitialize } from "./utils/firestoreUtils";
 import analyticsService from "./services/analyticsService";
 
+// Páginas do Sistema de Reservas
+import ReservasPage from "./pages/ReservasPage/ReservasPage";
+import PasseioPage from "./pages/PasseioPage/PasseioPage";
+import TransferChegadaPage from "./pages/TransferChegadaPage/TransferChegadaPage";
+import TransferChegadaSaidaPage from "./pages/TransferChegadaSaidaPage/TransferChegadaSaidaPage";
+import TransferSaidaPage from "./pages/TransferSaidaPage/TransferSaidaPage";
+import TransferEntreHoteisPage from "./pages/TransferEntreHoteisPage/TransferEntreHoteisPage";
+import PoliticaPage from "./pages/PoliticaPage/PoliticaPage";
+import InicializadorPage from "./pages/InicializadorPage/InicializadorPage";
+
 // Contexto para controle global do loading
 export const LoadingContext = React.createContext();
 
@@ -112,10 +122,20 @@ const App = () => {
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
 
+              {/* Rotas do Sistema de Reservas */}
+              <Route path="/reservas" element={<ReservasPage />} />
+              <Route path="/reservas/passeio" element={<PasseioPage />} />
+              <Route path="/reservas/transfer-chegada" element={<TransferChegadaPage />} />
+              <Route path="/reservas/transfer-chegada-e-saida" element={<TransferChegadaSaidaPage />} />
+              <Route path="/reservas/transfer-saida" element={<TransferSaidaPage />} />
+              <Route path="/reservas/transfer-entre-hoteis" element={<TransferEntreHoteisPage />} />
+              <Route path="/politica" element={<PoliticaPage />} />
+
               {/* Rotas Administrativas */}
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<Navigate to="/admin" />} />
+              <Route path="/admin/inicializador" element={<ProtectedRoute><InicializadorPage /></ProtectedRoute>} />
               <Route path="/admin/pacotes" element={<ProtectedRoute><AdminPacotes /></ProtectedRoute>} />
               <Route path="/admin/pacotes/editar/:pacoteId" element={<ProtectedRoute><AdminEditPacote /></ProtectedRoute>} />
               <Route path="/admin/banners" element={<ProtectedRoute><AdminBanners /></ProtectedRoute>} />

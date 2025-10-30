@@ -1,0 +1,142 @@
+.inicializador-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 2rem 1rem;
+}
+
+.inicializador-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.inicializador-container h1 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.inicializador-container > p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.lista-acoes {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.lista-acoes li {
+  margin-bottom: 0.5rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.lista-acoes code {
+  background: #e9ecef;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #d63384;
+}
+
+.alerta {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.alerta strong {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.btn-inicializar {
+  width: 100%;
+  padding: 1rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 1.5rem;
+}
+
+.btn-inicializar:hover:not(:disabled) {
+  background: #218838;
+}
+
+.btn-inicializar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.resultado {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.resultado.sucesso {
+  background: #d4edda;
+  border-left: 4px solid #28a745;
+  color: #155724;
+}
+
+.resultado.erro {
+  background: #f8d7da;
+  border-left: 4px solid #dc3545;
+  color: #721c24;
+}
+
+.resultado pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+.info-adicional {
+  background: #e7f3ff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.info-adicional h3 {
+  margin: 0 0 1rem 0;
+  color: #004085;
+}
+
+.info-adicional ol {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.info-adicional li {
+  margin-bottom: 0.5rem;
+  color: #004085;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .inicializador-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .inicializador-container h1 {
+    font-size: 1.5rem;
+  }
+}

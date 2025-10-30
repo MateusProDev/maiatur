@@ -29,11 +29,17 @@ service cloud.firestore {
       allow update, delete: if request.auth != null;
     }
 
-    // Reservas: leitura autenticada, escrita liberada para backend/inicialização
+    // Reservas: criação pública (formulário), leitura/edição só autenticados
     match /reservas/{documentId} {
-      allow read: if request.auth != null;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+      allow read: if request.auth != null; // Admin lê
+      allow create: if true; // Público pode criar reservas
+      allow update, delete: if request.auth != null; // Admin gerencia
+    }
+    
+    // Listas (passeios, veículos): leitura pública, escrita só admin
+    match /listas/{documentId} {
+      allow read: if true; // Público lê para preencher formulários
+      allow write: if true; // Permite inicialização (depois restringir a admin)
     }
 
     // Usuários: leitura e escrita só para o próprio usuário OU criação inicial
