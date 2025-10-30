@@ -30,6 +30,30 @@ export const criarReserva = async (dados) => {
     const docRef = await addDoc(collection(db, "reservas"), reservaData);
     
     console.log("✅ Reserva criada com sucesso:", docRef.id);
+    
+    // Enviar email via Vercel Serverless Function
+    try {
+      const response = await fetch("/api/enviar-email-reserva", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          reserva: reservaData,
+          reservaId: docRef.id,
+        }),
+      });
+      
+      if (response.ok) {
+        console.log("✅ Email enviado com sucesso!");
+      } else {
+        console.warn("⚠️ Erro ao enviar email, mas reserva foi criada");
+      }
+    } catch (emailError) {
+      console.warn("⚠️ Falha ao enviar email:", emailError.message);
+      // Não falha a reserva se o email não for enviado
+    }
+    
     return docRef.id;
     
   } catch (error) {

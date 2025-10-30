@@ -17,6 +17,7 @@ import BlogPostPage from "./pages/BlogPostPage/BlogPostPage";
 import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
 import AdminDashboard from "./components/Admin/AdminDashboard/AdminDashboard";
 import AdminPacotes from "./components/AdminPacotes/AdminPacotes";
+import AdminReservas from "./components/Admin/AdminReservas/AdminReservas";
 import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
 import AdminEditPacote from "./components/Admin/AdminEditPacote/AdminEditPacote";
 import BlogAdmin from "./components/Admin/BlogAdmin/BlogAdmin";
@@ -138,6 +139,7 @@ const App = () => {
               <Route path="/admin/inicializador" element={<ProtectedRoute><InicializadorPage /></ProtectedRoute>} />
               <Route path="/admin/pacotes" element={<ProtectedRoute><AdminPacotes /></ProtectedRoute>} />
               <Route path="/admin/pacotes/editar/:pacoteId" element={<ProtectedRoute><AdminEditPacote /></ProtectedRoute>} />
+              <Route path="/admin/reservas" element={<ProtectedRoute><AdminReservas /></ProtectedRoute>} />
               <Route path="/admin/banners" element={<ProtectedRoute><AdminBanners /></ProtectedRoute>} />
               <Route path="/admin/blog" element={<ProtectedRoute><BlogAdmin /></ProtectedRoute>} />
               {/* Redirecionar rota antiga do banner para o novo sistema de carrossel */}

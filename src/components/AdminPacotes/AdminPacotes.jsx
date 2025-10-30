@@ -49,6 +49,7 @@ const AdminPacotes = () => {
     titulo: "",
     descricao: "",
     descricaoCurta: "",
+    categoria: "passeio", // Nova categoria
     preco: 0,
     mostrarPreco: true, // Nova opção para ocultar preço
     imagens: [],
@@ -348,6 +349,29 @@ const AdminPacotes = () => {
                 required
                 margin="normal"
               />
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                select
+                label="Categoria"
+                name="categoria"
+                value={currentPacote.categoria || "passeio"}
+                onChange={handleChange}
+                required
+                margin="normal"
+                SelectProps={{
+                  native: true,
+                }}
+                helperText="Define onde este pacote aparece no sistema de reservas"
+              >
+                <option value="passeio">Passeio</option>
+                <option value="transfer_chegada">Transfer de Chegada</option>
+                <option value="transfer_saida">Transfer de Saída</option>
+                <option value="transfer_chegada_saida">Transfer Chegada + Saída</option>
+                <option value="transfer_entre_hoteis">Transfer entre Hotéis</option>
+              </TextField>
             </Grid>
             
             <Grid item xs={12} md={6}>

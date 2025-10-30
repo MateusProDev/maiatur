@@ -44,6 +44,37 @@ const InicializadorPage = () => {
         atualizadoEm: new Date().toISOString(),
       });
 
+      // 2.1 Criar listas de hotéis e aeroportos
+      await setDoc(doc(db, "listas", "hoteis"), {
+        tipo: "hoteis",
+        ativo: true,
+        ordem: 1,
+        items: [
+          "Hotel Praia Centro",
+          "Resort Beach Park",
+          "Hotel Beira Mar",
+          "Pousada Iracema",
+          "Hotel Sonata de Iracema",
+          "Vila Galé Fortaleza",
+          "Gran Marquise Hotel",
+          "Seara Praia Hotel",
+          "Outro (especificar no campo observações)"
+        ],
+        atualizadoEm: new Date().toISOString(),
+      });
+
+      await setDoc(doc(db, "listas", "aeroportos"), {
+        tipo: "aeroportos",
+        ativo: true,
+        ordem: 2,
+        items: [
+          "Aeroporto Internacional de Fortaleza (FOR)",
+          "Aeroporto de Jericoacoara (JJD)",
+          "Aeroporto Regional de Juazeiro do Norte (JDO)"
+        ],
+        atualizadoEm: new Date().toISOString(),
+      });
+
       // 3. Criar documento modelo (para fixar schema)
       await setDoc(doc(db, "reservas", "_modelo"), {
         tipo: "passeio",
@@ -71,10 +102,14 @@ const InicializadorPage = () => {
       });
 
       setResultado("✅ Inicialização concluída com sucesso!\n\n" +
-        "- ✓ Lista de passeios criada\n" +
-        "- ✓ Lista de veículos criada\n" +
+        "- ✓ Lista de passeios criada (10 destinos)\n" +
+        "- ✓ Lista de veículos criada (8 opções)\n" +
+        "- ✓ Lista de hotéis criada (9 opções)\n" +
+        "- ✓ Lista de aeroportos criada (3 aeroportos)\n" +
         "- ✓ Documento modelo criado\n\n" +
-        "O sistema está pronto para receber reservas.");
+        "O sistema está pronto para receber reservas.\n" +
+        "Acesse: /admin/reservas para gerenciar reservas.\n" +
+        "Acesse: /admin/pacotes para adicionar pacotes com categorias.");
 
     } catch (error) {
       console.error("Erro ao inicializar:", error);
