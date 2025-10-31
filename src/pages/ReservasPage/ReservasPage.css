@@ -1,109 +1,333 @@
+/* ========================================
+   SISTEMA DE RESPONSIVIDADE PROFISSIONAL
+   Mobile-first + Breakpoints estratégicos
+   ======================================== */
+
+/* Container principal com max-width fluido */
 .reservas-page {
-  max-width: 1200px;
+  width: 100%;
+  max-width: min(1400px, 100% - 2rem);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: clamp(1rem, 3vw, 3rem) clamp(0.75rem, 2vw, 1.5rem);
 }
 
+/* Header responsivo com tipografia fluida */
 .reservas-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2rem, 4vw, 4rem);
+  animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .reservas-header h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .reservas-header p {
-  font-size: 1.1rem;
-  color: #666;
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
+/* Grid responsivo com largura fixa dos cards */
 .reservas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(auto-fit, 260px);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  margin-bottom: clamp(2.5rem, 4vw, 4rem);
+  justify-content: center;
 }
 
+/* Cards com tamanho fixo (largura e altura na proporção 1:1.1) */
 .reserva-card {
-  background: white;
-  border: 3px solid transparent;
-  border-radius: 12px;
-  padding: 2rem;
+  position: relative;
+  background: #ffffff;
+  border: 2px solid transparent;
+  border-radius: clamp(12px, 1.5vw, 16px);
+  padding: clamp(1.5rem, 3vw, 2rem);
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  /* Tamanho fixo: largura 260px e altura 286px (proporção 1:1.1) */
+  width: 260px;
+  height: 286px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Efeito de brilho ao hover */
+.reserva-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+  pointer-events: none;
+}
+
+.reserva-card:hover::before {
+  left: 100%;
 }
 
 .reserva-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-color: currentColor;
 }
 
+.reserva-card:active {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Focus visível para acessibilidade (WCAG 2.1) */
+.reserva-card:focus-visible {
+  outline: 3px solid #4299e1;
+  outline-offset: 4px;
+}
+
+/* Ícone responsivo com transição */
 .card-icone {
-  margin-bottom: 1rem;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
+  transition: transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
+.reserva-card:hover .card-icone {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.card-icone svg {
+  width: clamp(32px, 5vw, 48px);
+  height: clamp(32px, 5vw, 48px);
+}
+
+/* Tipografia dos cards */
 .reserva-card h3 {
-  font-size: 1.3rem;
-  color: #333;
-  margin-bottom: 0.5rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: clamp(0.4rem, 1vw, 0.6rem);
+  line-height: 1.3;
+  flex-shrink: 0;
 }
 
 .reserva-card p {
-  color: #666;
-  margin-bottom: 1.5rem;
-  min-height: 2.5rem;
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Botão reservar com estados */
 .btn-reservar {
   width: 100%;
-  padding: 0.75rem;
+  padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: clamp(6px, 1vw, 8px);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  /* Touch target adequado */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .btn-reservar:hover {
-  opacity: 0.9;
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.btn-reservar:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Info box responsivo */
 .info-box {
-  background: #e3f2fd;
-  border-left: 4px solid #2196F3;
-  padding: 1.5rem;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f0f7ff 100%);
+  border-left: clamp(3px, 0.5vw, 5px) solid #2196F3;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  border-radius: clamp(8px, 1vw, 12px);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.08);
 }
 
 .info-box h3 {
-  margin: 0 0 1rem 0;
-  color: #1976d2;
+  margin: 0 0 clamp(0.75rem, 1.5vw, 1.25rem) 0;
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  font-weight: 600;
+  color: #1565c0;
 }
 
 .info-box ul {
   margin: 0;
-  padding-left: 1.5rem;
+  padding-left: clamp(1.25rem, 2vw, 1.75rem);
 }
 
 .info-box li {
-  margin-bottom: 0.5rem;
-  color: #555;
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  color: #334155;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-  .reservas-header h1 {
-    font-size: 2rem;
+.info-box li:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================
+   BREAKPOINTS ESTRATÉGICOS
+   ======================================== */
+
+/* Extra Small Devices (smartphones pequenos, 320px-374px) */
+@media (max-width: 374px) {
+  .reservas-page {
+    padding: 1rem 0.5rem;
   }
 
   .reservas-grid {
+    gap: 1rem;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+  }
+
+  .reserva-card {
+    padding: 1.25rem 1rem;
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+}
+
+/* Small Devices (smartphones, 375px-767px) */
+@media (min-width: 375px) and (max-width: 767px) {
+  .reservas-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .reserva-card {
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+}
+
+/* Medium Devices (tablets portrait, 768px-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .reservas-grid {
+    grid-template-columns: repeat(auto-fit, 260px);
+    gap: 1.75rem;
+  }
+
+  .reserva-card:hover {
+    transform: translateY(-10px) scale(1.03);
+  }
+}
+
+/* Large Devices (tablets landscape e desktops, 1024px-1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .reservas-grid {
+    grid-template-columns: repeat(auto-fit, 260px);
+    gap: 2rem;
+  }
+}
+
+/* Extra Large Devices (desktops grandes, 1440px+) */
+@media (min-width: 1440px) {
+  .reservas-page {
+    max-width: 1400px;
+  }
+
+  .reservas-grid {
+    grid-template-columns: repeat(auto-fit, 260px);
+    gap: 2.5rem;
+  }
+
+  .reserva-card {
+    padding: 2rem;
+  }
+}
+
+/* Ultra Wide (2560px+) */
+@media (min-width: 2560px) {
+  .reservas-page {
+    max-width: 2000px;
+  }
+
+  .reservas-header h1 {
+    font-size: 3.5rem;
+  }
+
+  .reservas-grid {
+    gap: 3rem;
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE E PREFERÊNCIAS DO USUÁRIO
+   ======================================== */
+
+/* Respeitar preferência de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode (preparado para futuro) */
+@media (prefers-color-scheme: dark) {
+  /* Variáveis podem ser adicionadas aqui quando implementar dark mode */
+}
+
+/* Alto contraste para acessibilidade */
+@media (prefers-contrast: high) {
+  .reserva-card {
+    border-width: 3px;
+  }
+
+  .btn-reservar {
+    font-weight: 700;
   }
 }

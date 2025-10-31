@@ -1,111 +1,394 @@
+/* ========================================
+   SISTEMA DE FORMULÁRIOS RESPONSIVO PROFISSIONAL
+   Mobile-first + Grid adaptativo + Micro-interações
+   ======================================== */
+
+/* Seção do formulário */
 .secao-form {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: #f9f9f9;
-  border-radius: 8px;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+  border-radius: clamp(8px, 1vw, 12px);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
 }
 
+.secao-form:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+/* Título da seção */
 .secao-form h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.2rem;
-  color: #333;
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem) 0;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 600;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
+/* Campo individual */
 .campo-form {
-  margin-bottom: 1rem;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  position: relative;
 }
 
+.campo-form:last-child {
+  margin-bottom: 0;
+}
+
+/* Labels com transição suave */
 .campo-form label {
   display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: clamp(0.4rem, 0.8vw, 0.6rem);
   font-weight: 500;
-  color: #555;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  color: #475569;
+  transition: color 0.2s ease;
+  line-height: 1.4;
 }
 
+/* Inputs, selects e textareas com estados avançados */
 .campo-form input,
 .campo-form select,
 .campo-form textarea {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.3s;
+  padding: clamp(0.75rem, 1.5vw, 1rem);
+  border: 2px solid #e2e8f0;
+  border-radius: clamp(6px, 1vw, 8px);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-family: inherit;
+  background-color: #ffffff;
+  color: #1e293b;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Touch target adequado para mobile */
+  min-height: 44px;
+  line-height: 1.5;
 }
 
+/* Placeholder otimizado */
+.campo-form input::placeholder,
+.campo-form textarea::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+/* Estado de foco com efeito de brilho */
 .campo-form input:focus,
 .campo-form select:focus,
 .campo-form textarea:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1),
+              0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #fefefe;
 }
 
+/* Hover sutil */
+.campo-form input:hover:not(:focus):not(:disabled),
+.campo-form select:hover:not(:focus):not(:disabled),
+.campo-form textarea:hover:not(:focus):not(:disabled) {
+  border-color: #cbd5e1;
+}
+
+/* Estado disabled */
+.campo-form input:disabled,
+.campo-form select:disabled,
+.campo-form textarea:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Textarea redimensionável apenas vertical */
+.campo-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Grid responsivo para campos em linha */
 .campos-linha {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  /* Mobile: 1 coluna */
+  grid-template-columns: 1fr;
 }
 
-.campo-pequeno {
-  grid-column: span 1;
+/* Small devices (≥ 480px): 2 colunas */
+@media (min-width: 480px) {
+  .campos-linha {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .campo-pequeno {
+    grid-column: span 1;
+  }
+
+  .campo-grande {
+    grid-column: span 1;
+  }
 }
 
-.campo-grande {
-  grid-column: span 2;
+/* Medium devices (≥ 768px): Layout otimizado */
+@media (min-width: 768px) {
+  .campos-linha {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .campo-form {
+    grid-column: span 12;
+  }
+
+  .campo-pequeno {
+    grid-column: span 4;
+  }
+
+  .campo-grande {
+    grid-column: span 8;
+  }
+
+  /* Para linha com 2 campos iguais */
+  .campos-linha .campo-form:not(.campo-pequeno):not(.campo-grande) {
+    grid-column: span 6;
+  }
+
+  /* Para linha com 3 campos iguais */
+  .campos-linha.tres-colunas .campo-form {
+    grid-column: span 4;
+  }
 }
 
+/* Mensagens de erro com animação */
 .erro {
   display: block;
-  margin-top: 0.3rem;
-  color: #dc3545;
-  font-size: 0.875rem;
+  margin-top: clamp(0.3rem, 0.5vw, 0.4rem);
+  color: #dc2626;
+  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  font-weight: 500;
+  line-height: 1.4;
+  animation: shake 0.4s ease-in-out;
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Input com erro */
+.campo-form input.erro-input,
+.campo-form select.erro-input,
+.campo-form textarea.erro-input {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.campo-form input.erro-input:focus,
+.campo-form select.erro-input:focus,
+.campo-form textarea.erro-input:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Hints e dicas */
 .hint {
   display: block;
-  margin-top: 0.3rem;
-  color: #666;
-  font-size: 0.875rem;
-  line-height: 1.4;
+  margin-top: clamp(0.3rem, 0.5vw, 0.4rem);
+  color: #64748b;
+  font-size: clamp(0.8rem, 1vw, 0.875rem);
+  line-height: 1.5;
 }
 
+/* Checkbox customizado */
 .campo-checkbox {
   display: flex;
-  align-items: start;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: clamp(0.5rem, 1vw, 0.75rem);
+  padding: clamp(0.75rem, 1.5vw, 1rem);
+  background-color: #f8fafc;
+  border-radius: clamp(6px, 1vw, 8px);
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.campo-checkbox:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
 }
 
 .campo-checkbox input[type="checkbox"] {
   margin-top: 0.25rem;
-  width: auto;
+  width: clamp(18px, 2vw, 20px);
+  height: clamp(18px, 2vw, 20px);
+  min-width: 18px;
+  min-height: 18px;
+  cursor: pointer;
+  accent-color: #3b82f6;
 }
 
 .campo-checkbox label {
   margin: 0;
-  font-weight: normal;
+  font-weight: 400;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  color: #334155;
+  line-height: 1.6;
+  cursor: pointer;
+  flex: 1;
 }
 
 .campo-checkbox a {
-  color: #007bff;
+  color: #3b82f6;
   text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
+.campo-checkbox a:hover {
+  color: #2563eb;
+}
+
+/* Rodapé do formulário */
 .rodape-form {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #ddd;
+  margin-top: clamp(1.5rem, 2.5vw, 2rem);
+  padding-top: clamp(1rem, 2vw, 1.5rem);
+  border-top: 2px solid #e5e7eb;
   text-align: center;
-  color: #666;
-  font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
-  .campos-linha {
-    grid-template-columns: 1fr;
+.rodape-form p {
+  margin: 0;
+  color: #64748b;
+  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  line-height: 1.6;
+}
+
+.rodape-form strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* ========================================
+   BREAKPOINTS ESPECÍFICOS PARA FORMULÁRIOS
+   ======================================== */
+
+/* Extra Small (320px-374px) */
+@media (max-width: 374px) {
+  .secao-form {
+    padding: 1rem 0.75rem;
   }
 
-  .campo-pequeno,
-  .campo-grande {
-    grid-column: span 1;
+  .campo-form input,
+  .campo-form select,
+  .campo-form textarea {
+    font-size: 16px; /* Previne zoom no iOS */
+  }
+}
+
+/* Small (375px-479px) */
+@media (min-width: 375px) and (max-width: 479px) {
+  .campos-linha {
+    gap: 1rem;
+  }
+}
+
+/* Medium (768px-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .secao-form {
+    padding: 1.75rem;
+  }
+}
+
+/* Large (1024px+) */
+@media (min-width: 1024px) {
+  .campos-linha {
+    gap: 1.5rem;
+  }
+
+  .secao-form {
+    padding: 2rem 2.5rem;
+  }
+
+  /* Linha com 3 colunas para telas grandes */
+  .campos-linha.auto-tres {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ========================================
+   ESTADOS DE VALIDAÇÃO VISUAIS
+   ======================================== */
+
+/* Input válido */
+.campo-form input.valido,
+.campo-form select.valido,
+.campo-form textarea.valido {
+  border-color: #10b981;
+}
+
+.campo-form input.valido:focus,
+.campo-form select.valido:focus,
+.campo-form textarea.valido:focus {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Loading state */
+.campo-form.loading input,
+.campo-form.loading select,
+.campo-form.loading textarea {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ========================================
+   ACESSIBILIDADE
+   ======================================== */
+
+/* Focus visível aprimorado */
+.campo-form input:focus-visible,
+.campo-form select:focus-visible,
+.campo-form textarea:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+  .campo-form input,
+  .campo-form select,
+  .campo-form textarea {
+    border-width: 3px;
+  }
+
+  .erro {
+    font-weight: 700;
+  }
+}
+
+/* Movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .campo-form input,
+  .campo-form select,
+  .campo-form textarea,
+  .secao-form {
+    transition: none;
+  }
+
+  .erro {
+    animation: none;
   }
 }

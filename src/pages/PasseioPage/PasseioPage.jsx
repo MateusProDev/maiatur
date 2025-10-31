@@ -18,6 +18,8 @@ import {
   buscarPacotesPorCategoria,
 } from "../../services/reservasService";
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
+import { db } from "../../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import "./PasseioPage.css";
 
 const PasseioPage = () => {
@@ -27,6 +29,7 @@ const PasseioPage = () => {
   const [reservaId, setReservaId] = useState("");
   const [passeiosDisponiveis, setPasseiosDisponiveis] = useState([]);
   const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([]);
+  const [logoUrl, setLogoUrl] = useState("");
 
   const {
     register,
@@ -43,6 +46,23 @@ const PasseioPage = () => {
     // Carregar listas do Firestore
     const carregarListas = async () => {
       console.log("🔄 Carregando dados do Firestore...");
+      
+      // Buscar logo da agência
+      try {
+        // Usar logo específica do icons
+        setLogoUrl('/icons/android-chrome-512x512.png');
+        
+        // Fallback: buscar do Firestore se necessário
+        const headerRef = doc(db, 'content', 'header');
+        const headerDoc = await getDoc(headerRef);
+        if (headerDoc.exists() && headerDoc.data().logoUrl) {
+          setLogoUrl(headerDoc.data().logoUrl);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar logo:', error);
+        // Fallback para logo local
+        setLogoUrl('/icons/android-chrome-512x512.png');
+      }
       
       // Buscar PACOTES da categoria "passeio"
       const pacotes = await buscarPacotesPorCategoria("passeio");
@@ -127,11 +147,20 @@ const PasseioPage = () => {
   return (
     <div className="formulario-page">
       <div className="form-header">
-        <button onClick={() => navigate("/reservas")} className="btn-voltar">
-          ← Voltar
-        </button>
-        <h1>🚌 Reserva de Passeio</h1>
-        <p>Preencha os dados abaixo para realizar sua reserva</p>
+        <div className="form-header-top">
+          <button onClick={() => navigate("/reservas")} className="btn-voltar">
+            ← Voltar
+          </button>
+          {logoUrl && (
+            <div className="form-logo">
+              <img src={logoUrl} alt="Maiatur Logo" />
+            </div>
+          )}
+        </div>
+        <div className="form-header-content">
+          <h1>🚌 Reserva de Passeio</h1>
+          <p>Preencha os dados abaixo para realizar sua reserva</p>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit, (errors) => {

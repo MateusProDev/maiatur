@@ -17,6 +17,8 @@ import {
   buscarLista,
 } from "../../services/reservasService";
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
+import { db } from "../../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import "../PasseioPage/PasseioPage.css";
 
 const TransferChegadaPage = () => {
@@ -25,6 +27,7 @@ const TransferChegadaPage = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [reservaId, setReservaId] = useState("");
   const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([]);
+  const [logoUrl, setLogoUrl] = useState("");
 
   const {
     register,
@@ -40,6 +43,20 @@ const TransferChegadaPage = () => {
   useEffect(() => {
     const carregarListas = async () => {
       console.log("🔄 [TransferChegada] Carregando veículos...");
+      
+      // Buscar logo da agência
+      try {
+        setLogoUrl('/icons/android-chrome-512x512.png');
+        const headerRef = doc(db, 'content', 'header');
+        const headerDoc = await getDoc(headerRef);
+        if (headerDoc.exists() && headerDoc.data().logoUrl) {
+          setLogoUrl(headerDoc.data().logoUrl);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar logo:', error);
+        setLogoUrl('/icons/android-chrome-512x512.png');
+      }
+      
       const veiculos = await buscarLista("veiculos");
       console.log("✅ [TransferChegada] Veículos carregados:", veiculos);
       setVeiculosDisponiveis(veiculos);
@@ -111,11 +128,20 @@ const TransferChegadaPage = () => {
   return (
     <div className="formulario-page">
       <div className="form-header">
-        <button onClick={() => navigate("/reservas")} className="btn-voltar">
-          ← Voltar
-        </button>
-        <h1>✈️ Transfer de Chegada</h1>
-        <p>Aeroporto → Hotel</p>
+        <div className="form-header-top">
+          <button onClick={() => navigate("/reservas")} className="btn-voltar">
+            ← Voltar
+          </button>
+          {logoUrl && (
+            <div className="form-logo">
+              <img src={logoUrl} alt="Maiatur Logo" />
+            </div>
+          )}
+        </div>
+        <div className="form-header-content">
+          <h1>✈️ Transfer de Chegada</h1>
+          <p>Aeroporto → Hotel</p>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit, (errors) => {

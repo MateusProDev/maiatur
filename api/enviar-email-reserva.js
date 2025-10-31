@@ -3,10 +3,12 @@ const { PDFDocument, rgb, StandardFonts } = require("pdf-lib");
 
 // Configuração SMTP (usar variáveis de ambiente da Vercel)
 const createTransporter = () => {
+  const port = parseInt(process.env.SMTP_PORT || "465");
+  const secure = port === 465; // 465 = SSL/TLS, 587 = STARTTLS
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: parseInt(process.env.SMTP_PORT || "465"),
-    secure: true,
+    port,
+    secure,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,

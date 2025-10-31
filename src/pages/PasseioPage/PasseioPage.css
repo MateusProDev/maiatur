@@ -1,85 +1,494 @@
+/* ========================================
+   PÁGINA DE FORMULÁRIO DE RESERVA
+   Layout responsivo profissional + Micro-interações
+   ======================================== */
+
+/* Container principal fluido */
 .formulario-page {
-  max-width: 800px;
+  width: 100%;
+  max-width: min(900px, 100% - 2rem);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(0.75rem, 2vw, 1.5rem);
+  animation: fadeIn 0.5s ease-out;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header do formulário */
 .form-header {
-  text-align: center;
-  margin-bottom: 2rem;
-  position: relative;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
+/* Top bar com botão e logo */
+.form-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  gap: 1rem;
+}
+
+/* Logo no header do formulário */
+.form-logo {
+  flex-shrink: 0;
+  max-width: 140px;
+}
+
+.form-logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Conteúdo do header (título e descrição) */
+.form-header-content {
+  text-align: center;
+}
+
+/* Botão voltar responsivo */
 .btn-voltar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 0.5rem 1rem;
-  background: #f0f0f0;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s;
+  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.75rem, 1.5vw, 1.25rem) !important;
+  background: #1e293b !important;
+  border: 2px solid #1e293b !important;
+  border-radius: clamp(6px, 1vw, 8px) !important;
+  cursor: pointer !important;
+  font-size: clamp(0.9rem, 1.2vw, 1rem) !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  /* Touch target adequado */
+  min-height: 44px !important;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .btn-voltar:hover {
-  background: #e0e0e0;
+  background: #334155 !important;
+  transform: translateX(-4px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
-.form-header h1 {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 0.5rem;
+.btn-voltar:active {
+  transform: translateX(-2px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
 }
 
-.form-header p {
-  color: #666;
-  font-size: 1rem;
+.btn-voltar:focus-visible {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 2px !important;
 }
 
+/* Título do formulário */
+.form-header-content h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.form-header-content p {
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Formulário principal */
 .form-reserva {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: clamp(12px, 1.5vw, 16px);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08),
+              0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f1f5f9;
+  transition: box-shadow 0.3s ease;
 }
 
+.form-reserva:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1),
+              0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Botão de submit principal */
 .btn-submit {
   width: 100%;
-  padding: 1rem;
-  background: #007bff;
+  padding: clamp(1rem, 2vw, 1.25rem);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1.1rem;
+  border-radius: clamp(8px, 1vw, 10px);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
-  margin-top: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  /* Touch target adequado */
+  min-height: 52px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito ripple no botão */
+.btn-submit::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-submit:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 .btn-submit:hover:not(:disabled) {
-  background: #0056b3;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4),
+              0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .btn-submit:disabled {
-  background: #ccc;
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
-@media (max-width: 768px) {
-  .form-header h1 {
-    font-size: 1.5rem;
-    margin-top: 2.5rem;
+/* Loading state no botão */
+.btn-submit.loading {
+  pointer-events: none;
+}
+
+.btn-submit.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   BREAKPOINTS ESTRATÉGICOS
+   ======================================== */
+
+/* Extra Small (< 375px) */
+@media (max-width: 374px) {
+  .formulario-page {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .form-header {
+    padding: 1rem 0.75rem !important;
+    background: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Layout em bloco para mobile - um abaixo do outro */
+  .form-header-top {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+    margin-bottom: 1rem !important;
   }
 
   .btn-voltar {
-    position: static;
-    margin-bottom: 1rem;
+    width: 100% !important;
+    justify-content: center !important;
+    order: 1 !important;
+  }
+
+  .form-logo {
+    max-width: 120px !important;
+    margin: 0 auto !important;
+    order: 2 !important;
+  }
+
+  .form-header-content {
+    order: 3 !important;
+  }
+
+  .form-header-content h1 {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .form-header-content p {
+    font-size: 0.9rem !important;
   }
 
   .form-reserva {
-    padding: 1.5rem;
+    padding: 1.25rem 0.75rem !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-top: 1px solid #e5e7eb !important;
+  }
+}
+
+/* Small (375px-767px) */
+@media (min-width: 375px) and (max-width: 767px) {
+  .formulario-page {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .form-header {
+    padding: 1.25rem 1rem !important;
+    background: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Layout em bloco para mobile - um abaixo do outro */
+  .form-header-top {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .btn-voltar {
+    width: 100% !important;
+    justify-content: center !important;
+    order: 1 !important;
+  }
+
+  .form-logo {
+    max-width: 140px !important;
+    margin: 0 auto !important;
+    order: 2 !important;
+  }
+
+  .form-header-content {
+    order: 3 !important;
+  }
+
+  .form-header-content h1 {
+    font-size: 1.65rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .form-header-content p {
+    font-size: 0.95rem !important;
+  }
+
+  .form-reserva {
+    padding: 1.5rem 1rem !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-top: 1px solid #e5e7eb !important;
+  }
+}
+
+/* Medium (768px-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .formulario-page {
+    max-width: min(750px, 100% - 3rem);
+  }
+
+  .form-reserva {
+    padding: 2rem;
+  }
+
+  .form-logo {
+    max-width: 140px;
+  }
+}
+
+/* Large (1024px+) */
+@media (min-width: 1024px) {
+  .formulario-page {
+    max-width: 900px;
+  }
+
+  .form-reserva {
+    padding: 2.5rem 3rem;
+  }
+
+  .form-logo {
+    max-width: 160px;
+  }
+
+  .btn-submit {
+    font-size: 1.15rem;
+    padding: 1.25rem;
+  }
+
+  /* Efeito parallax sutil no scroll */
+  .form-reserva {
+    transform-style: preserve-3d;
+  }
+}
+
+/* Extra Large (1440px+) */
+@media (min-width: 1440px) {
+  .formulario-page {
+    max-width: 1000px;
+  }
+
+  .form-header h1 {
+    font-size: 2.75rem;
+  }
+}
+
+/* ========================================
+   ESTADOS E FEEDBACK VISUAL
+   ======================================== */
+
+/* Indicador de progresso (opcional) */
+.form-progresso {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.form-progresso-step {
+  flex: 1;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  margin: 0 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.form-progresso-step.ativo {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+/* Mensagem de sucesso */
+.form-sucesso {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 2px solid #86efac;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mensagem de erro */
+.form-erro {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 2px solid #fca5a5;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  animation: shake 0.5s ease-out;
+}
+
+/* ========================================
+   ACESSIBILIDADE
+   ======================================== */
+
+/* Skip link para navegação por teclado */
+.skip-to-form:focus {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: #3b82f6;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  z-index: 9999;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+  .form-reserva {
+    border-width: 3px;
+  }
+
+  .btn-submit {
+    border: 3px solid #1e3a8a;
+  }
+
+  .btn-voltar {
+    border-width: 3px;
+  }
+}
+
+/* Movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .formulario-page,
+  .form-reserva,
+  .btn-submit,
+  .btn-voltar {
+    animation: none;
+    transition: none;
+  }
+
+  .btn-submit::before {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .btn-voltar,
+  .btn-submit {
+    display: none;
+  }
+
+  .formulario-page {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .form-reserva {
+    box-shadow: none;
+    border: 1px solid #000;
   }
 }
