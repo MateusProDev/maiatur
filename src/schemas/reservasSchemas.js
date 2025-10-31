@@ -46,20 +46,22 @@ const pagamentoSchema = z.object({
   valorTotal: z.number().min(0.01, "Valor deve ser maior que zero")
 });
 
-// Schema para Passeio
+// Schema para Passeio (campos planos usados na UI)
 export const passeioSchema = z.object({
   tipo: z.literal("passeio"),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema,
   passageiros: z.string().min(10, "Informe a relação completa dos passageiros"),
-  passeio: z.object({
-    nome: z.string().min(3, "Nome do passeio deve ter no mínimo 3 caracteres"),
-    data: z.string().refine(validarAntecedencia24h, {
-      message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-    }),
-    horario: z.string().min(1, "Selecione o horário"),
-    localEmbarque: z.string().min(3, "Informe o local de embarque")
+  // Campos planos do formulário
+  passeioDesejado: z.string().min(3, "Selecione o passeio"),
+  tipoPasseioVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
+  dataPasseio: z.string().refine(validarAntecedencia24h, {
+    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
   }),
+  horaPasseio: z.string().min(1, "Selecione o horário do passeio"),
+  localSaida: z.string().min(3, "Informe o local de saída"),
+  horaSaida: z.string().min(1, "Informe a hora de saída"),
+  horaRetorno: z.string().min(1, "Informe a hora de retorno"),
   pagamento: pagamentoSchema,
   observacoes: z.string().optional(),
   aceitouPolitica: z.boolean().refine(val => val === true, {
@@ -120,7 +122,7 @@ export const transferChegadaSaidaSchema = z.object({
   })
 });
 
-// Schema para Transfer Saída
+// Schema para Transfer Saída (campos planos usados na UI)
 export const transferSaidaSchema = z.object({
   tipo: z.literal("transfer_saida"),
   tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
@@ -129,17 +131,11 @@ export const transferSaidaSchema = z.object({
     malas: z.number().min(0, "Quantidade de malas inválida").default(0)
   }),
   passageiros: z.string().min(10, "Informe a relação completa dos passageiros"),
-  // Campo plano usado no formulário
-  localSaida: localSchema,
-  voo: z.object({
-    numeroVoo: z.string().min(3, "Número do voo inválido"),
-    dataSaida: z.string().refine(validarAntecedencia24h, {
-      message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-    }),
-    horarioSaida: z.string().min(1, "Informe o horário de saída"),
-    horarioSaidaHotel: z.string().min(1, "Informe o horário de saída do hotel"),
-    aeroporto: z.string().min(3, "Informe o aeroporto de saída")
+  // Campos planos usados no formulário
+  dataHoraSaida: z.string().refine(validarAntecedencia24h, {
+    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
   }),
+  localSaida: localSchema,
   pagamento: pagamentoSchema,
   observacoes: z.string().optional(),
   aceitouPolitica: z.boolean().refine(val => val === true, {

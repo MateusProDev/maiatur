@@ -13,7 +13,6 @@ import {
 } from "../../components/Reservas/CamposComuns";
 import {
   criarReserva,
-  parsePassageiros,
   normalizarTelefone,
   buscarLista,
   buscarPacotesPorCategoria,
@@ -67,9 +66,6 @@ const PasseioPage = () => {
     setLoading(true);
     console.log("📋 [Passeio] Submetendo dados:", data);
     try {
-      // Parse dos passageiros
-      const passageiros = parsePassageiros(data.passageiros);
-
       // Normalizar telefone
       const telefone = normalizarTelefone(data.responsavel.telefone);
 
@@ -87,12 +83,19 @@ const PasseioPage = () => {
           adultos: data.quantidades.adultos,
           criancas: data.quantidades.criancas,
         },
-        passageiros,
+        passageiros: data.passageiros, // enviar como texto; service fará o parse
         pagamento: {
           forma: data.pagamento.forma,
           valorTotal: data.pagamento.valorTotal,
         },
         observacoes: data.observacoes || "",
+        // Estrutura esperada pelo gerador de voucher/email
+        passeio: {
+          nome: data.passeioDesejado,
+          data: data.dataPasseio,
+          horario: data.horaPasseio,
+          localEmbarque: data.localSaida,
+        },
         detalhes: {
           passeioDesejado: data.passeioDesejado,
           tipoPasseioVeiculo: data.tipoPasseioVeiculo,
@@ -131,7 +134,10 @@ const PasseioPage = () => {
         <p>Preencha os dados abaixo para realizar sua reserva</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="form-reserva">
+      <form onSubmit={handleSubmit(onSubmit, (errors) => {
+        console.error("❌ [Passeio] Erros de validação:", errors);
+        alert("Por favor, corrija os erros do formulário antes de enviar.");
+      })} className="form-reserva">
         {/* Detalhes do Passeio */}
         <div className="secao-form">
           <h3>🗺️ Detalhes do Passeio</h3>

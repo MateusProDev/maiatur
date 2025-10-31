@@ -13,7 +13,6 @@ import {
 } from "../../components/Reservas/CamposComuns";
 import {
   criarReserva,
-  parsePassageiros,
   normalizarTelefone,
   buscarLista,
 } from "../../services/reservasService";
@@ -52,7 +51,6 @@ const TransferChegadaSaidaPage = () => {
     setLoading(true);
     console.log("📋 [TransferChegadaSaida] Submetendo dados:", data);
     try {
-      const passageiros = parsePassageiros(data.passageiros);
       const telefone = normalizarTelefone(data.responsavel.telefone);
 
       const reserva = {
@@ -69,7 +67,7 @@ const TransferChegadaSaidaPage = () => {
           criancas: data.quantidades.criancas,
           malas: data.quantidades.malas || 0,
         },
-        passageiros,
+        passageiros: data.passageiros, // enviar como texto; service fará o parse
         pagamento: {
           forma: data.pagamento.forma,
           valorTotal: data.pagamento.valorTotal,
@@ -84,6 +82,19 @@ const TransferChegadaSaidaPage = () => {
           localSaida: data.localSaida.hotel,
           numeroVooSaida: data.numeroVooSaida,
           quantidadeMalas: data.quantidades.malas || 0,
+        },
+        // Estruturas compatíveis com gerador de voucher
+        vooChegada: {
+          numeroVoo: data.numeroVooChegada,
+          dataChegada: data.dataHoraChegada,
+          horarioChegada: '',
+        },
+        voo: {
+          numeroVoo: data.numeroVooSaida,
+          dataSaida: data.dataHoraSaida,
+          horarioSaida: '',
+          horarioSaidaHotel: '',
+          aeroporto: 'Aeroporto de Fortaleza',
         },
       };
 

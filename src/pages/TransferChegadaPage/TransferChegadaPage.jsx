@@ -13,7 +13,6 @@ import {
 } from "../../components/Reservas/CamposComuns";
 import {
   criarReserva,
-  parsePassageiros,
   normalizarTelefone,
   buscarLista,
 } from "../../services/reservasService";
@@ -50,9 +49,8 @@ const TransferChegadaPage = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log("Submetendo dados:", data); // Log para ver os dados
+    console.log("📋 [TransferChegada] Submetendo dados:", data);
     try {
-      const passageiros = parsePassageiros(data.passageiros);
       const telefone = normalizarTelefone(data.responsavel.telefone);
 
       const reserva = {
@@ -69,7 +67,7 @@ const TransferChegadaPage = () => {
           criancas: data.quantidades.criancas,
           malas: data.quantidades.malas || 0,
         },
-        passageiros,
+        passageiros: data.passageiros, // enviar como texto; service fará o parse
         pagamento: {
           forma: data.pagamento.forma,
           valorTotal: data.pagamento.valorTotal,
@@ -84,9 +82,15 @@ const TransferChegadaPage = () => {
           destino: data.destino.hotel, 
           quantidadeMalas: data.quantidades.malas || 0,
         },
+        // Estrutura compatível com gerador de voucher
+        vooChegada: {
+          numeroVoo: data.numeroVoo,
+          dataChegada: data.dataHoraChegada,
+          horarioChegada: '',
+        },
       };
 
-      console.log("Objeto da reserva:", reserva); // Log para ver o objeto final
+      console.log("📦 [TransferChegada] Objeto da reserva:", reserva);
 
       const id = await criarReserva(reserva);
       setReservaId(id);
@@ -114,7 +118,10 @@ const TransferChegadaPage = () => {
         <p>Aeroporto → Hotel</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="form-reserva">
+      <form onSubmit={handleSubmit(onSubmit, (errors) => {
+        console.error("❌ Erros de validação:", errors);
+        alert("Por favor, corrija os erros no formulário antes de enviar.");
+      })} className="form-reserva">
         <div className="secao-form">
           <h3>🚗 Detalhes do Transfer</h3>
 

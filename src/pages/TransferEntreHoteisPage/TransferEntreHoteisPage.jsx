@@ -13,7 +13,6 @@ import {
 } from "../../components/Reservas/CamposComuns";
 import {
   criarReserva,
-  parsePassageiros,
   normalizarTelefone,
   buscarLista,
 } from "../../services/reservasService";
@@ -52,7 +51,6 @@ const TransferEntreHoteisPage = () => {
     setLoading(true);
     console.log("📋 [TransferEntreHoteis] Submetendo dados:", data);
     try {
-      const passageiros = parsePassageiros(data.passageiros);
       const telefone = normalizarTelefone(data.responsavel.telefone);
 
       const reserva = {
@@ -69,7 +67,7 @@ const TransferEntreHoteisPage = () => {
           criancas: data.quantidades.criancas,
           malas: data.quantidades.malas || 0,
         },
-        passageiros,
+        passageiros: data.passageiros, // enviar como texto; service fará o parse
         pagamento: {
           forma: data.pagamento.forma,
           valorTotal: data.pagamento.valorTotal,

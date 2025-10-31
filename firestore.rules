@@ -8,14 +8,14 @@ service cloud.firestore {
     // Permite criar documentos se não existem (para inicializador)
     // ===================================
 
-    // Content: leitura pública, escrita autenticada OU se não existe (inicialização)
+    // Content: leitura pública, escrita autenticada
     match /content/{documentId} {
       allow read: if true;
       allow create: if true; // permite inicialização
       allow update, delete: if request.auth != null;
     }
 
-    // Pacotes: leitura pública, escrita autenticada OU criação se não existe
+    // Pacotes: leitura pública, escrita autenticada
     match /pacotes/{documentId} {
       allow read: if true;
       allow create: if true; // permite inicialização
@@ -29,20 +29,20 @@ service cloud.firestore {
       allow update, delete: if request.auth != null;
     }
 
-    // Reservas: criação pública (formulário), leitura/edição só autenticados
+    // Reservas: criação pública (formulário de reservas), leitura/edição apenas admin
     match /reservas/{documentId} {
-      allow read: if request.auth != null; // Admin lê
-      allow create: if true; // Público pode criar reservas
-      allow update, delete: if request.auth != null; // Admin gerencia
+      allow read: if request.auth != null; // Apenas admin pode ler reservas
+      allow create: if true; // Público pode criar reservas via formulário
+      allow update, delete: if request.auth != null; // Apenas admin gerencia
     }
     
-    // Listas (passeios, veículos): leitura pública, escrita só admin
+    // Listas (passeios, veículos, hotéis, aeroportos): leitura pública, escrita autenticada
     match /listas/{documentId} {
-      allow read: if true; // Público lê para preencher formulários
-      allow write: if true; // Permite inicialização (depois restringir a admin)
+      allow read: if true; // Público lê para preencher dropdowns dos formulários
+      allow write: if true; // Permite inicialização automática (depois restringir a admin apenas)
     }
 
-    // Usuários: leitura e escrita só para o próprio usuário OU criação inicial
+    // Usuários: leitura e escrita apenas para o próprio usuário
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
       allow create: if true; // permite criação inicial de usuários demo
@@ -55,56 +55,78 @@ service cloud.firestore {
       allow update, delete: if request.auth != null;
     }
 
-    // Settings: leitura pública, criação permitida, atualização autenticada
+    // Settings: leitura pública, escrita autenticada
     match /settings/{documentId} {
       allow read: if true;
       allow create: if true; // permite inicialização
       allow update, delete: if request.auth != null;
     }
 
-    // Produtos: leitura pública, criação permitida, atualização autenticada
-    match /produtos/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // Banners Lojinha: leitura pública, criação permitida
-    match /bannersLojinha/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // Banners Turismo: leitura pública, criação permitida
-    match /bannersTurismo/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // Images: leitura pública, criação permitida
-    match /images/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // Viagens: leitura pública, criação permitida (para inicialização)
+    // Viagens: leitura pública, escrita autenticada
     match /viagens/{documentId} {
       allow read: if true;
       allow create: if true; // permite inicialização
       allow update, delete: if request.auth != null;
     }
 
-    // WhatsApp Config: leitura pública, criação permitida
+    // Produtos: leitura pública, escrita autenticada
+    match /produtos/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Banners Lojinha: leitura pública, escrita autenticada
+    match /bannersLojinha/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Banners Turismo: leitura pública, escrita autenticada
+    match /bannersTurismo/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Banners: leitura pública, escrita autenticada (compatibilidade)
+    match /banners/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Blog Posts: leitura pública, escrita autenticada
+    match /blogPosts/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // Images: leitura pública, escrita autenticada
+    match /images/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite inicialização
+      allow update, delete: if request.auth != null;
+    }
+
+    // WhatsApp Config: leitura pública, escrita autenticada
     match /whatsappConfig/{documentId} {
       allow read: if true;
       allow create: if true; // permite inicialização
       allow update, delete: if request.auth != null;
     }
 
-    // Outras coleções comuns: leitura pública, criação permitida
+    // Analytics: leitura pública, escrita autenticada
+    match /analytics/{documentId} {
+      allow read: if true;
+      allow create: if true; // permite registro de views
+      allow update, delete: if request.auth != null;
+    }
+
+    // Regra catch-all: permite leitura pública e criação para qualquer coleção nova
+    // (facilita inicialização, mas pode ser restringida depois)
     match /{collection}/{documentId} {
       allow read: if true;
       allow create: if true; // permite inicialização de qualquer coleção
@@ -145,10 +167,10 @@ service firebase.storage {
       allow write: if request.auth != null;
     }
     
-    // Outras pastas: negar por padrão (segurança)
+    // Regra geral: leitura pública, escrita autenticada
     match /{allPaths=**} {
       allow read: if true; // permite leitura de qualquer arquivo público
-      allow write: if request.auth != null; // escrita só autenticado
+      allow write: if request.auth != null; // escrita só para autenticados
     }
   }
 }
