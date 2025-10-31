@@ -14,6 +14,36 @@ const createTransporter = () => {
   });
 };
 
+// Gera versão texto simples para melhorar entregabilidade
+function gerarTextoPlano(reserva, reservaId, tipoLabel) {
+  const linhas = [];
+  linhas.push(`Reserva confirmada - ${tipoLabel}`);
+  linhas.push(`Número da reserva: #${reservaId.substring(0, 12).toUpperCase()}`);
+  linhas.push("");
+  linhas.push(`Responsável: ${reserva.responsavel.nome}`);
+  linhas.push(`E-mail: ${reserva.responsavel.email}`);
+  linhas.push(`Telefone: ${reserva.responsavel.ddi} ${reserva.responsavel.telefone}`);
+  linhas.push("");
+  if (reserva.passeio) {
+    linhas.push(`Passeio: ${reserva.passeio.nome}`);
+    if (reserva.passeio.data) linhas.push(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`);
+    if (reserva.passeio.horario) linhas.push(`Horário: ${reserva.passeio.horario}`);
+    if (reserva.passeio.localEmbarque) linhas.push(`Local de embarque: ${reserva.passeio.localEmbarque}`);
+  }
+  if (reserva.vooChegada || reserva.voo) {
+    const voo = reserva.vooChegada || reserva.voo;
+    if (voo.numeroVoo) linhas.push(`Voo: ${voo.numeroVoo}`);
+  }
+  linhas.push("");
+  linhas.push(`Pagamento: ${reserva.pagamento.forma}`);
+  linhas.push(`Valor total: R$ ${reserva.pagamento.valorTotal?.toFixed?.(2) || reserva.pagamento.valorTotal}`);
+  linhas.push("");
+  linhas.push("Voucher em anexo (PDF). Apresente no dia do serviço com documento com foto.");
+  linhas.push("");
+  linhas.push(`Atendimento: ${process.env.AGENCY_PHONE || ''} • ${process.env.AGENCY_EMAIL || ''}`);
+  return linhas.join("\n");
+}
+
 // Gerar PDF do Voucher
 async function gerarVoucherPDF(reserva, reservaId) {
   const pdfDoc = await PDFDocument.create();
@@ -343,11 +373,18 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
     transfer_chegada_saida: "Transfer Chegada + Saída",
     transfer_entre_hoteis: "Transfer entre Hotéis"
   };
+  const tipoLabel = tipoMap[reserva.tipo] || reserva.tipo;
+
+  // Preferir remetente do seu domínio. Se AGENCY_FROM estiver setado, usa ele; caso contrário, cai no SMTP_USER
+  const fromAddress = process.env.AGENCY_FROM || process.env.SMTP_USER;
+  const replyTo = process.env.AGENCY_REPLY_TO || process.env.AGENCY_EMAIL || process.env.SMTP_USER;
   
   const mailOptions = {
-    from: `"Maiatur Turismo" <${process.env.SMTP_USER}>`,
+    from: `"Maiatur Turismo" <${fromAddress}>`,
+    replyTo,
     to: reserva.responsavel.email,
-    subject: `✅ Reserva Confirmada - ${tipoMap[reserva.tipo]} - #${reservaId.substring(0, 8).toUpperCase()}`,
+    subject: `✅ Reserva Confirmada - ${tipoLabel} - #${reservaId.substring(0, 8).toUpperCase()}`,
+    text: gerarTextoPlano(reserva, reservaId, tipoLabel),
     html: `
       <!DOCTYPE html>
       <html>
@@ -418,6 +455,10 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
       </body>
       </html>
     `,
+    envelope: {
+      from: fromAddress,
+      to: reserva.responsavel.email,
+    },
     attachments: [
       {
         filename: `voucher-${reservaId.substring(0, 8)}.pdf`,
