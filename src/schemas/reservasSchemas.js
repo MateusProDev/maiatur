@@ -70,6 +70,7 @@ export const passeioSchema = z.object({
 // Schema para Transfer Chegada
 export const transferChegadaSchema = z.object({
   tipo: z.literal("transfer_chegada"),
+  tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
     malas: z.number().min(0, "Quantidade de malas inválida").default(0)

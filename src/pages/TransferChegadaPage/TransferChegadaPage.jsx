@@ -47,6 +47,7 @@ const TransferChegadaPage = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    console.log("Submetendo dados:", data); // Log para ver os dados
     try {
       const passageiros = parsePassageiros(data.passageiros);
       const telefone = normalizarTelefone(data.responsavel.telefone);
@@ -81,6 +82,8 @@ const TransferChegadaPage = () => {
           quantidadeMalas: data.quantidades.malas || 0,
         },
       };
+
+      console.log("Objeto da reserva:", reserva); // Log para ver o objeto final
 
       const id = await criarReserva(reserva);
       setReservaId(id);
