@@ -75,8 +75,9 @@ const TransferEntreHoteisPage = () => {
           tipoTransferVeiculo: data.tipoTransferVeiculo,
           data: data.data,
           hora: data.hora,
-          hotelPartida: data.hotelPartida,
-          hotelDestino: data.hotelDestino,
+          // O schema agora garante que 'hotelPartida' e 'hotelDestino' são objetos
+          hotelPartida: data.hotelPartida.hotel,
+          hotelDestino: data.hotelDestino.hotel,
           quantidadeMalas: data.quantidades.malas || 0,
         },
       };

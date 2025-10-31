@@ -74,9 +74,10 @@ const TransferChegadaSaidaPage = () => {
         detalhes: {
           dataHoraChegada: data.dataHoraChegada,
           numeroVooChegada: data.numeroVooChegada,
-          hotelDestino: data.hotelDestino,
+          // O schema agora garante que 'hotelDestino' e 'localSaida' são objetos
+          hotelDestino: data.hotelDestino.hotel,
           dataHoraSaida: data.dataHoraSaida,
-          localSaida: data.localSaida,
+          localSaida: data.localSaida.hotel,
           numeroVooSaida: data.numeroVooSaida,
           quantidadeMalas: data.quantidades.malas || 0,
         },

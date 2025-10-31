@@ -74,7 +74,8 @@ const TransferSaidaPage = () => {
         detalhes: {
           tipoTransferVeiculo: data.tipoTransferVeiculo,
           dataHoraSaida: data.dataHoraSaida,
-          localSaida: data.localSaida,
+          // O schema agora garante que 'localSaida' é um objeto { hotel, endereco }
+          localSaida: data.localSaida.hotel,
           aeroportoDestino: "Aeroporto de Fortaleza",
           quantidadeMalas: data.quantidades.malas || 0,
         },
