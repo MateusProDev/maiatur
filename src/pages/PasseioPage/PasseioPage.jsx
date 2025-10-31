@@ -35,6 +35,9 @@ const PasseioPage = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(passeioSchema),
+    defaultValues: {
+      tipo: "passeio",
+    },
   });
 
   useEffect(() => {
@@ -62,6 +65,7 @@ const PasseioPage = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    console.log("📋 [Passeio] Submetendo dados:", data);
     try {
       // Parse dos passageiros
       const passageiros = parsePassageiros(data.passageiros);

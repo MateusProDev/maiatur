@@ -33,6 +33,9 @@ const TransferChegadaPage = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(transferChegadaSchema),
+    defaultValues: {
+      tipo: "transfer_chegada",
+    },
   });
 
   useEffect(() => {

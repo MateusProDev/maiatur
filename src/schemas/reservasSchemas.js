@@ -95,6 +95,7 @@ export const transferChegadaSchema = z.object({
 // Schema para Transfer Chegada e Saída (formulário usa campos planos)
 export const transferChegadaSaidaSchema = z.object({
   tipo: z.literal("transfer_chegada_saida"),
+  tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo").optional(),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
     malas: z.number().min(0, "Quantidade de malas inválida").default(0)
@@ -122,6 +123,7 @@ export const transferChegadaSaidaSchema = z.object({
 // Schema para Transfer Saída
 export const transferSaidaSchema = z.object({
   tipo: z.literal("transfer_saida"),
+  tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
     malas: z.number().min(0, "Quantidade de malas inválida").default(0)
@@ -148,6 +150,7 @@ export const transferSaidaSchema = z.object({
 // Schema para Transfer Entre Hotéis
 export const transferEntreHoteisSchema = z.object({
   tipo: z.literal("transfer_entre_hoteis"),
+  tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
     malas: z.number().min(0, "Quantidade de malas inválida").default(0)

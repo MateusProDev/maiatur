@@ -33,6 +33,9 @@ const TransferEntreHoteisPage = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(transferEntreHoteisSchema),
+    defaultValues: {
+      tipo: "transfer_entre_hoteis",
+    },
   });
 
   useEffect(() => {
@@ -47,6 +50,7 @@ const TransferEntreHoteisPage = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    console.log("📋 [TransferEntreHoteis] Submetendo dados:", data);
     try {
       const passageiros = parsePassageiros(data.passageiros);
       const telefone = normalizarTelefone(data.responsavel.telefone);

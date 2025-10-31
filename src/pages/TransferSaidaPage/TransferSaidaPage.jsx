@@ -33,6 +33,9 @@ const TransferSaidaPage = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(transferSaidaSchema),
+    defaultValues: {
+      tipo: "transfer_saida",
+    },
   });
 
   useEffect(() => {
@@ -47,6 +50,7 @@ const TransferSaidaPage = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    console.log("📋 [TransferSaida] Submetendo dados:", data);
     try {
       const passageiros = parsePassageiros(data.passageiros);
       const telefone = normalizarTelefone(data.responsavel.telefone);
