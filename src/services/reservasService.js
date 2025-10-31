@@ -157,3 +157,33 @@ export const buscarLista = async (tipo) => {
     return []; // Retorna array vazio em caso de erro
   }
 };
+
+/**
+ * Busca pacotes por categoria
+ * @param {string} categoria - Categoria do pacote (passeio, transfer_chegada, etc)
+ * @returns {Promise<Array>} Lista de pacotes da categoria
+ */
+export const buscarPacotesPorCategoria = async (categoria) => {
+  try {
+    console.log(`🔍 Buscando pacotes com categoria: ${categoria}`);
+    
+    const q = query(
+      collection(db, "pacotes"),
+      where("categoria", "==", categoria)
+    );
+    
+    const querySnapshot = await getDocs(q);
+    const pacotes = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    
+    console.log(`✅ Encontrados ${pacotes.length} pacotes na categoria ${categoria}:`, pacotes);
+    return pacotes;
+    
+  } catch (error) {
+    console.error(`❌ Erro ao buscar pacotes da categoria ${categoria}:`, error);
+    return [];
+  }
+};
+

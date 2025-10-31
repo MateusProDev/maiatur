@@ -16,6 +16,7 @@ import {
   parsePassageiros,
   normalizarTelefone,
   buscarLista,
+  buscarPacotesPorCategoria,
 } from "../../services/reservasService";
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import "./PasseioPage.css";
@@ -39,12 +40,21 @@ const PasseioPage = () => {
   useEffect(() => {
     // Carregar listas do Firestore
     const carregarListas = async () => {
-      console.log("🔄 Carregando listas do Firestore...");
-      const passeios = await buscarLista("passeios");
+      console.log("🔄 Carregando dados do Firestore...");
+      
+      // Buscar PACOTES da categoria "passeio"
+      const pacotes = await buscarPacotesPorCategoria("passeio");
+      console.log("✅ Pacotes (passeios) carregados:", pacotes);
+      
+      // Buscar veículos da lista
       const veiculos = await buscarLista("veiculos");
-      console.log("✅ Passeios carregados:", passeios);
       console.log("✅ Veículos carregados:", veiculos);
-      setPasseiosDisponiveis(passeios);
+      
+      // Extrair títulos dos pacotes
+      const titulosPacotes = pacotes.map(p => p.titulo);
+      console.log("📋 Títulos dos pacotes:", titulosPacotes);
+      
+      setPasseiosDisponiveis(titulosPacotes);
       setVeiculosDisponiveis(veiculos);
     };
     carregarListas();

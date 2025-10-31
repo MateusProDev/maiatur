@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import "./InicializadorPage.css";
 
 const InicializadorPage = () => {
   const [loading, setLoading] = useState(false);
+  const [loadingMigracao, setLoadingMigracao] = useState(false);
   const [resultado, setResultado] = useState("");
+  const [resultadoMigracao, setResultadoMigracao] = useState("");
 
   const inicializar = async () => {
     setLoading(true);
@@ -119,6 +121,51 @@ const InicializadorPage = () => {
     }
   };
 
+  const migrarCategoriaPacotes = async () => {
+    setLoadingMigracao(true);
+    setResultadoMigracao("");
+    
+    try {
+      console.log('🔄 Iniciando migração de categorias...');
+      
+      const querySnapshot = await getDocs(collection(db, 'pacotes'));
+      let atualizados = 0;
+      let jaExistentes = 0;
+      let mensagens = [];
+      
+      for (const docSnap of querySnapshot.docs) {
+        const dados = docSnap.data();
+        
+        // Se não tem categoria, adicionar "passeio" como padrão
+        if (!dados.categoria) {
+          await updateDoc(doc(db, 'pacotes', docSnap.id), {
+            categoria: 'passeio'
+          });
+          mensagens.push(`✅ "${dados.titulo}" → categoria "passeio" adicionada`);
+          atualizados++;
+        } else {
+          mensagens.push(`⏭️  "${dados.titulo}" → já tem categoria "${dados.categoria}"`);
+          jaExistentes++;
+        }
+      }
+      
+      setResultadoMigracao(
+        `✅ Migração concluída!\n\n` +
+        `📊 Resumo:\n` +
+        `- ${atualizados} pacotes atualizados\n` +
+        `- ${jaExistentes} pacotes já tinham categoria\n` +
+        `- Total: ${querySnapshot.size} pacotes\n\n` +
+        `Detalhes:\n${mensagens.join('\n')}`
+      );
+      
+    } catch (error) {
+      console.error('❌ Erro durante migração:', error);
+      setResultadoMigracao(`❌ Erro: ${error.message}`);
+    } finally {
+      setLoadingMigracao(false);
+    }
+  };
+
   return (
     <div className="inicializador-page">
       <div className="inicializador-container">
@@ -149,6 +196,34 @@ const InicializadorPage = () => {
         {resultado && (
           <div className={`resultado ${resultado.includes("✅") ? "sucesso" : "erro"}`}>
             <pre>{resultado}</pre>
+          </div>
+        )}
+
+        <hr style={{ margin: "40px 0", border: "1px solid #ddd" }} />
+
+        <h2>🔄 Migrar Categorias dos Pacotes</h2>
+        <p>
+          Se você criou pacotes ANTES desta atualização, execute esta migração para
+          adicionar o campo <code>categoria</code> aos pacotes existentes.
+        </p>
+
+        <div className="alerta">
+          <strong>ℹ️ Info:</strong> Esta ação adiciona categoria="passeio" aos pacotes
+          que não possuem este campo. Pacotes com categoria já definida não serão alterados.
+        </div>
+
+        <button
+          onClick={migrarCategoriaPacotes}
+          disabled={loadingMigracao}
+          className="btn-inicializar"
+          style={{ backgroundColor: "#2196F3" }}
+        >
+          {loadingMigracao ? "Migrando..." : "Migrar Categorias"}
+        </button>
+
+        {resultadoMigracao && (
+          <div className={`resultado ${resultadoMigracao.includes("✅") ? "sucesso" : "erro"}`}>
+            <pre>{resultadoMigracao}</pre>
           </div>
         )}
 
