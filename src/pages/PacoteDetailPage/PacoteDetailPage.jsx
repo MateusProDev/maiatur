@@ -237,7 +237,7 @@ const PacoteDetailPage = () => {
 
               <Divider sx={{ my: 2 }} />
 
-              {pacote.mostrarPreco !== false && (
+              {pacote.mostrarPreco === true && (
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   {pacote.precoOriginal && (
                     <Typography 

@@ -286,7 +286,7 @@ const HomeUltraModern = () => {
                       )}
                     </div>
                     
-                    {pacote.mostrarPreco !== false && pacote.preco && (
+                    {pacote.mostrarPreco === true && pacote.preco && (
                       <div className="pacote-price-section">
                         <span className="price-label">A partir de</span>
                         <span className="price-value">

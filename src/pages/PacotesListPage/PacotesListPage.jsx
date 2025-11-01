@@ -278,7 +278,7 @@ const PacotesListPage = () => {
                     <p className="pacote-card-description">{pacote.descricaoCurta}</p>
                     
                     <div className="pacote-card-footer">
-                      {pacote.mostrarPreco !== false && (
+                      {pacote.mostrarPreco === true && (
                         <div className="pacote-price-box">
                           {pacote.precoOriginal && (
                             <span className="price-original">
