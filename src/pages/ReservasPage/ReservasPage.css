@@ -6,11 +6,11 @@
 
 /* Container principal com max-width fluido */
 .reservas-page {
-  width: 100%;
-  max-width: min(1400px, 100% - 2rem);
+  width: 100% !important;
+  /* max-width: min(1400px, 100% - 2rem); */
   margin: 0 auto;
-  padding: clamp(1rem, 3vw, 3rem) clamp(0.75rem, 2vw, 1.5rem);
   background: var(--color-off-white);
+  padding: 0;
 }
 
 /* Header responsivo com tipografia fluida */
@@ -229,7 +229,7 @@
 /* Extra Small Devices (smartphones pequenos, 320px-374px) */
 @media (max-width: 374px) {
   .reservas-page {
-    padding: 1rem 0.5rem;
+    padding: 0;
   }
 
   .reservas-grid {
