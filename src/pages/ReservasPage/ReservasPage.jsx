@@ -97,7 +97,7 @@ const ReservasPage = () => {
         </ul>
       </div>
 
-      <FooterUltraModern />
+      <Footer />
     </div>
   );
 };
