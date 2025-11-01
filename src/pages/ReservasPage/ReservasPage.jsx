@@ -52,6 +52,11 @@ const ReservasPage = () => {
   return (
     <div className="reservas-page">
       <div className="reservas-header">
+        <img 
+          src="/android-chrome-512x512.png" 
+          alt="Maiatur Logo" 
+          className="reservas-logo"
+        />
         <h1>Reservas Online</h1>
         <p>Escolha o tipo de serviço que deseja reservar</p>
       </div>
@@ -67,8 +72,10 @@ const ReservasPage = () => {
             <div className="card-icone" style={{ color: opcao.cor }}>
               {opcao.icone}
             </div>
-            <h3>{opcao.titulo}</h3>
-            <p>{opcao.descricao}</p>
+            <div className="reserva-card-content">
+              <h3>{opcao.titulo}</h3>
+              <p>{opcao.descricao}</p>
+            </div>
             <button
               className="btn-reservar"
               style={{ backgroundColor: opcao.cor }}

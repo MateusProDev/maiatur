@@ -20,6 +20,13 @@
   animation: fadeInDown 0.6s ease-out;
 }
 
+.reservas-logo {
+  width: clamp(80px, 10vw, 120px);
+  height: auto;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  animation: fadeInDown 0.6s ease-out;
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -48,33 +55,41 @@
   margin: 0 auto;
 }
 
-/* Grid responsivo com largura fixa dos cards */
+/* Grid responsivo - cards em linha horizontal */
 .reservas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 260px);
-  gap: clamp(1rem, 2.5vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
   margin-bottom: clamp(2.5rem, 4vw, 4rem);
-  justify-content: center;
+  max-width: 100%;
 }
 
-/* Cards com tamanho fixo (largura e altura na proporção 1:1.1) */
+/* Cards horizontais com elementos inline - card inteiro é clicável */
 .reserva-card {
   position: relative;
   background: var(--color-white);
-  border: 2px solid transparent;
-  border-radius: clamp(12px, 1.5vw, 16px);
-  padding: clamp(1.5rem, 3vw, 2rem);
-  text-align: center;
+  border-left: 4px solid;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: clamp(8px, 1vw, 12px);
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-soft);
   overflow: hidden;
-  /* Tamanho fixo: largura 260px e altura 286px (proporção 1:1.1) */
-  width: 260px;
-  height: 286px;
+  
+  /* Layout horizontal */
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  
+  /* Tamanho responsivo - mais fino */
+  width: 100%;
+  max-width: 700px;
+  min-height: 80px;
+  max-height: 90px;
+  margin: 0 auto;
 }
 
 /* Efeito de brilho ao hover */
@@ -95,9 +110,9 @@
 }
 
 .reserva-card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateX(4px);
   box-shadow: var(--shadow-primary);
-  border-color: var(--color-primary);
+  border-left-width: 6px;
 }
 
 .reserva-card:active {
@@ -110,66 +125,58 @@
   outline-offset: 4px;
 }
 
-/* Ícone responsivo com transição */
+/* Ícone responsivo com transição - mais compacto */
 .card-icone {
-  margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
   transition: transform 0.3s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  min-width: 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .reserva-card:hover .card-icone {
-  transform: scale(1.15) rotate(5deg);
+  transform: scale(1.05);
 }
 
 .card-icone svg {
-  width: clamp(32px, 5vw, 48px);
-  height: clamp(32px, 5vw, 48px);
+  width: clamp(28px, 3.5vw, 32px);
+  height: clamp(28px, 3.5vw, 32px);
 }
 
-/* Tipografia dos cards */
+/* Conteúdo do texto - flex para ocupar espaço */
+.reserva-card-content {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+/* Tipografia dos cards - mais compacta */
 .reserva-card h3 {
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
   font-weight: 600;
   color: var(--color-text-primary);
-  margin-bottom: clamp(0.4rem, 1vw, 0.6rem);
-  line-height: 1.3;
-  flex-shrink: 0;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .reserva-card p {
-  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  font-size: clamp(0.825rem, 1.1vw, 0.9rem);
   color: var(--color-text-secondary);
-  line-height: 1.5;
-  margin-bottom: clamp(1rem, 2vw, 1.5rem);
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  line-height: 1.3;
+  margin: 0;
 }
 
-/* Botão reservar com estados */
+/* Botão oculto - o card inteiro é clicável */
 .btn-reservar {
-  width: 100%;
-  padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
-  color: white;
-  border: none;
-  border-radius: clamp(6px, 1vw, 8px);
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  /* Touch target adequado */
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: auto;
+  display: none;
 }
 
 .btn-reservar:hover {
