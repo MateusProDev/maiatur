@@ -374,6 +374,15 @@
   opacity: 0;
   animation: cardFadeIn 0.6s ease-out forwards;
   position: relative;
+  color: inherit;
+}
+
+.pacote-card-modern,
+.pacote-card-modern:visited,
+.pacote-card-modern:link,
+.pacote-card-modern:active {
+  color: inherit !important;
+  text-decoration: none !important;
 }
 
 @keyframes cardFadeIn {
@@ -470,6 +479,13 @@
   text-overflow: ellipsis;
 }
 
+.pacote-card-modern .pacote-card-title,
+.pacote-card-modern:visited .pacote-card-title,
+.pacote-card-modern:link .pacote-card-title,
+.pacote-card-modern:hover .pacote-card-title {
+  color: var(--color-text-primary) !important;
+}
+
 .pacote-card-description {
   font-size: 0.95rem;
   color: var(--color-text-secondary) !important;
@@ -481,6 +497,21 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.pacote-card-modern .pacote-card-description,
+.pacote-card-modern:visited .pacote-card-description,
+.pacote-card-modern:link .pacote-card-description,
+.pacote-card-modern:hover .pacote-card-description {
+  color: var(--color-text-secondary) !important;
+}
+
+.pacote-card-link-area,
+.pacote-card-link-area:hover,
+.pacote-card-link-area:visited {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .pacote-card-footer {
@@ -519,8 +550,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-info) 100%) !important;
-  color: #ffffff !important;
+  background: var(--color-primary);
+  color: #ffffff;
   border: none;
   border-radius: 50px;
   font-size: 0.95rem;
@@ -529,12 +560,14 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3);
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .pacote-card-btn:hover {
   transform: translateX(5px);
   box-shadow: 0 6px 20px rgba(33, 166, 87, 0.4);
-  background: linear-gradient(135deg, #1a8546 0%, #5eb8d4 100%) !important;
+  background: var(--color-info);
+  color: #ffffff;
 }
 
 .pacote-card-btn svg {
@@ -784,6 +817,27 @@
   .no-results-modern p {
     font-size: 1rem;
   }
+}
+
+/* Strong override for pacote card button to defeat link/reset styles */
+.pacote-card-footer .pacote-card-btn,
+.pacote-card-footer a.pacote-card-btn {
+  background: #21A657 !important;
+  color: #fff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3) !important;
+  text-decoration: none !important;
+}
+
+.pacote-card-footer .pacote-card-btn:hover,
+.pacote-card-footer a.pacote-card-btn:hover {
+  background: #EE7C35 !important;
+  transform: translateX(5px) !important;
 }
 
 /* Mobile Small (max 480px) */

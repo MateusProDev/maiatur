@@ -278,56 +278,65 @@ const PacotesListPage = () => {
           {filteredPacotes.length > 0 ? (
             <div className="pacotes-grid-modern">
               {filteredPacotes.map((pacote, index) => (
-                <Link 
-                  to={`/pacote/${pacote.slug || pacote.id}`} 
+                <div 
                   key={pacote.id}
                   className="pacote-card-modern"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="pacote-card-image">
-                    <img 
-                      src={pacote.imagens?.[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800'} 
-                      alt={pacote.titulo}
-                      onError={(e) => {
-                        e.target.src = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800';
-                      }}
-                    />
-                    {pacote.destaque && (
-                      <div className="pacote-badge-destaque">
-                        <FiStar />
-                        Destaque
-                      </div>
-                    )}
-                    <div className="pacote-card-overlay"></div>
-                  </div>
-                  
-                  <div className="pacote-card-content">
-                    <h3 className="pacote-card-title">{pacote.titulo}</h3>
-                    <p className="pacote-card-description">{pacote.descricaoCurta}</p>
-                    
-                    <div className="pacote-card-footer">
-                      {pacote.mostrarPreco === true && (
-                        <div className="pacote-price-box">
-                          {pacote.precoOriginal && (
-                            <span className="price-original">
-                              R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
-                            </span>
-                          )}
-                          <span className="price-current">
-                            R$ {pacote.preco.toFixed(2).replace('.', ',')}
-                          </span>
+                  <Link to={`/pacote/${pacote.slug || pacote.id}`} className="pacote-card-link-area">
+                    <div className="pacote-card-image">
+                      <img 
+                        src={pacote.imagens?.[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800'} 
+                        alt={pacote.titulo}
+                        onError={(e) => {
+                          e.target.src = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800';
+                        }}
+                      />
+                      {pacote.destaque && (
+                        <div className="pacote-badge-destaque">
+                          <FiStar />
+                          Destaque
                         </div>
                       )}
-                      
-                      <button className="pacote-card-btn">
-                        Ver Detalhes
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </button>
+                      <div className="pacote-card-overlay"></div>
                     </div>
+                    
+                    <div className="pacote-card-content">
+                      <h3 className="pacote-card-title">{pacote.titulo}</h3>
+                      <p className="pacote-card-description">{pacote.descricaoCurta}</p>
+                    </div>
+                  </Link>
+                  
+                  <div className="pacote-card-footer">
+                    {pacote.mostrarPreco === true && (
+                      <div className="pacote-price-box">
+                        {pacote.precoOriginal && (
+                          <span className="price-original">
+                            R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
+                          </span>
+                        )}
+                        <span className="price-current">
+                          R$ {pacote.preco.toFixed(2).replace('.', ',')}
+                        </span>
+                      </div>
+                    )}
+                    
+                    <Link 
+                      to={`/pacote/${pacote.slug || pacote.id}`} 
+                      className="pacote-card-btn"
+                      style={{
+                        background: '#21A657',
+                        color: '#ffffff',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      Ver Detalhes
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </Link>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           ) : (
