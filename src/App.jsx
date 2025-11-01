@@ -9,6 +9,7 @@ import HomeUltraModern from "./pages/Home/HomeUltraModern";
 import AboutPage from "./pages/AboutPage/AboutPage";
 import PacotesListPage from "./pages/PacotesListPage/PacotesListPage";
 import PacoteDetailPage from "./pages/PacoteDetailPage/PacoteDetailPage";
+import CategoriaPage from "./pages/CategoriaPage/CategoriaPage";
 import AvaliacoesPage from "./pages/AvaliacoesPage/AvaliacoesPage";
 import Destinos from "./pages/Destinos/Destinos";
 import Contato from "./pages/Contato/Contato";
@@ -116,6 +117,7 @@ const App = () => {
               <Route path="/" element={<HomeUltraModern />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/pacotes" element={<PacotesListPage />} />
+              <Route path="/categoria/:categoria" element={<CategoriaPage />} />
               <Route path="/avaliacoes" element={<AvaliacoesPage />} />
               <Route path="/destinos" element={<Destinos />} />
               <Route path="/contato" element={<Contato />} />

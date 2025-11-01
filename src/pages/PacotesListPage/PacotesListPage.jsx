@@ -5,15 +5,16 @@ import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import { FiSearch, FiX, FiFilter, FiMapPin, FiCalendar, FiTrendingUp, FiStar } from 'react-icons/fi';
+import { FiSearch, FiX, FiFilter, FiMapPin, FiCalendar, FiTrendingUp, FiStar, FiPackage } from 'react-icons/fi';
 import './PacotesListPage.css';
 
 const PacotesListPage = () => {
-  const [allPacotes, setAllPacotes] = useState([]); // Todos os pacotes do Firebase
+  const [allPacotes, setAllPacotes] = useState([]);
   const [filteredPacotes, setFilteredPacotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDestaque, setFilterDestaque] = useState(false);
+  const [filterCategoria, setFilterCategoria] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
 
@@ -67,6 +68,7 @@ const PacotesListPage = () => {
       total: allPacotes.length, 
       destaque: filterDestaque, 
       busca: searchTerm, 
+      categoria: filterCategoria,
       preco: priceRange 
     });
     
@@ -76,6 +78,12 @@ const PacotesListPage = () => {
     if (filterDestaque) {
       results = results.filter(pacote => pacote.destaque === true);
       console.log(`⭐ Após filtro destaque: ${results.length} pacotes`);
+    }
+    
+    // Filtro de categoria
+    if (filterCategoria !== 'all') {
+      results = results.filter(pacote => pacote.categoria === filterCategoria);
+      console.log(`📂 Após filtro categoria: ${results.length} pacotes`);
     }
     
     // Filtro de busca
@@ -111,12 +119,13 @@ const PacotesListPage = () => {
     
     console.log(`✅ Total final: ${results.length} pacotes`);
     setFilteredPacotes(results);
-  }, [allPacotes, searchTerm, priceRange, filterDestaque]);
+  }, [allPacotes, searchTerm, priceRange, filterDestaque, filterCategoria]);
 
   const handleClearFilters = () => {
     setSearchTerm('');
     setPriceRange('all');
     setFilterDestaque(false);
+    setFilterCategoria('all');
   };
 
   if (loading) {
@@ -206,6 +215,25 @@ const PacotesListPage = () => {
 
           {showFilters && (
             <div className="advanced-filters-modern">
+              <div className="filter-group">
+                <label className="filter-label">
+                  <FiPackage />
+                  Categoria
+                </label>
+                <select
+                  value={filterCategoria}
+                  onChange={(e) => setFilterCategoria(e.target.value)}
+                  className="filter-select"
+                >
+                  <option value="all">Todas as categorias</option>
+                  <option value="passeio">Passeios</option>
+                  <option value="transfer_chegada">Transfer de Chegada</option>
+                  <option value="transfer_saida">Transfer de Saída</option>
+                  <option value="transfer_chegada_saida">Transfer Completo</option>
+                  <option value="transfer_entre_hoteis">Transfer entre Hotéis</option>
+                </select>
+              </div>
+
               <div className="filter-group">
                 <label className="filter-label">
                   <FiTrendingUp />
