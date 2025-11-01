@@ -237,32 +237,34 @@ const PacoteDetailPage = () => {
 
               <Divider sx={{ my: 2 }} />
 
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                {pacote.precoOriginal && (
+              {pacote.mostrarPreco !== false && (
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  {pacote.precoOriginal && (
+                    <Typography 
+                      variant="h6" 
+                      sx={{ 
+                        textDecoration: 'line-through',
+                        color: 'text.secondary',
+                        mr: 2
+                      }}
+                    >
+                      R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
+                    </Typography>
+                  )}
                   <Typography 
-                    variant="h6" 
-                    sx={{ 
-                      textDecoration: 'line-through',
-                      color: 'text.secondary',
-                      mr: 2
+                    variant="h4" 
+                    sx={{
+                      background: 'linear-gradient(135deg, #21A657 0%, #78C8E5 100%) !important',
+                      WebkitBackgroundClip: 'text !important',
+                      WebkitTextFillColor: 'transparent !important',
+                      backgroundClip: 'text !important',
+                      fontWeight: '800 !important'
                     }}
                   >
-                    R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
+                    R$ {pacote.preco.toFixed(2).replace('.', ',')}
                   </Typography>
-                )}
-                <Typography 
-                  variant="h4" 
-                  sx={{
-                    background: 'linear-gradient(135deg, #21A657 0%, #78C8E5 100%) !important',
-                    WebkitBackgroundClip: 'text !important',
-                    WebkitTextFillColor: 'transparent !important',
-                    backgroundClip: 'text !important',
-                    fontWeight: '800 !important'
-                  }}
-                >
-                  R$ {pacote.preco.toFixed(2).replace('.', ',')}
-                </Typography>
-              </Box>
+                </Box>
+              )}
 
               <Button 
                 variant="contained" 
