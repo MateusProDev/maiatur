@@ -2,7 +2,7 @@
 .blog-page { min-height: 100vh; background: #f9fafb; }
 
 .blog-hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #78C8E5 100%);
   padding: 6rem 2rem 4rem;
   text-align: center;
   color: white;
@@ -45,7 +45,7 @@
 
 .blog-filters-bar button:hover,
 .blog-filters-bar button.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #2bc46a 100%);
   color: white;
   border-color: transparent;
   transform: translateY(-2px);
@@ -68,7 +68,7 @@
 
 .blog-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 12px 40px rgba(33, 166, 87, 0.2);
 }
 
 .blog-card-image {
@@ -93,7 +93,7 @@
   top: 1rem;
   left: 1rem;
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
   color: white;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -154,8 +154,8 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem 0.75rem;
-  background: #eff6ff;
-  color: #3b82f6;
+  background: #e8f5f0;
+  color: #21A657;
   border-radius: 12px;
   font-size: 0.8rem;
 }

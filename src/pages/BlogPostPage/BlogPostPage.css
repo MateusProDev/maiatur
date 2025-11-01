@@ -50,7 +50,7 @@
 .post-category-badge {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -162,14 +162,14 @@
 }
 
 .post-tags svg {
-  color: #667eea;
+  color: #21A657;
   font-size: 1.25rem;
 }
 
 .post-tags span {
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
-  color: #667eea;
+  background: linear-gradient(135deg, rgba(33, 166, 87, 0.1) 0%, rgba(120, 200, 229, 0.1) 100%);
+  color: #21A657;
   border-radius: 20px;
   font-weight: 600;
 }
@@ -184,7 +184,7 @@
 .related-posts h3 {
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #78C8E5 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -236,13 +236,13 @@
 .post-cta-box {
   margin: 3rem 0;
   padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #2bc46a 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 30px rgba(33, 166, 87, 0.3);
   animation: fadeInUp 0.6s ease;
 }
 
@@ -299,7 +299,7 @@
 
 .cta-home-button {
   background: white;
-  color: #667eea;
+  color: #21A657;
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
 }
 

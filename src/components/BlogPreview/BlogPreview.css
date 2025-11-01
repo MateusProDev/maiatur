@@ -1,7 +1,7 @@
 /* Blog Preview - Modern & Compact */
 .blog-preview-section {
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8f5f0 100%);
 }
 
 .blog-preview-container {
@@ -21,7 +21,7 @@
 .blog-preview-header h2 {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #78C8E5 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -38,7 +38,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.875rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #2bc46a 100%);
   color: white;
   border: none;
   border-radius: 50px;
@@ -46,12 +46,13 @@
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3);
 }
 
 .view-all-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 25px rgba(33, 166, 87, 0.4);
+  background: linear-gradient(135deg, #1a8546 0%, #21A657 100%);
 }
 
 .blog-preview-grid {
@@ -71,7 +72,7 @@
 
 .blog-preview-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+  box-shadow: 0 20px 60px rgba(33, 166, 87, 0.25);
 }
 
 .blog-preview-image {
@@ -119,7 +120,7 @@
 .blog-preview-category {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
   color: white;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -171,12 +172,13 @@
 }
 
 .read-more {
-  color: #667eea !important;
+  color: #21A657 !important;
   font-weight: 700 !important;
   transition: all 0.3s ease;
 }
 
 .blog-preview-card:hover .read-more {
+  color: #EE7C35 !important;
   gap: 0.75rem;
 }
 

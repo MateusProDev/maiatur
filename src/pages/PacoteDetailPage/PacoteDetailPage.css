@@ -1,11 +1,11 @@
 /* ============ ROOT VARIABLES ============ */
 :root {
-  --primary-main: #1976d2;
-  --primary-dark: #1565c0;
-  --primary-light: #e3f2fd;
-  --secondary-main: #ff9800;
+  --primary-main: #21A657;
+  --primary-dark: #1a8546;
+  --primary-light: #e8f5f0;
+  --secondary-main: #EE7C35;
   --error-main: #d32f2f;
-  --success-main: #388e3c;
+  --success-main: #21A657;
   --text-primary: #212121;
   --text-secondary: #757575;
   --divider-color: rgba(0, 0, 0, 0.12);
@@ -272,7 +272,7 @@
 .pacote-description h4,
 .pacote-description h5,
 .pacote-description h6 {
-  color: #1976d2;
+  color: #21A657;
   margin-top: 24px;
   margin-bottom: 12px;
 }
@@ -294,7 +294,7 @@
 
 .pacote-description strong,
 .pacote-description b {
-  color: #1976d2;
+  color: #21A657;
   font-weight: 600;
 }
 
@@ -311,18 +311,18 @@
 }
 
 .pacote-description blockquote {
-  background-color: #e3f2fd;
-  border-left-color: #1976d2;
-  color: #1565c0;
+  background-color: #e8f5f0;
+  border-left-color: #21A657;
+  color: #1a8546;
   margin: 20px 0;
 }
 
 .pacote-description a {
-  color: #1976d2;
+  color: #21A657;
   font-weight: 500;
 }
 
 .pacote-description a:hover {
-  color: #1565c0;
+  color: #1a8546;
   text-decoration: underline;
 }

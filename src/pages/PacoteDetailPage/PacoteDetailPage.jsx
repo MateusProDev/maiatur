@@ -250,7 +250,16 @@ const PacoteDetailPage = () => {
                     R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
                   </Typography>
                 )}
-                <Typography variant="h4" color="primary">
+                <Typography 
+                  variant="h4" 
+                  sx={{
+                    background: 'linear-gradient(135deg, #21A657 0%, #78C8E5 100%) !important',
+                    WebkitBackgroundClip: 'text !important',
+                    WebkitTextFillColor: 'transparent !important',
+                    backgroundClip: 'text !important',
+                    fontWeight: '800 !important'
+                  }}
+                >
                   R$ {pacote.preco.toFixed(2).replace('.', ',')}
                 </Typography>
               </Box>
@@ -259,11 +268,20 @@ const PacoteDetailPage = () => {
                 variant="contained" 
                 size="large" 
                 fullWidth
-                sx={{ mt: 2 }}
+                sx={{ 
+                  mt: 2,
+                  background: 'linear-gradient(135deg, #21A657 0%, #2bc46a 100%) !important',
+                  color: '#ffffff !important',
+                  boxShadow: '0 4px 15px rgba(33, 166, 87, 0.3) !important',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #1a8546 0%, #21A657 100%) !important',
+                    boxShadow: '0 6px 20px rgba(33, 166, 87, 0.4) !important',
+                  }
+                }}
                 onClick={handleReserveWhatsApp}
                 disabled={whatsappLoading}
               >
-                Reservar Pelo WhatsApp
+                Solicitar Cotação
               </Button>
 
               <Accordion 
