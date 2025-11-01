@@ -278,16 +278,18 @@ const PacotesListPage = () => {
                     <p className="pacote-card-description">{pacote.descricaoCurta}</p>
                     
                     <div className="pacote-card-footer">
-                      <div className="pacote-price-box">
-                        {pacote.precoOriginal && (
-                          <span className="price-original">
-                            R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
+                      {pacote.mostrarPreco !== false && (
+                        <div className="pacote-price-box">
+                          {pacote.precoOriginal && (
+                            <span className="price-original">
+                              R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
+                            </span>
+                          )}
+                          <span className="price-current">
+                            R$ {pacote.preco.toFixed(2).replace('.', ',')}
                           </span>
-                        )}
-                        <span className="price-current">
-                          R$ {pacote.preco.toFixed(2).replace('.', ',')}
-                        </span>
-                      </div>
+                        </div>
+                      )}
                       
                       <button className="pacote-card-btn">
                         Ver Detalhes
