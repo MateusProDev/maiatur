@@ -234,7 +234,7 @@ const PacotesListPage = () => {
                 </select>
               </div>
 
-              <div className="filter-group">
+              {/* <div className="filter-group">
                 <label className="filter-label">
                   <FiTrendingUp />
                   Faixa de Preço
@@ -250,7 +250,7 @@ const PacotesListPage = () => {
                   <option value="1000-2000">R$ 1.000 - R$ 2.000</option>
                   <option value="2000+">Acima de R$ 2.000</option>
                 </select>
-              </div>
+              </div> */}
 
               <div className="filter-results">
                 <span className="results-count">
