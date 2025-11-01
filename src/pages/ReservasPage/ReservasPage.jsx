@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRoute, FaPlane, FaExchangeAlt, FaPlaneDeparture, FaHotel } from "react-icons/fa";
+import FooterUltraModern from "../../components/Footer/FooterUltraModern";
 import "./ReservasPage.css";
 
 const ReservasPage = () => {
@@ -95,6 +96,8 @@ const ReservasPage = () => {
           <li>Leia nossa política de cancelamento antes de reservar</li>
         </ul>
       </div>
+
+      <FooterUltraModern />
     </div>
   );
 };
