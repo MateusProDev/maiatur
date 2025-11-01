@@ -37,25 +37,25 @@ const HomeUltraModern = () => {
       icon: <FaPlaneDeparture />,
       title: 'Transfers & Receptivo',
       description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
-      color: '#667eea'
+      color: '#21A657'
     },
     {
       icon: <FaUmbrellaBeach />,
       title: 'Passeios Privativos',
       description: 'Experiências exclusivas com roteiros personalizados para você',
-      color: '#f093fb'
+      color: '#EE7C35'
     },
     {
       icon: <FaMountain />,
       title: 'Aventuras Radicais',
       description: 'Buggy, quadriciclo, lancha e muito mais para os aventureiros',
-      color: '#4facfe'
+      color: '#78C8E5'
     },
     {
       icon: <FaCity />,
       title: 'City Tours',
       description: 'Conheça as principais atrações e cultura local com nossos guias',
-      color: '#43e97b'
+      color: '#F8C144'
     }
   ];
 

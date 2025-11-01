@@ -1,19 +1,19 @@
 /* ELABORATE PROFESSIONAL FOOTER STYLES — DETAILED UI/UX DESIGN (style-only update) */
 :root {
-  --footer-bg-primary: #0a0f1c; /* deep navy */
-  --footer-bg-secondary: #0d1425; /* darker slate */
-  --footer-bg-accent: #1a2332; /* subtle accent */
+  --footer-bg-primary: #1a8546; /* verde escuro tropical */
+  --footer-bg-secondary: #21A657; /* verde tropical principal */
+  --footer-bg-accent: #2bc46a; /* verde claro */
   --footer-text-primary: #ffffff;
-  --footer-text-muted: rgba(255, 255, 255, 0.75);
-  --footer-text-muted-2: rgba(255, 255, 255, 0.55);
-  --footer-text-muted-3: rgba(255, 255, 255, 0.35);
-  --footer-accent: #ffb84d; /* warm gold */
-  --footer-accent-hover: #ffcc66;
-  --footer-border: rgba(255, 255, 255, 0.04);
-  --footer-border-hover: rgba(255, 184, 77, 0.18);
-  --footer-shadow: rgba(2, 6, 23, 0.6);
-  --footer-shadow-hover: rgba(2, 6, 23, 0.8);
-  --footer-glass: rgba(255, 255, 255, 0.03);
+  --footer-text-muted: rgba(255, 255, 255, 0.85);
+  --footer-text-muted-2: rgba(255, 255, 255, 0.70);
+  --footer-text-muted-3: rgba(255, 255, 255, 0.50);
+  --footer-accent: #F8C144; /* amarelo dourado */
+  --footer-accent-hover: #fad16d;
+  --footer-border: rgba(255, 255, 255, 0.08);
+  --footer-border-hover: rgba(248, 193, 68, 0.25);
+  --footer-shadow: rgba(26, 133, 70, 0.4);
+  --footer-shadow-hover: rgba(26, 133, 70, 0.6);
+  --footer-glass: rgba(255, 255, 255, 0.05);
   --footer-transition-fast: 0.18s ease;
   --footer-transition-slow: 0.32s ease;
   --footer-radius-small: 8px;
@@ -70,7 +70,7 @@
   left: 0;
   right: 0;
   height: 100px;
-  background: linear-gradient(180deg, transparent, rgba(10, 15, 28, 0.8));
+  background: linear-gradient(180deg, transparent, rgba(26, 133, 70, 0.8));
   pointer-events: none;
 }
 

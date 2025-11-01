@@ -389,8 +389,9 @@
 /* Spinners */
 .spinner,
 .spinner-small {
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid white;
+  border: 3px solid rgba(238, 124, 53, 0.3);
+  border-top: 3px solid #EE7C35;
+  border-right: 3px solid #F8C144;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }

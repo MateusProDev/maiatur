@@ -1,22 +1,22 @@
 /* ========================================
    FOOTER ULTRA MODERNO - MAIATUR
-   Design arrojado com gradientes, glassmorphism e animações
+   Design arrojado com paleta tropical
    ======================================== */
 
 /* ========== VARIÁVEIS ========== */
 :root {
-  --footer-dark: #0a0b14;
-  --footer-darker: #050509;
-  --footer-purple: #667eea;
-  --footer-pink: #f093fb;
-  --footer-blue: #4facfe;
-  --footer-cyan: #00f2fe;
+  --footer-dark: #1a8546;
+  --footer-darker: #16713a;
+  --footer-purple: #21A657;
+  --footer-pink: #EE7C35;
+  --footer-blue: #78C8E5;
+  --footer-cyan: #F8C144;
 }
 
 /* ========== FOOTER CONTAINER ========== */
 .footer-ultra-modern {
   position: relative;
-  background: linear-gradient(135deg, #0a0b14 0%, #1a1b2e 50%, #0f0f1e 100%);
+  background: linear-gradient(135deg, #1a8546 0%, #21A657 50%, #2bc46a 100%);
   color: #ffffff;
   padding: 80px 0 0;
   overflow: hidden;
@@ -55,7 +55,7 @@
 .footer-shape-2 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, var(--footer-pink), transparent);
+  background: radial-gradient(circle, var(--footer-cyan), transparent);
   bottom: -150px;
   right: -100px;
   animation-delay: 5s;
@@ -64,7 +64,7 @@
 .footer-shape-3 {
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, var(--footer-blue), transparent);
+  background: radial-gradient(circle, var(--footer-pink), transparent);
   top: 50%;
   right: 30%;
   animation-delay: 10s;
@@ -109,7 +109,7 @@
 
 .footer-logo-icon {
   font-size: 36px;
-  color: var(--footer-purple);
+  color: var(--footer-cyan);
   animation: rotateIcon 10s linear infinite;
 }
 
@@ -121,11 +121,12 @@
 .footer-logo-ultra h2 {
   font-size: clamp(24px, 3vw, 32px);
   font-weight: 800;
-  background: linear-gradient(135deg, var(--footer-purple), var(--footer-pink));
+  background: linear-gradient(135deg, var(--footer-cyan), var(--footer-pink), var(--footer-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
+  filter: brightness(1.2) contrast(1.1);
 }
 
 .footer-tagline {
@@ -203,7 +204,7 @@
 }
 
 .newsletter-btn-ultra {
-  background: linear-gradient(135deg, var(--footer-purple), var(--footer-pink));
+  background: linear-gradient(135deg, #EE7C35, #F8C144) !important;
   border: none;
   width: 50px;
   height: 50px;
@@ -218,7 +219,8 @@
 
 .newsletter-btn-ultra:hover {
   transform: scale(1.1) rotate(15deg);
-  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 5px 20px rgba(238, 124, 53, 0.6) !important;
+  background: linear-gradient(135deg, #F8C144, #EE7C35) !important;
 }
 
 .newsletter-btn-ultra svg {
@@ -235,15 +237,15 @@
 }
 
 .newsletter-success {
-  background: rgba(67, 233, 123, 0.1);
-  color: #43e97b;
-  border: 1px solid rgba(67, 233, 123, 0.3);
+  background: rgba(33, 166, 87, 0.1);
+  color: var(--color-primary);
+  border: 1px solid rgba(33, 166, 87, 0.3);
 }
 
 .newsletter-error {
-  background: rgba(255, 99, 99, 0.1);
-  color: #ff6363;
-  border: 1px solid rgba(255, 99, 99, 0.3);
+  background: rgba(238, 124, 53, 0.1);
+  color: var(--color-secondary);
+  border: 1px solid rgba(238, 124, 53, 0.3);
 }
 
 /* ========== REDES SOCIAIS ========== */
@@ -330,7 +332,7 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, var(--footer-purple), var(--footer-pink));
+  background: linear-gradient(90deg, var(--footer-cyan), var(--footer-pink));
   border-radius: 2px;
 }
 
@@ -404,7 +406,7 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--footer-purple), var(--footer-pink));
+  background: linear-gradient(135deg, var(--footer-pink), var(--footer-cyan));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -467,7 +469,7 @@
 }
 
 .heart-icon-ultra {
-  color: #ff6b6b;
+  color: #EE7C35;
   animation: heartBeat 1.5s ease-in-out infinite;
 }
 

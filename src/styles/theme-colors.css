@@ -1,0 +1,59 @@
+/* ========================================
+   PALETA DE CORES TROPICAL - MAIATUR
+   ======================================== */
+
+:root {
+  /* Cor Dominante - Verde Tropical */
+  --color-primary: #21A657;
+  --color-primary-light: #2bc46a;
+  --color-primary-dark: #1a8546;
+  --color-primary-alpha: rgba(33, 166, 87, 0.1);
+  
+  /* Cor Secundária - Laranja Pôr do Sol */
+  --color-secondary: #EE7C35;
+  --color-secondary-light: #f59255;
+  --color-secondary-dark: #d96b2a;
+  --color-secondary-alpha: rgba(238, 124, 53, 0.1);
+  
+  /* Cor de Destaque - Amarelo Dourado */
+  --color-accent: #F8C144;
+  --color-accent-light: #fad16d;
+  --color-accent-dark: #e5ae2f;
+  --color-accent-alpha: rgba(248, 193, 68, 0.1);
+  
+  /* Cor de Destaque - Azul Suave */
+  --color-info: #78C8E5;
+  --color-info-light: #96d6ec;
+  --color-info-dark: #5bb4d6;
+  --color-info-alpha: rgba(120, 200, 229, 0.1);
+  
+  /* Cor Neutra - Branco */
+  --color-white: #FFFFFF;
+  --color-off-white: #F9FAFB;
+  
+  /* Cores de Texto */
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #4a5568;
+  --color-text-light: #64748b;
+  --color-text-white: #FFFFFF;
+  
+  /* Cores de Estado */
+  --color-success: #21A657;
+  --color-warning: #F8C144;
+  --color-error: #EE7C35;
+  --color-info-state: #78C8E5;
+  
+  /* Gradientes */
+  --gradient-primary: linear-gradient(135deg, #21A657 0%, #2bc46a 100%);
+  --gradient-secondary: linear-gradient(135deg, #EE7C35 0%, #f59255 100%);
+  --gradient-tropical: linear-gradient(135deg, #21A657 0%, #78C8E5 50%, #F8C144 100%);
+  --gradient-sunset: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
+  
+  /* Sombras */
+  --shadow-primary: 0 4px 12px rgba(33, 166, 87, 0.15);
+  --shadow-secondary: 0 4px 12px rgba(238, 124, 53, 0.15);
+  --shadow-accent: 0 4px 12px rgba(248, 193, 68, 0.15);
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-large: 0 8px 24px rgba(0, 0, 0, 0.12);
+}

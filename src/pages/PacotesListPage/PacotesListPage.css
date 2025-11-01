@@ -623,8 +623,9 @@
 .loading-spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid rgba(102, 126, 234, 0.2);
-  border-top-color: #667eea;
+  border: 4px solid rgba(238, 124, 53, 0.2);
+  border-top-color: #EE7C35;
+  border-right-color: #F8C144;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -635,7 +636,7 @@
 
 .pacotes-loading p {
   font-size: 1.1rem;
-  color: #667eea;
+  color: #EE7C35;
   font-weight: 600;
 }
 

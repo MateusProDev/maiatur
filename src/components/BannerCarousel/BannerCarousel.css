@@ -22,14 +22,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #78C8E5 50%, #F8C144 100%);
 }
 
 .loading-spinner-banner {
   width: 60px;
   height: 60px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border: 4px solid rgba(238, 124, 53, 0.3);
+  border-top-color: #EE7C35;
+  border-right-color: #F8C144;
   border-radius: 50%;
   animation: spinBanner 1s linear infinite;
 }
@@ -192,21 +193,22 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1.25rem 2.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #21A657 0%, #2bc46a 100%);
   color: #ffffff;
   font-size: 1.1rem;
   font-weight: 700;
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 10px 40px rgba(33, 166, 87, 0.4);
   border: 2px solid transparent;
 }
 
 .banner-btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
-  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 15px 50px rgba(33, 166, 87, 0.6);
+  border-color: rgba(248, 193, 68, 0.8);
+  background: linear-gradient(135deg, #1a8546 0%, #21A657 100%);
 }
 
 .banner-btn-primary svg {
@@ -222,7 +224,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1.25rem 2.5rem;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(238, 124, 53, 0.2);
   backdrop-filter: blur(10px);
   color: #ffffff;
   font-size: 1.1rem;
@@ -230,13 +232,14 @@
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(238, 124, 53, 0.5);
 }
 
 .banner-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(238, 124, 53, 0.4);
   transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(248, 193, 68, 0.8);
+  box-shadow: 0 10px 30px rgba(238, 124, 53, 0.3);
 }
 
 /* Navigation Buttons */
@@ -247,7 +250,7 @@
   z-index: 10;
   width: 60px;
   height: 60px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(33, 166, 87, 0.9);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
@@ -274,9 +277,10 @@
 }
 
 .banner-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(33, 166, 87, 1);
   transform: translateY(-50%) scale(1.1);
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(248, 193, 68, 0.8);
+  box-shadow: 0 8px 24px rgba(33, 166, 87, 0.4);
 }
 
 .banner-nav-btn:active {
@@ -298,7 +302,7 @@
   width: 12px;
   height: 12px;
   background: rgba(255, 255, 255, 0.4);
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(248, 193, 68, 0.6);
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -306,14 +310,16 @@
 }
 
 .banner-dot:hover {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(248, 193, 68, 0.8);
   transform: scale(1.2);
+  border-color: rgba(248, 193, 68, 1);
 }
 
 .banner-dot.active {
-  background: #ffffff;
+  background: #21A657;
   width: 32px;
   border-radius: 6px;
+  border-color: #21A657;
 }
 
 /* Progress Bar */

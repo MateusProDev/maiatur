@@ -1,7 +1,7 @@
 /* ===================== Global Styles ===================== */
 body {
   font-family: 'Roboto', sans-serif;
-  color: #333;
+  color: var(--color-text-primary);
   line-height: 1.6;
 }
 
@@ -9,13 +9,13 @@ body {
   font-weight: 700 !important;
   margin-bottom: 2rem !important;
   text-align: center;
-  color: #3A3A3A;
+  color: var(--color-primary);
 }
 
 /* ===================== Destaques Slider ===================== */
 .destaques-section {
   padding: 4rem 0;
-  background: #f8f9fa;
+  background: var(--color-off-white);
 }
 
 .destaques-carousel {
@@ -99,9 +99,9 @@ body {
 }
 
 .destaque-card {
-  background: #ffffff;
+  background: var(--color-white);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -146,7 +146,8 @@ body {
 }
 
 .destaque-link:hover .destaque-card {
-  box-shadow: 0 12px 48px rgba(255, 107, 53, 0.2);
+  box-shadow: var(--shadow-secondary);
+  transform: translateY(-4px);
 }
 
 .destaque-card .image-container {
@@ -246,19 +247,17 @@ body {
   gap: 2rem;
 }
 
-.pacote-card {
-  background: #fff;
-  border-radius: 16px;
+.pacotes-card {
+  background: var(--color-white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
+  transition: all 0.3s ease;
 }
 
-.pacote-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+.pacotes-card:hover {
+  box-shadow: var(--shadow-primary);
+  transform: translateY(-8px);
 }
 
 .pacote-card .image-container {
@@ -308,14 +307,14 @@ body {
 
 /* ============ ROOT VARIABLES ============ */
 :root {
-  --primary-color: #2563eb; /* More vibrant blue */
-  --secondary-color: #10b981; /* Fresh green */
-  --accent-color: #f59e0b; /* Warm amber */
-  --error-color: #ef4444; /* Bright red */
-  --text-dark: #1f2937; /* Dark gray */
-  --text-medium: #374151; /* Medium gray */
-  --text-light: #6b7280; /* Light gray */
-  --bg-light: #f9fafb; /* Very light gray */
+  --primary-color: #21A657; /* Verde tropical */
+  --secondary-color: #EE7C35; /* Laranja pôr do sol */
+  --accent-color: #F8C144; /* Amarelo dourado */
+  --error-color: #EE7C35; /* Laranja */
+  --text-dark: var(--color-text-primary); /* Dark gray */
+  --text-medium: var(--color-text-secondary); /* Medium gray */
+  --text-light: var(--color-text-light); /* Light gray */
+  --bg-light: var(--color-off-white); /* Very light gray */
   --bg-medium: #e5e7eb; /* Light gray */
   --white: #ffffff;
   --black: #000000;
@@ -357,8 +356,9 @@ body {
 .spinner {
   width: 3.5rem;
   height: 3.5rem;
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: var(--primary-color);
+  border: 4px solid rgba(238, 124, 53, 0.2);
+  border-left-color: #EE7C35;
+  border-top-color: #F8C144;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

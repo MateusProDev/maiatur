@@ -1,24 +1,24 @@
 /* ========================================
    HOME ULTRA MODERNO - MAIATUR
-   Design arrojado com formas orgânicas
+   Design arrojado com paleta tropical
 ======================================== */
 
 :root {
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --tertiary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  --dark-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  --primary-gradient: linear-gradient(135deg, #21A657 0%, #2bc46a 100%);
+  --secondary-gradient: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
+  --tertiary-gradient: linear-gradient(135deg, #78C8E5 0%, #21A657 100%);
+  --success-gradient: linear-gradient(135deg, #21A657 0%, #2bc46a 100%);
+  --dark-gradient: linear-gradient(135deg, #1a8546 0%, #21A657 100%);
   
   --text-primary: #1a1a2e;
   --text-secondary: #6b7280;
   --white: #ffffff;
-  --light-bg: #f8f9ff;
+  --light-bg: #f9fafb;
   
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+  --shadow-sm: 0 2px 8px rgba(33, 166, 87, 0.08);
+  --shadow-md: 0 4px 20px rgba(33, 166, 87, 0.12);
+  --shadow-lg: 0 10px 40px rgba(33, 166, 87, 0.15);
+  --shadow-xl: 0 20px 60px rgba(33, 166, 87, 0.18);
   
   --radius-sm: 12px;
   --radius-md: 20px;
@@ -55,7 +55,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #21A657 0%, #78C8E5 50%, #F8C144 100%);
   padding-top: 80px;
 }
 
@@ -65,8 +65,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 30% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 70% 80%, rgba(240, 147, 251, 0.3) 0%, transparent 50%);
+  background: radial-gradient(circle at 30% 50%, rgba(33, 166, 87, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(248, 193, 68, 0.3) 0%, transparent 50%);
   z-index: 1;
 }
 
@@ -222,13 +222,13 @@
 
 .btn-hero-primary {
   background: var(--white);
-  color: #667eea;
+  color: var(--color-primary);
 }
 
 .btn-hero-primary:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-xl);
-  background: #f8f9ff;
+  background: var(--color-off-white);
 }
 
 .btn-hero-secondary {
@@ -374,14 +374,14 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-  color: #667eea;
+  background: var(--color-primary-alpha);
+  color: var(--color-primary);
   padding: 0.6rem 1.2rem;
   border-radius: 50px;
   font-weight: 600;
   font-size: 0.9rem;
   margin-bottom: 1rem;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid var(--color-primary-alpha);
 }
 
 .section-title-ultra {
@@ -419,8 +419,10 @@
 .spinner-ultra {
   width: 60px;
   height: 60px;
-  border: 4px solid rgba(102, 126, 234, 0.1);
-  border-top-color: #667eea;
+  border: 4px solid rgba(238, 124, 53, 0.2);
+  border-top-color: #EE7C35;
+  border-right-color: #F8C144;
+  border-bottom-color: #EE7C35;
   border-radius: 50%;
   margin: 0 auto 1rem;
   animation: spin 1s linear infinite;
@@ -435,7 +437,7 @@
 
 .empty-icon {
   font-size: 4rem;
-  color: #667eea;
+  color: var(--color-primary);
   margin-bottom: 1rem;
 }
 
@@ -540,7 +542,7 @@
 }
 
 .badge-destaque {
-  background: linear-gradient(135deg, #f5576c, #f093fb);
+  background: var(--gradient-secondary);
   color: var(--white);
   padding: 0.5rem 1rem;
   border-radius: 50px;
@@ -583,7 +585,7 @@
 }
 
 .star-filled {
-  color: #fbbf24;
+  color: var(--color-accent);
 }
 
 .pacote-price-section {
@@ -614,7 +616,7 @@
   align-items: center;
   justify-content: space-between;
   font-weight: 700;
-  color: #667eea;
+  color: var(--color-primary);
   font-size: 0.95rem;
 }
 
@@ -714,7 +716,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #667eea;
+  color: var(--color-primary);
   font-weight: 700;
   font-size: 0.95rem;
   background: none;
@@ -905,7 +907,7 @@
   justify-content: center;
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
-  color: #fbbf24;
+  color: var(--color-accent);
 }
 
 .testimonial-text {
@@ -957,15 +959,16 @@
   height: 50px;
   border-radius: 50%;
   background: var(--white);
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-primary-alpha);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: var(--text-primary);
+  color: var(--color-primary);
   cursor: pointer;
   transition: all 0.3s var(--transition-smooth);
   z-index: 10;
+  box-shadow: var(--shadow-md);
 }
 
 .slider-nav:hover {
@@ -973,6 +976,7 @@
   color: var(--white);
   border-color: transparent;
   transform: translateY(-50%) scale(1.1);
+  box-shadow: var(--shadow-primary);
 }
 
 .slider-nav.prev {
@@ -994,16 +998,22 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #d1d5db;
+  background: rgba(33, 166, 87, 0.2);
   border: none;
   cursor: pointer;
   transition: all 0.3s var(--transition-smooth);
+}
+
+.dot:hover {
+  background: var(--color-primary-alpha);
+  transform: scale(1.2);
 }
 
 .dot.active {
   background: var(--primary-gradient);
   width: 40px;
   border-radius: 6px;
+  box-shadow: var(--shadow-primary);
 }
 
 /* ==================== CTA FINAL ==================== */
@@ -1108,11 +1118,11 @@
 
 .btn-cta-explore {
   background: var(--white);
-  color: #667eea;
+  color: var(--color-primary);
 }
 
 .btn-cta-explore:hover {
-  background: #f8f9ff;
+  background: var(--color-off-white);
   transform: translateY(-3px);
   box-shadow: var(--shadow-xl);
 }
