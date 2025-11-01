@@ -229,6 +229,7 @@ const CategoriaPage = () => {
                 </label>
               </div>
 
+              {/* Filtro de preço comentado
               <div className="filter-group">
                 <label className="filter-label">
                   <FiCalendar />
@@ -246,6 +247,7 @@ const CategoriaPage = () => {
                   <option value="2000+">Acima de R$ 2.000</option>
                 </select>
               </div>
+              */}
 
               <button onClick={handleClearFilters} className="clear-filters-btn">
                 <FiX />
@@ -254,7 +256,7 @@ const CategoriaPage = () => {
             </div>
           )}
 
-          {(searchTerm || filterDestaque || priceRange !== 'all') && (
+          {(searchTerm || filterDestaque) && (
             <div className="active-filters">
               <span className="active-filters-label">Filtros ativos:</span>
               {searchTerm && (
@@ -269,6 +271,7 @@ const CategoriaPage = () => {
                   <FiX onClick={() => setFilterDestaque(false)} />
                 </span>
               )}
+              {/* Removido filtro de preço
               {priceRange !== 'all' && (
                 <span className="filter-tag">
                   Preço: {priceRange === '0-500' ? 'Até R$ 500' : 
@@ -277,6 +280,7 @@ const CategoriaPage = () => {
                   <FiX onClick={() => setPriceRange('all')} />
                 </span>
               )}
+              */}
             </div>
           )}
         </div>
