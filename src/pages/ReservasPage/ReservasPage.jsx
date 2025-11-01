@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRoute, FaPlane, FaExchangeAlt, FaPlaneDeparture, FaHotel } from "react-icons/fa";
-import FooterUltraModern from "../../components/Footer/FooterUltraModern";
+import Footer from "../../components/Footer/Footer";
 import "./ReservasPage.css";
 
 const ReservasPage = () => {
