@@ -259,13 +259,15 @@
     align-items: flex-start;
     padding: 6rem 2rem 2rem;
     gap: 0;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.25);
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
+    z-index: 999;
   }
 
   .header-nav-modern.nav-open {
     right: 0;
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
   }
 
   .header-nav-list-modern {
@@ -292,18 +294,6 @@
     justify-content: center;
     margin-top: 1rem;
     padding: 1rem;
-  }
-
-  .header-nav-modern.nav-open::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-    animation: fadeIn 0.3s ease;
   }
 }
 
@@ -376,8 +366,137 @@
 .nav-link-modern:focus,
 .header-menu-toggle-modern:focus,
 .whatsapp-btn-nav:focus {
-  outline: 2px solid #667eea;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* ========== REDES SOCIAIS NO MENU ========== */
+.header-nav-social {
+  width: 100%;
+  padding: 1.5rem 0;
+  margin-top: 1.5rem;
+  border-top: 2px solid rgba(33, 166, 87, 0.1);
+}
+
+.nav-social-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-social-icon-title {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.nav-social-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.nav-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  aspect-ratio: 1;
+}
+
+.nav-social-btn svg {
+  font-size: 1.5rem;
+}
+
+.nav-social-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-social-whatsapp {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+}
+
+.nav-social-instagram {
+  background: linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%);
+  color: white;
+}
+
+.nav-social-facebook {
+  background: linear-gradient(135deg, #1877F2 0%, #0C63D4 100%);
+  color: white;
+}
+
+.nav-social-youtube {
+  background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+  color: white;
+}
+
+.nav-social-twitter {
+  background: linear-gradient(135deg, #1DA1F2 0%, #0C85D0 100%);
+  color: white;
+}
+
+.nav-social-linkedin {
+  background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+  color: white;
+}
+
+/* ========== INFORMAÇÕES DE CONTATO NO MENU ========== */
+.header-nav-contact {
+  width: 100%;
+  padding: 1.5rem 0;
+  margin-top: 1rem;
+  border-top: 2px solid rgba(33, 166, 87, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nav-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, var(--color-primary-alpha) 0%, rgba(33, 166, 87, 0.05) 100%);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.nav-contact-item:hover {
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, rgba(33, 166, 87, 0.15) 0%, rgba(33, 166, 87, 0.08) 100%);
+  transform: translateX(5px);
+}
+
+.nav-contact-icon {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* ========== DESKTOP - ESCONDER REDES SOCIAIS E CONTATO ========== */
+@media (min-width: 769px) {
+  .header-nav-social,
+  .header-nav-contact {
+    display: none;
+  }
 }
 
 /* ========== ANIMAÇÕES ========== */
