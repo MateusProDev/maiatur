@@ -343,17 +343,97 @@
 }
 
 @media (max-width: 768px) {
-  .blog-post-hero { height: 50vh; }
-  .blog-post-hero h1 { font-size: 2rem; }
-  .blog-post-content { padding: 2rem 1.5rem; }
-  .post-body { font-size: 1rem; }
-  .related-posts-grid { grid-template-columns: 1fr; }
+  .blog-post-hero { 
+    height: 50vh; 
+    min-height: 300px;
+  }
+  
+  .blog-post-hero h1 { 
+    font-size: 1.75rem;
+    line-height: 1.3;
+  }
+  
+  .blog-post-hero-overlay {
+    padding: 2rem 1rem 1.5rem;
+  }
+  
+  .post-meta-info {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .back-button {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Container ocupa 100% em mobile */
+  .blog-post-container {
+    max-width: 100%;
+    padding: 1rem;
+    margin: 0;
+  }
+  
+  /* Conteúdo ocupa 100% da largura */
+  .blog-post-content { 
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .post-body { 
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  
+  .post-body h2 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+  
+  .post-body h3 {
+    font-size: 1.25rem;
+    margin: 1.25rem 0 0.5rem;
+  }
+  
+  .post-body p {
+    margin-bottom: 1rem;
+  }
+  
+  .post-body img {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+  }
+  
+  .post-tags {
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  /* Posts relacionados também ocupam 100% */
+  .related-posts {
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+  }
+  
+  .related-posts h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .related-posts-grid { 
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
   
   .post-cta-box {
     flex-direction: column;
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
     gap: 1.5rem;
     text-align: center;
+    border-radius: 12px;
   }
   
   .cta-content {
@@ -379,5 +459,32 @@
     width: 100%;
     justify-content: center;
     padding: 1rem 1.5rem;
+  }
+}
+
+/* Mobile pequeno - ainda mais ajustado */
+@media (max-width: 480px) {
+  .blog-post-container {
+    padding: 0.5rem;
+  }
+  
+  .blog-post-content {
+    padding: 1rem 0.75rem;
+  }
+  
+  .blog-post-hero h1 {
+    font-size: 1.5rem;
+  }
+  
+  .post-body {
+    font-size: 0.95rem;
+  }
+  
+  .post-body h2 {
+    font-size: 1.35rem;
+  }
+  
+  .post-body h3 {
+    font-size: 1.15rem;
   }
 }
