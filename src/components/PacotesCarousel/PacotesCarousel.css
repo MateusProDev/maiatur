@@ -32,13 +32,17 @@
   gap: 0.75rem !important;
   line-height: 1.2 !important;
   box-sizing: border-box !important;
+  background: linear-gradient(135deg, #1a1a2e 0%, #EE7C35 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
 .carousel-title::before {
   content: '' !important;
   width: 4px !important;
   height: 2rem !important;
-  background: linear-gradient(135deg, var(--color-primary, #21A657) 0%, var(--color-info, #78C8E5) 100%) !important;
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 50%, #21A657 100%) !important;
   border-radius: 2px !important;
   display: block !important;
   flex-shrink: 0 !important;
@@ -123,7 +127,7 @@
   background: var(--color-white, #ffffff) !important;
   border-radius: 16px !important;
   overflow: visible !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(238, 124, 53, 0.1) !important;
   transition: all 0.3s ease !important;
   text-decoration: none !important;
   flex-shrink: 0 !important;
@@ -133,6 +137,7 @@
   position: relative !important;
   visibility: visible !important;
   min-height: 400px !important;
+  border: 2px solid transparent !important;
 }
 
 @keyframes fadeInCard {
@@ -148,7 +153,8 @@
 
 .carousel-card:hover {
   transform: translateY(-8px) !important;
-  box-shadow: 0 12px 40px rgba(33, 166, 87, 0.2) !important;
+  box-shadow: 0 12px 40px rgba(238, 124, 53, 0.25) !important;
+  border-color: rgba(238, 124, 53, 0.3) !important;
 }
 
 .carousel-card-image {
@@ -182,7 +188,7 @@
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%) !important;
+  background: linear-gradient(to bottom, rgba(238, 124, 53, 0) 0%, rgba(238, 124, 53, 0.4) 100%) !important;
   opacity: 0 !important;
   transition: opacity 0.3s ease !important;
   pointer-events: none !important;
@@ -196,7 +202,7 @@
   position: absolute !important;
   top: 1rem !important;
   right: 1rem !important;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%) !important;
   color: var(--color-white, #ffffff) !important;
   padding: 0.5rem 1rem !important;
   border-radius: 50px !important;
@@ -205,7 +211,7 @@
   display: flex !important;
   align-items: center !important;
   gap: 0.5rem !important;
-  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4) !important;
+  box-shadow: 0 4px 15px rgba(238, 124, 53, 0.4) !important;
   z-index: 2 !important;
   animation: pulse 2s ease-in-out infinite !important;
   box-sizing: border-box !important;

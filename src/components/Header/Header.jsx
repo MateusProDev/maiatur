@@ -12,7 +12,8 @@ import {
   FiPackage,
   FiPhone,
   FiMessageCircle,
-  FiMail
+  FiMail,
+  FiSmartphone
 } from 'react-icons/fi';
 import { 
   FaWhatsapp,
@@ -29,6 +30,9 @@ const Header = () => {
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const [socialMedia, setSocialMedia] = useState({});
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(true);
+  const [showInstallModal, setShowInstallModal] = useState(false); // Sempre visível para teste
 
   useEffect(() => {
     const fetchHeaderData = async () => {
@@ -67,7 +71,32 @@ const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // Detectar se o PWA pode ser instalado
+    const handleBeforeInstallPrompt = (e) => {
+      console.log('🎉 Evento beforeinstallprompt capturado!');
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    // Detectar se o PWA já está instalado
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    console.log('App já instalado?', isStandalone);
+    
+    if (isStandalone) {
+      setShowInstallButton(false);
+    }
+
+    // Log para debug
+    console.log('PWA: Listeners configurados');
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
   }, []);
 
   const handleWhatsAppClick = () => {
@@ -75,6 +104,51 @@ const Header = () => {
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     setMenuOpen(false);
   };
+
+  const handleInstallClick = () => {
+    console.log('Botão de instalação clicado. deferredPrompt:', deferredPrompt);
+    
+    // Verifica se já está instalado
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+      setShowInstallButton(false);
+      return;
+    }
+
+    // Sempre abre o modal primeiro
+    setShowInstallModal(true);
+  };
+
+  const handleInstallNow = async () => {
+    if (!deferredPrompt) {
+      // Se não há prompt disponível, fecha o modal
+      console.log('Prompt de instalação não disponível');
+      setShowInstallModal(false);
+      return;
+    }
+
+    try {
+      // Mostra o prompt de instalação nativo
+      console.log('Mostrando prompt de instalação nativo...');
+      await deferredPrompt.prompt();
+      
+      // Aguarda a escolha do usuário
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('Resultado da instalação:', outcome);
+
+      if (outcome === 'accepted') {
+        console.log('✅ Usuário aceitou instalar o PWA');
+        setShowInstallButton(false);
+      }
+
+      setDeferredPrompt(null);
+      setShowInstallModal(false);
+    } catch (error) {
+      console.error('Erro ao instalar PWA:', error);
+      setShowInstallModal(false);
+    }
+  };
+
+  console.log('Header - showInstallButton:', showInstallButton);
 
   return (
     <header className={`header-modern ${scrolled ? 'header-scrolled' : ''}`}>
@@ -90,13 +164,27 @@ const Header = () => {
           )}
         </Link>
 
-        <button 
-          className="header-menu-toggle-modern" 
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-        >
-          {menuOpen ? <FiX /> : <FiMenu />}
-        </button>
+        <div className="header-actions-modern">
+          {showInstallButton && (
+            <button 
+              className="header-install-btn-modern" 
+              onClick={handleInstallClick}
+              aria-label="Instalar aplicativo"
+              title="Instalar Maiatur como App"
+            >
+              <FiSmartphone />
+              <span className="install-text">App</span>
+            </button>
+          )}
+
+          <button 
+            className="header-menu-toggle-modern" 
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          >
+            {menuOpen ? <FiX /> : <FiMenu />}
+          </button>
+        </div>
 
         <nav className={`header-nav-modern ${menuOpen ? 'nav-open' : ''}`}>
           <ul className="header-nav-list-modern">
@@ -227,6 +315,45 @@ const Header = () => {
           </div>
         </nav>
       </div>
+
+      {/* Modal de Instalação do App */}
+      {showInstallModal && (
+        <div className="install-modal" onClick={() => setShowInstallModal(false)}>
+          <div className="modal-backdrop"></div>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <FiSmartphone className="modal-icon" />
+              <h3 className="modal-title">Instalar App Maiatur</h3>
+            </div>
+            <div className="modal-body">
+              <p className="modal-text">
+                📱 Instale o app Maiatur para acesso rápido e experiência melhorada!
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="modal-btn modal-btn-cancel"
+                onClick={() => setShowInstallModal(false)}
+              >
+                Agora não
+              </button>
+              <button 
+                className="modal-btn modal-btn-install"
+                onClick={handleInstallNow}
+                disabled={!deferredPrompt}
+                style={{
+                  background: 'linear-gradient(135deg, #EE7C35 0%, #F8C144 100%)',
+                  color: '#ffffff',
+                  boxShadow: '0 4px 15px rgba(238, 124, 53, 0.25)',
+                  border: 'none'
+                }}
+              >
+                Instalar Agora
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
