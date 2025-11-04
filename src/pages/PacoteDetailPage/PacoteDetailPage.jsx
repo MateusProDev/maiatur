@@ -2,24 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
-import { 
-  Typography, 
-  Container, 
-  Box, 
-  Button, 
-  Alert,
-  Grid,
-  Paper,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { FiArrowLeft, FiCheck, FiClock, FiMapPin, FiCalendar, FiUsers, FiStar, FiShare2, FiHeart } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import Footer from '../../components/Footer/Footer';
-import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
+import Header from '../../components/Header/Header';
 import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import './PacoteDetailPage.css';
@@ -30,7 +17,7 @@ const PacoteDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [expanded, setExpanded] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { phoneNumber: whatsappNumber, loading: whatsappLoading } = useWhatsAppNumber();
   const navigate = useNavigate();
 
@@ -104,7 +91,7 @@ const PacoteDetailPage = () => {
   };
 
   const handleAccordionChange = () => {
-    setExpanded(!expanded);
+    // Removed
   };
 
   const handleReserveWhatsApp = () => {
@@ -114,219 +101,244 @@ const PacoteDetailPage = () => {
     window.open(whatsappUrl, '_blank');
   };
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: pacote.titulo,
+          text: pacote.descricaoCurta,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log('Erro ao compartilhar:', error);
+      }
+    }
+  };
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    // Aqui você pode adicionar lógica para salvar no localStorage ou backend
+  };
+
   if (loading || whatsappLoading) {
     return (
-      <LoadingSpinner size="large" text="Carregando detalhes do pacote..." fullScreen={true} />
+      <>
+        <Header />
+        <LoadingSpinner size="large" text="Carregando detalhes do pacote..." fullScreen={true} />
+        <Footer />
+      </>
     );
   }
 
-  if (error) {
+  if (error || !pacote) {
     return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-        <Button 
-          variant="contained" 
-          onClick={() => navigate('/pacotes')}
-        >
-          Voltar para lista de pacotes
-        </Button>
-      </Container>
-    );
-  }
-
-  if (!pacote) {
-    return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Pacote não encontrado
-        </Typography>
-        <Typography sx={{ mb: 2 }}>
-          O pacote que você está procurando não existe ou foi removido.
-        </Typography>
-        <Button 
-          variant="contained" 
-          onClick={() => navigate('/pacotes')}
-        >
-          Voltar para lista de pacotes
-        </Button>
-      </Container>
+      <>
+        <Header />
+        <div className="pdp-error-container">
+          <div className="pdp-error-content">
+            <h1>😕 Ops! Pacote não encontrado</h1>
+            <p>{error || 'O pacote que você está procurando não existe ou foi removido.'}</p>
+            <button onClick={() => navigate('/pacotes')} className="pdp-btn-back-home">
+              <FiArrowLeft /> Voltar para Pacotes
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
     );
   }
 
   return (
-    <div className="pdp-container">
-      <Container maxWidth="lg">
-        <Breadcrumb 
-          items={[
-            { path: '/pacotes', label: 'Pacotes' }
-          ]}
-          currentPage={pacote.titulo}
-        />
-        
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              {pacote.imagens.length > 0 ? (
-                <div className="image-gallery">
-                  <div className="main-image-container">
-                    <img 
-                      src={pacote.imagens[currentImageIndex]} 
-                      alt={pacote.titulo} 
-                      className="main-image"
-                    />
-                    {pacote.imagens.length > 1 && (
-                      <>
-                        <button className="nav-button prev" onClick={prevImage}>
-                          &lt;
-                        </button>
-                        <button className="nav-button next" onClick={nextImage}>
-                          &gt;
-                        </button>
-                      </>
-                    )}
-                  </div>
+    <>
+      <Header />
+      <div className="pdp-modern-container">
+        {/* Hero Section com Imagem Principal */}
+        <div className="pdp-hero-section">
+          <button onClick={() => navigate(-1)} className="pdp-back-button">
+            <FiArrowLeft />
+            <span>Voltar</span>
+          </button>
+
+          <div className="pdp-hero-actions">
+            <button onClick={handleShare} className="pdp-action-btn" title="Compartilhar">
+              <FiShare2 />
+            </button>
+            <button 
+              onClick={toggleFavorite} 
+              className={`pdp-action-btn ${isFavorite ? 'active' : ''}`}
+              title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+            >
+              <FiHeart />
+            </button>
+          </div>
+
+          <div className="pdp-hero-image-gallery">
+            {pacote.imagens && pacote.imagens.length > 0 ? (
+              <>
+                <div className="pdp-main-image">
+                  <img 
+                    src={pacote.imagens[currentImageIndex]} 
+                    alt={pacote.titulo}
+                    onError={(e) => {
+                      e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80';
+                    }}
+                  />
+                  
                   {pacote.imagens.length > 1 && (
-                    <div className="thumbnail-container">
-                      {pacote.imagens.map((img, index) => (
-                        <img
-                          key={index}
-                          src={img}
-                          alt={`Thumbnail ${index + 1}`}
-                          className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
-                          onClick={() => setCurrentImageIndex(index)}
-                        />
-                      ))}
+                    <>
+                      <button className="pdp-nav-btn pdp-prev" onClick={prevImage}>
+                        ‹
+                      </button>
+                      <button className="pdp-nav-btn pdp-next" onClick={nextImage}>
+                        ›
+                      </button>
+                    </>
+                  )}
+
+                  {pacote.destaque && (
+                    <div className="pdp-hero-badge">
+                      <FiStar /> Destaque
                     </div>
                   )}
                 </div>
-              ) : (
-                <Box 
-                  display="flex" 
-                  justifyContent="center" 
-                  alignItems="center" 
-                  height="300px"
-                  bgcolor="#f5f5f5"
-                >
-                  <Typography variant="body1">Nenhuma imagem disponível</Typography>
-                </Box>
+
+                {pacote.imagens.length > 1 && (
+                  <div className="pdp-thumbnails">
+                    {pacote.imagens.map((img, index) => (
+                      <div
+                        key={index}
+                        className={`pdp-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                        onClick={() => setCurrentImageIndex(index)}
+                      >
+                        <img src={img} alt={`${pacote.titulo} ${index + 1}`} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="pdp-no-image">
+                <FiMapPin />
+                <p>Imagem não disponível</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Content Section */}
+        <div className="pdp-content-wrapper">
+          <div className="pdp-main-content">
+            {/* Título e Descrição Curta */}
+            <div className="pdp-header-info">
+              <h1 className="pdp-title">{pacote.titulo}</h1>
+              {pacote.descricaoCurta && (
+                <p className="pdp-subtitle">{pacote.descricaoCurta}</p>
               )}
-            </Paper>
-          </Grid>
+            </div>
 
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 3 }}>
-              <Typography variant="h4" gutterBottom>
-                {pacote.titulo}
-              </Typography>
-              
-              {pacote.destaque && (
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="body2" color="secondary" sx={{ fontWeight: 'bold' }}>
-                    ★ PACOTE EM DESTAQUE ★
-                  </Typography>
-                </Box>
-              )}
+            {/* Descrição Completa */}
+            <div className="pdp-description-card">
+              <h2 className="pdp-section-title">
+                <span className="pdp-title-icon">📋</span>
+                Sobre este Pacote
+              </h2>
+              <div className="pdp-description-content">
+                <MarkdownRenderer content={pacote.descricao} />
+              </div>
+            </div>
 
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="body1" paragraph>
-                  {pacote.descricaoCurta}
-                </Typography>
-              </Box>
+            {/* Características/Destaques */}
+            {pacote.destaques && pacote.destaques.length > 0 && (
+              <div className="pdp-features-card">
+                <h2 className="pdp-section-title">
+                  <span className="pdp-title-icon">✨</span>
+                  O que está incluído
+                </h2>
+                <div className="pdp-features-grid">
+                  {pacote.destaques.map((destaque, index) => (
+                    <div key={index} className="pdp-feature-item">
+                      <FiCheck className="pdp-feature-icon" />
+                      <span>{destaque}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
-              <Divider sx={{ my: 2 }} />
-
-              {pacote.mostrarPreco === true && (
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          {/* Sidebar com Preço e CTA */}
+          <aside className="pdp-sidebar">
+            <div className="pdp-price-card">
+              {pacote.mostrarPreco !== false && pacote.preco && (
+                <div className="pdp-price-section">
+                  <span className="pdp-price-label">A partir de</span>
                   {pacote.precoOriginal && (
-                    <Typography 
-                      variant="h6" 
-                      sx={{ 
-                        textDecoration: 'line-through',
-                        color: 'text.secondary',
-                        mr: 2
-                      }}
-                    >
-                      R$ {pacote.precoOriginal.toFixed(2).replace('.', ',')}
-                    </Typography>
+                    <span className="pdp-price-original">
+                      R$ {Number(pacote.precoOriginal).toFixed(2).replace('.', ',')}
+                    </span>
                   )}
-                  <Typography 
-                    variant="h4" 
-                    sx={{
-                      background: 'linear-gradient(135deg, #21A657 0%, #78C8E5 100%) !important',
-                      WebkitBackgroundClip: 'text !important',
-                      WebkitTextFillColor: 'transparent !important',
-                      backgroundClip: 'text !important',
-                      fontWeight: '800 !important'
-                    }}
-                  >
-                    R$ {pacote.preco.toFixed(2).replace('.', ',')}
-                  </Typography>
-                </Box>
+                  <div className="pdp-price-current">
+                    <span className="pdp-price-currency">R$</span>
+                    <span className="pdp-price-value">
+                      {Number(pacote.preco).toFixed(2).replace('.', ',')}
+                    </span>
+                  </div>
+                  {pacote.precoOriginal && (
+                    <span className="pdp-price-discount">
+                      Economize R$ {(pacote.precoOriginal - pacote.preco).toFixed(2).replace('.', ',')}
+                    </span>
+                  )}
+                </div>
               )}
 
-              <Button 
-                variant="contained" 
-                size="large" 
-                fullWidth
-                sx={{ 
-                  mt: 2,
-                  background: 'linear-gradient(135deg, #21A657 0%, #2bc46a 100%) !important',
-                  color: '#ffffff !important',
-                  boxShadow: '0 4px 15px rgba(33, 166, 87, 0.3) !important',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #1a8546 0%, #21A657 100%) !important',
-                    boxShadow: '0 6px 20px rgba(33, 166, 87, 0.4) !important',
-                  }
-                }}
+              <button 
+                className="pdp-cta-button pdp-cta-whatsapp"
                 onClick={handleReserveWhatsApp}
                 disabled={whatsappLoading}
               >
-                Solicitar Cotação
-              </Button>
+                <FaWhatsapp />
+                <span>Solicitar Cotação</span>
+              </button>
 
-              <Accordion 
-                expanded={expanded}
-                onChange={handleAccordionChange}
-                sx={{ 
-                  mt: 3,
-                  boxShadow: 'none',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: '8px !important',
-                  '&:before': {
-                    display: 'none'
-                  }
-                }}
+              <button 
+                className="pdp-cta-button pdp-cta-secondary"
+                onClick={handleReserveWhatsApp}
               >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  sx={{
-                    backgroundColor: expanded ? 'action.selected' : 'background.paper',
-                    borderTopLeftRadius: '8px !important',
-                    borderTopRightRadius: '8px !important',
-                    '&:hover': {
-                      backgroundColor: 'action.hover'
-                    }
-                  }}
-                >
-                  <Typography sx={{ fontWeight: 600 }}>Descrição Completa</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <MarkdownRenderer 
-                    content={pacote.descricao} 
-                    className="pacote-description" 
-                  />
-                </AccordionDetails>
-              </Accordion>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-      <WhatsAppButton />
+                <FiCalendar />
+                <span>Consultar Disponibilidade</span>
+              </button>
+
+              {/* Info Adicional */}
+              <div className="pdp-info-list">
+                <div className="pdp-info-item">
+                  <FiClock />
+                  <span>Resposta rápida via WhatsApp</span>
+                </div>
+                <div className="pdp-info-item">
+                  <FiUsers />
+                  <span>Atendimento personalizado</span>
+                </div>
+                <div className="pdp-info-item">
+                  <FiCheck />
+                  <span>Melhor preço garantido</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Banner de Confiança */}
+            <div className="pdp-trust-banner">
+              <h3>🛡️ Viaje com Segurança</h3>
+              <ul>
+                <li>✅ Pacotes verificados</li>
+                <li>✅ Suporte 24/7</li>
+                <li>✅ Pagamento seguro</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FiChevronLeft, FiChevronRight, FiPause, FiPlay, FiStar } from 'react-icons/fi';
+import { FiStar } from 'react-icons/fi';
 import './PacotesCarousel.css';
 
 const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
 
   const itemsPerView = {
@@ -36,7 +35,7 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
 
   // AutoPlay
   useEffect(() => {
-    if (isPlaying && !isPaused && pacotes.length > itemsToShow) {
+    if (isPlaying && pacotes.length > itemsToShow) {
       intervalRef.current = setInterval(() => {
         handleNext();
       }, autoPlayInterval);
@@ -47,7 +46,7 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [currentIndex, isPlaying, isPaused, pacotes.length, itemsToShow]);
+  }, [currentIndex, isPlaying, pacotes.length, itemsToShow]);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
@@ -56,22 +55,23 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
     });
   };
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => {
-      const maxIndex = pacotes.length - itemsToShow;
-      return prevIndex <= 0 ? maxIndex : prevIndex - 1;
-    });
-  };
-
-  const togglePlayPause = () => {
-    setIsPaused(!isPaused);
-  };
-
+  // Pausar ao passar mouse/toque
   const handleMouseEnter = () => {
     setIsPlaying(false);
   };
 
+  // Voltar a passar ao tirar mouse/toque
   const handleMouseLeave = () => {
+    setIsPlaying(true);
+  };
+
+  // Pausar ao tocar (mobile)
+  const handleTouchStart = () => {
+    setIsPlaying(false);
+  };
+
+  // Voltar a passar ao soltar toque (mobile)
+  const handleTouchEnd = () => {
     setIsPlaying(true);
   };
 
@@ -93,37 +93,14 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
     <div className="pacotes-carousel-wrapper">
       <div className="carousel-header">
         <h3 className="carousel-title">{categoria}</h3>
-        <div className="carousel-controls">
-          <button 
-            className="carousel-control-btn" 
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-            aria-label="Anterior"
-          >
-            <FiChevronLeft />
-          </button>
-          <button 
-            className="carousel-control-btn pause-btn" 
-            onClick={togglePlayPause}
-            aria-label={isPaused ? 'Reproduzir' : 'Pausar'}
-          >
-            {isPaused ? <FiPlay /> : <FiPause />}
-          </button>
-          <button 
-            className="carousel-control-btn" 
-            onClick={handleNext}
-            disabled={currentIndex >= maxIndex}
-            aria-label="Próximo"
-          >
-            <FiChevronRight />
-          </button>
-        </div>
       </div>
 
       <div 
         className="carousel-container"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <div 
           className="carousel-track"

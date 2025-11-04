@@ -15,7 +15,7 @@
 .carousel-header {
   display: flex !important;
   align-items: center !important;
-  justify-content: space-between !important;
+  justify-content: flex-start !important;
   margin-bottom: 2rem !important;
   padding: 0 0.5rem !important;
   box-sizing: border-box !important;
@@ -48,55 +48,6 @@
   flex-shrink: 0 !important;
 }
 
-.carousel-controls {
-  display: flex !important;
-  gap: 0.5rem !important;
-  flex-shrink: 0 !important;
-}
-
-.carousel-control-btn {
-  width: 40px !important;
-  height: 40px !important;
-  min-width: 40px !important;
-  min-height: 40px !important;
-  border: 2px solid var(--color-primary, #21A657) !important;
-  background: var(--color-white, #ffffff) !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  color: var(--color-primary, #21A657) !important;
-  font-size: 1.25rem !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-sizing: border-box !important;
-  outline: none !important;
-}
-
-.carousel-control-btn:hover:not(:disabled) {
-  background: var(--color-primary, #21A657) !important;
-  color: var(--color-white, #ffffff) !important;
-  transform: scale(1.1) !important;
-}
-
-.carousel-control-btn:disabled {
-  opacity: 0.3 !important;
-  cursor: not-allowed !important;
-  pointer-events: none !important;
-}
-
-.carousel-control-btn.pause-btn {
-  border-color: var(--color-info, #78C8E5) !important;
-  color: var(--color-info, #78C8E5) !important;
-}
-
-.carousel-control-btn.pause-btn:hover {
-  background: var(--color-info, #78C8E5) !important;
-  color: var(--color-white, #ffffff) !important;
-}
-
 /* Carousel Container */
 .carousel-container {
   position: relative !important;
@@ -107,6 +58,12 @@
   width: 100% !important;
   display: block !important;
   visibility: visible !important;
+  cursor: grab !important;
+  user-select: none !important;
+}
+
+.carousel-container:active {
+  cursor: grabbing !important;
 }
 
 .carousel-track {
