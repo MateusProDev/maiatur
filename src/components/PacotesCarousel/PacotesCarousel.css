@@ -1,0 +1,456 @@
+/* ========================================
+   PACOTES CAROUSEL - ISOLATED STYLES
+   Estilos totalmente isolados para evitar interferências
+   ======================================== */
+
+.pacotes-carousel-wrapper {
+  margin-bottom: 4rem !important;
+  width: 100% !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.carousel-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 2rem !important;
+  padding: 0 0.5rem !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-title {
+  font-size: clamp(1.5rem, 3vw, 2rem) !important;
+  font-weight: 700 !important;
+  color: var(--color-text-primary, #1a1a2e) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-title::before {
+  content: '' !important;
+  width: 4px !important;
+  height: 2rem !important;
+  background: linear-gradient(135deg, var(--color-primary, #21A657) 0%, var(--color-info, #78C8E5) 100%) !important;
+  border-radius: 2px !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+}
+
+.carousel-controls {
+  display: flex !important;
+  gap: 0.5rem !important;
+  flex-shrink: 0 !important;
+}
+
+.carousel-control-btn {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  border: 2px solid var(--color-primary, #21A657) !important;
+  background: var(--color-white, #ffffff) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  color: var(--color-primary, #21A657) !important;
+  font-size: 1.25rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+}
+
+.carousel-control-btn:hover:not(:disabled) {
+  background: var(--color-primary, #21A657) !important;
+  color: var(--color-white, #ffffff) !important;
+  transform: scale(1.1) !important;
+}
+
+.carousel-control-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+.carousel-control-btn.pause-btn {
+  border-color: var(--color-info, #78C8E5) !important;
+  color: var(--color-info, #78C8E5) !important;
+}
+
+.carousel-control-btn.pause-btn:hover {
+  background: var(--color-info, #78C8E5) !important;
+  color: var(--color-white, #ffffff) !important;
+}
+
+/* Carousel Container */
+.carousel-container {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+  padding: 0.5rem 0 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.carousel-track {
+  display: flex !important;
+  gap: 1.5rem !important;
+  will-change: transform !important;
+  transition: transform 0.5s ease-in-out !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  visibility: visible !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+}
+
+/* Carousel Card */
+.carousel-card {
+  display: block !important;
+  background: var(--color-white, #ffffff) !important;
+  border-radius: 16px !important;
+  overflow: visible !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  opacity: 1 !important;
+  animation: fadeInCard 0.6s ease-out forwards !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  visibility: visible !important;
+  min-height: 400px !important;
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0 !important;
+    transform: translateY(20px) !important;
+  }
+  to {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+}
+
+.carousel-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 12px 40px rgba(33, 166, 87, 0.2) !important;
+}
+
+.carousel-card-image {
+  position: relative !important;
+  width: 100% !important;
+  height: 220px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  border-radius: 16px 16px 0 0 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.carousel-card-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.5s ease !important;
+  display: block !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.carousel-card:hover .carousel-card-image img {
+  transform: scale(1.1) !important;
+}
+
+.carousel-card-overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%) !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  pointer-events: none !important;
+}
+
+.carousel-card:hover .carousel-card-overlay {
+  opacity: 1 !important;
+}
+
+.carousel-badge-destaque {
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  color: var(--color-white, #ffffff) !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 50px !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4) !important;
+  z-index: 2 !important;
+  animation: pulse 2s ease-in-out infinite !important;
+  box-sizing: border-box !important;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1) !important; }
+  50% { transform: scale(1.05) !important; }
+}
+
+.carousel-card-content {
+  padding: 1.5rem !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-card-title {
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text-primary, #1a1a2e) !important;
+  margin: 0 0 0.75rem 0 !important;
+  padding: 0 !important;
+  line-height: 1.3 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-card-description {
+  font-size: 0.9rem !important;
+  color: var(--color-text-secondary, #6b7280) !important;
+  line-height: 1.5 !important;
+  margin: 0 0 1.25rem 0 !important;
+  padding: 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-card-footer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  padding-top: 1rem !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  border-top: 2px solid #f0f0f0 !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-price-box {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-price-original {
+  font-size: 0.8rem !important;
+  color: #a0aec0 !important;
+  text-decoration: line-through !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.carousel-price-current {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, var(--color-primary, #21A657) 0%, var(--color-info, #78C8E5) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.carousel-card-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1.25rem !important;
+  background: var(--color-primary, #21A657) !important;
+  color: var(--color-white, #ffffff) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3) !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+}
+
+.carousel-card:hover .carousel-card-btn {
+  background: var(--color-info, #78C8E5) !important;
+  transform: translateX(5px) !important;
+  box-shadow: 0 6px 20px rgba(120, 200, 229, 0.4) !important;
+}
+
+.carousel-card-btn svg {
+  transition: transform 0.3s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.carousel-card:hover .carousel-card-btn svg {
+  transform: translateX(3px) !important;
+}
+
+/* Carousel Dots */
+.carousel-dots {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  margin-top: 2rem !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.carousel-dot {
+  width: 12px !important;
+  height: 12px !important;
+  min-width: 12px !important;
+  min-height: 12px !important;
+  border-radius: 50% !important;
+  background: rgba(33, 166, 87, 0.2) !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+}
+
+.carousel-dot:hover {
+  background: rgba(33, 166, 87, 0.5) !important;
+  transform: scale(1.2) !important;
+}
+
+.carousel-dot.active {
+  background: var(--color-primary, #21A657) !important;
+  width: 32px !important;
+  border-radius: 6px !important;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .carousel-card-image {
+    height: 200px !important;
+  }
+  
+  .carousel-card-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .carousel-card-footer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  
+  .carousel-card-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .carousel-price-box {
+    align-items: center !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-header {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    align-items: flex-start !important;
+  }
+  
+  .carousel-title {
+    font-size: 1.5rem !important;
+  }
+  
+  .carousel-controls {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .carousel-track {
+    gap: 0 !important;
+  }
+  
+  .carousel-card-image {
+    height: 180px !important;
+  }
+  
+  .carousel-card-content {
+    padding: 1.25rem !important;
+  }
+  
+  .carousel-price-current {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-control-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    font-size: 1rem !important;
+  }
+  
+  .carousel-card-image {
+    height: 160px !important;
+  }
+  
+  .carousel-card-title {
+    font-size: 1rem !important;
+  }
+  
+  .carousel-card-description {
+    font-size: 0.85rem !important;
+  }
+  
+  .carousel-track {
+    gap: 0 !important;
+  }
+}

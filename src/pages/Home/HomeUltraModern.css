@@ -406,9 +406,13 @@
   line-height: 1.7;
 }
 
-/* ==================== PACOTES GRID ==================== */
+/* ==================== PACOTES GRID / CARROSSÉIS ==================== */
 .destinos-section-ultra {
   background: linear-gradient(180deg, var(--white) 0%, var(--light-bg) 100%);
+}
+
+.carousels-section {
+  width: 100%;
 }
 
 .loading-ultra {

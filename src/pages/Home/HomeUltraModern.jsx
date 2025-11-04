@@ -7,6 +7,7 @@ import Footer from '../../components/Footer/Footer';
 import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton';
 import BannerCarousel from '../../components/BannerCarousel/BannerCarousel';
 import BlogPreview from '../../components/BlogPreview/BlogPreview';
+import PacotesCarousel from '../../components/PacotesCarousel/PacotesCarousel';
 import { 
   FiMapPin, 
   FiClock, 
@@ -27,10 +28,19 @@ import './HomeUltraModern.css';
 
 const HomeUltraModern = () => {
   const [pacotes, setPacotes] = useState([]);
+  const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
+
+  const categorias = {
+    'passeio': 'Passeios e Experiências',
+    'transfer_chegada': 'Transfer de Chegada',
+    'transfer_saida': 'Transfer de Saída',
+    'transfer_chegada_saida': 'Transfer Completo',
+    'transfer_entre_hoteis': 'Transfer entre Hotéis'
+  };
 
   const services = [
     {
@@ -91,11 +101,10 @@ const HomeUltraModern = () => {
           setWhatsappNumber(whatsappDoc.data().phoneNumber || '');
         }
 
-        // Buscar Pacotes
+        // Buscar Pacotes (todos, não apenas 6)
         const pacotesQuery = query(
           collection(db, 'pacotes'),
-          orderBy('createdAt', 'desc'),
-          limit(6)
+          orderBy('createdAt', 'desc')
         );
         const pacotesSnapshot = await getDocs(pacotesQuery);
         const pacotesData = pacotesSnapshot.docs.map(doc => ({
@@ -103,19 +112,26 @@ const HomeUltraModern = () => {
           ...doc.data()
         }));
         
-        // Debug: Verificar campos de imagem
-        if (pacotesData.length > 0) {
-          console.log('📦 Primeiro pacote do Firebase:', pacotesData[0]);
-          console.log('🖼️ Campos de imagem disponíveis:', {
-            imagemUrl: pacotesData[0].imagemUrl,
-            imagem: pacotesData[0].imagem,
-            imageUrl: pacotesData[0].imageUrl,
-            image: pacotesData[0].image,
-            foto: pacotesData[0].foto
-          });
-        }
-        
         setPacotes(pacotesData);
+
+        // Agrupar pacotes por categoria
+        const grouped = {};
+        pacotesData.forEach(pacote => {
+          const categoria = pacote.categoria || 'passeio';
+          if (!grouped[categoria]) {
+            grouped[categoria] = [];
+          }
+          grouped[categoria].push(pacote);
+        });
+        
+        setPacotesPorCategoria(grouped);
+        
+        // Debug
+        console.log('📦 Total de pacotes:', pacotesData.length);
+        console.log('📂 Pacotes por categoria:', Object.keys(grouped).map(cat => ({
+          categoria: cat,
+          quantidade: grouped[cat].length
+        })));
 
         // Buscar Avaliações
         const avaliacoesQuery = query(
@@ -177,7 +193,7 @@ const HomeUltraModern = () => {
       {/* Hero Banner Carousel */}
       <BannerCarousel />
 
-      {/* ========== EXPLORAR DESTINOS ========== */}
+      {/* ========== EXPLORAR DESTINOS POR CATEGORIA ========== */}
       <section className="destinos-section-ultra">
         <div className="container-ultra">
           <div className="section-header-ultra">
@@ -189,7 +205,7 @@ const HomeUltraModern = () => {
               <span className="gradient-text"> Aventura</span>
             </h2>
             <p className="section-description">
-              Pacotes exclusivos para transformar sua viagem em uma experiência única
+              Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única
             </p>
           </div>
 
@@ -198,7 +214,7 @@ const HomeUltraModern = () => {
               <div className="spinner-ultra"></div>
               <p>Carregando destinos incríveis...</p>
             </div>
-          ) : pacotes.length === 0 ? (
+          ) : Object.keys(pacotesPorCategoria).length === 0 ? (
             <div className="empty-state-ultra">
               <FiMapPin className="empty-icon" />
               <h3>Novos destinos em breve!</h3>
@@ -208,101 +224,15 @@ const HomeUltraModern = () => {
               </button>
             </div>
           ) : (
-            <div className="pacotes-grid-ultra">
-              {pacotes.map((pacote, index) => {
-                // Suporte para diferentes nomes de campos de imagem
-                // IMPORTANTE: O Firebase usa 'imagens' como array
-                const imagemUrl = pacote.imagens?.[0] || 
-                                 pacote.imagemUrl || 
-                                 pacote.imagem || 
-                                 pacote.imageUrl || 
-                                 pacote.image || 
-                                 pacote.foto || 
-                                 pacote.thumbnail || 
-                                 pacote.bannerUrl || 
-                                 pacote.cover || 
-                                 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80'; // Fallback
-                
-                console.log(`🖼️ Pacote ${pacote.nome || pacote.titulo}:`, imagemUrl);
-                
-                return (
-                <Link 
-                  to={`/pacote/${pacote.id}`} 
-                  key={pacote.id} 
-                  className="pacote-card-ultra"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="pacote-image-wrapper">
-                    <img 
-                      src={imagemUrl} 
-                      alt={pacote.nome || pacote.titulo || 'Pacote turístico'}
-                      loading="lazy"
-                      onLoad={(e) => {
-                        console.log('✅ Imagem carregada:', imagemUrl);
-                        e.target.style.opacity = '1';
-                      }}
-                      onError={(e) => {
-                        console.error('❌ Erro ao carregar imagem:', imagemUrl);
-                        // Tenta usar placeholder do Unsplash
-                        if (!e.target.src.includes('unsplash.com')) {
-                          e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80';
-                        } else {
-                          e.target.style.display = 'none';
-                          const placeholder = e.target.parentElement.querySelector('.pacote-placeholder');
-                          if (placeholder) placeholder.style.display = 'flex';
-                        }
-                      }}
-                      style={{ opacity: 0, transition: 'opacity 0.3s ease' }}
-                    />
-                    <div className="pacote-placeholder" style={{ display: 'none' }}>
-                      <FiMapPin />
-                    </div>
-                    <div className="pacote-overlay"></div>
-                    <div className="pacote-badge-top">
-                      {pacote.destaque && <span className="badge-destaque">Destaque</span>}
-                    </div>
-                  </div>
-                  
-                  <div className="pacote-content-ultra">
-                    <h3 className="pacote-title">{pacote.nome || pacote.titulo}</h3>
-                    
-                    <p className="pacote-description">
-                      {(pacote.descricao || pacote.descricaoCurta || '')?.substring(0, 80)}
-                      {((pacote.descricao || pacote.descricaoCurta || '').length > 80) ? '...' : ''}
-                    </p>
-                    
-                    <div className="pacote-info-row">
-                      {pacote.duracao && (
-                        <div className="info-item">
-                          <FiClock />
-                          <span>{pacote.duracao}</span>
-                        </div>
-                      )}
-                      {pacote.avaliacao && (
-                        <div className="info-item">
-                          <FiStar className="star-filled" />
-                          <span>{pacote.avaliacao}</span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {pacote.mostrarPreco === true && pacote.preco && (
-                      <div className="pacote-price-section">
-                        <span className="price-label">A partir de</span>
-                        <span className="price-value">
-                          R$ {parseFloat(pacote.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                        </span>
-                      </div>
-                    )}
-                    
-                    <div className="pacote-cta">
-                      <span>Ver Detalhes</span>
-                      <FiArrowRight className="arrow-icon" />
-                    </div>
-                  </div>
-                </Link>
-                );
-              })}
+            <div className="carousels-section">
+              {Object.entries(pacotesPorCategoria).map(([categoria, pacotesCategoria]) => (
+                <PacotesCarousel 
+                  key={categoria}
+                  pacotes={pacotesCategoria}
+                  categoria={categorias[categoria] || categoria}
+                  autoPlayInterval={5000}
+                />
+              ))}
             </div>
           )}
 
