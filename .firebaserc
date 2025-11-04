@@ -1,7 +1,6 @@
 {
   "projects": {
-    "default": "sitegerenciavelben",
-    "    ": "sitegerenciavelben"
+    "default": "maiatur"
   },
   "targets": {},
   "etags": {}

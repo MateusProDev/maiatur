@@ -121,12 +121,26 @@ export const getPostBySlug = async (slug) => {
  */
 export const incrementPostViews = async (postId) => {
   try {
+    console.log('📈 Tentando incrementar views para post:', postId);
     const postRef = doc(db, 'blogPosts', postId);
+    
+    // Verifica se o documento existe antes de atualizar
+    const postDoc = await getDoc(postRef);
+    if (!postDoc.exists()) {
+      console.error('❌ Post não encontrado:', postId);
+      return;
+    }
+    
+    console.log('📊 Views antes:', postDoc.data().views || 0);
+    
     await updateDoc(postRef, {
       views: increment(1)
     });
+    
+    console.log('✅ Views incrementadas com sucesso!');
   } catch (error) {
-    console.error('Erro ao incrementar visualizações:', error);
+    console.error('❌ Erro ao incrementar visualizações:', error);
+    console.error('Detalhes:', error.message);
   }
 };
 

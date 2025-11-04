@@ -63,7 +63,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "npm run build && vercel --prod",
-    "preview": "npm run build && vercel"
+    "preview": "npm run build && vercel",
+    "fix-blog-views": "node fix-blog-views.js"
   },
   "eslintConfig": {
     "extends": [

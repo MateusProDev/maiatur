@@ -34,17 +34,14 @@ const BlogPostPage = () => {
       }
 
       setPost(postData);
+      console.log('📊 Post carregado:', postData.title, '| Views atuais:', postData.views || 0);
       
-      // Incrementar views apenas se o usuário não visualizou este post antes
-      const viewKey = `blog_post_viewed_${postData.id}`;
-      const hasViewed = localStorage.getItem(viewKey);
-      
-      if (!hasViewed) {
+      // Incrementar views sempre (para debug)
+      try {
         await incrementPostViews(postData.id);
-        localStorage.setItem(viewKey, 'true');
-        console.log(`👁️ View registrada para post: ${postData.title}`);
-      } else {
-        console.log(`✅ Usuário já visualizou este post anteriormente`);
+        console.log('✅ View incrementada com sucesso!');
+      } catch (viewError) {
+        console.error('❌ Erro ao incrementar view:', viewError);
       }
 
       if (postData.category) {

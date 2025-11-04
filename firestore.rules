@@ -98,10 +98,14 @@ service cloud.firestore {
     }
 
     // Blog Posts: leitura pública, escrita autenticada
+    // Permite update de views sem autenticação (apenas campo views)
     match /blogPosts/{documentId} {
       allow read: if true;
       allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+      allow delete: if request.auth != null;
+      // Permite atualizar views sem autenticação, mas outros campos precisam de auth
+      allow update: if request.auth != null 
+                    || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views', 'updatedAt']));
     }
 
     // Images: leitura pública, escrita autenticada
