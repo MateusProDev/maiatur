@@ -9,6 +9,7 @@
   max-width: min(900px, 100% - 2rem);
   margin: 0 auto;
   padding: clamp(1.5rem, 3vw, 3rem) clamp(0.75rem, 2vw, 1.5rem);
+  padding-top: calc(80px + clamp(1.5rem, 3vw, 3rem));
   animation: fadeIn 0.5s ease-out;
 }
 

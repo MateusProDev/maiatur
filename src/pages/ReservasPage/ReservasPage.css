@@ -11,6 +11,7 @@
   margin: 0 auto;
   background: var(--color-off-white);
   padding: 0;
+  padding-top: 80px;
 }
 
 /* Header responsivo com tipografia fluida */
