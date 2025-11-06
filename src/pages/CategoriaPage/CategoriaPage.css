@@ -1,7 +1,12 @@
-/* ========== CATEGORIA PAGE - HERO ========== */
+﻿/* ========================================
+   CATEGORIA PAGE - MODERN DESIGN
+   Estilo moderno alinhado com a Home
+   ======================================== */
+
+/* ========== HERO SECTION ========== */
 .categoria-hero {
   position: relative;
-  min-height: 400px;
+  min-height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +21,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
   opacity: 0.3;
 }
 
@@ -26,6 +30,18 @@
   padding: 4rem 2rem;
   max-width: 800px;
   z-index: 2;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .categoria-icon-wrapper {
@@ -39,6 +55,7 @@
   border-radius: 50%;
   margin-bottom: 2rem;
   animation: float 3s ease-in-out infinite;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .categoria-hero-icon {
@@ -53,11 +70,12 @@
   margin-bottom: 1rem;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .categoria-hero-description {
   font-size: 1.3rem;
-  color: white;
+  color: rgba(255, 255, 255, 0.95);
   margin-bottom: 2rem;
   font-weight: 500;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -75,6 +93,7 @@
   font-weight: 700;
   font-size: 1.1rem;
   border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .categoria-hero-badge svg {
@@ -90,10 +109,10 @@
   }
 }
 
-/* ========== REUTILIZAR ESTILOS DE PACOTESLISTPAGE ========== */
+/* ========== FILTROS SECTION ========== */
 .pacotes-filters-section {
   padding: 3rem 0;
-  background: #f8f9fa;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
 
 .container-pacotes {
@@ -113,30 +132,32 @@
   flex: 1;
   min-width: 300px;
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .search-icon {
   position: absolute;
   left: 1.25rem;
-  color: var(--color-primary);
+  color: #128C7E;
   font-size: 1.2rem;
+  z-index: 1;
 }
 
 .search-input {
   width: 100%;
   padding: 1rem 1rem 1rem 3.5rem;
   border: 2px solid #e0e0e0;
-  border-radius: 12px;
+  border-radius: 50px;
   font-size: 1rem;
   transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(33, 166, 87, 0.1);
+  border-color: #128C7E;
+  box-shadow: 0 4px 15px rgba(18, 140, 126, 0.15);
+  transform: translateY(-2px);
 }
 
 .clear-search {
@@ -147,33 +168,40 @@
   color: #666;
   cursor: pointer;
   padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  transition: color 0.3s ease;
+  z-index: 1;
+  border-radius: 50%;
 }
 
 .clear-search:hover {
   color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
 }
 
 .filters-toggle {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   padding: 1rem 1.5rem;
   background: white;
   border: 2px solid #e0e0e0;
-  border-radius: 12px;
+  border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.filters-toggle:hover,
+.filters-toggle:hover {
+  border-color: #128C7E;
+  color: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(18, 140, 126, 0.15);
+}
+
 .filters-toggle.active {
-  border-color: var(--color-primary);
-  background: var(--color-primary-alpha);
-  color: var(--color-primary);
+  border-color: #128C7E;
+  background: rgba(18, 140, 126, 0.1);
+  color: #128C7E;
 }
 
 .filters-panel {
@@ -181,10 +209,22 @@
   gap: 2rem;
   padding: 2rem;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 2rem;
   flex-wrap: wrap;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .filter-group {
@@ -197,7 +237,7 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: #1a1a2e;
   margin-bottom: 1rem;
   font-size: 0.95rem;
 }
@@ -205,24 +245,22 @@
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   cursor: pointer;
   font-size: 1rem;
+  color: #4a5568;
+  padding: 0.5rem 0;
 }
 
-.price-select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
+.checkbox-label:hover {
+  color: #128C7E;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.price-select:focus {
-  outline: none;
-  border-color: var(--color-primary);
+  accent-color: #128C7E;
 }
 
 .clear-filters-btn {
@@ -230,18 +268,19 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: #ff4444;
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
 }
 
 .clear-filters-btn:hover {
-  background: #cc0000;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
 }
 
 .active-filters {
@@ -249,15 +288,17 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   align-items: center;
-  padding: 1rem;
+  padding: 1.25rem;
   background: white;
   border-radius: 12px;
   margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .active-filters-label {
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: #1a1a2e;
+  font-size: 0.95rem;
 }
 
 .filter-tag {
@@ -265,37 +306,39 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: var(--color-primary-alpha);
-  color: var(--color-primary);
+  background: rgba(18, 140, 126, 0.1);
+  color: #128C7E;
   border-radius: 50px;
   font-size: 0.9rem;
   font-weight: 600;
-}
-
-.filter-tag svg {
-  cursor: pointer;
-  transition: color 0.3s ease;
+  border: 1px solid rgba(18, 140, 126, 0.2);
 }
 
 .filter-tag svg:hover {
-  color: #ff4444;
+  color: white;
+  background: #ff4444;
 }
 
 /* ========== GRID DE PACOTES ========== */
 .pacotes-grid-section {
-  padding: 3rem 0;
+  padding: 3rem 0 5rem 0;
   background: white;
 }
 
 .results-info {
   margin-bottom: 2rem;
-  color: var(--color-text-secondary);
   font-size: 1.1rem;
+  color: #6b7280;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(18, 140, 126, 0.05) 0%, rgba(33, 166, 87, 0.05) 100%);
+  border-radius: 12px;
+  border-left: 4px solid #128C7E;
 }
 
 .results-info strong {
-  color: var(--color-primary);
-  font-weight: 700;
+  color: #128C7E;
+  font-weight: 800;
+  font-size: 1.2rem;
 }
 
 .pacotes-grid {
@@ -304,181 +347,238 @@
   gap: 2rem;
 }
 
+/* ========== CARDS DOS PACOTES (IGUAL À HOME) ========== */
 .pacote-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
+  background: white !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px rgba(238, 124, 53, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  text-decoration: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border: 2px solid transparent !important;
 }
 
 .pacote-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(33, 166, 87, 0.15);
+  transform: translateY(-8px) !important;
+  box-shadow: 0 12px 40px rgba(238, 124, 53, 0.25) !important;
+  border-color: rgba(238, 124, 53, 0.3) !important;
 }
 
 .pacote-card-image {
-  position: relative;
-  width: 100%;
-  height: 240px;
-  overflow: hidden;
+  position: relative !important;
+  width: 100% !important;
+  height: 240px !important;
+  overflow: hidden !important;
 }
 
 .pacote-card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.5s ease !important;
 }
 
 .pacote-card:hover .pacote-card-image img {
-  transform: scale(1.1);
+  transform: scale(1.1) !important;
 }
 
 .pacote-badge {
-  position: absolute;
-  top: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  backdrop-filter: blur(10px);
+  position: absolute !important;
+  top: 1rem !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 50px !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  z-index: 2 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  animation: pulse 2s ease-in-out infinite !important;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  50% { 
+    transform: scale(1.05); 
+  }
 }
 
 .destaque-badge {
-  left: 1rem;
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
-  color: white;
+  left: 1rem !important;
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%) !important;
+  color: white !important;
 }
 
 .desconto-badge {
-  right: 1rem;
-  background: rgba(255, 68, 68, 0.95);
-  color: white;
+  right: 1rem !important;
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%) !important;
+  color: white !important;
 }
 
 .pacote-card-content {
-  padding: 1.5rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  padding: 1.5rem !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: white !important;
 }
 
 .pacote-card-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--color-text-primary);
-  margin-bottom: 0.75rem;
-  line-height: 1.3;
+  font-size: 1.3rem !important;
+  font-weight: 800 !important;
+  color: #1a1a2e !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.3 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
 }
 
 .pacote-card-description {
-  color: var(--color-text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  flex: 1;
+  color: #6b7280 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.6 !important;
+  margin-bottom: 1.5rem !important;
+  flex: 1 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
 }
 
 .pacote-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: auto;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  padding-top: 1rem !important;
+  border-top: 2px solid #f0f0f0 !important;
 }
 
 .pacote-price-box {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
 }
 
 .price-original {
-  color: #999;
-  font-size: 0.9rem;
-  text-decoration: line-through;
+  color: #a0aec0 !important;
+  font-size: 0.85rem !important;
+  text-decoration: line-through !important;
+  font-weight: 500 !important;
 }
 
 .price-current {
-  color: var(--color-primary);
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #21A657 0%, #128C7E 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
 .pacote-card-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-info) 100%) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1.25rem !important;
+  background: linear-gradient(135deg, #21A657 0%, #128C7E 100%) !important;
   color: white !important;
-  border: none;
-  border-radius: 50px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  border: none !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3) !important;
 }
 
 .pacote-card-btn:hover {
-  transform: translateX(5px);
-  box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3);
-  background: linear-gradient(135deg, #1a8546 0%, #5eb8d4 100%) !important;
+  transform: translateX(5px) !important;
+  box-shadow: 0 6px 20px rgba(33, 166, 87, 0.4) !important;
+  background: linear-gradient(135deg, #128C7E 0%, #21A657 100%) !important;
 }
 
 /* ========== SEM RESULTADOS ========== */
 .no-results {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, rgba(238, 124, 53, 0.05) 0%, rgba(248, 193, 68, 0.05) 100%);
+  border-radius: 16px;
 }
 
 .no-results-icon {
-  font-size: 4rem;
-  color: #ccc;
-  margin-bottom: 1rem;
+  font-size: 5rem;
+  color: #e0e0e0;
+  margin-bottom: 1.5rem;
 }
 
 .no-results h3 {
-  font-size: 1.8rem;
-  color: var(--color-text-primary);
-  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 0.75rem;
+  font-weight: 800;
 }
 
 .no-results p {
-  color: var(--color-text-secondary);
+  color: #6b7280;
   font-size: 1.1rem;
   margin-bottom: 2rem;
 }
 
 .btn-clear-all {
   padding: 1rem 2rem;
-  background: var(--color-primary);
+  background: linear-gradient(135deg, #21A657 0%, #128C7E 100%);
   color: white;
   border: none;
   border-radius: 50px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3);
 }
 
 .btn-clear-all:hover {
-  background: var(--color-info);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 166, 87, 0.4);
+  background: linear-gradient(135deg, #128C7E 0%, #21A657 100%);
 }
 
 /* ========== RESPONSIVO ========== */
+@media (max-width: 1024px) {
+  .pacotes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .categoria-hero {
     min-height: 350px;
     margin-top: 70px;
+  }
+
+  .categoria-hero-content {
+    padding: 3rem 1.5rem;
+  }
+
+  .categoria-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+  }
+
+  .categoria-hero-icon {
+    font-size: 2.5rem;
   }
 
   .categoria-hero-title {
@@ -489,6 +589,15 @@
     font-size: 1.1rem;
   }
 
+  .categoria-hero-badge {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .container-pacotes {
+    padding: 0 1rem;
+  }
+
   .filters-header {
     flex-direction: column;
   }
@@ -497,11 +606,62 @@
     min-width: 100%;
   }
 
+  .filters-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
   .filters-panel {
     flex-direction: column;
+    padding: 1.5rem;
   }
 
   .pacotes-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .pacote-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .pacote-card-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .categoria-hero-title {
+    font-size: 2rem;
+  }
+
+  .categoria-hero-description {
+    font-size: 1rem;
+  }
+
+  .pacote-card-image {
+    height: 200px;
+  }
+
+  .results-info {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .categoria-hero-title {
+    font-size: 1.75rem;
+  }
+
+  .categoria-icon-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+
+  .categoria-hero-icon {
+    font-size: 2rem;
   }
 }
