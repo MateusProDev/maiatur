@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
+import { Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import './BannerCarousel.css';
@@ -128,24 +129,24 @@ const BannerCarousel = () => {
 
                 <div className="banner-actions">
                   {banner.botaoTexto && banner.botaoLink && (
-                    <a 
-                      href={banner.botaoLink} 
+                    <Link 
+                      to={banner.botaoLink} 
                       className="banner-btn-primary"
                     >
                       {banner.botaoTexto}
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                    </a>
+                    </Link>
                   )}
                   
                   {banner.botaoSecundarioTexto && banner.botaoSecundarioLink && (
-                    <a 
-                      href={banner.botaoSecundarioLink} 
+                    <Link 
+                      to={banner.botaoSecundarioLink} 
                       className="banner-btn-secondary"
                     >
                       {banner.botaoSecundarioTexto}
-                    </a>
+                    </Link>
                   )}
                 </div>
               </div>

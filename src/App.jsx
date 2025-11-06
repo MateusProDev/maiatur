@@ -116,6 +116,7 @@ const App = () => {
               {/* Rotas Públicas */}
               <Route path="/" element={<HomeUltraModern />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/sobre" element={<AboutPage />} />
               <Route path="/pacotes" element={<PacotesListPage />} />
               <Route path="/categoria/:categoria" element={<CategoriaPage />} />
               <Route path="/avaliacoes" element={<AvaliacoesPage />} />
