@@ -22,7 +22,7 @@ export default function ModalSucessoReserva({ isOpen, onClose, reservaId }) {
             Verifique também a caixa de spam.
           </p>
           <p className="mensagem-final">
-            Obrigado por escolher a <strong>Maiatur</strong>!<br />
+            Obrigado por escolher a <strong>Transfer Fortaleza Tur</strong>!<br />
             Em breve entraremos em contato para confirmar os detalhes.
           </p>
         </div>

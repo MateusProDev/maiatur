@@ -84,7 +84,7 @@ const HomeNew = () => {
           <Container maxWidth="lg">
             <Box className="hero-text">
               <Typography variant="overline" className="hero-subtitle">
-                Bem-vindo à Maiatur
+                Bem-vindo à Transfer Fortaleza Tur
               </Typography>
               <Typography variant="h1" className="hero-title">
                 Descubra o Mundo<br />Com Quem Entende
@@ -256,7 +256,7 @@ const HomeNew = () => {
         <Container maxWidth="lg">
           <Box className="section-header-center">
             <Typography variant="h2" className="section-title">
-              Por Que Escolher a Maiatur?
+              Por Que Escolher a Transfer Fortaleza Tur?
             </Typography>
             <Typography variant="body1" className="section-description">
               Muito mais do que uma agência, somos parceiros da sua aventura
@@ -323,7 +323,7 @@ const HomeNew = () => {
                   Experiências Exclusivas
                 </Typography>
                 <Typography variant="body2" className="feature-description">
-                  Roteiros únicos e personalizados. Viva momentos que só a Maiatur pode proporcionar.
+                  Roteiros únicos e personalizados. Viva momentos que só a Transfer Fortaleza Tur pode proporcionar.
                 </Typography>
                 <Box className="feature-list">
                   <Box className="feature-item">
@@ -455,7 +455,7 @@ const HomeNew = () => {
                 name: 'Maria Silva',
                 location: 'São Paulo, SP',
                 rating: 5,
-                text: 'Experiência incrível! A Maiatur cuidou de cada detalhe da nossa viagem para a Europa. Recomendo demais!',
+                text: 'Experiência incrível! A Transfer Fortaleza Tur cuidou de cada detalhe da nossa viagem para a Europa. Recomendo demais!',
                 avatar: 'https://i.pravatar.cc/150?img=5'
               },
               {

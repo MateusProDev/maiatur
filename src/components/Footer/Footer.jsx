@@ -88,7 +88,7 @@ const FooterUltraModern = () => {
           <div className="footer-brand-section">
             <div className="footer-logo-ultra">
               <FiGlobe className="footer-logo-icon" />
-              <h2>{footerData.companyName || "Maiatur"}</h2>
+              <h2>{footerData.companyName || "Transfer Fortaleza Tur"}</h2>
             </div>
             <p className="footer-tagline">
               {footerData.text || "Transformando sonhos em experiências inesquecíveis"}
@@ -222,7 +222,7 @@ const FooterUltraModern = () => {
         <div className="footer-bottom-ultra">
           <div className="footer-bottom-content-ultra">
             <p className="footer-copyright-ultra">
-              &copy; {new Date().getFullYear()} {footerData.companyName || "Maiatur"}. Todos os direitos reservados.
+              &copy; {new Date().getFullYear()} {footerData.companyName || "Transfer Fortaleza Tur"}. Todos os direitos reservados.
             </p>
             <p className="footer-love-ultra">
               Feito com <FiHeart className="heart-icon-ultra" /> para quem ama viajar

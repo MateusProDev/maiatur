@@ -55,7 +55,7 @@ const ReservasPage = () => {
       <div className="reservas-header">
         <img 
           src="/android-chrome-512x512.png" 
-          alt="Maiatur Logo" 
+          alt="Transfer Fortaleza Tur Logo" 
           className="reservas-logo"
         />
         <h1>Reservas Online</h1>

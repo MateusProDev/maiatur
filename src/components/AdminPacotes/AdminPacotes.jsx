@@ -49,7 +49,8 @@ const AdminPacotes = () => {
     titulo: "",
     descricao: "",
     descricaoCurta: "",
-    categoria: "passeio", // Nova categoria
+    categoria: "passeio", // Categoria principal
+    categorias: [], // Múltiplas categorias (array)
     preco: 0,
     mostrarPreco: true, // Nova opção para ocultar preço
     imagens: [],
@@ -185,6 +186,7 @@ const AdminPacotes = () => {
         descricao: currentPacote.descricao || '',
         descricaoCurta: currentPacote.descricaoCurta || '',
         categoria: currentPacote.categoria || 'passeio',
+        categorias: currentPacote.categorias || [], // Salvar múltiplas categorias
         preco: Number(currentPacote.preco) || 0,
         mostrarPreco: currentPacote.mostrarPreco === true,
         imagens: currentPacote.imagens || [],
@@ -219,6 +221,7 @@ const AdminPacotes = () => {
         descricao: "",
         descricaoCurta: "",
         categoria: "passeio",
+        categorias: [],
         preco: 0,
         mostrarPreco: true,
         imagens: [],
@@ -253,9 +256,32 @@ const AdminPacotes = () => {
     }));
   };
 
+  // Nova função para gerenciar múltiplas categorias
+  const handleCategoriaToggle = (categoriaValue) => {
+    setCurrentPacote(prev => {
+      const categorias = prev.categorias || [];
+      const isSelected = categorias.includes(categoriaValue);
+      
+      if (isSelected) {
+        // Remove categoria
+        return {
+          ...prev,
+          categorias: categorias.filter(c => c !== categoriaValue)
+        };
+      } else {
+        // Adiciona categoria
+        return {
+          ...prev,
+          categorias: [...categorias, categoriaValue]
+        };
+      }
+    });
+  };
+
   const editPacote = (pacote) => {
     setCurrentPacote({
       ...pacote,
+      categorias: pacote.categorias || [], // Carregar categorias múltiplas
       preco: Number(pacote.preco) || 0,
       mostrarPreco: pacote.mostrarPreco === true,
       isIdaEVolta: pacote.isIdaEVolta || false,
@@ -357,7 +383,7 @@ const AdminPacotes = () => {
               <TextField
                 fullWidth
                 select
-                label="Categoria"
+                label="Categoria Principal"
                 name="categoria"
                 value={currentPacote.categoria || "passeio"}
                 onChange={handleChange}
@@ -366,7 +392,7 @@ const AdminPacotes = () => {
                 SelectProps={{
                   native: true,
                 }}
-                helperText="Define onde este pacote aparece no sistema de reservas"
+                helperText="Categoria principal do pacote"
               >
                 <option value="passeio">Passeio</option>
                 <option value="transfer_chegada">Transfer de Chegada</option>
@@ -374,6 +400,64 @@ const AdminPacotes = () => {
                 <option value="transfer_chegada_saida">Transfer Chegada + Saída</option>
                 <option value="transfer_entre_hoteis">Transfer entre Hotéis</option>
               </TextField>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper elevation={0} sx={{ p: 2, bgcolor: '#f5f5f5', border: '1px solid #e0e0e0' }}>
+                <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600, color: '#333' }}>
+                  Categorias Adicionais (Múltipla Seleção)
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
+                  Selecione em quais seções de transfer este pacote também deve aparecer
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={(currentPacote.categorias || []).includes('transfer_chegada')}
+                        onChange={() => handleCategoriaToggle('transfer_chegada')}
+                      />
+                    }
+                    label="✈️ Transfer de Chegada (Aeroporto → Hotel)"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={(currentPacote.categorias || []).includes('transfer_saida')}
+                        onChange={() => handleCategoriaToggle('transfer_saida')}
+                      />
+                    }
+                    label="🛫 Transfer de Saída (Hotel → Aeroporto)"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={(currentPacote.categorias || []).includes('transfer_chegada_saida')}
+                        onChange={() => handleCategoriaToggle('transfer_chegada_saida')}
+                      />
+                    }
+                    label="🔄 Transfer Chegada + Saída (Ida e Volta)"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={(currentPacote.categorias || []).includes('transfer_entre_hoteis')}
+                        onChange={() => handleCategoriaToggle('transfer_entre_hoteis')}
+                      />
+                    }
+                    label="🏨 Transfer entre Hotéis"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={(currentPacote.categorias || []).includes('passeio')}
+                        onChange={() => handleCategoriaToggle('passeio')}
+                      />
+                    }
+                    label="🚌 Passeio Turístico"
+                  />
+                </Box>
+              </Paper>
             </Grid>
             
             <Grid item xs={12} md={6}>

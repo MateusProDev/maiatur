@@ -100,7 +100,7 @@ const Header = () => {
   }, []);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent('Olá! Gostaria de mais informações sobre os pacotes da Maiatur.');
+    const message = encodeURIComponent('Olá! Gostaria de mais informações sobre os pacotes da Transfer Fortaleza Tur.');
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     setMenuOpen(false);
   };
@@ -155,10 +155,10 @@ const Header = () => {
       <div className="header-container-modern">
         <Link to="/" className="header-logo-modern">
           {logoUrl ? (
-            <img src={logoUrl} alt="Maiatur Logo" />
+            <img src={logoUrl} alt="Transfer Fortaleza Tur Logo" />
           ) : (
             <div className="logo-placeholder-modern">
-              <span className="logo-text">MAIATUR</span>
+              <span className="logo-text">TRANSFER FORTALEZA TUR</span>
               <span className="logo-tagline">Viagens & Turismo</span>
             </div>
           )}
@@ -170,7 +170,7 @@ const Header = () => {
               className="header-install-btn-modern" 
               onClick={handleInstallClick}
               aria-label="Instalar aplicativo"
-              title="Instalar Maiatur como App"
+              title="Instalar Transfer Fortaleza Tur como App"
             >
               <FiSmartphone />
               <span className="install-text">App</span>
@@ -323,11 +323,11 @@ const Header = () => {
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <FiSmartphone className="modal-icon" />
-              <h3 className="modal-title">Instalar App Maiatur</h3>
+              <h3 className="modal-title">Instalar App Transfer Fortaleza Tur</h3>
             </div>
             <div className="modal-body">
               <p className="modal-text">
-                📱 Instale o app Maiatur para acesso rápido e experiência melhorada!
+                📱 Instale o app Transfer Fortaleza Tur para acesso rápido e experiência melhorada!
               </p>
             </div>
             <div className="modal-footer">

@@ -41,7 +41,7 @@ const PoliticaPage = () => {
         <section>
           <h2>4. Responsabilidades</h2>
           <ul>
-            <li>A Maiatur não se responsabiliza por pertences pessoais perdidos ou danificados.</li>
+            <li>A Transfer Fortaleza Tur não se responsabiliza por pertences pessoais perdidos ou danificados.</li>
             <li>O cliente deve informar condições médicas relevantes antes do passeio.</li>
             <li>Horários estão sujeitos a alterações devido a condições climáticas ou operacionais.</li>
             <li>A empresa se reserva o direito de recusar serviço a clientes sob efeito de álcool ou drogas.</li>

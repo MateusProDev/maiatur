@@ -134,7 +134,7 @@ const AdminDashboard = () => {
           <h1>
             <FiTrendingUp /> Painel Administrativo
           </h1>
-          <p>Maiatur Turismo</p>
+          <p>Transfer Fortaleza Tur</p>
         </div>
         <button onClick={handleLogout} className="logout-btn">
           <FiLogOut /> Sair

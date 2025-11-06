@@ -82,7 +82,17 @@ const PacotesListPage = () => {
     
     // Filtro de categoria
     if (filterCategoria !== 'all') {
-      results = results.filter(pacote => pacote.categoria === filterCategoria);
+      results = results.filter(pacote => {
+        // Verifica se a categoria principal corresponde
+        const categoriaPrincipalMatch = pacote.categoria === filterCategoria;
+        
+        // Verifica se está nas categorias adicionais (múltiplas)
+        const categoriasAdicionaisMatch = pacote.categorias && 
+          Array.isArray(pacote.categorias) && 
+          pacote.categorias.includes(filterCategoria);
+        
+        return categoriaPrincipalMatch || categoriasAdicionaisMatch;
+      });
       console.log(`📂 Após filtro categoria: ${results.length} pacotes`);
     }
     

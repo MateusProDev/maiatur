@@ -134,7 +134,7 @@ const TransferChegadaPage = () => {
           </button>
           {logoUrl && (
             <div className="form-logo">
-              <img src={logoUrl} alt="Maiatur Logo" />
+              <img src={logoUrl} alt="Transfer Fortaleza Tur Logo" />
             </div>
           )}
         </div>

@@ -69,7 +69,7 @@ const HomeModern = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    const message = encodeURIComponent('Olá! Gostaria de mais informações sobre os pacotes da Maiatur.');
+    const message = encodeURIComponent('Olá! Gostaria de mais informações sobre os pacotes da Transfer Fortaleza Tur.');
     window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
   };
 
@@ -87,7 +87,7 @@ const HomeModern = () => {
             </span>
             <h1 className="hero-title">
               Descubra o Mundo com a
-              <span className="gradient-text"> Maiatur</span>
+              <span className="gradient-text"> Transfer Fortaleza Tur</span>
             </h1>
             <p className="hero-description">
               Transforme seus sonhos em realidade com pacotes personalizados 
@@ -237,13 +237,13 @@ const HomeModern = () => {
         </div>
       </section>
 
-      {/* Por que escolher a Maiatur */}
+      {/* Por que escolher a Transfer Fortaleza Tur */}
       <section className="why-choose-section">
         <div className="container-modern">
           <div className="section-header-modern">
             <span className="section-badge">Diferenciais</span>
             <h2 className="section-title-modern">
-              Por que Escolher a Maiatur?
+              Por que Escolher a Transfer Fortaleza Tur?
             </h2>
           </div>
 

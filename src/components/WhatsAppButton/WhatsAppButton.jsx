@@ -34,7 +34,7 @@ const WhatsAppButton = () => {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
-  const message = "Olá, gostaria de saber mais sobre os pacotes de turismo da Maiatur.";
+  const message = "Olá, gostaria de saber mais sobre os pacotes de turismo da Transfer Fortaleza Tur.";
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (

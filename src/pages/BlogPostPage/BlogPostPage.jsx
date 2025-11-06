@@ -96,7 +96,7 @@ const BlogPostPage = () => {
   return (
     <>
       <Helmet>
-        <title>{post.seo?.metaTitle || post.title} - Maiatur</title>
+        <title>{post.seo?.metaTitle || post.title} - Transfer Fortaleza Tur</title>
         <meta name="description" content={post.seo?.metaDescription || post.excerpt} />
         <meta name="keywords" content={post.seo?.keywords || post.tags?.join(', ')} />
         <meta property="og:title" content={post.seo?.metaTitle || post.title} />

@@ -81,7 +81,7 @@ async function gerarVoucherPDF(reserva, reservaId) {
   yPos -= 40;
   
   // Informações da Agência
-  page.drawText("MAIATUR TURISMO", {
+  page.drawText("TRANSFER FORTALEZA TUR", {
     x: 50,
     y: yPos,
     size: 14,
@@ -382,7 +382,7 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
   const replyTo = process.env.AGENCY_REPLY_TO || process.env.AGENCY_EMAIL || process.env.SMTP_USER;
   
   const mailOptions = {
-    from: `"Maiatur Turismo" <${fromAddress}>`,
+    from: `"Transfer Fortaleza Tur" <${fromAddress}>`,
     replyTo,
     to: reserva.responsavel.email,
     subject: `✅ Reserva Confirmada - ${tipoLabel} - #${reservaId.substring(0, 8).toUpperCase()}`,
@@ -408,7 +408,7 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
         <div class="container">
           <div class="header">
             <h1>🎉 Reserva Confirmada!</h1>
-            <p>Obrigado por escolher a Maiatur Turismo</p>
+            <p>Obrigado por escolher a Transfer Fortaleza Tur</p>
           </div>
           
           <div class="content">
@@ -446,7 +446,7 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
           </div>
           
           <div class="footer">
-            <p><strong>Maiatur Turismo</strong></p>
+            <p><strong>Transfer Fortaleza Tur</strong></p>
             <p>Top 3 no Tripadvisor • Empresa Certificada • Site Blindado</p>
             <p style="font-size: 11px; color: #999; margin-top: 15px;">
               Este é um email automático, por favor não responda.<br>

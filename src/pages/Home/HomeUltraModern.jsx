@@ -296,7 +296,7 @@ const HomeUltraModern = () => {
               </span>
               <h2 className="section-title-ultra">
                 Por que escolher a
-                <span className="gradient-text"> Maiatur?</span>
+                <span className="gradient-text"> Transfer Fortaleza Tur?</span>
               </h2>
               <p className="section-text-large">
                 Mais de uma década transformando viagens em experiências memoráveis. 
@@ -385,7 +385,7 @@ const HomeUltraModern = () => {
                       </div>
                       <div className="author-info">
                         <h4>{avaliacao.nomeCliente || 'Cliente Satisfeito'}</h4>
-                        <p>{avaliacao.destino || 'Viajante Maiatur'}</p>
+                        <p>{avaliacao.destino || 'Viajante Transfer Fortaleza Tur'}</p>
                       </div>
                     </div>
                   </div>

@@ -58,8 +58,8 @@ const BlogPage = () => {
   return (
     <>
       <Helmet>
-        <title>Blog - Maiatur | Dicas e Destinos de Viagem</title>
-        <meta name="description" content="Descubra dicas exclusivas, destinos incríveis e tudo sobre viagens no blog da Maiatur." />
+        <title>Blog - Transfer Fortaleza Tur | Dicas e Destinos de Viagem</title>
+        <meta name="description" content="Descubra dicas exclusivas, destinos incríveis e tudo sobre viagens no blog da Transfer Fortaleza Tur." />
         <meta name="keywords" content="blog viagem, dicas de viagem, destinos turísticos, turismo" />
       </Helmet>
 
@@ -68,7 +68,7 @@ const BlogPage = () => {
       <div className="blog-page">
         <div className="blog-hero">
           <div className="blog-hero-content">
-            <h1>Blog Maiatur</h1>
+            <h1>Blog Transfer Fortaleza Tur</h1>
             <p>Descubra os melhores destinos e dicas para sua próxima aventura</p>
           </div>
         </div>

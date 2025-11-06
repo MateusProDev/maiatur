@@ -62,25 +62,33 @@ const CategoriaPage = () => {
         setLoading(true);
         console.log(`🔄 Buscando pacotes da categoria: ${categoria}`);
         
-        const q = query(
-          collection(db, 'pacotes'),
-          where('categoria', '==', categoria)
-        );
+        // Buscar todos os pacotes e filtrar localmente
+        const q = query(collection(db, 'pacotes'));
         
         const querySnapshot = await getDocs(q);
         
         console.log(`📊 Documentos retornados: ${querySnapshot.size}`);
         
-        const pacotesData = querySnapshot.docs.map(doc => {
-          const data = doc.data();
-          
-          return {
-            id: doc.id,
-            ...data,
-            preco: Number(data.preco || 0),
-            precoOriginal: data.precoOriginal ? Number(data.precoOriginal) : null
-          };
-        });
+        const pacotesData = querySnapshot.docs
+          .map(doc => {
+            const data = doc.data();
+            
+            return {
+              id: doc.id,
+              ...data,
+              preco: Number(data.preco || 0),
+              precoOriginal: data.precoOriginal ? Number(data.precoOriginal) : null
+            };
+          })
+          .filter(pacote => {
+            // Filtra pacotes que pertencem à categoria (principal ou adicional)
+            const categoriaPrincipalMatch = pacote.categoria === categoria;
+            const categoriasAdicionaisMatch = pacote.categorias && 
+              Array.isArray(pacote.categorias) && 
+              pacote.categorias.includes(categoria);
+            
+            return categoriaPrincipalMatch || categoriasAdicionaisMatch;
+          });
 
         // Ordena por createdAt
         pacotesData.sort((a, b) => {

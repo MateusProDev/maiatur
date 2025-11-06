@@ -167,16 +167,24 @@ export const buscarPacotesPorCategoria = async (categoria) => {
   try {
     console.log(`🔍 Buscando pacotes com categoria: ${categoria}`);
     
-    const q = query(
-      collection(db, "pacotes"),
-      where("categoria", "==", categoria)
-    );
+    // Buscar todos os pacotes e filtrar localmente
+    const q = query(collection(db, "pacotes"));
     
     const querySnapshot = await getDocs(q);
-    const pacotes = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    const pacotes = querySnapshot.docs
+      .map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      .filter(pacote => {
+        // Filtra pacotes que pertencem à categoria (principal ou adicional)
+        const categoriaPrincipalMatch = pacote.categoria === categoria;
+        const categoriasAdicionaisMatch = pacote.categorias && 
+          Array.isArray(pacote.categorias) && 
+          pacote.categorias.includes(categoria);
+        
+        return categoriaPrincipalMatch || categoriasAdicionaisMatch;
+      });
     
     console.log(`✅ Encontrados ${pacotes.length} pacotes na categoria ${categoria}:`, pacotes);
     return pacotes;

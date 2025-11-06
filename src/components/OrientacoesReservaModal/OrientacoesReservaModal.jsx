@@ -38,7 +38,7 @@ const OrientacoesReservaModal = ({ open, onClose, reservaData }) => {
   const { phoneNumber, loading: whatsappLoading } = useWhatsAppNumber();
 
   const handleWhatsAppContact = () => {
-    const message = `Olá! Acabei de fazer uma reserva no site da Maiatur e gostaria de tirar algumas dúvidas. 
+    const message = `Olá! Acabei de fazer uma reserva no site da Transfer Fortaleza Tur e gostaria de tirar algumas dúvidas. 
 
 *Dados da Reserva:*
 • Nome: ${reservaData?.nome || 'Não informado'}
@@ -277,7 +277,7 @@ Aguardo retorno!`;
         {/* Diferenciais da Empresa */}
         <Box className="section">
           <Typography variant="h6" className="section-title">
-            ⭐ Por que escolher a Maiatur?
+            ⭐ Por que escolher a Transfer Fortaleza Tur?
           </Typography>
           
           <Box className="features-grid">
