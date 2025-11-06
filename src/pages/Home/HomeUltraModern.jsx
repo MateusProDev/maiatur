@@ -114,14 +114,28 @@ const HomeUltraModern = () => {
         
         setPacotes(pacotesData);
 
-        // Agrupar pacotes por categoria
+        // Agrupar pacotes por categoria (incluindo categorias múltiplas)
         const grouped = {};
         pacotesData.forEach(pacote => {
-          const categoria = pacote.categoria || 'passeio';
-          if (!grouped[categoria]) {
-            grouped[categoria] = [];
+          // Adicionar à categoria principal
+          const categoriaPrincipal = pacote.categoria || 'passeio';
+          if (!grouped[categoriaPrincipal]) {
+            grouped[categoriaPrincipal] = [];
           }
-          grouped[categoria].push(pacote);
+          grouped[categoriaPrincipal].push(pacote);
+          
+          // Adicionar às categorias adicionais (se existirem)
+          if (pacote.categorias && Array.isArray(pacote.categorias)) {
+            pacote.categorias.forEach(cat => {
+              if (!grouped[cat]) {
+                grouped[cat] = [];
+              }
+              // Evitar duplicatas
+              if (!grouped[cat].find(p => p.id === pacote.id)) {
+                grouped[cat].push(pacote);
+              }
+            });
+          }
         });
         
         setPacotesPorCategoria(grouped);

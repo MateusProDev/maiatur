@@ -5,18 +5,18 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(255, 255, 255, 0.98);
+  background: #128C7E;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(33, 166, 87, 0.08);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-bottom: 2px solid var(--color-primary-alpha);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 30px rgba(33, 166, 87, 0.12);
+  background: #075E54;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 .header-container-modern {
@@ -54,11 +54,14 @@
   gap: 0.5rem;
   font-size: 1.8rem;
   font-weight: 900;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-info) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffffff;
   letter-spacing: -0.02em;
+}
+
+.logo-tagline {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 /* ========== MENU TOGGLE E AÇÕES ========== */
@@ -75,9 +78,9 @@
   display: none !important;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(0, 0, 0, 0.05);
-  color: #666;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.5rem 0.9rem;
   border-radius: 50px;
   font-size: 0.85rem;
@@ -91,9 +94,9 @@
 }
 
 .header-install-btn-modern:hover {
-  background: rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 0, 0, 0.15);
-  color: #333;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
 }
 
 .header-install-btn-modern svg {
@@ -118,7 +121,7 @@
   background: none;
   border: none;
   font-size: 1.8rem;
-  color: #333;
+  color: #ffffff;
   cursor: pointer;
   padding: 0.5rem;
   transition: all 0.3s ease;
@@ -127,7 +130,7 @@
 }
 
 .header-menu-toggle-modern:hover {
-  color: var(--color-primary);
+  color: rgba(255, 255, 255, 0.8);
   transform: scale(1.1);
 }
 
@@ -152,7 +155,7 @@
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  color: var(--color-text-primary);
+  color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
   padding: 0.75rem 1.25rem;
@@ -169,7 +172,7 @@
   left: 0;
   width: 0;
   height: 100%;
-  background: var(--color-primary-alpha);
+  background: rgba(255, 255, 255, 0.15);
   transition: width 0.3s ease;
   z-index: -1;
 }
@@ -179,13 +182,13 @@
 }
 
 .nav-link-modern:hover {
-  color: var(--color-primary);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
 .nav-link-modern.active {
-  background: var(--color-primary-alpha);
-  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 .nav-icon-modern {
@@ -197,23 +200,24 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-  color: white;
+  background: #ffffff;
+  color: #075E54;
   text-decoration: none;
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
   font-size: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   border: none;
   cursor: pointer;
 }
 
 .whatsapp-btn-nav:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-  background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: #f0f0f0;
+  color: #075E54;
 }
 
 .whatsapp-btn-nav .nav-icon-modern {
@@ -305,12 +309,9 @@
   .logo-tagline {
     display: block;
     font-size: 0.65rem;
-    opacity: 0.7;
+    opacity: 0.9;
     font-weight: 600;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: rgba(255, 255, 255, 0.9);
   }
 
   /* Botão hambúrguer fixo na direita com tamanho definido */
@@ -323,7 +324,7 @@
     max-width: 38px;
     height: 38px;
     flex-shrink: 0;
-    background: rgba(33, 166, 87, 0.08);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     position: relative;
     z-index: 1001;
@@ -339,7 +340,7 @@
     right: -100%;
     width: 320px;
     height: 100vh;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
     flex-direction: column;
     align-items: flex-start;
     padding: 6rem 2rem 2rem;
