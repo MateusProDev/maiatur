@@ -36,10 +36,7 @@ const HomeUltraModern = () => {
 
   const categorias = {
     'passeio': 'Passeios e Experiências',
-    'transfer_chegada': 'Transfer de Chegada',
-    'transfer_saida': 'Transfer de Saída',
-    'transfer_chegada_saida': 'Transfer Completo',
-    'transfer_entre_hoteis': 'Transfer entre Hotéis'
+    'transfers': 'Transfers e Traslados'
   };
 
   const services = [
@@ -112,40 +109,49 @@ const HomeUltraModern = () => {
           ...doc.data()
         }));
         
-        setPacotes(pacotesData);
+        // setPacotes(pacotesData);
 
-        // Agrupar pacotes por categoria (incluindo categorias múltiplas)
-        const grouped = {};
+        // Agrupar pacotes: Passeios separado e todos os Transfers juntos
+        const passeios = [];
+        const transfers = [];
+        
         pacotesData.forEach(pacote => {
-          // Adicionar à categoria principal
           const categoriaPrincipal = pacote.categoria || 'passeio';
-          if (!grouped[categoriaPrincipal]) {
-            grouped[categoriaPrincipal] = [];
-          }
-          grouped[categoriaPrincipal].push(pacote);
+          const categoriasAdicionais = pacote.categorias || [];
           
-          // Adicionar às categorias adicionais (se existirem)
-          if (pacote.categorias && Array.isArray(pacote.categorias)) {
-            pacote.categorias.forEach(cat => {
-              if (!grouped[cat]) {
-                grouped[cat] = [];
-              }
-              // Evitar duplicatas
-              if (!grouped[cat].find(p => p.id === pacote.id)) {
-                grouped[cat].push(pacote);
-              }
-            });
+          // Verificar se é passeio
+          if (categoriaPrincipal === 'passeio' || categoriasAdicionais.includes('passeio')) {
+            if (!passeios.find(p => p.id === pacote.id)) {
+              passeios.push(pacote);
+            }
+          }
+          
+          // Verificar se é transfer (qualquer tipo)
+          const isTransfer = categoriaPrincipal.includes('transfer') || 
+                            categoriasAdicionais.some(cat => cat.includes('transfer'));
+          
+          if (isTransfer) {
+            if (!transfers.find(p => p.id === pacote.id)) {
+              transfers.push(pacote);
+            }
           }
         });
+        
+        // Criar objeto agrupado
+        const grouped = {};
+        if (passeios.length > 0) {
+          grouped['passeio'] = passeios;
+        }
+        if (transfers.length > 0) {
+          grouped['transfers'] = transfers;
+        }
         
         setPacotesPorCategoria(grouped);
         
         // Debug
         console.log('📦 Total de pacotes:', pacotesData.length);
-        console.log('📂 Pacotes por categoria:', Object.keys(grouped).map(cat => ({
-          categoria: cat,
-          quantidade: grouped[cat].length
-        })));
+        console.log('� Passeios:', passeios.length);
+        console.log('🚗 Transfers:', transfers.length);
 
         // Buscar Avaliações
         const avaliacoesQuery = query(
@@ -239,14 +245,20 @@ const HomeUltraModern = () => {
             </div>
           ) : (
             <div className="carousels-section">
-              {Object.entries(pacotesPorCategoria).map(([categoria, pacotesCategoria]) => (
-                <PacotesCarousel 
-                  key={categoria}
-                  pacotes={pacotesCategoria}
-                  categoria={categorias[categoria] || categoria}
-                  autoPlayInterval={5000}
-                />
-              ))}
+              {Object.entries(pacotesPorCategoria).map(([categoria, pacotesCategoria]) => {
+                // Definir link "Ver Mais" baseado na categoria
+                const verMaisLink = categoria === 'passeio' ? '/categoria/passeio' : '/categoria/transfer_chegada';
+                
+                return (
+                  <PacotesCarousel 
+                    key={categoria}
+                    pacotes={pacotesCategoria}
+                    categoria={categorias[categoria] || categoria}
+                    autoPlayInterval={5000}
+                    verMaisLink={verMaisLink}
+                  />
+                );
+              })}
             </div>
           )}
 

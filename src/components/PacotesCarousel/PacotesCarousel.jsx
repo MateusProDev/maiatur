@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FiStar } from 'react-icons/fi';
+import { FiStar, FiArrowRight } from 'react-icons/fi';
 import './PacotesCarousel.css';
 
-const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
+const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisLink = '/pacotes' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
   const intervalRef = useRef(null);
+  const carouselRef = useRef(null);
 
   const itemsPerView = {
     desktop: 3,
@@ -75,6 +79,67 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
     setIsPlaying(true);
   };
 
+  // Funcionalidade de arrastar com mouse
+  const handleMouseDown = (e) => {
+    if (!carouselRef.current) return;
+    setIsDragging(true);
+    setIsPlaying(false);
+    setStartX(e.pageX - carouselRef.current.offsetLeft);
+    setScrollLeft(currentIndex);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging || !carouselRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (startX - x) / 100; // Sensibilidade do arrasto
+    
+    if (Math.abs(walk) > 0.5) {
+      if (walk > 0 && currentIndex < pacotes.length - itemsToShow) {
+        setCurrentIndex(prev => Math.min(prev + 1, pacotes.length - itemsToShow));
+        setStartX(e.pageX - carouselRef.current.offsetLeft);
+      } else if (walk < 0 && currentIndex > 0) {
+        setCurrentIndex(prev => Math.max(prev - 1, 0));
+        setStartX(e.pageX - carouselRef.current.offsetLeft);
+      }
+    }
+  };
+
+  const handleMouseUpOrLeave = () => {
+    if (isDragging) {
+      setIsDragging(false);
+      setIsPlaying(true);
+    }
+  };
+
+  // Funcionalidade de arrastar com toque
+  const handleTouchStartDrag = (e) => {
+    if (!carouselRef.current) return;
+    setIsPlaying(false);
+    setStartX(e.touches[0].pageX - carouselRef.current.offsetLeft);
+  };
+
+  const handleTouchMoveDrag = (e) => {
+    if (!carouselRef.current || !startX) return;
+    const x = e.touches[0].pageX - carouselRef.current.offsetLeft;
+    const walk = (startX - x) / 100;
+    
+    if (Math.abs(walk) > 0.5) {
+      if (walk > 0 && currentIndex < pacotes.length - itemsToShow) {
+        setCurrentIndex(prev => Math.min(prev + 1, pacotes.length - itemsToShow));
+        setStartX(e.touches[0].pageX - carouselRef.current.offsetLeft);
+      } else if (walk < 0 && currentIndex > 0) {
+        setCurrentIndex(prev => Math.max(prev - 1, 0));
+        setStartX(e.touches[0].pageX - carouselRef.current.offsetLeft);
+      }
+    }
+  };
+
+  const handleTouchEndDrag = () => {
+    setStartX(0);
+    setIsPlaying(true);
+  };
+
   if (!pacotes || pacotes.length === 0) {
     console.log('⚠️ PacotesCarousel: Nenhum pacote para exibir', { categoria });
     return null;
@@ -93,14 +158,24 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000 }) => {
     <div className="pacotes-carousel-wrapper">
       <div className="carousel-header">
         <h3 className="carousel-title">{categoria}</h3>
+        <Link to={verMaisLink} className="carousel-ver-mais">
+          Ver Mais
+          <FiArrowRight />
+        </Link>
       </div>
 
       <div 
+        ref={carouselRef}
         className="carousel-container"
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        onMouseLeave={handleMouseUpOrLeave}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUpOrLeave}
+        onTouchStart={handleTouchStartDrag}
+        onTouchMove={handleTouchMoveDrag}
+        onTouchEnd={handleTouchEndDrag}
+        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
       >
         <div 
           className="carousel-track"

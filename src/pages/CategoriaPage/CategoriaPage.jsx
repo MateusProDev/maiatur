@@ -11,28 +11,28 @@ import './CategoriaPage.css';
 // Mapeamento de categorias
 const CATEGORIAS = {
   'passeio': {
-    nome: 'Passeios',
+    nome: 'Passeios e Experiências',
     descricao: 'Descubra experiências únicas e passeios inesquecíveis',
     icon: FiMapPin
   },
   'transfer_chegada': {
-    nome: 'Transfer de Chegada',
-    descricao: 'Conforto e segurança desde sua chegada',
+    nome: 'Transfers e Traslados',
+    descricao: 'Transporte confortável e seguro para todos os destinos',
     icon: FiPackage
   },
   'transfer_saida': {
-    nome: 'Transfer de Saída',
-    descricao: 'Transporte seguro até seu destino final',
+    nome: 'Transfers e Traslados',
+    descricao: 'Transporte confortável e seguro para todos os destinos',
     icon: FiPackage
   },
   'transfer_chegada_saida': {
-    nome: 'Transfer Completo',
-    descricao: 'Transfer de chegada e saída com economia',
+    nome: 'Transfers e Traslados',
+    descricao: 'Transporte confortável e seguro para todos os destinos',
     icon: FiPackage
   },
   'transfer_entre_hoteis': {
-    nome: 'Transfer entre Hotéis',
-    descricao: 'Transfira-se com conforto entre acomodações',
+    nome: 'Transfers e Traslados',
+    descricao: 'Transporte confortável e seguro para todos os destinos',
     icon: FiPackage
   }
 };
@@ -62,6 +62,9 @@ const CategoriaPage = () => {
         setLoading(true);
         console.log(`🔄 Buscando pacotes da categoria: ${categoria}`);
         
+        // Verifica se é uma categoria de transfer
+        const isTransferCategory = categoria.includes('transfer');
+        
         // Buscar todos os pacotes e filtrar localmente
         const q = query(collection(db, 'pacotes'));
         
@@ -81,7 +84,18 @@ const CategoriaPage = () => {
             };
           })
           .filter(pacote => {
-            // Filtra pacotes que pertencem à categoria (principal ou adicional)
+            // Se for categoria de transfer, mostra TODOS os transfers
+            if (isTransferCategory) {
+              const categoriaPrincipal = pacote.categoria || '';
+              const categoriasAdicionais = pacote.categorias || [];
+              
+              const isPrincipalTransfer = categoriaPrincipal.includes('transfer');
+              const hasTransferInAdicionais = categoriasAdicionais.some(cat => cat.includes('transfer'));
+              
+              return isPrincipalTransfer || hasTransferInAdicionais;
+            }
+            
+            // Para outras categorias, filtra normalmente
             const categoriaPrincipalMatch = pacote.categoria === categoria;
             const categoriasAdicionaisMatch = pacote.categorias && 
               Array.isArray(pacote.categorias) && 

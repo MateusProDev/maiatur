@@ -15,10 +15,40 @@
 .carousel-header {
   display: flex !important;
   align-items: center !important;
-  justify-content: flex-start !important;
+  justify-content: space-between !important;
   margin-bottom: 2rem !important;
   padding: 0 0.5rem !important;
   box-sizing: border-box !important;
+}
+
+.carousel-ver-mais {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.65rem 1.25rem !important;
+  background: linear-gradient(135deg, #21A657 0%, #128C7E 100%) !important;
+  color: white !important;
+  text-decoration: none !important;
+  border-radius: 25px !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3) !important;
+}
+
+.carousel-ver-mais:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(33, 166, 87, 0.4) !important;
+  background: linear-gradient(135deg, #128C7E 0%, #21A657 100%) !important;
+}
+
+.carousel-ver-mais svg {
+  font-size: 1.1rem !important;
+  transition: transform 0.3s ease !important;
+}
+
+.carousel-ver-mais:hover svg {
+  transform: translateX(3px) !important;
 }
 
 .carousel-title {

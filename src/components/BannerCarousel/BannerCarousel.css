@@ -10,8 +10,8 @@
   max-height: 900px;
   overflow: hidden;
   background: #000;
-  margin-top: -80px; /* Compensar altura do header */
-  padding-top: 80px; /* Adicionar padding para não sobrepor o header */
+  margin-top: 0; /* Removido margin negativo */
+  padding-top: 0; /* Removido padding */
 }
 
 /* Loading State */
@@ -111,6 +111,7 @@
   justify-content: flex-start;
   z-index: 2;
   padding: 0 5%;
+  padding-top: 40px; /* Adicionar espaço extra no topo para compensar navbar */
   transform: translateY(-50%);
 }
 
@@ -401,12 +402,13 @@
     height: 100vh;
     min-height: 500px;
     max-height: 700px;
-    margin-top: -70px;
-    padding-top: 70px;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .banner-content {
     padding: 0 2rem;
+    padding-top: 60px; /* Espaço para navbar mobile (90px de altura) */
     top: 50%;
     transform: translateY(-50%);
   }
@@ -475,12 +477,13 @@
   .banner-carousel-hero {
     min-height: 550px;
     max-height: 650px;
-    margin-top: -70px; /* Ajustar para header mobile */
-    padding-top: 70px;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .banner-content {
     padding: 0 1.5rem;
+    padding-top: 45px; /* Espaço para navbar mobile pequena (75px) */
     top: 50%;
     transform: translateY(-50%);
   }
