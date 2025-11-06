@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-info) 100%);
+  background: linear-gradient(135deg, #128C7E 0%, #21A657 100%);
   overflow: hidden;
   margin-top: 80px;
 }
