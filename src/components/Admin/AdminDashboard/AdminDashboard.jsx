@@ -1,7 +1,8 @@
 // Modern Admin Dashboard with Analytics and Quick Edit Links
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../../firebase/firebase";
+import { auth, db } from "../../../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import analyticsService from "../../../services/analyticsService";
 import {
   FiMenu,
@@ -30,6 +31,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [logoUrl, setLogoUrl] = useState('');
   
   // Analytics data
   const [totalViews, setTotalViews] = useState(0);
@@ -38,6 +40,21 @@ const AdminDashboard = () => {
   const [deviceStats, setDeviceStats] = useState({ mobile: 0, desktop: 0, tablet: 0 });
   const [hourlyData, setHourlyData] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(7);
+
+  // Load logo
+  useEffect(() => {
+    const loadLogo = async () => {
+      try {
+        const headerDoc = await getDoc(doc(db, 'settings', 'header'));
+        if (headerDoc.exists() && headerDoc.data().logoUrl) {
+          setLogoUrl(headerDoc.data().logoUrl);
+        }
+      } catch (error) {
+        console.error("Error loading logo:", error);
+      }
+    };
+    loadLogo();
+  }, []);
 
   // Load analytics data
   useEffect(() => {
@@ -83,13 +100,13 @@ const AdminDashboard = () => {
 
   // Quick edit links
   const quickEditLinks = [
-    { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", color: "#667eea" },
-    { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", color: "#f093fb" },
-    { icon: FiSettings, title: "Reservas", description: "Gerenciar reservas online", path: "/admin/reservas", color: "#10b981" },
-    { icon: FiMessageSquare, title: "Blog", description: "Gerenciar posts do blog", path: "/admin/blog", color: "#fa709a" },
-    { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", color: "#4facfe" },
-    { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", color: "#43e97b" },
-    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", color: "#fee140" }
+    { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", color: "linear-gradient(135deg, #128C7E, #21A657)" },
+    { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", color: "linear-gradient(135deg, #EE7C35, #F8C144)" },
+    { icon: FiSettings, title: "Reservas", description: "Gerenciar reservas online", path: "/admin/reservas", color: "linear-gradient(135deg, #10b981, #059669)" },
+    { icon: FiMessageSquare, title: "Blog", description: "Gerenciar posts do blog", path: "/admin/blog", color: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
+    { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", color: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+    { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", color: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", color: "linear-gradient(135deg, #fee140, #fa709a)" }
   ];
 
   // Get page name from path
@@ -131,10 +148,19 @@ const AdminDashboard = () => {
       {/* Header */}
       <div className="dashboard-header-bar">
         <div className="header-content">
-          <h1>
-            <FiTrendingUp /> Painel Administrativo
-          </h1>
-          <p>Transfer Fortaleza Tur</p>
+          {logoUrl ? (
+            <img src={logoUrl} alt="Logo" className="dashboard-logo" />
+          ) : (
+            <div className="dashboard-logo-placeholder">
+              <span>TRANSFER FORTALEZA TUR</span>
+            </div>
+          )}
+          <div className="header-text">
+            <h1>
+              <FiTrendingUp /> Painel Administrativo
+            </h1>
+            <p>Gerencie seu site e visualize métricas</p>
+          </div>
         </div>
         <button onClick={handleLogout} className="logout-btn">
           <FiLogOut /> Sair
@@ -173,7 +199,7 @@ const AdminDashboard = () => {
         {/* Analytics Overview */}
         <div className="analytics-overview">
           <div className="stat-card">
-            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #667eea, #764ba2)' }}>
+            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #128C7E, #21A657)' }}>
               <FiEye />
             </div>
             <div className="stat-content">
@@ -184,7 +210,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #f093fb, #f5576c)' }}>
+            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #EE7C35, #F8C144)' }}>
               <FiTrendingUp />
             </div>
             <div className="stat-content">
