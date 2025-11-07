@@ -17,6 +17,7 @@ import BlogPage from "./pages/BlogPage/BlogPage";
 import BlogPostPage from "./pages/BlogPostPage/BlogPostPage";
 import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
 import AdminDashboard from "./components/Admin/AdminDashboard/AdminDashboard";
+import AdminHelp from "./components/Admin/AdminHelp/AdminHelp";
 import AdminPacotes from "./components/AdminPacotes/AdminPacotes";
 import AdminReservas from "./components/Admin/AdminReservas/AdminReservas";
 import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
@@ -139,6 +140,7 @@ const App = () => {
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<Navigate to="/admin" />} />
+              <Route path="/admin/ajuda" element={<ProtectedRoute><AdminHelp /></ProtectedRoute>} />
               <Route path="/admin/inicializador" element={<ProtectedRoute><InicializadorPage /></ProtectedRoute>} />
               <Route path="/admin/pacotes" element={<ProtectedRoute><AdminPacotes /></ProtectedRoute>} />
               <Route path="/admin/pacotes/editar/:pacoteId" element={<ProtectedRoute><AdminEditPacote /></ProtectedRoute>} />

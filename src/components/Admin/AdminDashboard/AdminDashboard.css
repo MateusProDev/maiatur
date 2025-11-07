@@ -290,6 +290,19 @@ html, body {
   left: 100%;
 }
 
+/* Stat Icon Colors - Cores suaves e neutras */
+.stat-icon-views {
+  background: linear-gradient(135deg, #64748b, #475569) !important;
+}
+
+.stat-icon-pages {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+}
+
+.stat-icon-peak {
+  background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+}
+
 .stat-content h3 {
   font-size: 0.95rem;
   color: #6b7280;

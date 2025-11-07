@@ -23,7 +23,8 @@ import {
   FiMonitor,
   FiTablet,
   FiArrowUp,
-  FiArrowDown
+  FiArrowDown,
+  FiHelpCircle
 } from "react-icons/fi";
 import "./AdminDashboard.css";
 
@@ -100,6 +101,7 @@ const AdminDashboard = () => {
 
   // Quick edit links
   const quickEditLinks = [
+    { icon: FiHelpCircle, title: "Central de Ajuda", description: "Tutorial e guia de uso", path: "/admin/ajuda", color: "linear-gradient(135deg, #f59e0b, #d97706)" },
     { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", color: "linear-gradient(135deg, #128C7E, #21A657)" },
     { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", color: "linear-gradient(135deg, #EE7C35, #F8C144)" },
     { icon: FiSettings, title: "Reservas", description: "Gerenciar reservas online", path: "/admin/reservas", color: "linear-gradient(135deg, #10b981, #059669)" },
@@ -199,7 +201,7 @@ const AdminDashboard = () => {
         {/* Analytics Overview */}
         <div className="analytics-overview">
           <div className="stat-card">
-            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #128C7E, #21A657)' }}>
+            <div className="stat-icon stat-icon-views">
               <FiEye />
             </div>
             <div className="stat-content">
@@ -210,7 +212,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #EE7C35, #F8C144)' }}>
+            <div className="stat-icon stat-icon-pages">
               <FiTrendingUp />
             </div>
             <div className="stat-content">
@@ -221,7 +223,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #4facfe, #00f2fe)' }}>
+            <div className="stat-icon stat-icon-peak">
               <FiUsers />
             </div>
             <div className="stat-content">
