@@ -30,6 +30,7 @@ const PacoteDetailPage = () => {
       descricaoCurta: data.descricaoCurta || '',
       preco: parseFloat(data.preco) || 0,
       precoOriginal: data.precoOriginal ? parseFloat(data.precoOriginal) : null,
+      mostrarPreco: data.mostrarPreco === true,
       imagens: Array.isArray(data.imagens) ? data.imagens : [],
       slug: data.slug || pacoteSlug,
       destaque: data.destaque || false,
@@ -269,7 +270,7 @@ const PacoteDetailPage = () => {
           {/* Sidebar com Preço e CTA */}
           <aside className="pdp-sidebar">
             <div className="pdp-price-card">
-              {pacote.mostrarPreco !== false && pacote.preco && (
+              {pacote.mostrarPreco === true && pacote.preco && pacote.preco > 0 && (
                 <div className="pdp-price-section">
                   <span className="pdp-price-label">A partir de</span>
                   {pacote.precoOriginal && (

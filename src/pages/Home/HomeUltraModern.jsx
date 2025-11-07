@@ -137,21 +137,25 @@ const HomeUltraModern = () => {
           }
         });
         
+        // Limitar a 5 pacotes em destaque por categoria
+        const passeiosLimitados = passeios.filter(p => p.destaque === true).slice(0, 5);
+        const transfersLimitados = transfers.filter(p => p.destaque === true).slice(0, 5);
+        
         // Criar objeto agrupado
         const grouped = {};
-        if (passeios.length > 0) {
-          grouped['passeio'] = passeios;
+        if (passeiosLimitados.length > 0) {
+          grouped['passeio'] = passeiosLimitados;
         }
-        if (transfers.length > 0) {
-          grouped['transfers'] = transfers;
+        if (transfersLimitados.length > 0) {
+          grouped['transfers'] = transfersLimitados;
         }
         
         setPacotesPorCategoria(grouped);
         
         // Debug
         console.log('📦 Total de pacotes:', pacotesData.length);
-        console.log('� Passeios:', passeios.length);
-        console.log('🚗 Transfers:', transfers.length);
+        console.log('🎯 Passeios em destaque (até 5):', passeiosLimitados.length);
+        console.log('🚗 Transfers em destaque (até 5):', transfersLimitados.length);
 
         // Buscar Avaliações
         const avaliacoesQuery = query(
