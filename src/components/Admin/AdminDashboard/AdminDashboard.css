@@ -13,7 +13,7 @@ html, body {
 
 .modern-admin-dashboard-simple {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #128C7E 0%, #21A657 100%);
   overflow-x: hidden;
 }
 
@@ -46,7 +46,7 @@ html, body {
 .header-content h1 {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #667eea;
+  color: #128C7E;
   margin: 0 0 0.25rem 0;
   display: flex;
   align-items: center;
@@ -157,7 +157,7 @@ html, body {
 
 .period-selector button.active {
   background: white;
-  color: #667eea;
+  color: #128C7E;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -265,7 +265,7 @@ html, body {
 }
 
 .section-title svg {
-  color: #667eea;
+  color: #128C7E;
   font-size: 1.75rem;
 }
 
@@ -297,7 +297,7 @@ html, body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(18, 140, 126, 0.1), transparent);
   transition: left 0.5s ease;
 }
 
@@ -308,7 +308,7 @@ html, body {
 .quick-edit-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  border-color: #667eea;
+  border-color: #128C7E;
 }
 
 .quick-edit-icon {
@@ -360,11 +360,11 @@ html, body {
 }
 
 .device-icon.mobile {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #128C7E, #21A657);
 }
 
 .device-icon.desktop {
-  background: linear-gradient(135deg, #f093fb, #f5576c);
+  background: linear-gradient(135deg, #EE7C35, #F8C144);
 }
 
 .device-icon.tablet {
@@ -401,11 +401,11 @@ html, body {
 }
 
 .device-bar-fill.mobile {
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #128C7E, #21A657);
 }
 
 .device-bar-fill.desktop {
-  background: linear-gradient(90deg, #f093fb, #f5576c);
+  background: linear-gradient(90deg, #EE7C35, #F8C144);
 }
 
 .device-bar-fill.tablet {
@@ -415,7 +415,7 @@ html, body {
 .device-percentage {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #667eea;
+  color: #128C7E;
 }
 
 /* Top Pages List */
@@ -438,15 +438,15 @@ html, body {
 
 .top-page-item:hover {
   transform: translateX(5px);
-  border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  border-color: #128C7E;
+  box-shadow: 0 4px 12px rgba(18, 140, 126, 0.15);
 }
 
 .page-rank {
   width: 50px;
   height: 50px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #128C7E, #21A657);
   color: white;
   display: flex;
   align-items: center;
@@ -477,7 +477,7 @@ html, body {
 .page-count {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #667eea;
+  color: #128C7E;
   display: flex;
   align-items: center;
   gap: 0.5rem;
