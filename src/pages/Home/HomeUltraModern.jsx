@@ -53,12 +53,6 @@ const HomeUltraModern = () => {
       color: '#EE7C35'
     },
     {
-      icon: <FaMountain />,
-      title: 'Aventuras Radicais',
-      description: 'Buggy, quadriciclo, lancha e muito mais para os aventureiros',
-      color: '#78C8E5'
-    },
-    {
       icon: <FaCity />,
       title: 'City Tours',
       description: 'Conheça as principais atrações e cultura local com nossos guias',
