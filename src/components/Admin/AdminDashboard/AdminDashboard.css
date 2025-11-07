@@ -291,15 +291,15 @@ html, body {
 }
 
 /* Stat Icon Colors - Cores suaves e neutras */
-.stat-icon-views {
+.stat-card .stat-icon.stat-icon-views {
   background: linear-gradient(135deg, #64748b, #475569) !important;
 }
 
-.stat-icon-pages {
+.stat-card .stat-icon.stat-icon-pages {
   background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
 }
 
-.stat-icon-peak {
+.stat-card .stat-icon.stat-icon-peak {
   background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
 }
 
