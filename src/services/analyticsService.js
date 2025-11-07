@@ -1,14 +1,26 @@
 // Analytics Service - Track page views and user interactions
-import { db } from '../firebase/firebase';
+// AGORA COM GOOGLE ANALYTICS 4 INTEGRADO
+import { db, analytics } from '../firebase/firebase';
+import { logEvent } from 'firebase/analytics';
 import { collection, addDoc, query, where, getDocs, orderBy, limit, Timestamp } from 'firebase/firestore';
 
 class AnalyticsService {
-  // Track page view - Otimizado para não gravar múltiplas vezes o mesmo usuário na mesma página
+  // Track page view - AGORA USA GOOGLE ANALYTICS 4 + Firestore otimizado
   async trackPageView(page, userAgent = null) {
     try {
       // Check if we're in a browser environment
       if (typeof window === 'undefined') return;
       
+      // 1️⃣ GOOGLE ANALYTICS 4 - Rastreamento automático (não consome Firestore)
+      if (analytics) {
+        logEvent(analytics, 'page_view', {
+          page_path: page,
+          page_title: document.title || page
+        });
+        console.log(`📊 Google Analytics 4: Page view registrado para ${page}`);
+      }
+      
+      // 2️⃣ FIRESTORE - Apenas para dashboard interno (1 vez por dia por página)
       // Gera uma chave única para esta página e sessão
       const today = new Date().toDateString(); // Ex: "Mon Oct 21 2025"
       const viewKey = `analytics_${page}_${today}`;
@@ -17,7 +29,7 @@ class AnalyticsService {
       const hasViewed = localStorage.getItem(viewKey);
       
       if (hasViewed) {
-        console.log(`📊 Analytics: View já registrada para ${page} hoje`);
+        console.log(`📊 Firestore Analytics: View já registrada para ${page} hoje (economizando escritas)`);
         return; // Não grava novamente
       }
       
@@ -38,7 +50,7 @@ class AnalyticsService {
       
       // Marca que já visualizou esta página hoje
       localStorage.setItem(viewKey, 'true');
-      console.log(`✅ Analytics: View registrada para ${page}`);
+      console.log(`✅ Firestore Analytics: View registrada para ${page}`);
       
       // Limpa views antigas do localStorage (mais de 7 dias)
       this.cleanOldViews();
