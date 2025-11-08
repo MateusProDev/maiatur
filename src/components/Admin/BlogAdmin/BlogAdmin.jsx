@@ -8,7 +8,7 @@ import htmlToDraft from 'html-to-draftjs';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import axios from 'axios';
 import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
-import { createPost, updatePost, deletePost, getAllPostsAdmin, generateSlug } from '../../../services/blogService';
+import { createPost, updatePost, deletePost, getPostsByStatus, getAllPostsAdmin, generateSlug } from '../../../services/blogService';
 import './BlogAdmin.css';
 
 const BlogAdmin = () => {
@@ -57,6 +57,14 @@ const BlogAdmin = () => {
     }
   };
 
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  useEffect(() => {
+    filterPosts();
+  }, [posts, searchTerm, filterPublished]);
+
   const loadPosts = async () => {
     try {
       setLoading(true);
@@ -70,32 +78,24 @@ const BlogAdmin = () => {
   };
 
   const filterPosts = () => {
-    let filtered = posts;
+    let filtered = [...posts];
 
+    // Filtro de busca
     if (searchTerm) {
       filtered = filtered.filter(post =>
         post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
+        post.category?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
+    // Filtro de publicação
     if (filterPublished !== 'all') {
-      filtered = filtered.filter(post =>
-        filterPublished === 'published' ? post.published : !post.published
-      );
+      const isPublished = filterPublished === 'published';
+      filtered = filtered.filter(post => post.published === isPublished);
     }
 
     setFilteredPosts(filtered);
   };
-
-  useEffect(() => {
-    loadPosts();
-  }, []);
-
-  useEffect(() => {
-    filterPosts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts, searchTerm, filterPublished]);
 
   const showNotification = (message, type = 'success') => {
     setNotification({ show: true, message, type });
