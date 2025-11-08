@@ -69,6 +69,7 @@ const AdminPacotes = () => {
     message: ""
   });
   const [showAdditionalCategories, setShowAdditionalCategories] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const fetchPacotes = async () => {
@@ -235,6 +236,9 @@ const AdminPacotes = () => {
         precoIdaVolta: 0
       });
       
+      // Fechar formulário após salvar
+      setShowForm(false);
+      
     } catch (error) {
       showNotification("error", "Erro ao salvar pacote");
       console.error("Erro ao salvar:", error);
@@ -291,6 +295,7 @@ const AdminPacotes = () => {
       precoVolta: Number(pacote.precoVolta) || 0,
       precoIdaVolta: Number(pacote.precoIdaVolta) || 0
     });
+    setShowForm(true); // Abrir formulário ao editar
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -298,47 +303,89 @@ const AdminPacotes = () => {
     <Container maxWidth="lg" sx={{ py: 4, minHeight: '100vh' }}>
       <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
         <Box>
-          <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
             Gerenciamento de Pacotes
           </Typography>
-          <Typography variant="body2" sx={{ color: '#6b7280' }}>
+          <Typography variant="body2" sx={{ color: '#64748b' }}>
             Crie e gerencie pacotes turísticos com facilidade
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 2 }}>
           <Button 
             variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => setCurrentPacote({
-              titulo: "",
-              descricao: "",
-              descricaoCurta: "",
-              preco: 0,
-              mostrarPreco: true,
-              imagens: [],
-              destaque: false,
-              slug: "",
-              isIdaEVolta: false,
-              precoIda: 0,
-              precoVolta: 0,
-              precoIdaVolta: 0,
-              // Valores fixos divididos
-              valorSinal: 0,
-              valorPrimeiraViagem: 0,
-              valorSegundaViagem: 0,
-              // Campos de compatibilidade
-              valorSinalCalculado: 0,
-              valorParaMotorista: 0,
-              porcentagemSinalPadrao: 40
-            })}
-            sx={{ 
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+            size="large"
+            startIcon={showForm ? <CloseIcon /> : <AddIcon />}
+            onClick={() => {
+              if (showForm) {
+                setShowForm(false);
+                setCurrentPacote({
+                  titulo: "",
+                  descricao: "",
+                  descricaoCurta: "",
+                  categoria: "passeio",
+                  categorias: [],
+                  preco: 0,
+                  mostrarPreco: true,
+                  imagens: [],
+                  destaque: false,
+                  slug: "",
+                  isIdaEVolta: false,
+                  precoIda: 0,
+                  precoVolta: 0,
+                  precoIdaVolta: 0,
+                  valorSinal: 0,
+                  valorPrimeiraViagem: 0,
+                  valorSegundaViagem: 0,
+                  valorSinalCalculado: 0,
+                  valorParaMotorista: 0,
+                  porcentagemSinalPadrao: 40
+                });
+              } else {
+                setShowForm(true);
+                setCurrentPacote({
+                  titulo: "",
+                  descricao: "",
+                  descricaoCurta: "",
+                  categoria: "passeio",
+                  categorias: [],
+                  preco: 0,
+                  mostrarPreco: true,
+                  imagens: [],
+                  destaque: false,
+                  slug: "",
+                  isIdaEVolta: false,
+                  precoIda: 0,
+                  precoVolta: 0,
+                  precoIdaVolta: 0,
+                  valorSinal: 0,
+                  valorPrimeiraViagem: 0,
+                  valorSegundaViagem: 0,
+                  valorSinalCalculado: 0,
+                  valorParaMotorista: 0,
+                  porcentagemSinalPadrao: 40
+                });
               }
             }}
+            sx={{ 
+              background: showForm 
+                ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
+                : 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              px: 3,
+              py: 1.2,
+              boxShadow: '0 4px 14px rgba(100, 116, 139, 0.3)',
+              '&:hover': {
+                background: showForm
+                  ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
+                  : 'linear-gradient(135deg, #475569 0%, #334155 100%)',
+                boxShadow: '0 6px 20px rgba(100, 116, 139, 0.4)',
+                transform: 'translateY(-2px)',
+              },
+              transition: 'all 0.3s ease'
+            }}
           >
-            Criar Novo Pacote
+            {showForm ? "Fechar Formulário" : "Criar Novo Pacote"}
           </Button>
         </Box>
       </Box>
@@ -354,18 +401,51 @@ const AdminPacotes = () => {
       )}
 
       {/* Formulário de Edição/Criação */}
-      <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-          <InventoryIcon sx={{ fontSize: 35, color: '#667eea' }} />
-          <Box>
-            <Typography variant="h6" sx={{ mb: 0 }}>
-              {currentPacote.id ? "Editar Pacote" : "Criar Novo Pacote"}
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#6b7280', fontSize: '0.9rem' }}>
-              {currentPacote.id ? "Atualize as informações do pacote" : "Preencha os dados do novo pacote turístico"}
-            </Typography>
+      <Collapse in={showForm} timeout={500}>
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 4, 
+            mb: 4,
+            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+            border: '1px solid #e2e8f0',
+            borderRadius: '16px'
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4, pb: 3, borderBottom: '2px solid #e2e8f0' }}>
+            <Box 
+              sx={{ 
+                p: 1.5, 
+                borderRadius: '12px', 
+                background: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <InventoryIcon sx={{ fontSize: 32, color: '#fff' }} />
+            </Box>
+            <Box flex={1}>
+              <Typography variant="h5" sx={{ mb: 0.5, fontWeight: 700, color: '#1e293b' }}>
+                {currentPacote.id ? "Editar Pacote" : "Criar Novo Pacote"}
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#64748b' }}>
+                {currentPacote.id ? "Atualize as informações do pacote" : "Preencha os dados do novo pacote turístico"}
+              </Typography>
+            </Box>
+            <IconButton 
+              onClick={() => setShowForm(false)}
+              sx={{ 
+                color: '#64748b',
+                '&:hover': { 
+                  background: '#f1f5f9',
+                  color: '#475569'
+                }
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Box>
-        </Box>
         
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
@@ -696,6 +776,7 @@ const AdminPacotes = () => {
           </Grid>
         </form>
       </Paper>
+      </Collapse>
 
       {/* Lista de Pacotes */}
       <Box sx={{ 
