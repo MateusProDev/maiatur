@@ -63,7 +63,7 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -74,7 +74,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -94,8 +94,8 @@
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #64748b;
+  border: 2px solid #64748b;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
@@ -103,7 +103,7 @@
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #64748b;
   color: white;
 }
 
@@ -127,7 +127,7 @@
 }
 
 .search-box:focus-within {
-  border-color: #667eea;
+  border-color: #64748b;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -153,7 +153,7 @@
 }
 
 .filter-select:focus {
-  border-color: #667eea;
+  border-color: #64748b;
   outline: none;
 }
 
@@ -167,13 +167,13 @@
 
 .blog-stat-card {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   border-radius: 16px;
   color: white;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 20px rgba(100, 116, 139, 0.2);
 }
 
 .stat-number {
@@ -209,7 +209,7 @@
 .post-image {
   position: relative;
   height: 200px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   overflow: hidden;
 }
 
@@ -296,7 +296,7 @@
 
 .post-category {
   padding: 0.25rem 0.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   color: white !important;
   border-radius: 12px;
   font-weight: 600;
@@ -375,7 +375,7 @@
 
 .editor-header h2 {
   font-size: 1.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -454,7 +454,7 @@
 .form-group-small input:focus,
 .form-group-small textarea:focus,
 .sidebar-section input:focus {
-  border-color: #667eea;
+  border-color: #64748b;
   outline: none;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
@@ -528,7 +528,7 @@
 }
 
 .editor-main-class a {
-  color: #667eea;
+  color: #64748b;
   text-decoration: underline;
 }
 
@@ -618,7 +618,7 @@
 
 .upload-box label:hover {
   background: #f3f4f6;
-  border-color: #667eea;
+  border-color: #64748b;
 }
 
 .upload-box svg {
@@ -658,7 +658,7 @@
 
 .tags-input button {
   padding: 0.5rem 1rem;
-  background: #667eea;
+  background: #64748b;
   color: white;
   border: none;
   border-radius: 8px;
@@ -683,7 +683,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   color: white;
   border-radius: 20px;
   font-size: 0.85rem;
