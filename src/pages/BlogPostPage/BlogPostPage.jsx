@@ -186,16 +186,19 @@ const BlogPostPage = () => {
                 <div style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  margin: '30px 0'
+                  margin: '30px 0',
+                  position: 'relative'
                 }}>
                   <iframe
-                    src={`${getInstagramEmbedUrl(post.instagramUrl)}embed/`}
+                    src={`${getInstagramEmbedUrl(post.instagramUrl)}embed/captioned/`}
                     width="540"
                     height="700"
                     frameBorder="0"
                     scrolling="no"
                     allowTransparency="true"
-                    allow="encrypted-media"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    allowFullScreen={true}
+                    loading="lazy"
                     style={{
                       border: 'none',
                       overflow: 'hidden',
@@ -204,8 +207,17 @@ const BlogPostPage = () => {
                       boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                     }}
                     title="Instagram Post"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
                   />
                 </div>
+                <p style={{
+                  textAlign: 'center',
+                  fontSize: '0.9em',
+                  color: '#64748b',
+                  marginTop: '10px'
+                }}>
+                  👆 Clique no vídeo para assistir
+                </p>
               </div>
             )}
 
