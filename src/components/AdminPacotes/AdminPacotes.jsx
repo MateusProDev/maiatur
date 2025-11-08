@@ -310,84 +310,83 @@ const AdminPacotes = () => {
             Crie e gerencie pacotes turísticos com facilidade
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button 
-            variant="contained"
-            size="large"
-            startIcon={showForm ? <CloseIcon /> : <AddIcon />}
-            onClick={() => {
-              if (showForm) {
-                setShowForm(false);
-                setCurrentPacote({
-                  titulo: "",
-                  descricao: "",
-                  descricaoCurta: "",
-                  categoria: "passeio",
-                  categorias: [],
-                  preco: 0,
-                  mostrarPreco: true,
-                  imagens: [],
-                  destaque: false,
-                  slug: "",
-                  isIdaEVolta: false,
-                  precoIda: 0,
-                  precoVolta: 0,
-                  precoIdaVolta: 0,
-                  valorSinal: 0,
-                  valorPrimeiraViagem: 0,
-                  valorSegundaViagem: 0,
-                  valorSinalCalculado: 0,
-                  valorParaMotorista: 0,
-                  porcentagemSinalPadrao: 40
-                });
-              } else {
-                setShowForm(true);
-                setCurrentPacote({
-                  titulo: "",
-                  descricao: "",
-                  descricaoCurta: "",
-                  categoria: "passeio",
-                  categorias: [],
-                  preco: 0,
-                  mostrarPreco: true,
-                  imagens: [],
-                  destaque: false,
-                  slug: "",
-                  isIdaEVolta: false,
-                  precoIda: 0,
-                  precoVolta: 0,
-                  precoIdaVolta: 0,
-                  valorSinal: 0,
-                  valorPrimeiraViagem: 0,
-                  valorSegundaViagem: 0,
-                  valorSinalCalculado: 0,
-                  valorParaMotorista: 0,
-                  porcentagemSinalPadrao: 40
-                });
-              }
-            }}
-            sx={{ 
-              background: showForm 
-                ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
-                : 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
-              color: '#fff',
-              fontWeight: 600,
-              px: 3,
-              py: 1.2,
-              boxShadow: '0 4px 14px rgba(100, 116, 139, 0.3)',
-              '&:hover': {
-                background: showForm
-                  ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
-                  : 'linear-gradient(135deg, #475569 0%, #334155 100%)',
-                boxShadow: '0 6px 20px rgba(100, 116, 139, 0.4)',
-                transform: 'translateY(-2px)',
-              },
-              transition: 'all 0.3s ease'
-            }}
-          >
-            {showForm ? "Fechar Formulário" : "Criar Novo Pacote"}
-          </Button>
-        </Box>
+        <Button 
+          variant="contained"
+          size="medium"
+          startIcon={showForm ? <CloseIcon /> : <AddIcon />}
+          onClick={() => {
+            if (showForm) {
+              setShowForm(false);
+              setCurrentPacote({
+                titulo: "",
+                descricao: "",
+                descricaoCurta: "",
+                categoria: "passeio",
+                categorias: [],
+                preco: 0,
+                mostrarPreco: true,
+                imagens: [],
+                destaque: false,
+                slug: "",
+                isIdaEVolta: false,
+                precoIda: 0,
+                precoVolta: 0,
+                precoIdaVolta: 0,
+                valorSinal: 0,
+                valorPrimeiraViagem: 0,
+                valorSegundaViagem: 0,
+                valorSinalCalculado: 0,
+                valorParaMotorista: 0,
+                porcentagemSinalPadrao: 40
+              });
+            } else {
+              setShowForm(true);
+              setCurrentPacote({
+                titulo: "",
+                descricao: "",
+                descricaoCurta: "",
+                categoria: "passeio",
+                categorias: [],
+                preco: 0,
+                mostrarPreco: true,
+                imagens: [],
+                destaque: false,
+                slug: "",
+                isIdaEVolta: false,
+                precoIda: 0,
+                precoVolta: 0,
+                precoIdaVolta: 0,
+                valorSinal: 0,
+                valorPrimeiraViagem: 0,
+                valorSegundaViagem: 0,
+                valorSinalCalculado: 0,
+                valorParaMotorista: 0,
+                porcentagemSinalPadrao: 40
+              });
+            }
+          }}
+          sx={{ 
+            background: showForm 
+              ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
+              : 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+            color: '#fff',
+            fontWeight: 600,
+            px: 2.5,
+            py: 1,
+            fontSize: '0.875rem',
+            boxShadow: '0 2px 8px rgba(100, 116, 139, 0.25)',
+            '&:hover': {
+              background: showForm
+                ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
+                : 'linear-gradient(135deg, #475569 0%, #334155 100%)',
+              boxShadow: '0 4px 12px rgba(100, 116, 139, 0.35)',
+              transform: 'translateY(-1px)',
+            },
+            transition: 'all 0.3s ease'
+          }}
+        >
+          {showForm ? "Fechar" : "Criar Pacote"}
+        </Button>
       </Box>
 
       {notification.show && (
@@ -405,45 +404,46 @@ const AdminPacotes = () => {
         <Paper 
           elevation={3} 
           sx={{ 
-            p: 4, 
+            p: 3, 
             mb: 4,
             background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
             border: '1px solid #e2e8f0',
-            borderRadius: '16px'
+            borderRadius: '12px'
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4, pb: 3, borderBottom: '2px solid #e2e8f0' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3, pb: 2, borderBottom: '1px solid #e2e8f0' }}>
             <Box 
               sx={{ 
-                p: 1.5, 
-                borderRadius: '12px', 
+                p: 1, 
+                borderRadius: '8px', 
                 background: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
             >
-              <InventoryIcon sx={{ fontSize: 32, color: '#fff' }} />
+              <InventoryIcon sx={{ fontSize: 24, color: '#fff' }} />
             </Box>
             <Box flex={1}>
-              <Typography variant="h5" sx={{ mb: 0.5, fontWeight: 700, color: '#1e293b' }}>
+              <Typography variant="h6" sx={{ mb: 0.25, fontWeight: 600, color: '#1e293b', fontSize: '1.125rem' }}>
                 {currentPacote.id ? "Editar Pacote" : "Criar Novo Pacote"}
               </Typography>
-              <Typography variant="body2" sx={{ color: '#64748b' }}>
-                {currentPacote.id ? "Atualize as informações do pacote" : "Preencha os dados do novo pacote turístico"}
+              <Typography variant="caption" sx={{ color: '#64748b' }}>
+                {currentPacote.id ? "Atualize as informações" : "Preencha os dados do pacote"}
               </Typography>
             </Box>
             <IconButton 
+              size="small"
               onClick={() => setShowForm(false)}
               sx={{ 
                 color: '#64748b',
                 '&:hover': { 
                   background: '#f1f5f9',
-                  color: '#475569'
+                  color: '#ef4444'
                 }
               }}
             >
-              <CloseIcon />
+              <CloseIcon fontSize="small" />
             </IconButton>
           </Box>
         
@@ -489,87 +489,107 @@ const AdminPacotes = () => {
                 elevation={0} 
                 sx={{ 
                   p: 2, 
-                  bgcolor: '#f5f5f5', 
-                  border: '1px solid #e0e0e0',
-                  cursor: 'pointer'
+                  bgcolor: '#f8fafc', 
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    bgcolor: '#f1f5f9',
+                    boxShadow: 1
+                  }
                 }}
                 onClick={() => setShowAdditionalCategories(!showAdditionalCategories)}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#333' }}>
-                      Categorias Adicionais (Múltipla Seleção)
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#1e293b', fontSize: '0.875rem' }}>
+                      Categorias Adicionais
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#666', mt: 0.5 }}>
+                    <Typography variant="caption" sx={{ color: '#64748b', display: 'block', mt: 0.25 }}>
                       {showAdditionalCategories 
                         ? 'Clique para ocultar' 
-                        : `Clique para expandir e selecionar categorias ${(currentPacote.categorias || []).length > 0 ? `(${(currentPacote.categorias || []).length} selecionadas)` : ''}`
+                        : (currentPacote.categorias || []).length > 0 
+                          ? `${(currentPacote.categorias || []).length} selecionadas` 
+                          : 'Nenhuma selecionada'
                       }
                     </Typography>
                   </Box>
                   <IconButton 
+                    size="small"
                     sx={{ 
                       transform: showAdditionalCategories ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform 0.3s ease'
+                      transition: 'transform 0.3s ease',
+                      color: '#64748b'
                     }}
                   >
-                    <ExpandMoreIcon />
+                    <ExpandMoreIcon fontSize="small" />
                   </IconButton>
                 </Box>
                 
                 <Collapse in={showAdditionalCategories}>
-                  <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e0e0e0' }}>
-                    <Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
-                      Selecione em quais seções de transfer este pacote também deve aparecer
+                  <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e2e8f0' }}>
+                    <Typography variant="caption" sx={{ mb: 1.5, color: '#64748b', display: 'block' }}>
+                      Selecione em quais seções este pacote deve aparecer
                     </Typography>
                     <Box 
-                      sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+                      sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}
                       onClick={(e) => e.stopPropagation()}
                     >
                       <FormControlLabel
+                        sx={{ m: 0 }}
                         control={
                           <Checkbox
+                            size="small"
                             checked={(currentPacote.categorias || []).includes('transfer_chegada')}
                             onChange={() => handleCategoriaToggle('transfer_chegada')}
                           />
                         }
-                        label="✈️ Transfer de Chegada (Aeroporto → Hotel)"
+                        label={<Typography variant="body2">✈️ Transfer de Chegada</Typography>}
                       />
                       <FormControlLabel
+                        sx={{ m: 0 }}
                         control={
                           <Checkbox
+                            size="small"
                             checked={(currentPacote.categorias || []).includes('transfer_saida')}
                             onChange={() => handleCategoriaToggle('transfer_saida')}
                           />
                         }
-                        label="🛫 Transfer de Saída (Hotel → Aeroporto)"
+                        label={<Typography variant="body2">🛫 Transfer de Saída</Typography>}
                       />
                       <FormControlLabel
+                        sx={{ m: 0 }}
                         control={
                           <Checkbox
+                            size="small"
                             checked={(currentPacote.categorias || []).includes('transfer_chegada_saida')}
                             onChange={() => handleCategoriaToggle('transfer_chegada_saida')}
                           />
                         }
-                        label="🔄 Transfer Chegada + Saída (Ida e Volta)"
+                        label={<Typography variant="body2">🔄 Transfer Ida e Volta</Typography>}
                       />
                       <FormControlLabel
+                        sx={{ m: 0 }}
                         control={
                           <Checkbox
+                            size="small"
                             checked={(currentPacote.categorias || []).includes('transfer_entre_hoteis')}
                             onChange={() => handleCategoriaToggle('transfer_entre_hoteis')}
                           />
                         }
-                        label="🏨 Transfer entre Hotéis"
+                        label={<Typography variant="body2">🏨 Transfer entre Hotéis</Typography>}
                       />
                       <FormControlLabel
+                        sx={{ m: 0 }}
                         control={
                           <Checkbox
+                            size="small"
                             checked={(currentPacote.categorias || []).includes('passeio')}
                             onChange={() => handleCategoriaToggle('passeio')}
                           />
                         }
-                        label="🚌 Passeio Turístico"
+                        label={<Typography variant="body2">🚌 Passeio Turístico</Typography>}
                       />
                     </Box>
                   </Box>
