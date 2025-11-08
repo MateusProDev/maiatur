@@ -24,6 +24,22 @@ const BlogPostPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
+  // Carregar script do Instagram embed quando houver URL
+  useEffect(() => {
+    if (post?.instagramUrl) {
+      // Carregar script do Instagram se não estiver carregado
+      if (!window.instgrm) {
+        const script = document.createElement('script');
+        script.src = 'https://www.instagram.com/embed.js';
+        script.async = true;
+        document.body.appendChild(script);
+      } else {
+        // Se já estiver carregado, processar embeds
+        window.instgrm.Embeds.process();
+      }
+    }
+  }, [post]);
+
   const loadPost = async () => {
     try {
       setLoading(true);
@@ -84,6 +100,20 @@ const BlogPostPage = () => {
     return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
   };
 
+  // Extrair código embed do Instagram a partir da URL
+  const getInstagramEmbedUrl = (url) => {
+    if (!url) return null;
+    
+    // Extrair o código do post da URL
+    // Aceita formatos: https://www.instagram.com/p/ABC123/ ou https://instagram.com/p/ABC123/
+    const match = url.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/);
+    if (match) {
+      const postCode = match[2];
+      return `https://www.instagram.com/p/${postCode}/embed/`;
+    }
+    return null;
+  };
+
   if (loading || !post) {
     return (
       <>
@@ -138,6 +168,37 @@ const BlogPostPage = () => {
               className="post-body" 
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
+            {/* Instagram Embed */}
+            {post.instagramUrl && getInstagramEmbedUrl(post.instagramUrl) && (
+              <div className="instagram-embed-container">
+                <h3 style={{
+                  textAlign: 'center',
+                  marginBottom: '20px',
+                  color: '#334155',
+                  fontSize: '1.3em',
+                  fontWeight: '600'
+                }}>
+                  📸 Confira também no Instagram
+                </h3>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  margin: '30px 0'
+                }}>
+                  <blockquote 
+                    className="instagram-media" 
+                    data-instgrm-permalink={post.instagramUrl}
+                    data-instgrm-version="14"
+                    style={{
+                      maxWidth: '540px',
+                      minWidth: '326px',
+                      width: '100%'
+                    }}
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Call to Action - WhatsApp */}
             <div className="post-cta-box">

@@ -27,6 +27,7 @@ const BlogAdmin = () => {
     content: '',
     excerpt: '',
     featuredImage: '',
+    instagramUrl: '',
     author: 'Equipe Maiatur',
     category: '',
     tags: [],
@@ -111,6 +112,7 @@ const BlogAdmin = () => {
       content: '',
       excerpt: '',
       featuredImage: '',
+      instagramUrl: '',
       author: 'Equipe Maiatur',
       category: '',
       tags: [],
@@ -494,6 +496,26 @@ const BlogAdmin = () => {
                         </>
                       )}
                     </label>
+                  </div>
+                )}
+              </div>
+
+              <div className="sidebar-section">
+                <h3>Post do Instagram</h3>
+                <input
+                  type="text"
+                  value={currentPost.instagramUrl}
+                  onChange={(e) => setCurrentPost({...currentPost, instagramUrl: e.target.value})}
+                  placeholder="Cole o link do post do Instagram"
+                />
+                <small style={{color: '#94a3b8', fontSize: '0.85em', marginTop: '5px', display: 'block'}}>
+                  Ex: https://www.instagram.com/p/ABC123/
+                </small>
+                {currentPost.instagramUrl && (
+                  <div style={{marginTop: '10px', padding: '10px', background: '#f1f5f9', borderRadius: '8px'}}>
+                    <p style={{fontSize: '0.9em', color: '#64748b', margin: 0}}>
+                      ✓ Post do Instagram será exibido no blog
+                    </p>
                   </div>
                 )}
               </div>
