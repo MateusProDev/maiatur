@@ -13,7 +13,7 @@ html, body {
 
 .modern-admin-dashboard-simple {
   min-height: 100vh;
-  background: linear-gradient(135deg, #128C7E 0%, #21A657 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   overflow-x: hidden;
 }
 
@@ -30,7 +30,7 @@ html, body {
   top: 0;
   z-index: 100;
   animation: slideDown 0.5s ease-out;
-  border-bottom: 3px solid #128C7E;
+  border-bottom: 3px solid #cbd5e1;
 }
 
 .header-content {
@@ -50,14 +50,14 @@ html, body {
 
 .dashboard-logo:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 4px 12px rgba(18, 140, 126, 0.3));
+  filter: drop-shadow(0 4px 12px rgba(71, 85, 105, 0.3));
 }
 
 .dashboard-logo-placeholder {
-  background: linear-gradient(135deg, #128C7E, #21A657);
+  background: linear-gradient(135deg, #475569, #64748b);
   padding: 0.75rem 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(18, 140, 126, 0.3);
+  box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
 }
 
 .dashboard-logo-placeholder span {
@@ -87,7 +87,7 @@ html, body {
 .header-text h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #128C7E;
+  color: #334155;
   margin: 0;
   display: flex;
   align-items: center;
@@ -198,7 +198,7 @@ html, body {
 
 .period-selector button.active {
   background: white;
-  color: #128C7E;
+  color: #64748b;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -233,7 +233,7 @@ html, body {
   left: 0;
   width: 4px;
   height: 100%;
-  background: linear-gradient(135deg, #128C7E, #21A657);
+  background: linear-gradient(135deg, #64748b, #475569);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -290,17 +290,17 @@ html, body {
   left: 100%;
 }
 
-/* Stat Icon Colors - Cores suaves e neutras */
+/* Stat Icon Colors - Cores neutras */
 .stat-card .stat-icon.stat-icon-views {
-  background: linear-gradient(135deg, #128C7E, #21A657) !important;
+  background: linear-gradient(135deg, #64748b, #475569) !important;
 }
 
 .stat-card .stat-icon.stat-icon-pages {
-  background: linear-gradient(135deg, #EE7C35, #F8C144) !important;
+  background: linear-gradient(135deg, #78716c, #57534e) !important;
 }
 
 .stat-card .stat-icon.stat-icon-peak {
-  background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+  background: linear-gradient(135deg, #71717a, #52525b) !important;
 }
 
 .stat-content h3 {
@@ -363,7 +363,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, #128C7E, #21A657, #128C7E);
+  background: linear-gradient(90deg, #64748b, #475569, #64748b);
   background-size: 200% 100%;
   animation: shimmer 3s ease-in-out infinite;
 }
@@ -395,7 +395,7 @@ html, body {
 }
 
 .section-title svg {
-  color: #128C7E;
+  color: #64748b;
   font-size: 1.75rem;
 }
 
@@ -438,7 +438,7 @@ html, body {
 .quick-edit-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  border-color: #128C7E;
+  border-color: #64748b;
 }
 
 .quick-edit-icon {
@@ -490,15 +490,15 @@ html, body {
 }
 
 .device-icon.mobile {
-  background: linear-gradient(135deg, #128C7E, #21A657);
+  background: linear-gradient(135deg, #64748b, #475569);
 }
 
 .device-icon.desktop {
-  background: linear-gradient(135deg, #EE7C35, #F8C144);
+  background: linear-gradient(135deg, #78716c, #57534e);
 }
 
 .device-icon.tablet {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  background: linear-gradient(135deg, #71717a, #52525b);
 }
 
 .device-card h3 {
@@ -537,7 +537,7 @@ html, body {
 }
 
 .device-bar-fill.mobile {
-  background: linear-gradient(90deg, #128C7E, #21A657);
+  background: linear-gradient(90deg, #64748b, #475569);
 }
 
 .device-bar-fill.desktop {
@@ -551,7 +551,7 @@ html, body {
 .device-percentage {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #128C7E;
+  color: #64748b;
 }
 
 /* Top Pages List */
@@ -574,7 +574,7 @@ html, body {
 
 .top-page-item:hover {
   transform: translateX(5px);
-  border-color: #128C7E;
+  border-color: #64748b;
   box-shadow: 0 4px 12px rgba(18, 140, 126, 0.15);
 }
 
@@ -582,7 +582,7 @@ html, body {
   width: 50px;
   height: 50px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #128C7E, #21A657);
+  background: linear-gradient(135deg, #64748b, #475569);
   color: white;
   display: flex;
   align-items: center;
@@ -613,7 +613,7 @@ html, body {
 .page-count {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #128C7E;
+  color: #64748b;
   display: flex;
   align-items: center;
   gap: 0.5rem;

@@ -203,13 +203,13 @@ const AdminDashboard = () => {
           label: 'Visualizações',
           data: viewsData,
           fill: true,
-          backgroundColor: 'rgba(71, 85, 105, 0.1)',
-          borderColor: 'rgb(71, 85, 105)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          borderColor: 'rgb(59, 130, 246)',
           borderWidth: 3,
           tension: 0.4,
           pointRadius: 4,
           pointHoverRadius: 6,
-          pointBackgroundColor: 'rgb(71, 85, 105)',
+          pointBackgroundColor: 'rgb(59, 130, 246)',
           pointBorderColor: '#fff',
           pointBorderWidth: 2,
         }
@@ -223,14 +223,14 @@ const AdminDashboard = () => {
       {
         data: [deviceStats.mobile, deviceStats.desktop, deviceStats.tablet],
         backgroundColor: [
-          'rgba(71, 85, 105, 0.8)',
-          'rgba(100, 116, 139, 0.8)',
-          'rgba(148, 163, 184, 0.8)',
+          'rgba(34, 197, 94, 0.8)',
+          'rgba(251, 146, 60, 0.8)',
+          'rgba(168, 85, 247, 0.8)',
         ],
         borderColor: [
-          'rgb(71, 85, 105)',
-          'rgb(100, 116, 139)',
-          'rgb(148, 163, 184)',
+          'rgb(34, 197, 94)',
+          'rgb(251, 146, 60)',
+          'rgb(168, 85, 247)',
         ],
         borderWidth: 2,
       }
@@ -239,14 +239,22 @@ const AdminDashboard = () => {
 
   const barChartData = useMemo(() => {
     const topPagesData = topPages.filter(page => !page.page.startsWith('/admin')).slice(0, 5);
+    const colors = [
+      { bg: 'rgba(59, 130, 246, 0.8)', border: 'rgb(59, 130, 246)' },
+      { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' },
+      { bg: 'rgba(251, 146, 60, 0.8)', border: 'rgb(251, 146, 60)' },
+      { bg: 'rgba(168, 85, 247, 0.8)', border: 'rgb(168, 85, 247)' },
+      { bg: 'rgba(236, 72, 153, 0.8)', border: 'rgb(236, 72, 153)' },
+    ];
+    
     return {
       labels: topPagesData.map(p => getPageName(p.page)),
       datasets: [
         {
           label: 'Visualizações',
           data: topPagesData.map(p => p.count),
-          backgroundColor: 'rgba(71, 85, 105, 0.8)',
-          borderColor: 'rgb(71, 85, 105)',
+          backgroundColor: topPagesData.map((_, i) => colors[i]?.bg || colors[0].bg),
+          borderColor: topPagesData.map((_, i) => colors[i]?.border || colors[0].border),
           borderWidth: 2,
           borderRadius: 8,
         }
@@ -488,7 +496,7 @@ const AdminDashboard = () => {
               <h3>Mobile</h3>
               <div className="device-count">{animatedMobile}</div>
               <div className="device-bar">
-                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.mobile)}%`, background: 'linear-gradient(135deg, #128C7E, #21A657)' }}></div>
+                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.mobile)}%`, background: 'linear-gradient(135deg, #64748b, #475569)' }}></div>
               </div>
               <p className="device-percentage">{getDevicePercentage(deviceStats.mobile)}%</p>
             </div>
@@ -500,7 +508,7 @@ const AdminDashboard = () => {
               <h3>Desktop</h3>
               <div className="device-count">{animatedDesktop}</div>
               <div className="device-bar">
-                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.desktop)}%`, background: 'linear-gradient(135deg, #EE7C35, #F8C144)' }}></div>
+                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.desktop)}%`, background: 'linear-gradient(135deg, #78716c, #57534e)' }}></div>
               </div>
               <p className="device-percentage">{getDevicePercentage(deviceStats.desktop)}%</p>
             </div>
@@ -512,7 +520,7 @@ const AdminDashboard = () => {
               <h3>Tablet</h3>
               <div className="device-count">{animatedTablet}</div>
               <div className="device-bar">
-                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.tablet)}%`, background: 'linear-gradient(135deg, #4facfe, #00f2fe)' }}></div>
+                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.tablet)}%`, background: 'linear-gradient(135deg, #71717a, #52525b)' }}></div>
               </div>
               <p className="device-percentage">{getDevicePercentage(deviceStats.tablet)}%</p>
             </div>
