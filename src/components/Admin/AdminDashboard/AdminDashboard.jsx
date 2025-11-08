@@ -149,27 +149,29 @@ const AdminDashboard = () => {
   const publicPages = topPages.filter(page => isPublicRoute(page.page));
 
   return (
-    <div className="ultra-modern-dashboard">
-      {/* Floating Header */}
-      <header className="dashboard-floating-header">
-        <div className="header-left">
+    <div className="modern-admin-dashboard-simple">
+      {/* Header Bar */}
+      <header className="dashboard-header-bar">
+        <div className="header-content">
           {logoUrl ? (
-            <img src={logoUrl} alt="Logo" className="header-logo" />
+            <img src={logoUrl} alt="Logo" className="dashboard-logo" />
           ) : (
-            <div className="header-logo-text">
-              <FiZap />
+            <div className="dashboard-logo-placeholder">
               <span>Admin Panel</span>
             </div>
           )}
-        </div>
-        
-        <div className="header-center">
-          <h1 className="dashboard-title">Dashboard</h1>
-          <p className="dashboard-subtitle">Bem-vindo ao painel administrativo</p>
+          
+          <div className="header-text">
+            <h1>
+              <FiZap />
+              Dashboard
+            </h1>
+            <p>Bem-vindo ao painel administrativo</p>
+          </div>
         </div>
 
-        <div className="header-right">
-          <button className="header-btn" onClick={handleLogout}>
+        <div className="header-actions">
+          <button className="logout-btn" onClick={handleLogout}>
             <FiLogOut />
             <span>Sair</span>
           </button>
@@ -177,7 +179,7 @@ const AdminDashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="dashboard-main">
+      <main className="dashboard-main-content">
         <div className="dashboard-container">
           
           {/* Period Selector */}
@@ -204,160 +206,140 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Analytics Grid */}
-          <div className="analytics-grid">
+          {/* Analytics Overview */}
+          <div className="analytics-overview">
             {/* Total Views Card */}
-            <div className="analytics-card views-card">
-              <div className="card-icon-wrapper">
-                <div className="card-icon">
-                  <FiEye />
-                </div>
-                <div className="card-icon-bg"></div>
+            <div className="stat-card">
+              <div className="stat-icon stat-icon-views">
+                <FiEye />
               </div>
-              <div className="card-content">
-                <p className="card-label">Total de Visualizações</p>
-                <h2 className="card-value">{loading ? '...' : animatedViews.toLocaleString()}</h2>
-                <p className="card-sublabel">Últimos {selectedPeriod} dias</p>
+              <div className="stat-info">
+                <p className="stat-label">Total de Visualizações</p>
+                <h2 className="stat-number">{loading ? '...' : animatedViews.toLocaleString()}</h2>
+                <p className="stat-change positive">Últimos {selectedPeriod} dias</p>
               </div>
-              <div className="card-decoration"></div>
             </div>
 
             {/* Unique Pages Card */}
-            <div className="analytics-card pages-card">
-              <div className="card-icon-wrapper">
-                <div className="card-icon">
-                  <FiTrendingUp />
-                </div>
-                <div className="card-icon-bg"></div>
+            <div className="stat-card">
+              <div className="stat-icon stat-icon-pages">
+                <FiTrendingUp />
               </div>
-              <div className="card-content">
-                <p className="card-label">Páginas Únicas</p>
-                <h2 className="card-value">{loading ? '...' : animatedPages}</h2>
-                <p className="card-sublabel">Diferentes rotas acessadas</p>
+              <div className="stat-info">
+                <p className="stat-label">Páginas Únicas</p>
+                <h2 className="stat-number">{loading ? '...' : animatedPages}</h2>
+                <p className="stat-change positive">Diferentes rotas</p>
               </div>
-              <div className="card-decoration"></div>
             </div>
 
             {/* Peak Hour Card */}
-            <div className="analytics-card peak-card">
-              <div className="card-icon-wrapper">
-                <div className="card-icon">
-                  <FiClock />
-                </div>
-                <div className="card-icon-bg"></div>
+            <div className="stat-card">
+              <div className="stat-icon stat-icon-time">
+                <FiClock />
               </div>
-              <div className="card-content">
-                <p className="card-label">Horário de Pico</p>
-                <h2 className="card-value">{loading ? '...' : getPeakHour()}</h2>
-                <p className="card-sublabel">Maior tráfego do dia</p>
+              <div className="stat-info">
+                <p className="stat-label">Horário de Pico</p>
+                <h2 className="stat-number">{loading ? '...' : getPeakHour()}</h2>
+                <p className="stat-change">Maior tráfego</p>
               </div>
-              <div className="card-decoration"></div>
             </div>
 
             {/* Total Activity Card */}
-            <div className="analytics-card activity-card">
-              <div className="card-icon-wrapper">
-                <div className="card-icon">
-                  <FiActivity />
-                </div>
-                <div className="card-icon-bg"></div>
+            <div className="stat-card">
+              <div className="stat-icon stat-icon-activity">
+                <FiActivity />
               </div>
-              <div className="card-content">
-                <p className="card-label">Atividade Total</p>
-                <h2 className="card-value">{loading ? '...' : (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet).toLocaleString()}</h2>
-                <p className="card-sublabel">Acessos por dispositivo</p>
+              <div className="stat-info">
+                <p className="stat-label">Atividade Total</p>
+                <h2 className="stat-number">{loading ? '...' : (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet).toLocaleString()}</h2>
+                <p className="stat-change positive">Todos dispositivos</p>
               </div>
-              <div className="card-decoration"></div>
             </div>
           </div>
 
           {/* Device Distribution */}
-          <div className="device-distribution-section">
-            <h2 className="section-heading">
+          <div className="section-header">
+            <h2 className="section-title">
               <FiSmartphone />
               Distribuição por Dispositivo
             </h2>
-            
-            <div className="device-grid">
-              <div className="device-card-modern mobile">
-                <div className="device-header">
-                  <FiSmartphone className="device-icon-svg" />
-                  <span className="device-name">Mobile</span>
-                </div>
-                <div className="device-stats-wrapper">
-                  <h3 className="device-number">{animatedMobile}</h3>
-                  <div className="device-progress">
-                    <div className="device-progress-bar" style={{ width: `${getDevicePercentage(deviceStats.mobile)}%` }}></div>
-                  </div>
-                  <p className="device-percent">{getDevicePercentage(deviceStats.mobile)}%</p>
-                </div>
+          </div>
+          
+          <div className="device-stats">
+            <div className="device-card">
+              <div className="device-icon mobile">
+                <FiSmartphone />
               </div>
+              <h3>Mobile</h3>
+              <div className="device-count">{animatedMobile}</div>
+              <div className="device-bar">
+                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.mobile)}%`, background: 'linear-gradient(135deg, #128C7E, #21A657)' }}></div>
+              </div>
+              <p className="device-percentage">{getDevicePercentage(deviceStats.mobile)}%</p>
+            </div>
 
-              <div className="device-card-modern desktop">
-                <div className="device-header">
-                  <FiMonitor className="device-icon-svg" />
-                  <span className="device-name">Desktop</span>
-                </div>
-                <div className="device-stats-wrapper">
-                  <h3 className="device-number">{animatedDesktop}</h3>
-                  <div className="device-progress">
-                    <div className="device-progress-bar" style={{ width: `${getDevicePercentage(deviceStats.desktop)}%` }}></div>
-                  </div>
-                  <p className="device-percent">{getDevicePercentage(deviceStats.desktop)}%</p>
-                </div>
+            <div className="device-card">
+              <div className="device-icon desktop">
+                <FiMonitor />
               </div>
+              <h3>Desktop</h3>
+              <div className="device-count">{animatedDesktop}</div>
+              <div className="device-bar">
+                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.desktop)}%`, background: 'linear-gradient(135deg, #EE7C35, #F8C144)' }}></div>
+              </div>
+              <p className="device-percentage">{getDevicePercentage(deviceStats.desktop)}%</p>
+            </div>
 
-              <div className="device-card-modern tablet">
-                <div className="device-header">
-                  <FiTablet className="device-icon-svg" />
-                  <span className="device-name">Tablet</span>
-                </div>
-                <div className="device-stats-wrapper">
-                  <h3 className="device-number">{animatedTablet}</h3>
-                  <div className="device-progress">
-                    <div className="device-progress-bar" style={{ width: `${getDevicePercentage(deviceStats.tablet)}%` }}></div>
-                  </div>
-                  <p className="device-percent">{getDevicePercentage(deviceStats.tablet)}%</p>
-                </div>
+            <div className="device-card">
+              <div className="device-icon tablet">
+                <FiTablet />
               </div>
+              <h3>Tablet</h3>
+              <div className="device-count">{animatedTablet}</div>
+              <div className="device-bar">
+                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.tablet)}%`, background: 'linear-gradient(135deg, #4facfe, #00f2fe)' }}></div>
+              </div>
+              <p className="device-percentage">{getDevicePercentage(deviceStats.tablet)}%</p>
             </div>
           </div>
 
           {/* Quick Actions */}
-          <div className="quick-actions-section">
-            <h2 className="section-heading">
+          <div className="section-header">
+            <h2 className="section-title">
               <FiZap />
               Acesso Rápido
             </h2>
-            
-            <div className="quick-actions-grid">
-              {quickEditLinks.map((link, index) => (
-                <button
-                  key={index}
-                  className={`quick-action-card ${link.gradient}`}
-                  onClick={() => goTo(link.path)}
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <div className="action-icon">
-                    <link.icon />
-                  </div>
-                  <div className="action-content">
-                    <h3>{link.title}</h3>
-                    <p>{link.description}</p>
-                  </div>
-                  <FiChevronRight className="action-arrow" />
-                </button>
-              ))}
-            </div>
+          </div>
+          
+          <div className="quick-edit-grid">
+            {quickEditLinks.map((link, index) => (
+              <button
+                key={index}
+                className="quick-edit-card"
+                onClick={() => goTo(link.path)}
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <div className="quick-edit-icon">
+                  <link.icon />
+                </div>
+                <div className="quick-edit-content">
+                  <h3>{link.title}</h3>
+                  <p>{link.description}</p>
+                </div>
+                <FiChevronRight className="quick-edit-arrow" />
+              </button>
+            ))}
           </div>
 
           {/* Top Pages */}
           {publicPages.length > 0 && (
-            <div className="top-pages-section">
-              <h2 className="section-heading">
-                <FiTrendingUp />
-                Páginas Mais Visitadas
-              </h2>
+            <>
+              <div className="section-header">
+                <h2 className="section-title">
+                  <FiTrendingUp />
+                  Páginas Mais Visitadas
+                </h2>
+              </div>
               
               <div className="top-pages-list">
                 {publicPages.map((page, index) => (
@@ -374,7 +356,7 @@ const AdminDashboard = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </>
           )}
 
         </div>
