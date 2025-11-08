@@ -41,25 +41,19 @@ const HomeUltraModern = () => {
 
   const services = [
     {
-      icon: <FaPlaneDeparture />,
+      image: '/aviaoservico.png',
       title: 'Transfers & Receptivo',
       description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
       color: '#21A657'
     },
     {
-      icon: <FaUmbrellaBeach />,
+      image: '/jericoaquaraservico.png',
       title: 'Passeios Privativos',
       description: 'Experiências exclusivas com roteiros personalizados para você',
       color: '#EE7C35'
     },
-    // {
-    //   icon: <FaMountain />,
-    //   title: 'Aventuras Radicais',
-    //   description: 'Buggy, quadriciclo, lancha e muito mais para os aventureiros',
-    //   color: '#78C8E5'
-    // },
     {
-      icon: <FaCity />,
+      image: '/fortalezacityservico.png',
       title: 'City Tours',
       description: 'Conheça as principais atrações e cultura local com nossos guias',
       color: '#F8C144'
@@ -298,18 +292,25 @@ const HomeUltraModern = () => {
                 className="servico-card-ultra"
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
-                <div className="servico-icon-wrapper" style={{ background: `linear-gradient(135deg, ${service.color}, ${service.color}dd)` }}>
-                  {service.icon}
+                <div className="servico-image-wrapper">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="servico-image"
+                  />
+                  <div className="servico-overlay"></div>
                 </div>
-                <h3 className="servico-title">{service.title}</h3>
-                <p className="servico-description">{service.description}</p>
-                <button 
-                  onClick={() => handleWhatsApp(`Gostaria de saber mais sobre: ${service.title}`)}
-                  className="servico-link"
-                >
-                  Saiba mais
-                  <FiArrowRight />
-                </button>
+                <div className="servico-content">
+                  <h3 className="servico-title">{service.title}</h3>
+                  <p className="servico-description">{service.description}</p>
+                  <button 
+                    onClick={() => handleWhatsApp(`Gostaria de saber mais sobre: ${service.title}`)}
+                    className="servico-link"
+                  >
+                    Saiba mais
+                    <FiArrowRight />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
