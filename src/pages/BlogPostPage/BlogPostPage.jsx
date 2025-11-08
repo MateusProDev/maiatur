@@ -104,12 +104,13 @@ const BlogPostPage = () => {
   const getInstagramEmbedUrl = (url) => {
     if (!url) return null;
     
-    // Extrair o código do post da URL
-    // Aceita formatos: https://www.instagram.com/p/ABC123/ ou https://instagram.com/p/ABC123/
+    // Extrair o tipo (p ou reel) e código do post da URL
+    // Aceita formatos: https://www.instagram.com/p/ABC123/ ou https://instagram.com/reel/XYZ789/
     const match = url.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/);
     if (match) {
-      const postCode = match[2];
-      return `https://www.instagram.com/p/${postCode}/embed/`;
+      const tipo = match[1]; // 'p' ou 'reel'
+      const codigo = match[2];
+      return `https://www.instagram.com/${tipo}/${codigo}/embed/`;
     }
     return null;
   };
