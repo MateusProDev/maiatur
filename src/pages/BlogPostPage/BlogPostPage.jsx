@@ -27,16 +27,14 @@ const BlogPostPage = () => {
   // Carregar script do Instagram embed quando houver URL
   useEffect(() => {
     if (post?.instagramUrl) {
-      // Carregar script do Instagram se não estiver carregado
-      if (!window.instgrm) {
-        const script = document.createElement('script');
-        script.src = 'https://www.instagram.com/embed.js';
-        script.async = true;
-        document.body.appendChild(script);
-      } else {
-        // Se já estiver carregado, processar embeds
-        window.instgrm.Embeds.process();
-      }
+      // Remover carregamento dinâmico do script
+      const timer = setTimeout(() => {
+        if (window.instgrm) {
+          window.instgrm.Embeds.process();
+        }
+      }, 500);
+      
+      return () => clearTimeout(timer);
     }
   }, [post]);
 
@@ -104,13 +102,16 @@ const BlogPostPage = () => {
   const getInstagramEmbedUrl = (url) => {
     if (!url) return null;
     
+    // Limpar URL removendo parâmetros UTM
+    const cleanUrl = url.split('?')[0];
+    
     // Extrair o tipo (p ou reel) e código do post da URL
     // Aceita formatos: https://www.instagram.com/p/ABC123/ ou https://instagram.com/reel/XYZ789/
-    const match = url.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/);
+    const match = cleanUrl.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/);
     if (match) {
       const tipo = match[1]; // 'p' ou 'reel'
       const codigo = match[2];
-      return `https://www.instagram.com/${tipo}/${codigo}/embed/`;
+      return `https://www.instagram.com/${tipo}/${codigo}/`;
     }
     return null;
   };
@@ -187,15 +188,22 @@ const BlogPostPage = () => {
                   justifyContent: 'center',
                   margin: '30px 0'
                 }}>
-                  <blockquote 
-                    className="instagram-media" 
-                    data-instgrm-permalink={post.instagramUrl}
-                    data-instgrm-version="14"
+                  <iframe
+                    src={`${getInstagramEmbedUrl(post.instagramUrl)}embed/`}
+                    width="540"
+                    height="700"
+                    frameBorder="0"
+                    scrolling="no"
+                    allowTransparency="true"
+                    allow="encrypted-media"
                     style={{
-                      maxWidth: '540px',
-                      minWidth: '326px',
-                      width: '100%'
+                      border: 'none',
+                      overflow: 'hidden',
+                      maxWidth: '100%',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                     }}
+                    title="Instagram Post"
                   />
                 </div>
               </div>
