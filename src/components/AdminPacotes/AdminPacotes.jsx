@@ -21,8 +21,7 @@ import {
   CardActions,
   Grid,
   Paper,
-  IconButton,
-  Divider
+  IconButton
 } from "@mui/material";
 import { 
   Upload as UploadIcon,

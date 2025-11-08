@@ -118,6 +118,7 @@ const AvaliacoesPage = () => {
   useEffect(() => {
     loadAvaliacoes();
     loadEstatisticas();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, filtros]);
 
   const loadAvaliacoes = async () => {

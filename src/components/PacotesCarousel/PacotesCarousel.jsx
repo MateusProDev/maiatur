@@ -8,7 +8,6 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
   const [isPlaying, setIsPlaying] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
   const intervalRef = useRef(null);
   const carouselRef = useRef(null);
 
@@ -35,6 +34,7 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // AutoPlay
@@ -50,6 +50,7 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
         clearInterval(intervalRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, isPlaying, pacotes.length, itemsToShow]);
 
   const handleNext = () => {
@@ -70,7 +71,7 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
     setIsDragging(true);
     setIsPlaying(false);
     setStartX(e.pageX - carouselRef.current.offsetLeft);
-    setScrollLeft(currentIndex);
+    // scrollLeft removed - was unused
   };
 
   const handleMouseMove = (e) => {

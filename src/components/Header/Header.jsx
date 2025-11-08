@@ -99,11 +99,6 @@ const Header = () => {
     };
   }, []);
 
-  const handleWhatsAppClick = (message = '') => {
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-    setMenuOpen(false);
-  };
-
   const handleInstallClick = () => {
     console.log('Botão de instalação clicado. deferredPrompt:', deferredPrompt);
     

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
@@ -22,9 +22,7 @@ const AdminEditHeader = () => {
   const [saving, setSaving] = useState(false);
   const [notification, setNotification] = useState({ show: false, type: "", message: "" });
 
-  useEffect(() => { fetchHeaderData(); }, [fetchHeaderData]);
-
-  const fetchHeaderData = async () => {
+  const fetchHeaderData = useCallback(async () => {
     try {
       const headerRef = doc(db, "content", "header");
       const headerDoc = await getDoc(headerRef);
@@ -38,7 +36,9 @@ const AdminEditHeader = () => {
       console.error("Erro ao buscar logo:", error);
       showNotification("error", "Erro ao carregar logo atual");
     }
-  };
+  }, []);
+
+  useEffect(() => { fetchHeaderData(); }, [fetchHeaderData]);
 
   const showNotification = (type, message) => {
     setNotification({ show: true, type, message });

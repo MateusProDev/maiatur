@@ -1,6 +1,6 @@
 import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
-import { TipoReserva, StatusReserva } from "../types/reservas";
+import { StatusReserva } from "../types/reservas";
 
 /**
  * Cria uma nova reserva no Firestore

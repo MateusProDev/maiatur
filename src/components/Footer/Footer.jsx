@@ -7,8 +7,7 @@ import {
   FaFacebookF,
   FaWhatsapp,
   FaTwitter,
-  FaYoutube,
-  FaPinterestP
+  FaYoutube
 } from "react-icons/fa";
 import { 
   FiMail, 
@@ -16,7 +15,6 @@ import {
   FiMapPin, 
   FiPhone as FiPhoneIcon,
   FiMail as FiMailIcon,
-  FiClock as FiClockIcon,
   FiHeart,
   FiArrowRight,
   FiGlobe

@@ -5,7 +5,6 @@ import { db } from '../firebase/firebaseConfig';
 export const useWhatsAppNumber = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchWhatsAppNumber = async () => {
@@ -31,6 +30,6 @@ export const useWhatsAppNumber = () => {
     fetchWhatsAppNumber();
   }, []);
 
-  return { phoneNumber, loading, error };
+  return { phoneNumber, loading };
 };
 

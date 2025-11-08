@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, orderBy, where, doc, updateDoc } from "firebase/firestore";
+import React, { useState, useEffect, useCallback } from "react";
+import { collection, getDocs, query, orderBy, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/firebase";
 import {
   Box,
@@ -20,9 +20,7 @@ import {
   DialogContent,
   DialogActions,
   CircularProgress,
-  Alert,
-  IconButton,
-  Tooltip
+  Alert
 } from "@mui/material";
 import {
   Visibility as ViewIcon,
@@ -63,9 +61,7 @@ const AdminReservas = () => {
     concluida: "info"
   };
 
-  useEffect(() => { carregarReservas(); }, [carregarReservas]);
-
-  const carregarReservas = async () => {
+  const carregarReservas = useCallback(async () => {
     try {
       setLoading(true);
       const q = query(
@@ -89,7 +85,9 @@ const AdminReservas = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => { carregarReservas(); }, [carregarReservas]);
 
   const showNotification = (type, message) => {
     setNotification({ show: true, type, message });
