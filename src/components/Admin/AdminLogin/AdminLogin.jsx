@@ -3,8 +3,7 @@ import "./AdminLogin.css";
 import { useNavigate } from "react-router-dom";
 import { 
   signInWithEmailAndPassword, 
-  sendPasswordResetEmail, 
-  createUserWithEmailAndPassword 
+  sendPasswordResetEmail
 } from "firebase/auth";
 import { auth, db } from "../../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
