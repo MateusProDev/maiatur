@@ -96,24 +96,6 @@ const BlogAdmin = () => {
     filterPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts, searchTerm, filterPublished]);
-    let filtered = [...posts];
-
-    // Filtro de busca
-    if (searchTerm) {
-      filtered = filtered.filter(post =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.category?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Filtro de publicação
-    if (filterPublished !== 'all') {
-      const isPublished = filterPublished === 'published';
-      filtered = filtered.filter(post => post.published === isPublished);
-    }
-
-    setFilteredPosts(filtered);
-  };
 
   const showNotification = (message, type = 'success') => {
     setNotification({ show: true, message, type });
