@@ -402,68 +402,105 @@ html, body {
 /* Quick Edit Grid */
 .quick-edit-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
 }
 
 .quick-edit-card {
-  background: linear-gradient(135deg, #f9fafb, #ffffff);
+  background: rgba(255, 255, 255, 0.98);
   border: 2px solid #e5e7eb;
   border-radius: 16px;
-  padding: 1.75rem;
+  padding: 1.5rem 1.25rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  text-align: center;
+  gap: 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  min-height: 140px;
 }
 
 .quick-edit-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(18, 140, 126, 0.1), transparent);
-  transition: left 0.5s ease;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .quick-edit-card:hover::before {
-  left: 100%;
+  transform: scaleX(1);
 }
 
 .quick-edit-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  border-color: #64748b;
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: #cbd5e1;
+  background: #ffffff;
 }
 
 .quick-edit-icon {
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  color: #475569;
   font-size: 1.75rem;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.quick-edit-card:hover .quick-edit-icon {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.quick-edit-content {
+  width: 100%;
 }
 
 .quick-edit-content h3 {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: #111827;
-  margin: 0 0 0.5rem 0;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.3;
 }
 
 .quick-edit-content p {
-  font-size: 0.9rem;
-  color: #6b7280;
+  font-size: 0.75rem;
+  color: #64748b;
   margin: 0;
+  line-height: 1.4;
+}
+
+.quick-edit-arrow {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  color: #94a3b8;
+  font-size: 1.2rem;
+}
+
+.quick-edit-card:hover .quick-edit-arrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* Device Stats */
@@ -760,18 +797,27 @@ html, body {
   }
 
   .quick-edit-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 1rem;
   }
 
   .quick-edit-card {
-    padding: 1.25rem;
+    padding: 1.25rem 1rem;
+    min-height: 130px;
   }
 
   .quick-edit-icon {
-    width: 55px;
-    height: 55px;
+    width: 48px;
+    height: 48px;
     font-size: 1.5rem;
+  }
+  
+  .quick-edit-content h3 {
+    font-size: 0.85rem;
+  }
+  
+  .quick-edit-content p {
+    font-size: 0.7rem;
   }
 
   .device-stats {
@@ -871,14 +917,28 @@ html, body {
     font-size: 1.1rem;
   }
 
+  .quick-edit-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
   .quick-edit-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 1.25rem;
+    padding: 1rem;
+    min-height: 120px;
   }
 
   .quick-edit-icon {
-    margin: 0 auto;
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
+  }
+  
+  .quick-edit-content h3 {
+    font-size: 0.8rem;
+  }
+  
+  .quick-edit-content p {
+    font-size: 0.65rem;
   }
 
   .device-icon {
