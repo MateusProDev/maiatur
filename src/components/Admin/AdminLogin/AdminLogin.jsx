@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AdminLogin.css";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, createUserWithEmailAndPassword } from "firebase/auth";
+import { 
+  signInWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  signInWithRedirect, 
+  getRedirectResult,
+  sendPasswordResetEmail, 
+  createUserWithEmailAndPassword 
+} from "firebase/auth";
 import { auth, db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { FaGoogle, FaLock, FaEnvelope, FaUser, FaShieldAlt } from "react-icons/fa";
@@ -16,6 +23,35 @@ const AdminLogin = () => {
   const [registerMode, setRegisterMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Verificar resultado do redirect do Google ao carregar a página
+  useEffect(() => {
+    const handleRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result?.user) {
+          const isAuthorized = await checkAuthorization(result.user.uid, result.user.email);
+          
+          if (!isAuthorized) {
+            await auth.signOut();
+            setError("Acesso solicitado! Aguarde a aprovação do administrador para acessar o painel.");
+            return;
+          }
+          
+          navigate("/admin/dashboard");
+        }
+      } catch (err) {
+        console.error("Erro no redirect do Google:", err);
+        if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+          setError("Login cancelado.");
+        } else {
+          setError("Erro ao fazer login com Google. Tente novamente.");
+        }
+      }
+    };
+
+    handleRedirectResult();
+  }, [navigate]);
 
   // Verificar se o usuário está autorizado
   const checkAuthorization = async (userId, userEmail) => {
@@ -77,21 +113,15 @@ const AdminLogin = () => {
     setLoading(true);
     try {
       const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider);
-      const isAuthorized = await checkAuthorization(userCredential.user.uid, userCredential.user.email);
-      
-      if (!isAuthorized) {
-        await auth.signOut();
-        setError("Acesso solicitado! Aguarde a aprovação do administrador para acessar o painel.");
-        setLoading(false);
-        return;
-      }
-      
-      setLoading(false);
-      navigate("/admin/dashboard");
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
+      await signInWithRedirect(auth, provider);
+      // O resultado será tratado no useEffect
     } catch (err) {
       setLoading(false);
-      setError("Falha ao entrar com Google.");
+      console.error("Erro ao iniciar login Google:", err);
+      setError("Falha ao iniciar login com Google. Tente novamente.");
     }
   };
 
