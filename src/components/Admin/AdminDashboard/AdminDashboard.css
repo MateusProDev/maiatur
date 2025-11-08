@@ -183,7 +183,7 @@ html, body {
 
 .period-selector button {
   padding: 0.75rem 1.5rem;
-  background: transparent;
+  /* background: transparent; */
   border: none;
   border-radius: 8px;
   color: white;
