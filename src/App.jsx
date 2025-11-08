@@ -23,6 +23,7 @@ import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
 import AdminEditPacote from "./components/Admin/AdminEditPacote/AdminEditPacote";
 import BlogAdmin from "./components/Admin/BlogAdmin/BlogAdmin";
 import ViewUsers from "./components/Admin/Users/ViewUsers";
+import AdminUsers from "./components/Admin/AdminUsers/AdminUsers";
 import EditHeader from "./components/Admin/EditHeader/EditHeader";
 // import EditBanner from "./components/Admin/EditBanner/EditBanner"; // Substituído por AdminBanners
 import EditBoxes from "./components/Admin/EditBoxes/EditBoxes";
@@ -138,6 +139,7 @@ const App = () => {
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<Navigate to="/admin" />} />
+              <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
               <Route path="/admin/ajuda" element={<ProtectedRoute><AdminHelp /></ProtectedRoute>} />
               <Route path="/admin/inicializador" element={<ProtectedRoute><InicializadorPage /></ProtectedRoute>} />
               <Route path="/admin/pacotes" element={<ProtectedRoute><AdminPacotes /></ProtectedRoute>} />

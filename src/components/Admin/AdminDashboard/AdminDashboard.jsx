@@ -25,7 +25,8 @@ import {
   FiChevronRight,
   FiBarChart2,
   FiPieChart,
-  FiRefreshCw
+  FiRefreshCw,
+  FiShield
 } from "react-icons/fi";
 import {
   Chart as ChartJS,
@@ -137,6 +138,7 @@ const AdminDashboard = () => {
   // Quick edit links with neutral colors
   const quickEditLinks = [
     { icon: FiHelpCircle, title: "Central de Ajuda", description: "Tutorial e guia de uso", path: "/admin/ajuda", gradient: "from-slate-600 to-slate-700" },
+    { icon: FiShield, title: "Usuários", description: "Gerenciar acessos", path: "/admin/users", gradient: "from-blue-600 to-blue-700" },
     { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", gradient: "from-gray-600 to-gray-700" },
     { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", gradient: "from-zinc-600 to-zinc-700" },
     { icon: FiSettings, title: "Reservas", description: "Gerenciar reservas online", path: "/admin/reservas", gradient: "from-neutral-600 to-neutral-700" },
