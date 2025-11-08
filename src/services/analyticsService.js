@@ -2,7 +2,7 @@
 // AGORA COM GOOGLE ANALYTICS 4 INTEGRADO
 import { db, analytics } from '../firebase/firebase';
 import { logEvent } from 'firebase/analytics';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp, orderBy, Timestamp } from 'firebase/firestore';
 
 class AnalyticsService {
   // Track page view - AGORA USA GOOGLE ANALYTICS 4 + Firestore otimizado

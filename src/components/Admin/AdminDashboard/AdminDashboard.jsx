@@ -1,4 +1,30 @@
-
+// Modern Admin Dashboard with Analytics and Quick Edit Links
+import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../../../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import analyticsService from "../../../services/analyticsService";
+import useCountUp from "../../../hooks/useCountUp";
+import {
+  FiLogOut,
+  FiImage,
+  FiPackage,
+  FiInfo,
+  FiMail,
+  FiMessageSquare,
+  FiSettings,
+  FiTrendingUp,
+  FiEye,
+  FiUsers,
+  FiSmartphone,
+  FiMonitor,
+  FiTablet,
+  FiClock,
+  FiActivity,
+  FiZap,
+  FiHelpCircle,
+  FiChevronRight
+} from "react-icons/fi";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
