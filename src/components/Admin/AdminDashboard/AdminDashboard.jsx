@@ -23,11 +23,8 @@ import {
   FiZap,
   FiHelpCircle,
   FiChevronRight,
-  FiUsers,
-  FiGlobe,
   FiBarChart2,
   FiPieChart,
-  FiCalendar,
   FiRefreshCw
 } from "react-icons/fi";
 import {
@@ -72,12 +69,7 @@ const AdminDashboard = () => {
   const [topPages, setTopPages] = useState([]);
   const [deviceStats, setDeviceStats] = useState({ mobile: 0, desktop: 0, tablet: 0 });
   const [hourlyData, setHourlyData] = useState([]);
-  const [dailyData, setDailyData] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(7);
-  const [avgSessionTime, setAvgSessionTime] = useState(0);
-  const [bounceRate, setBounceRate] = useState(0);
-  const [newVisitors, setNewVisitors] = useState(0);
-  const [returningVisitors, setReturningVisitors] = useState(0);
 
   // Animated counters
   const animatedViews = useCountUp(totalViews, 2000, 100);
@@ -85,8 +77,6 @@ const AdminDashboard = () => {
   const animatedMobile = useCountUp(deviceStats.mobile, 2000, 300);
   const animatedDesktop = useCountUp(deviceStats.desktop, 2000, 400);
   const animatedTablet = useCountUp(deviceStats.tablet, 2000, 500);
-  const animatedNewVisitors = useCountUp(newVisitors, 2000, 600);
-  const animatedReturning = useCountUp(returningVisitors, 2000, 700);
 
   // Load logo
   useEffect(() => {
@@ -248,7 +238,7 @@ const AdminDashboard = () => {
   }), [deviceStats]);
 
   const barChartData = useMemo(() => {
-    const topPagesData = publicPages.slice(0, 5);
+    const topPagesData = topPages.filter(page => !page.page.startsWith('/admin')).slice(0, 5);
     return {
       labels: topPagesData.map(p => getPageName(p.page)),
       datasets: [
