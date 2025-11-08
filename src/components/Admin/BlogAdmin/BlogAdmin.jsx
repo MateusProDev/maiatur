@@ -318,15 +318,15 @@ const BlogAdmin = () => {
           </div>
 
           <div className="blog-stats">
-            <div className="stat-card">
+            <div className="blog-stat-card">
               <span className="stat-number">{posts.length}</span>
               <span className="stat-label">Total de Posts</span>
             </div>
-            <div className="stat-card">
+            <div className="blog-stat-card">
               <span className="stat-number">{posts.filter(p => p.published).length}</span>
               <span className="stat-label">Publicados</span>
             </div>
-            <div className="stat-card">
+            <div className="blog-stat-card">
               <span className="stat-number">{posts.filter(p => !p.published).length}</span>
               <span className="stat-label">Rascunhos</span>
             </div>
