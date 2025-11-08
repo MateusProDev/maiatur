@@ -21,7 +21,8 @@ import {
   CardActions,
   Grid,
   Paper,
-  IconButton
+  IconButton,
+  Collapse
 } from "@mui/material";
 import { 
   Upload as UploadIcon,
@@ -32,7 +33,8 @@ import {
   Add as AddIcon,
   Inventory as InventoryIcon,
   Image as ImageIcon,
-  AttachMoney as MoneyIcon
+  AttachMoney as MoneyIcon,
+  ExpandMore as ExpandMoreIcon
 } from "@mui/icons-material";
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import "./AdminPacotes.css";
@@ -66,6 +68,7 @@ const AdminPacotes = () => {
     type: "",
     message: ""
   });
+  const [showAdditionalCategories, setShowAdditionalCategories] = useState(false);
 
   useEffect(() => {
     const fetchPacotes = async () => {
@@ -402,60 +405,95 @@ const AdminPacotes = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <Paper elevation={0} sx={{ p: 2, bgcolor: '#f5f5f5', border: '1px solid #e0e0e0' }}>
-                <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600, color: '#333' }}>
-                  Categorias Adicionais (Múltipla Seleção)
-                </Typography>
-                <Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
-                  Selecione em quais seções de transfer este pacote também deve aparecer
-                </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={(currentPacote.categorias || []).includes('transfer_chegada')}
-                        onChange={() => handleCategoriaToggle('transfer_chegada')}
-                      />
-                    }
-                    label="✈️ Transfer de Chegada (Aeroporto → Hotel)"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={(currentPacote.categorias || []).includes('transfer_saida')}
-                        onChange={() => handleCategoriaToggle('transfer_saida')}
-                      />
-                    }
-                    label="🛫 Transfer de Saída (Hotel → Aeroporto)"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={(currentPacote.categorias || []).includes('transfer_chegada_saida')}
-                        onChange={() => handleCategoriaToggle('transfer_chegada_saida')}
-                      />
-                    }
-                    label="🔄 Transfer Chegada + Saída (Ida e Volta)"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={(currentPacote.categorias || []).includes('transfer_entre_hoteis')}
-                        onChange={() => handleCategoriaToggle('transfer_entre_hoteis')}
-                      />
-                    }
-                    label="🏨 Transfer entre Hotéis"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={(currentPacote.categorias || []).includes('passeio')}
-                        onChange={() => handleCategoriaToggle('passeio')}
-                      />
-                    }
-                    label="🚌 Passeio Turístico"
-                  />
+              <Paper 
+                elevation={0} 
+                sx={{ 
+                  p: 2, 
+                  bgcolor: '#f5f5f5', 
+                  border: '1px solid #e0e0e0',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setShowAdditionalCategories(!showAdditionalCategories)}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#333' }}>
+                      Categorias Adicionais (Múltipla Seleção)
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666', mt: 0.5 }}>
+                      {showAdditionalCategories 
+                        ? 'Clique para ocultar' 
+                        : `Clique para expandir e selecionar categorias ${(currentPacote.categorias || []).length > 0 ? `(${(currentPacote.categorias || []).length} selecionadas)` : ''}`
+                      }
+                    </Typography>
+                  </Box>
+                  <IconButton 
+                    sx={{ 
+                      transform: showAdditionalCategories ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.3s ease'
+                    }}
+                  >
+                    <ExpandMoreIcon />
+                  </IconButton>
                 </Box>
+                
+                <Collapse in={showAdditionalCategories}>
+                  <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e0e0e0' }}>
+                    <Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
+                      Selecione em quais seções de transfer este pacote também deve aparecer
+                    </Typography>
+                    <Box 
+                      sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={(currentPacote.categorias || []).includes('transfer_chegada')}
+                            onChange={() => handleCategoriaToggle('transfer_chegada')}
+                          />
+                        }
+                        label="✈️ Transfer de Chegada (Aeroporto → Hotel)"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={(currentPacote.categorias || []).includes('transfer_saida')}
+                            onChange={() => handleCategoriaToggle('transfer_saida')}
+                          />
+                        }
+                        label="🛫 Transfer de Saída (Hotel → Aeroporto)"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={(currentPacote.categorias || []).includes('transfer_chegada_saida')}
+                            onChange={() => handleCategoriaToggle('transfer_chegada_saida')}
+                          />
+                        }
+                        label="🔄 Transfer Chegada + Saída (Ida e Volta)"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={(currentPacote.categorias || []).includes('transfer_entre_hoteis')}
+                            onChange={() => handleCategoriaToggle('transfer_entre_hoteis')}
+                          />
+                        }
+                        label="🏨 Transfer entre Hotéis"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={(currentPacote.categorias || []).includes('passeio')}
+                            onChange={() => handleCategoriaToggle('passeio')}
+                          />
+                        }
+                        label="🚌 Passeio Turístico"
+                      />
+                    </Box>
+                  </Box>
+                </Collapse>
               </Paper>
             </Grid>
             
