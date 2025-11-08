@@ -91,9 +91,7 @@ const PacoteDetailPage = () => {
     );
   };
 
-  const handleAccordionChange = () => {
-    // Removed
-  };
+  // Removed unused handleAccordionChange
 
   const handleReserveWhatsApp = () => {
     if (whatsappLoading) return;

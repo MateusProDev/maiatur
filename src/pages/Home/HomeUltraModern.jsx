@@ -10,7 +10,6 @@ import BlogPreview from '../../components/BlogPreview/BlogPreview';
 import PacotesCarousel from '../../components/PacotesCarousel/PacotesCarousel';
 import { 
   FiMapPin, 
-  FiClock, 
   FiStar, 
   FiArrowRight,
   FiAward,
@@ -23,11 +22,10 @@ import {
   FiChevronLeft,
   FiChevronRight
 } from 'react-icons/fi';
-import { FaWhatsapp, FaPlaneDeparture, FaUmbrellaBeach, FaMountain, FaCity } from 'react-icons/fa';
+import { FaWhatsapp } from 'react-icons/fa';
 import './HomeUltraModern.css';
 
 const HomeUltraModern = () => {
-  const [pacotes, setPacotes] = useState([]);
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [loading, setLoading] = useState(true);

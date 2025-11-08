@@ -26,7 +26,7 @@ const TransferChegadaSaidaPage = () => {
   const [loading, setLoading] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [reservaId, setReservaId] = useState("");
-  const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([]);
+  const [, setVeiculosDisponiveis] = useState([]);
   const [logoUrl, setLogoUrl] = useState("");
 
   const {
@@ -279,3 +279,4 @@ const TransferChegadaSaidaPage = () => {
 };
 
 export default TransferChegadaSaidaPage;
+

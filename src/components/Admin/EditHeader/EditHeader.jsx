@@ -22,9 +22,7 @@ const AdminEditHeader = () => {
   const [saving, setSaving] = useState(false);
   const [notification, setNotification] = useState({ show: false, type: "", message: "" });
 
-  useEffect(() => {
-    fetchHeaderData();
-  }, []);
+  useEffect(() => { fetchHeaderData(); }, [fetchHeaderData]);
 
   const fetchHeaderData = async () => {
     try {
@@ -239,3 +237,4 @@ const AdminEditHeader = () => {
 };
 
 export default AdminEditHeader;
+

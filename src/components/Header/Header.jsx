@@ -99,8 +99,7 @@ const Header = () => {
     };
   }, []);
 
-  const handleWhatsAppClick = () => {
-    const message = encodeURIComponent('Olá! Gostaria de mais informações sobre os pacotes da Transfer Fortaleza Tur.');
+  const handleWhatsAppClick = (message = '') => {
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     setMenuOpen(false);
   };

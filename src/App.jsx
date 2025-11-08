@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "r
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
-import { Box, CircularProgress, Typography } from "@mui/material";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import HomeUltraModern from "./pages/Home/HomeUltraModern";
 import AboutPage from "./pages/AboutPage/AboutPage";
@@ -33,7 +32,6 @@ import AdminWhatsAppConfig from "./components/Admin/AdminWhatsAppConfig/AdminWha
 import EditCarousel from "./components/Admin/EditCarousel/EditCarousel";
 import EditHours from "./components/Admin/EditHours/EditHours";
 import BannerAdmin from "./components/Admin/BannerAdmin/BannerAdmin";
-import LoadingOverlay from "./components/LoadingOverlay/LoadingOverlay";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import { autoInitialize } from "./utils/firestoreUtils";
 import analyticsService from "./services/analyticsService";

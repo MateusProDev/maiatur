@@ -292,11 +292,11 @@ html, body {
 
 /* Stat Icon Colors - Cores suaves e neutras */
 .stat-card .stat-icon.stat-icon-views {
-  background: linear-gradient(135deg, #64748b, #475569) !important;
+  background: linear-gradient(135deg, #128C7E, #21A657) !important;
 }
 
 .stat-card .stat-icon.stat-icon-pages {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+  background: linear-gradient(135deg, #EE7C35, #F8C144) !important;
 }
 
 .stat-card .stat-icon.stat-icon-peak {
@@ -316,6 +316,23 @@ html, body {
   color: #111827;
   margin: 0;
   line-height: 1;
+  animation: countUpFadeIn 0.5s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.stat-number:hover {
+  transform: scale(1.05);
+}
+
+@keyframes countUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .stat-label {
@@ -496,6 +513,12 @@ html, body {
   font-weight: 700;
   color: #111827;
   margin: 0 0 1.5rem 0;
+  animation: countUpFadeIn 0.6s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.device-count:hover {
+  transform: scale(1.08);
 }
 
 .device-bar {

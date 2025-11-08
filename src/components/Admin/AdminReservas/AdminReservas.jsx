@@ -63,9 +63,7 @@ const AdminReservas = () => {
     concluida: "info"
   };
 
-  useEffect(() => {
-    carregarReservas();
-  }, []);
+  useEffect(() => { carregarReservas(); }, [carregarReservas]);
 
   const carregarReservas = async () => {
     try {
@@ -444,3 +442,4 @@ const AdminReservas = () => {
 };
 
 export default AdminReservas;
+

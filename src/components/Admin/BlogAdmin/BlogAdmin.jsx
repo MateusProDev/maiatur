@@ -8,15 +8,7 @@ import htmlToDraft from 'html-to-draftjs';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import axios from 'axios';
 import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
-import {
-  getAllPostsAdmin,
-  createPost,
-  updatePost,
-  deletePost,
-  generateSlug,
-  getAllCategories,
-  getAllTags
-} from '../../../services/blogService';
+import { createPost, updatePost, deletePost, getPostsByStatus } from '../../../services/blogService';
 import './BlogAdmin.css';
 
 const BlogAdmin = () => {
@@ -601,3 +593,4 @@ const BlogAdmin = () => {
 };
 
 export default BlogAdmin;
+

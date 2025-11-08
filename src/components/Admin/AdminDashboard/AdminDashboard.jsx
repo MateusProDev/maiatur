@@ -1,36 +1,8 @@
-// Modern Admin Dashboard with Analytics and Quick Edit Links
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
-import analyticsService from "../../../services/analyticsService";
-import {
-  FiMenu,
-  FiX,
-  FiLogOut,
-  FiImage,
-  FiPackage,
-  FiInfo,
-  FiMail,
-  FiClock,
-  FiMessageSquare,
-  FiSettings,
-  FiHome,
-  FiTrendingUp,
-  FiEye,
-  FiUsers,
-  FiSmartphone,
-  FiMonitor,
-  FiTablet,
-  FiArrowUp,
-  FiArrowDown,
-  FiHelpCircle
-} from "react-icons/fi";
+
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [logoUrl, setLogoUrl] = useState('');
   
@@ -41,6 +13,13 @@ const AdminDashboard = () => {
   const [deviceStats, setDeviceStats] = useState({ mobile: 0, desktop: 0, tablet: 0 });
   const [hourlyData, setHourlyData] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(7);
+
+  // Animated counters
+  const animatedViews = useCountUp(totalViews, 2000, 100);
+  const animatedPages = useCountUp(uniquePages, 2000, 200);
+  const animatedMobile = useCountUp(deviceStats.mobile, 2000, 300);
+  const animatedDesktop = useCountUp(deviceStats.desktop, 2000, 400);
+  const animatedTablet = useCountUp(deviceStats.tablet, 2000, 500);
 
   // Load logo
   useEffect(() => {
@@ -58,11 +37,7 @@ const AdminDashboard = () => {
   }, []);
 
   // Load analytics data
-  useEffect(() => {
-    loadAnalytics();
-  }, [selectedPeriod]);
-
-  const loadAnalytics = async () => {
+  const loadAnalytics = useCallback(async () => {
     setLoading(true);
     try {
       const [views, pages, pageViews, devices, hourly] = await Promise.all([
@@ -83,11 +58,14 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedPeriod]);
+
+  useEffect(() => {
+    loadAnalytics();
+  }, [loadAnalytics]);
 
   const goTo = (path) => {
-    setSidebarOpen(false);
-    setTimeout(() => navigate(path), 100);
+    navigate(path);
   };
 
   const handleLogout = async () => {
@@ -99,16 +77,16 @@ const AdminDashboard = () => {
     }
   };
 
-  // Quick edit links
+  // Quick edit links with neutral colors
   const quickEditLinks = [
-    { icon: FiHelpCircle, title: "Central de Ajuda", description: "Tutorial e guia de uso", path: "/admin/ajuda", color: "linear-gradient(135deg, #f59e0b, #d97706)" },
-    { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", color: "linear-gradient(135deg, #128C7E, #21A657)" },
-    { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", color: "linear-gradient(135deg, #EE7C35, #F8C144)" },
-    { icon: FiSettings, title: "Reservas", description: "Gerenciar reservas online", path: "/admin/reservas", color: "linear-gradient(135deg, #10b981, #059669)" },
-    { icon: FiMessageSquare, title: "Blog", description: "Gerenciar posts do blog", path: "/admin/blog", color: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
-    { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", color: "linear-gradient(135deg, #4facfe, #00f2fe)" },
-    { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", color: "linear-gradient(135deg, #43e97b, #38f9d7)" },
-    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", color: "linear-gradient(135deg, #fee140, #fa709a)" }
+    { icon: FiHelpCircle, title: "Central de Ajuda", description: "Tutorial e guia de uso", path: "/admin/ajuda", gradient: "from-slate-600 to-slate-700" },
+    { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", gradient: "from-gray-600 to-gray-700" },
+    { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", gradient: "from-zinc-600 to-zinc-700" },
+    { icon: FiSettings, title: "Reservas", description: "Gerenciar reservas online", path: "/admin/reservas", gradient: "from-neutral-600 to-neutral-700" },
+    { icon: FiMessageSquare, title: "Blog", description: "Gerenciar posts do blog", path: "/admin/blog", gradient: "from-stone-600 to-stone-700" },
+    { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", gradient: "from-slate-500 to-slate-600" },
+    { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", gradient: "from-gray-500 to-gray-600" },
+    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", gradient: "from-zinc-500 to-zinc-600" }
   ];
 
   // Get page name from path
@@ -124,7 +102,7 @@ const AdminDashboard = () => {
     return pageNames[path] || path;
   };
 
-  // Filter only public site routes (exclude admin routes)
+  // Filter only public site routes
   const isPublicRoute = (path) => {
     return !path.startsWith('/admin');
   };
@@ -146,198 +124,236 @@ const AdminDashboard = () => {
   const publicPages = topPages.filter(page => isPublicRoute(page.page));
 
   return (
-    <div className="modern-admin-dashboard-simple">
-      {/* Header */}
-      <div className="dashboard-header-bar">
-        <div className="header-content">
+    <div className="ultra-modern-dashboard">
+      {/* Floating Header */}
+      <header className="dashboard-floating-header">
+        <div className="header-left">
           {logoUrl ? (
-            <img src={logoUrl} alt="Logo" className="dashboard-logo" />
+            <img src={logoUrl} alt="Logo" className="header-logo" />
           ) : (
-            <div className="dashboard-logo-placeholder">
-              <span>TRANSFER FORTALEZA TUR</span>
+            <div className="header-logo-text">
+              <FiZap />
+              <span>Admin Panel</span>
             </div>
           )}
-          <div className="header-text">
-            <h1>
-              <FiTrendingUp /> Painel Administrativo
-            </h1>
-            <p>Gerencie seu site e visualize métricas</p>
-          </div>
         </div>
-        <button onClick={handleLogout} className="logout-btn">
-          <FiLogOut /> Sair
-        </button>
-      </div>
+        
+        <div className="header-center">
+          <h1 className="dashboard-title">Dashboard</h1>
+          <p className="dashboard-subtitle">Bem-vindo ao painel administrativo</p>
+        </div>
+
+        <div className="header-right">
+          <button className="header-btn" onClick={handleLogout}>
+            <FiLogOut />
+            <span>Sair</span>
+          </button>
+        </div>
+      </header>
 
       {/* Main Content */}
-      <div className="dashboard-main-content">
-        <div className="dashboard-header">
-          <div>
-            <h1>Bem-vindo ao Painel Administrativo</h1>
-            <p>Gerencie seu site e visualize métricas de acesso</p>
-          </div>
-          <div className="period-selector">
-            <button
-              className={selectedPeriod === 7 ? 'active' : ''}
-              onClick={() => setSelectedPeriod(7)}
-            >
-              7 dias
-            </button>
-            <button
-              className={selectedPeriod === 30 ? 'active' : ''}
-              onClick={() => setSelectedPeriod(30)}
-            >
-              30 dias
-            </button>
-            <button
-              className={selectedPeriod === 90 ? 'active' : ''}
-              onClick={() => setSelectedPeriod(90)}
-            >
-              90 dias
-            </button>
-          </div>
-        </div>
-
-        {/* Analytics Overview */}
-        <div className="analytics-overview">
-          <div className="stat-card">
-            <div className="stat-icon stat-icon-views">
-              <FiEye />
-            </div>
-            <div className="stat-content">
-              <h3>Total de Visualizações</h3>
-              <p className="stat-number">{loading ? '...' : totalViews.toLocaleString()}</p>
-              <span className="stat-label">Últimos {selectedPeriod} dias</span>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon stat-icon-pages">
-              <FiTrendingUp />
-            </div>
-            <div className="stat-content">
-              <h3>Páginas Únicas</h3>
-              <p className="stat-number">{loading ? '...' : uniquePages}</p>
-              <span className="stat-label">Diferentes rotas acessadas</span>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon stat-icon-peak">
-              <FiUsers />
-            </div>
-            <div className="stat-content">
-              <h3>Horário de Pico</h3>
-              <p className="stat-number">{loading ? '...' : getPeakHour()}</p>
-              <span className="stat-label">Maior tráfego</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Edit Links */}
-        <div className="section-container">
-          <h2 className="section-title">
-            <FiSettings /> Acesso Rápido às Edições
-          </h2>
-          <div className="quick-edit-grid">
-            {quickEditLinks.map((link, index) => (
-              <div
-                key={index}
-                className="quick-edit-card"
-                onClick={() => goTo(link.path)}
+      <main className="dashboard-main">
+        <div className="dashboard-container">
+          
+          {/* Period Selector */}
+          <div className="period-selector-wrapper">
+            <div className="period-selector">
+              <button 
+                className={selectedPeriod === 7 ? 'active' : ''} 
+                onClick={() => setSelectedPeriod(7)}
               >
-                <div className="quick-edit-icon" style={{ background: link.color }}>
-                  <link.icon />
-                </div>
-                <div className="quick-edit-content">
-                  <h3>{link.title}</h3>
-                  <p>{link.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Device Distribution */}
-        <div className="section-container">
-          <h2 className="section-title">
-            <FiSmartphone /> Distribuição por Dispositivo
-          </h2>
-          <div className="device-stats">
-            <div className="device-card">
-              <div className="device-icon mobile">
-                <FiSmartphone />
-              </div>
-              <h3>Mobile</h3>
-              <p className="device-count">{deviceStats.mobile}</p>
-              <div className="device-bar">
-                <div
-                  className="device-bar-fill mobile"
-                  style={{ width: `${getDevicePercentage(deviceStats.mobile)}%` }}
-                ></div>
-              </div>
-              <span className="device-percentage">{getDevicePercentage(deviceStats.mobile)}%</span>
-            </div>
-
-            <div className="device-card">
-              <div className="device-icon desktop">
-                <FiMonitor />
-              </div>
-              <h3>Desktop</h3>
-              <p className="device-count">{deviceStats.desktop}</p>
-              <div className="device-bar">
-                <div
-                  className="device-bar-fill desktop"
-                  style={{ width: `${getDevicePercentage(deviceStats.desktop)}%` }}
-                ></div>
-              </div>
-              <span className="device-percentage">{getDevicePercentage(deviceStats.desktop)}%</span>
-            </div>
-
-            <div className="device-card">
-              <div className="device-icon tablet">
-                <FiTablet />
-              </div>
-              <h3>Tablet</h3>
-              <p className="device-count">{deviceStats.tablet}</p>
-              <div className="device-bar">
-                <div
-                  className="device-bar-fill tablet"
-                  style={{ width: `${getDevicePercentage(deviceStats.tablet)}%` }}
-                ></div>
-              </div>
-              <span className="device-percentage">{getDevicePercentage(deviceStats.tablet)}%</span>
+                7 dias
+              </button>
+              <button 
+                className={selectedPeriod === 30 ? 'active' : ''} 
+                onClick={() => setSelectedPeriod(30)}
+              >
+                30 dias
+              </button>
+              <button 
+                className={selectedPeriod === 90 ? 'active' : ''} 
+                onClick={() => setSelectedPeriod(90)}
+              >
+                90 dias
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* Top Pages */}
-        <div className="section-container">
-          <h2 className="section-title">
-            <FiTrendingUp /> Páginas Mais Visitadas do Site
-          </h2>
-          <div className="top-pages-list">
-            {loading ? (
-              <p className="loading-text">Carregando dados...</p>
-            ) : publicPages.length === 0 ? (
-              <p className="no-data-text">Nenhum dado disponível ainda. O tracking começará automaticamente.</p>
-            ) : (
-              publicPages.map((page, index) => (
-                <div key={index} className="top-page-item">
-                  <div className="page-rank">{index + 1}</div>
-                  <div className="page-info">
-                    <h4>{getPageName(page.page)}</h4>
-                    <p>{page.page}</p>
+          {/* Analytics Grid */}
+          <div className="analytics-grid">
+            {/* Total Views Card */}
+            <div className="analytics-card views-card">
+              <div className="card-icon-wrapper">
+                <div className="card-icon">
+                  <FiEye />
+                </div>
+                <div className="card-icon-bg"></div>
+              </div>
+              <div className="card-content">
+                <p className="card-label">Total de Visualizações</p>
+                <h2 className="card-value">{loading ? '...' : animatedViews.toLocaleString()}</h2>
+                <p className="card-sublabel">Últimos {selectedPeriod} dias</p>
+              </div>
+              <div className="card-decoration"></div>
+            </div>
+
+            {/* Unique Pages Card */}
+            <div className="analytics-card pages-card">
+              <div className="card-icon-wrapper">
+                <div className="card-icon">
+                  <FiTrendingUp />
+                </div>
+                <div className="card-icon-bg"></div>
+              </div>
+              <div className="card-content">
+                <p className="card-label">Páginas Únicas</p>
+                <h2 className="card-value">{loading ? '...' : animatedPages}</h2>
+                <p className="card-sublabel">Diferentes rotas acessadas</p>
+              </div>
+              <div className="card-decoration"></div>
+            </div>
+
+            {/* Peak Hour Card */}
+            <div className="analytics-card peak-card">
+              <div className="card-icon-wrapper">
+                <div className="card-icon">
+                  <FiClock />
+                </div>
+                <div className="card-icon-bg"></div>
+              </div>
+              <div className="card-content">
+                <p className="card-label">Horário de Pico</p>
+                <h2 className="card-value">{loading ? '...' : getPeakHour()}</h2>
+                <p className="card-sublabel">Maior tráfego do dia</p>
+              </div>
+              <div className="card-decoration"></div>
+            </div>
+
+            {/* Total Activity Card */}
+            <div className="analytics-card activity-card">
+              <div className="card-icon-wrapper">
+                <div className="card-icon">
+                  <FiActivity />
+                </div>
+                <div className="card-icon-bg"></div>
+              </div>
+              <div className="card-content">
+                <p className="card-label">Atividade Total</p>
+                <h2 className="card-value">{loading ? '...' : (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet).toLocaleString()}</h2>
+                <p className="card-sublabel">Acessos por dispositivo</p>
+              </div>
+              <div className="card-decoration"></div>
+            </div>
+          </div>
+
+          {/* Device Distribution */}
+          <div className="device-distribution-section">
+            <h2 className="section-heading">
+              <FiSmartphone />
+              Distribuição por Dispositivo
+            </h2>
+            
+            <div className="device-grid">
+              <div className="device-card-modern mobile">
+                <div className="device-header">
+                  <FiSmartphone className="device-icon-svg" />
+                  <span className="device-name">Mobile</span>
+                </div>
+                <div className="device-stats-wrapper">
+                  <h3 className="device-number">{animatedMobile}</h3>
+                  <div className="device-progress">
+                    <div className="device-progress-bar" style={{ width: `${getDevicePercentage(deviceStats.mobile)}%` }}></div>
                   </div>
-                  <div className="page-count">
-                    {page.count} {index === 0 && <FiArrowUp className="trending-icon up" />}
-                  </div>
+                  <p className="device-percent">{getDevicePercentage(deviceStats.mobile)}%</p>
                 </div>
-              ))
-            )}
+              </div>
+
+              <div className="device-card-modern desktop">
+                <div className="device-header">
+                  <FiMonitor className="device-icon-svg" />
+                  <span className="device-name">Desktop</span>
+                </div>
+                <div className="device-stats-wrapper">
+                  <h3 className="device-number">{animatedDesktop}</h3>
+                  <div className="device-progress">
+                    <div className="device-progress-bar" style={{ width: `${getDevicePercentage(deviceStats.desktop)}%` }}></div>
+                  </div>
+                  <p className="device-percent">{getDevicePercentage(deviceStats.desktop)}%</p>
+                </div>
+              </div>
+
+              <div className="device-card-modern tablet">
+                <div className="device-header">
+                  <FiTablet className="device-icon-svg" />
+                  <span className="device-name">Tablet</span>
+                </div>
+                <div className="device-stats-wrapper">
+                  <h3 className="device-number">{animatedTablet}</h3>
+                  <div className="device-progress">
+                    <div className="device-progress-bar" style={{ width: `${getDevicePercentage(deviceStats.tablet)}%` }}></div>
+                  </div>
+                  <p className="device-percent">{getDevicePercentage(deviceStats.tablet)}%</p>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Quick Actions */}
+          <div className="quick-actions-section">
+            <h2 className="section-heading">
+              <FiZap />
+              Acesso Rápido
+            </h2>
+            
+            <div className="quick-actions-grid">
+              {quickEditLinks.map((link, index) => (
+                <button
+                  key={index}
+                  className={`quick-action-card ${link.gradient}`}
+                  onClick={() => goTo(link.path)}
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  <div className="action-icon">
+                    <link.icon />
+                  </div>
+                  <div className="action-content">
+                    <h3>{link.title}</h3>
+                    <p>{link.description}</p>
+                  </div>
+                  <FiChevronRight className="action-arrow" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Top Pages */}
+          {publicPages.length > 0 && (
+            <div className="top-pages-section">
+              <h2 className="section-heading">
+                <FiTrendingUp />
+                Páginas Mais Visitadas
+              </h2>
+              
+              <div className="top-pages-list">
+                {publicPages.map((page, index) => (
+                  <div key={index} className="top-page-item" style={{ animationDelay: `${index * 0.05}s` }}>
+                    <div className="page-rank">#{index + 1}</div>
+                    <div className="page-info">
+                      <h4>{getPageName(page.page)}</h4>
+                      <p>{page.page}</p>
+                    </div>
+                    <div className="page-views">
+                      <span className="views-number">{page.count}</span>
+                      <span className="views-label">visualizações</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
-      </div>
+      </main>
     </div>
   );
 };

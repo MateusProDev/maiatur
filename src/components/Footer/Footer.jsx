@@ -3,16 +3,11 @@ import { db } from "../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { 
-  FaMapMarkerAlt, 
-  FaPhone, 
-  FaEnvelope, 
-  FaClock,
   FaInstagram,
   FaFacebookF,
   FaWhatsapp,
   FaTwitter,
   FaYoutube,
-  FaLinkedinIn,
   FaPinterestP
 } from "react-icons/fa";
 import { 

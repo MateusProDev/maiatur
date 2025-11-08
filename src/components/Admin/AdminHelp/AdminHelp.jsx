@@ -6,7 +6,6 @@ import {
   FiPackage,
   FiSettings,
   FiMessageSquare,
-  FiInfo,
   FiMail,
   FiTrendingUp,
   FiPlay,

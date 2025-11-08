@@ -1,0 +1,26 @@
+# Correções de Lint para Deploy
+
+## Arquivos já corrigidos:
+✅ src/App.jsx - Removido Box, CircularProgress, Typography, LoadingOverlay
+✅ src/components/Admin/AdminBanners/AdminBanners.jsx - Removido deleteObject, FiMoveVertical
+✅ src/pages/Home/HomeUltraModern.jsx - Removido FiClock, FaPlaneDeparture, FaUmbrellaBeach, FaMountain, FaCity, pacotes, setPacotes
+
+## Próximos arquivos a corrigir:
+- src/components/Admin/AdminDashboard/AdminDashboard.jsx
+- src/components/Admin/AdminHelp/AdminHelp.jsx
+- src/components/Admin/AdminReservas/AdminReservas.jsx
+- src/components/Admin/BlogAdmin/BlogAdmin.jsx
+- src/components/Admin/EditHeader/EditHeader.jsx
+- src/components/AdminPacotes/AdminPacotes.jsx
+- src/components/Footer/Footer.jsx
+- src/components/Header/Header.jsx
+- src/components/PacotesCarousel/PacotesCarousel.jsx
+- src/hooks/useWhatsAppNumber.js
+- src/pages/AvaliacoesPage/AvaliacoesPage.jsx
+- src/pages/BlogPostPage/BlogPostPage.jsx
+- src/pages/CategoriaPage/CategoriaPage.jsx
+- src/pages/PacoteDetailPage/PacoteDetailPage.jsx
+- src/pages/PacotesListPage/PacotesListPage.jsx
+- src/pages/TransferChegadaSaidaPage/TransferChegadaSaidaPage.jsx
+- src/services/analyticsService.js
+- src/services/reservasService.js

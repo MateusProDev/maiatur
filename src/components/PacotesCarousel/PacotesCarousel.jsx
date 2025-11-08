@@ -64,21 +64,6 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
     setIsPlaying(false);
   };
 
-  // Voltar a passar ao tirar mouse/toque
-  const handleMouseLeave = () => {
-    setIsPlaying(true);
-  };
-
-  // Pausar ao tocar (mobile)
-  const handleTouchStart = () => {
-    setIsPlaying(false);
-  };
-
-  // Voltar a passar ao soltar toque (mobile)
-  const handleTouchEnd = () => {
-    setIsPlaying(true);
-  };
-
   // Funcionalidade de arrastar com mouse
   const handleMouseDown = (e) => {
     if (!carouselRef.current) return;
@@ -272,3 +257,4 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
 };
 
 export default PacotesCarousel;
+

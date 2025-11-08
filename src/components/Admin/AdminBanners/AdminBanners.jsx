@@ -9,7 +9,7 @@ import {
   query,
   orderBy 
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../../firebase/firebase';
 import { 
   FiPlus, 
@@ -20,8 +20,7 @@ import {
   FiUpload,
   FiImage,
   FiEye,
-  FiEyeOff,
-  FiMoveVertical
+  FiEyeOff
 } from 'react-icons/fi';
 import './AdminBanners.css';
 
