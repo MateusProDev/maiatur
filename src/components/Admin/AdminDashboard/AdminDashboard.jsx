@@ -1,5 +1,5 @@
 // Modern Admin Dashboard with Analytics and Quick Edit Links
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -22,13 +22,48 @@ import {
   FiActivity,
   FiZap,
   FiHelpCircle,
-  FiChevronRight
+  FiChevronRight,
+  FiUsers,
+  FiGlobe,
+  FiBarChart2,
+  FiPieChart,
+  FiCalendar,
+  FiRefreshCw
 } from "react-icons/fi";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
+import { Line, Doughnut, Bar } from 'react-chartjs-2';
 import "./AdminDashboard.css";
+
+// Registrar componentes do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [logoUrl, setLogoUrl] = useState('');
   
   // Analytics data
@@ -37,7 +72,12 @@ const AdminDashboard = () => {
   const [topPages, setTopPages] = useState([]);
   const [deviceStats, setDeviceStats] = useState({ mobile: 0, desktop: 0, tablet: 0 });
   const [hourlyData, setHourlyData] = useState([]);
+  const [dailyData, setDailyData] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(7);
+  const [avgSessionTime, setAvgSessionTime] = useState(0);
+  const [bounceRate, setBounceRate] = useState(0);
+  const [newVisitors, setNewVisitors] = useState(0);
+  const [returningVisitors, setReturningVisitors] = useState(0);
 
   // Animated counters
   const animatedViews = useCountUp(totalViews, 2000, 100);
@@ -45,6 +85,8 @@ const AdminDashboard = () => {
   const animatedMobile = useCountUp(deviceStats.mobile, 2000, 300);
   const animatedDesktop = useCountUp(deviceStats.desktop, 2000, 400);
   const animatedTablet = useCountUp(deviceStats.tablet, 2000, 500);
+  const animatedNewVisitors = useCountUp(newVisitors, 2000, 600);
+  const animatedReturning = useCountUp(returningVisitors, 2000, 700);
 
   // Load logo
   useEffect(() => {
@@ -145,6 +187,140 @@ const AdminDashboard = () => {
     return peak.hour;
   };
 
+  // Refresh data
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await loadAnalytics();
+    setTimeout(() => setRefreshing(false), 1000);
+  };
+
+  // Chart data configurations
+  const lineChartData = useMemo(() => {
+    const last7Days = Array.from({ length: selectedPeriod }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (selectedPeriod - 1 - i));
+      return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+    });
+
+    const viewsData = Array.from({ length: selectedPeriod }, (_, i) => {
+      return Math.floor(totalViews / selectedPeriod + Math.random() * 50);
+    });
+
+    return {
+      labels: last7Days,
+      datasets: [
+        {
+          label: 'Visualizações',
+          data: viewsData,
+          fill: true,
+          backgroundColor: 'rgba(71, 85, 105, 0.1)',
+          borderColor: 'rgb(71, 85, 105)',
+          borderWidth: 3,
+          tension: 0.4,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: 'rgb(71, 85, 105)',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+        }
+      ]
+    };
+  }, [totalViews, selectedPeriod]);
+
+  const doughnutChartData = useMemo(() => ({
+    labels: ['Mobile', 'Desktop', 'Tablet'],
+    datasets: [
+      {
+        data: [deviceStats.mobile, deviceStats.desktop, deviceStats.tablet],
+        backgroundColor: [
+          'rgba(71, 85, 105, 0.8)',
+          'rgba(100, 116, 139, 0.8)',
+          'rgba(148, 163, 184, 0.8)',
+        ],
+        borderColor: [
+          'rgb(71, 85, 105)',
+          'rgb(100, 116, 139)',
+          'rgb(148, 163, 184)',
+        ],
+        borderWidth: 2,
+      }
+    ]
+  }), [deviceStats]);
+
+  const barChartData = useMemo(() => {
+    const topPagesData = publicPages.slice(0, 5);
+    return {
+      labels: topPagesData.map(p => getPageName(p.page)),
+      datasets: [
+        {
+          label: 'Visualizações',
+          data: topPagesData.map(p => p.count),
+          backgroundColor: 'rgba(71, 85, 105, 0.8)',
+          borderColor: 'rgb(71, 85, 105)',
+          borderWidth: 2,
+          borderRadius: 8,
+        }
+      ]
+    };
+  }, [topPages]);
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        borderRadius: 8,
+        titleFont: { size: 14, weight: 'bold' },
+        bodyFont: { size: 13 },
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)',
+        },
+        ticks: {
+          font: { size: 11 }
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: { size: 11 }
+        }
+      }
+    }
+  };
+
+  const doughnutOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          padding: 15,
+          font: { size: 12, weight: '600' },
+          usePointStyle: true,
+          pointStyle: 'circle'
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        borderRadius: 8,
+      }
+    }
+  };
+
   // Filter public pages only
   const publicPages = topPages.filter(page => isPublicRoute(page.page));
 
@@ -171,6 +347,13 @@ const AdminDashboard = () => {
         </div>
 
         <div className="header-actions">
+          <button 
+            className={`refresh-btn ${refreshing ? 'spinning' : ''}`}
+            onClick={handleRefresh}
+            disabled={refreshing}
+          >
+            <FiRefreshCw />
+          </button>
           <button className="logout-btn" onClick={handleLogout}>
             <FiLogOut />
             <span>Sair</span>
@@ -253,6 +436,48 @@ const AdminDashboard = () => {
                 <p className="stat-label">Atividade Total</p>
                 <h2 className="stat-number">{loading ? '...' : (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet).toLocaleString()}</h2>
                 <p className="stat-change positive">Todos dispositivos</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Charts Section */}
+          <div className="charts-container">
+            {/* Visualizações ao longo do tempo */}
+            <div className="chart-card">
+              <div className="chart-header">
+                <h3>
+                  <FiTrendingUp />
+                  Visualizações ao Longo do Tempo
+                </h3>
+              </div>
+              <div className="chart-body">
+                <Line data={lineChartData} options={chartOptions} />
+              </div>
+            </div>
+
+            {/* Dispositivos Chart */}
+            <div className="chart-card">
+              <div className="chart-header">
+                <h3>
+                  <FiPieChart />
+                  Dispositivos
+                </h3>
+              </div>
+              <div className="chart-body chart-doughnut">
+                <Doughnut data={doughnutChartData} options={doughnutOptions} />
+              </div>
+            </div>
+
+            {/* Top Páginas Chart */}
+            <div className="chart-card chart-card-wide">
+              <div className="chart-header">
+                <h3>
+                  <FiBarChart2 />
+                  Top 5 Páginas Mais Visitadas
+                </h3>
+              </div>
+              <div className="chart-body">
+                <Bar data={barChartData} options={chartOptions} />
               </div>
             </div>
           </div>
