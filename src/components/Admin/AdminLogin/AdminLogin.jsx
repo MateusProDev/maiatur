@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./AdminLogin.css";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -23,6 +23,30 @@ const AdminLogin = () => {
   const [registerMode, setRegisterMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Verificar se o usuário está autorizado
+  const checkAuthorization = useCallback(async (userId, userEmail) => {
+    try {
+      const userDoc = await getDoc(doc(db, 'authorizedUsers', userId));
+      
+      if (userDoc.exists() && userDoc.data().authorized === true) {
+        return true;
+      }
+      
+      // Se não existe, criar documento pendente de aprovação
+      await setDoc(doc(db, 'authorizedUsers', userId), {
+        email: userEmail,
+        authorized: false,
+        requestedAt: new Date().toISOString(),
+        name: auth.currentUser?.displayName || name || 'Usuário',
+      });
+      
+      return false;
+    } catch (error) {
+      console.error("Erro ao verificar autorização:", error);
+      return false;
+    }
+  }, [name]);
 
   // Verificar resultado do redirect do Google ao carregar a página
   useEffect(() => {
@@ -51,31 +75,7 @@ const AdminLogin = () => {
     };
 
     handleRedirectResult();
-  }, [navigate]);
-
-  // Verificar se o usuário está autorizado
-  const checkAuthorization = async (userId, userEmail) => {
-    try {
-      const userDoc = await getDoc(doc(db, 'authorizedUsers', userId));
-      
-      if (userDoc.exists() && userDoc.data().authorized === true) {
-        return true;
-      }
-      
-      // Se não existe, criar documento pendente de aprovação
-      await setDoc(doc(db, 'authorizedUsers', userId), {
-        email: userEmail,
-        authorized: false,
-        requestedAt: new Date().toISOString(),
-        name: auth.currentUser?.displayName || name || 'Usuário',
-      });
-      
-      return false;
-    } catch (error) {
-      console.error("Erro ao verificar autorização:", error);
-      return false;
-    }
-  };
+  }, [navigate, checkAuthorization]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
