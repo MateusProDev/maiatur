@@ -13,7 +13,7 @@ import {
   IconButton,
   Skeleton,
   Fade,
-  Chip,
+  
   InputAdornment,
   FormControl,
   InputLabel,
@@ -606,3 +606,4 @@ const AvaliacoesPage = () => {
 };
 
 export default AvaliacoesPage;
+

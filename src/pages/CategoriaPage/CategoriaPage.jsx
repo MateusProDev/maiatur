@@ -5,7 +5,7 @@ import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import { FiSearch, FiX, FiFilter, FiMapPin, FiCalendar, FiTrendingUp, FiStar, FiPackage } from 'react-icons/fi';
+import { FiSearch, FiX, FiFilter, FiMapPin, FiTrendingUp, FiStar, FiPackage } from 'react-icons/fi';
 import './CategoriaPage.css';
 
 // Mapeamento de categorias

@@ -258,3 +258,4 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
 
 export default PacotesCarousel;
 
+

@@ -15,7 +15,6 @@ import {
   FiSettings,
   FiTrendingUp,
   FiEye,
-  FiUsers,
   FiSmartphone,
   FiMonitor,
   FiTablet,
