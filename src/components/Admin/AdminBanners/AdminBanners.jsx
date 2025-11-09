@@ -27,6 +27,7 @@ import './AdminBanners.css';
 const AdminBanners = () => {
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [editingBanner, setEditingBanner] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -104,13 +105,21 @@ const AdminBanners = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log('=== DEBUG handleSubmit ===');
+    console.log('formData.titulo:', formData.titulo);
+    console.log('formData.imagem:', formData.imagem);
+    console.log('formData completo:', formData);
+
     if (!formData.titulo || !formData.imagem) {
       alert('Título e imagem são obrigatórios');
+      console.log('❌ Validação falhou');
       return;
     }
 
     try {
-      setLoading(true);
+      setSaving(true);
+      console.log('✅ Iniciando salvamento...');
+      
       const bannerData = {
         ...formData,
         ordem: parseInt(formData.ordem) || 1,
@@ -118,21 +127,25 @@ const AdminBanners = () => {
       };
 
       if (editingBanner) {
+        console.log('📝 Atualizando banner:', editingBanner.id);
         await setDoc(doc(db, 'banners', editingBanner.id), bannerData, { merge: true });
         alert('Banner atualizado com sucesso!');
       } else {
+        console.log('🆕 Criando novo banner');
         bannerData.createdAt = serverTimestamp();
-        await setDoc(doc(collection(db, 'banners')), bannerData);
+        const newDocRef = doc(collection(db, 'banners'));
+        await setDoc(newDocRef, bannerData);
         alert('Banner criado com sucesso!');
       }
 
+      console.log('✅ Banner salvo com sucesso!');
       resetForm();
-      fetchBanners();
+      await fetchBanners();
     } catch (err) {
-      console.error('Erro ao salvar banner:', err);
-      alert('Erro ao salvar banner');
+      console.error('❌ Erro ao salvar banner:', err);
+      alert('Erro ao salvar banner: ' + err.message);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -370,11 +383,15 @@ const AdminBanners = () => {
           </div>
 
           <div className="form-actions">
-            <button type="button" className="btn-cancel" onClick={resetForm}>
+            <button type="button" className="btn-cancel" onClick={resetForm} disabled={saving}>
               <FiX /> Cancelar
             </button>
-            <button type="submit" className="btn-save" disabled={loading}>
-              <FiSave /> {editingBanner ? 'Atualizar Banner' : 'Criar Banner'}
+            <button type="submit" className="btn-save" disabled={saving || uploading}>
+              {saving ? (
+                <>⏳ Salvando...</>
+              ) : (
+                <><FiSave /> {editingBanner ? 'Atualizar Banner' : 'Criar Banner'}</>
+              )}
             </button>
           </div>
         </form>
