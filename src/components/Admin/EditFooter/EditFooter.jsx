@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 import "./EditFooter.css";
 import { FiSave, FiChevronDown, FiHome, FiPhone, FiMail, FiMapPin, FiGlobe, FiFacebook, FiInstagram, FiTwitter, FiLinkedin, FiMenu } from "react-icons/fi";
 
@@ -35,7 +34,6 @@ const initialFooterData = {
 };
 
 const EditFooter = () => {
-  const navigate = useNavigate();
   const [footerData, setFooterData] = useState(initialFooterData);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
