@@ -9,8 +9,9 @@ import {
   query,
   orderBy 
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../../firebase/firebase';
+import axios from 'axios';
+import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
+import { db } from '../../../firebase/firebase';
 import { 
   FiPlus, 
   FiEdit2, 
@@ -76,29 +77,52 @@ const AdminBanners = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      console.log('❌ Nenhum arquivo selecionado');
+      return;
+    }
+
+    console.log('📁 Arquivo selecionado:', file.name, 'Tipo:', file.type, 'Tamanho:', file.size);
 
     if (!file.type.startsWith('image/')) {
       alert('Por favor, selecione uma imagem válida');
+      console.log('❌ Tipo de arquivo inválido:', file.type);
       return;
     }
 
     try {
       setUploading(true);
-      const timestamp = Date.now();
-      const fileName = `banner_${timestamp}_${file.name}`;
-      const storageRef = ref(storage, `banners/${fileName}`);
+      console.log('🚀 Iniciando upload para Cloudinary...');
       
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+      formData.append('folder', 'banners');
+      
+      console.log('📤 Fazendo upload do arquivo...');
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
+        formData,
+        {
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            console.log(`📊 Upload: ${percentCompleted}%`);
+          }
+        }
+      );
+      
+      const downloadURL = response.data.secure_url;
+      console.log('✅ Upload concluído! URL:', downloadURL);
       
       setFormData(prev => ({ ...prev, imagem: downloadURL }));
-      alert('Imagem enviada com sucesso!');
+      alert('✅ Imagem enviada com sucesso para Cloudinary!');
     } catch (err) {
-      console.error('Erro ao fazer upload:', err);
-      alert('Erro ao fazer upload da imagem');
+      console.error('❌ Erro detalhado ao fazer upload:', err);
+      console.error('Resposta do servidor:', err.response?.data);
+      alert('Erro ao fazer upload da imagem: ' + (err.response?.data?.error?.message || err.message));
     } finally {
       setUploading(false);
+      console.log('🏁 Upload finalizado');
     }
   };
 
@@ -311,17 +335,25 @@ const AdminBanners = () => {
                       disabled={uploading}
                     />
                     <FiUpload />
-                    <span>{uploading ? 'Enviando...' : 'Clique para fazer upload da imagem'}</span>
+                    <span>{uploading ? '⏳ Enviando... (aguarde)' : 'Clique para fazer upload da imagem'}</span>
+                    {uploading && (
+                      <div style={{ marginTop: '10px', fontSize: '0.85em', color: '#64748b' }}>
+                        Fazendo upload para Firebase Storage...
+                      </div>
+                    )}
                   </label>
                 )}
               </div>
-              <small>Ou cole a URL da imagem:</small>
+              <small style={{ color: '#64748b', display: 'block', marginTop: '8px' }}>
+                💡 Dica: Você também pode colar a URL da imagem abaixo
+              </small>
               <input
                 type="url"
                 name="imagem"
                 value={formData.imagem}
                 onChange={handleInputChange}
                 placeholder="https://exemplo.com/imagem.jpg"
+                disabled={uploading}
               />
             </div>
 
