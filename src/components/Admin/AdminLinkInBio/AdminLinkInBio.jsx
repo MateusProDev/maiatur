@@ -237,19 +237,11 @@ const AdminLinkInBio = () => {
               />
             </div>
 
-            <div className="form-group">
-              <label>URL do Logo / Avatar</label>
-              <input
-                type="text"
-                value={bioData.logo}
-                onChange={(e) => setBioData(prev => ({ ...prev, logo: e.target.value }))}
-                placeholder="https://example.com/logo.png"
-              />
-              {bioData.logo && (
-                <div className="logo-preview">
-                  <img src={bioData.logo} alt="Preview" />
-                </div>
-              )}
+            <div className="info-box">
+              <p>
+                💡 <strong>Logo:</strong> A logo exibida é automaticamente a mesma do navbar/cabeçalho do site. 
+                Para alterá-la, vá em <strong>Editar Header</strong> no dashboard.
+              </p>
             </div>
           </div>
         )}
@@ -445,7 +437,7 @@ const AdminLinkInBio = () => {
               <textarea
                 value={bioData.footerText}
                 onChange={(e) => setBioData(prev => ({ ...prev, footerText: e.target.value }))}
-                placeholder="© 2024 - Todos os direitos reservados"
+                placeholder="© 2025 - Todos os direitos reservados"
                 rows="2"
               />
             </div>

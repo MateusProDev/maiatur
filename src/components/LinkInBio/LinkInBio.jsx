@@ -6,16 +6,26 @@ import './LinkInBio.css';
 
 const LinkInBio = () => {
   const [bioData, setBioData] = useState(null);
+  const [headerLogo, setHeaderLogo] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBioData = async () => {
       try {
+        // Buscar dados do Link in Bio
         const bioRef = doc(db, 'content', 'linkInBio');
         const bioDoc = await getDoc(bioRef);
         
         if (bioDoc.exists()) {
           setBioData(bioDoc.data());
+        }
+
+        // Buscar logo do Header/Navbar
+        const headerRef = doc(db, 'content', 'header');
+        const headerDoc = await getDoc(headerRef);
+        
+        if (headerDoc.exists() && headerDoc.data().logoUrl) {
+          setHeaderLogo(headerDoc.data().logoUrl);
         }
       } catch (error) {
         console.error('Erro ao carregar link in bio:', error);
@@ -76,9 +86,9 @@ const LinkInBio = () => {
       <div className="bio-container">
         {/* Header com Logo/Avatar */}
         <div className="bio-header">
-          {bioData.logo && (
+          {(headerLogo || bioData.logo) && (
             <div className="bio-avatar">
-              <img src={bioData.logo} alt={bioData.name} />
+              <img src={headerLogo || bioData.logo} alt={bioData.name} />
               <div className="avatar-ring"></div>
             </div>
           )}

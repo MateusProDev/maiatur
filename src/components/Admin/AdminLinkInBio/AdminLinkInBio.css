@@ -195,6 +195,30 @@
   outline: none;
 }
 
+/* Info Box */
+.info-box {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 2px solid #93c5fd;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1rem;
+}
+
+.info-box p {
+  margin: 0;
+  color: #1e40af;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.info-box strong {
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
 /* Logo Preview */
 .logo-preview {
   margin-top: 1rem;
