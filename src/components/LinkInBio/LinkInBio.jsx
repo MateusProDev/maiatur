@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { FiInstagram, FiFacebook, FiGlobe, FiMail, FiPhone, FiMapPin, FiExternalLink } from 'react-icons/fi';
+import { FiExternalLink } from 'react-icons/fi';
 import './LinkInBio.css';
 
 const LinkInBio = () => {
@@ -56,29 +56,72 @@ const LinkInBio = () => {
 
   const getIconComponent = (iconName) => {
     const icons = {
-      instagram: FiInstagram,
-      facebook: FiFacebook,
-      globe: FiGlobe,
-      mail: FiMail,
-      phone: FiPhone,
-      mapPin: FiMapPin,
-      externalLink: FiExternalLink
+      instagram: '📷',
+      facebook: '👍',
+      tiktok: '🎵',
+      youtube: '▶️',
+      globe: '🌐',
+      blog: '📝',
+      mail: '📧',
+      phone: '📞',
+      whatsapp: '💬',
+      mapPin: '📍',
+      tripadvisor: '🦉',
+      googleReviews: '⭐',
+      beachPark: '🎢',
+      tickets: '🎫',
+      externalLink: '🔗'
     };
     
-    return icons[iconName] || FiExternalLink;
+    return icons[iconName] || '🔗';
+  };
+
+  const getIconLabel = (iconName) => {
+    const labels = {
+      instagram: 'Instagram',
+      facebook: 'Facebook',
+      tiktok: 'TikTok',
+      youtube: 'YouTube',
+      globe: 'Website',
+      blog: 'Blog',
+      mail: 'Email',
+      phone: 'Telefone',
+      whatsapp: 'WhatsApp',
+      mapPin: 'Localização',
+      tripadvisor: 'TripAdvisor',
+      googleReviews: 'Avaliações Google',
+      beachPark: 'Beach Park',
+      tickets: 'Ingressos',
+      externalLink: 'Link'
+    };
+    
+    return labels[iconName] || 'Link';
   };
 
   return (
     <div className="link-in-bio">
+      {/* Background com tema de turismo */}
       <div className="bio-background">
         <div className="bio-gradient"></div>
+        <div className="tourism-elements">
+          <div className="floating-icon" style={{ top: '10%', left: '10%', animationDelay: '0s' }}>✈️</div>
+          <div className="floating-icon" style={{ top: '20%', right: '15%', animationDelay: '1s' }}>🏖️</div>
+          <div className="floating-icon" style={{ top: '60%', left: '8%', animationDelay: '2s' }}>🌴</div>
+          <div className="floating-icon" style={{ bottom: '20%', right: '10%', animationDelay: '3s' }}>🌊</div>
+          <div className="floating-icon" style={{ top: '40%', right: '5%', animationDelay: '1.5s' }}>☀️</div>
+          <div className="floating-icon" style={{ bottom: '30%', left: '15%', animationDelay: '2.5s' }}>🗺️</div>
+        </div>
         <div className="bio-particles">
-          {[...Array(20)].map((_, i) => (
-            <div key={i} className="particle" style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 4}s`
-            }}></div>
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="particle"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${3 + Math.random() * 4}s`
+              }}
+            ></div>
           ))}
         </div>
       </div>
@@ -103,7 +146,8 @@ const LinkInBio = () => {
           {bioData.socialLinks && bioData.socialLinks.length > 0 && (
             <div className="bio-social-icons">
               {bioData.socialLinks.map((social, index) => {
-                const IconComponent = getIconComponent(social.icon);
+                const iconEmoji = getIconComponent(social.icon);
+                const iconLabel = getIconLabel(social.icon);
                 return (
                   <a
                     key={index}
@@ -111,9 +155,10 @@ const LinkInBio = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="social-icon-link"
-                    aria-label={social.label}
+                    aria-label={social.label || iconLabel}
+                    title={social.label || iconLabel}
                   >
-                    <IconComponent />
+                    <span className="icon-emoji">{iconEmoji}</span>
                   </a>
                 );
               })}
@@ -127,7 +172,7 @@ const LinkInBio = () => {
             .filter(link => link.active)
             .sort((a, b) => (a.order || 0) - (b.order || 0))
             .map((link, index) => {
-              const IconComponent = getIconComponent(link.icon);
+              const iconEmoji = getIconComponent(link.icon);
               
               return (
                 <a
@@ -142,7 +187,7 @@ const LinkInBio = () => {
                 >
                   <div className="link-content">
                     <div className="link-icon">
-                      <IconComponent />
+                      <span className="icon-emoji">{iconEmoji}</span>
                     </div>
                     <div className="link-text">
                       <span className="link-title">{link.title}</span>
@@ -163,7 +208,7 @@ const LinkInBio = () => {
             <p className="footer-text">{bioData.footerText}</p>
           )}
           <p className="powered-by">
-            Powered by <strong>Maiatur Turismo</strong>
+            ✈️ Powered by <strong>Maiatur Turismo</strong> 🌴
           </p>
         </div>
       </div>

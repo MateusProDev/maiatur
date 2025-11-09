@@ -5,13 +5,21 @@ import { FiSave, FiPlus, FiTrash2, FiChevronDown, FiChevronUp, FiImage, FiLink, 
 import './AdminLinkInBio.css';
 
 const iconOptions = [
-  { value: 'instagram', label: 'Instagram' },
-  { value: 'facebook', label: 'Facebook' },
-  { value: 'globe', label: 'Website' },
-  { value: 'mail', label: 'Email' },
-  { value: 'phone', label: 'Telefone' },
-  { value: 'mapPin', label: 'Localização' },
-  { value: 'externalLink', label: 'Link Externo' }
+  { value: 'instagram', label: '📷 Instagram', icon: '📷' },
+  { value: 'facebook', label: '👍 Facebook', icon: '👍' },
+  { value: 'tiktok', label: '🎵 TikTok', icon: '🎵' },
+  { value: 'youtube', label: '▶️ YouTube', icon: '▶️' },
+  { value: 'globe', label: '🌐 Website', icon: '🌐' },
+  { value: 'blog', label: '📝 Blog', icon: '📝' },
+  { value: 'mail', label: '📧 Email', icon: '📧' },
+  { value: 'phone', label: '📞 Telefone', icon: '📞' },
+  { value: 'whatsapp', label: '💬 WhatsApp', icon: '💬' },
+  { value: 'mapPin', label: '📍 Localização', icon: '📍' },
+  { value: 'tripadvisor', label: '🦉 TripAdvisor', icon: '🦉' },
+  { value: 'googleReviews', label: '⭐ Avaliações Google', icon: '⭐' },
+  { value: 'beachPark', label: '🎢 Beach Park', icon: '🎢' },
+  { value: 'tickets', label: '🎫 Ingressos', icon: '🎫' },
+  { value: 'externalLink', label: '🔗 Link Externo', icon: '🔗' }
 ];
 
 const AdminLinkInBio = () => {
