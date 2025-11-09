@@ -1,10 +1,17 @@
 /* Link in Bio - Design Moderno e Completo */
 
+* {
+  box-sizing: border-box;
+}
+
 .link-in-bio {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: #000;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Background Animado */
@@ -15,6 +22,7 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+  overflow: hidden;
 }
 
 .bio-gradient {
@@ -78,12 +86,14 @@
   position: relative;
   z-index: 1;
   max-width: 680px;
+  width: 100%;
   margin: 0 auto;
   padding: 3rem 1.5rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }
 
 /* Header com Avatar */
@@ -91,6 +101,8 @@
   text-align: center;
   margin-bottom: 2.5rem;
   animation: fadeInDown 0.8s ease;
+  width: 100%;
+  max-width: 100%;
 }
 
 @keyframes fadeInDown {
@@ -209,10 +221,12 @@
 /* Links/Buttons */
 .bio-links {
   width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 2rem;
+  box-sizing: border-box;
 }
 
 .bio-link {
@@ -231,6 +245,8 @@
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   animation: slideInUp 0.6s ease both;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @keyframes slideInUp {
@@ -292,6 +308,8 @@
   align-items: center;
   gap: 1rem;
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .link-icon {
@@ -322,18 +340,27 @@
   flex-direction: column;
   gap: 0.25rem;
   text-align: left;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .link-title {
   font-size: 1.05rem;
   font-weight: 600;
   line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .link-subtitle {
   font-size: 0.875rem;
   opacity: 0.7;
   line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .link-arrow {
@@ -354,6 +381,9 @@
   margin-top: auto;
   padding-top: 2rem;
   animation: fadeIn 1s ease 0.5s both;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -513,13 +543,21 @@
 
 /* Smartphones */
 @media (max-width: 480px) {
+  .link-in-bio {
+    overflow-x: hidden;
+  }
+
   .bio-container {
     padding: 1.5rem 1rem;
     min-height: 100vh;
+    width: 100%;
+    max-width: 100%;
   }
 
   .bio-header {
     margin-bottom: 2rem;
+    padding: 0;
+    width: 100%;
   }
 
   .bio-avatar {
@@ -531,12 +569,15 @@
     font-size: 1.6rem;
     margin-bottom: 0.6rem;
     line-height: 1.3;
+    word-wrap: break-word;
+    padding: 0 0.5rem;
   }
 
   .bio-description {
     font-size: 0.95rem;
     line-height: 1.55;
-    padding: 0 0.5rem;
+    padding: 0 1rem;
+    word-wrap: break-word;
   }
 
   .bio-social-icons {
@@ -544,6 +585,7 @@
     margin-top: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 0 0.5rem;
   }
 
   .social-icon-link {
@@ -559,16 +601,22 @@
   .bio-links {
     gap: 0.9rem;
     margin-top: 1.75rem;
+    padding: 0;
+    width: 100%;
   }
 
   .bio-link {
-    padding: 1rem 1.25rem;
+    padding: 1rem 1rem;
     border-radius: 12px;
     min-height: 70px;
+    width: 100%;
+    margin: 0;
   }
 
   .link-content {
-    gap: 0.85rem;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
   }
 
   .link-icon {
@@ -576,6 +624,7 @@
     height: 44px;
     font-size: 1.3rem;
     border-radius: 10px;
+    flex-shrink: 0;
   }
 
   .link-icon svg {
@@ -583,34 +632,51 @@
     height: 20px;
   }
 
+  .link-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
   .link-title {
     font-size: 0.95rem;
     line-height: 1.3;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .link-subtitle {
     font-size: 0.8rem;
     line-height: 1.4;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .link-arrow {
     width: 18px;
     height: 18px;
+    font-size: 1rem;
+    flex-shrink: 0;
   }
 
   .bio-footer {
     margin-top: 2rem;
-    padding: 0 0.75rem;
+    padding: 0 1rem;
+    width: 100%;
   }
 
   .footer-text {
     font-size: 0.85rem;
     line-height: 1.5;
+    word-wrap: break-word;
   }
 
   .powered-by {
     font-size: 0.75rem;
     margin-top: 0.75rem;
+    word-wrap: break-word;
   }
 
   /* Tourism elements - discretos em mobile */
@@ -629,7 +695,8 @@
 /* Smartphones pequenos (iPhone SE, etc) */
 @media (max-width: 375px) {
   .bio-container {
-    padding: 1.25rem 0.85rem;
+    padding: 1.25rem 0.75rem;
+    width: 100%;
   }
 
   .bio-avatar {
@@ -639,11 +706,12 @@
 
   .bio-name {
     font-size: 1.45rem;
+    padding: 0 0.5rem;
   }
 
   .bio-description {
     font-size: 0.9rem;
-    padding: 0 0.25rem;
+    padding: 0 0.5rem;
   }
 
   .social-icon-link {
@@ -657,8 +725,13 @@
   }
 
   .bio-link {
-    padding: 0.95rem 1.1rem;
+    padding: 0.95rem 0.9rem;
     min-height: 65px;
+    width: 100%;
+  }
+
+  .link-content {
+    gap: 0.65rem;
   }
 
   .link-icon {
@@ -681,6 +754,7 @@
 
   .bio-footer {
     margin-top: 1.75rem;
+    padding: 0 0.75rem;
   }
 
   .footer-text {
