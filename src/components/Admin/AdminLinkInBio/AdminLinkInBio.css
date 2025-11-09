@@ -273,8 +273,8 @@
   color: #1e40af !important;
   font-size: 0.95rem !important;
   line-height: 1.6 !important;
-  display: flex !important;
-  /* align-items: flex-start !important; */
+  /* display: flex !important; */
+  align-items: flex-start !important;
   gap: 0.5rem !important;
 }
 
