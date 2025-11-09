@@ -21,6 +21,7 @@ import AdminPacotes from "./components/AdminPacotes/AdminPacotes";
 import AdminReservas from "./components/Admin/AdminReservas/AdminReservas";
 import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
 import AdminEditPacote from "./components/Admin/AdminEditPacote/AdminEditPacote";
+import AdminLinkInBio from "./components/Admin/AdminLinkInBio/AdminLinkInBio";
 import BlogAdmin from "./components/Admin/BlogAdmin/BlogAdmin";
 import ViewUsers from "./components/Admin/Users/ViewUsers";
 import AdminUsers from "./components/Admin/AdminUsers/AdminUsers";
@@ -33,6 +34,7 @@ import AdminWhatsAppConfig from "./components/Admin/AdminWhatsAppConfig/AdminWha
 import EditCarousel from "./components/Admin/EditCarousel/EditCarousel";
 import EditHours from "./components/Admin/EditHours/EditHours";
 import BannerAdmin from "./components/Admin/BannerAdmin/BannerAdmin";
+import LinkInBio from "./components/LinkInBio/LinkInBio";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import { autoInitialize } from "./utils/firestoreUtils";
 import analyticsService from "./services/analyticsService";
@@ -146,6 +148,7 @@ const App = () => {
               <Route path="/admin/pacotes/editar/:pacoteId" element={<ProtectedRoute><AdminEditPacote /></ProtectedRoute>} />
               <Route path="/admin/reservas" element={<ProtectedRoute><AdminReservas /></ProtectedRoute>} />
               <Route path="/admin/banners" element={<ProtectedRoute><AdminBanners /></ProtectedRoute>} />
+              <Route path="/admin/link-bio" element={<ProtectedRoute><AdminLinkInBio /></ProtectedRoute>} />
               <Route path="/admin/blog" element={<ProtectedRoute><BlogAdmin /></ProtectedRoute>} />
               {/* Redirecionar rota antiga do banner para o novo sistema de carrossel */}
               <Route path="/admin/edit-banner" element={<Navigate to="/admin/banners" replace />} />
@@ -158,6 +161,9 @@ const App = () => {
               <Route path="/admin/edit-hours" element={<ProtectedRoute><EditHours /></ProtectedRoute>} />
               <Route path="/admin/banner-admin" element={<ProtectedRoute><BannerAdmin /></ProtectedRoute>} />
               <Route path="/admin/view-users" element={<ProtectedRoute><ViewUsers /></ProtectedRoute>} />
+              
+              {/* Página Pública - Link in Bio */}
+              <Route path="/link-bio" element={<LinkInBio />} />
               
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
