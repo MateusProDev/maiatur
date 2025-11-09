@@ -245,7 +245,7 @@ const AdminLinkInBio = () => {
               />
             </div>
 
-            <div className="info-box">
+            <div className="admin-link-bio-info-box">
               <p>
                 💡 <strong>Logo:</strong> A logo exibida é automaticamente a mesma do navbar/cabeçalho do site. 
                 Para alterá-la, vá em <strong>Editar Header</strong> no dashboard.
