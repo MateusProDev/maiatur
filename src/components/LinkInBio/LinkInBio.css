@@ -200,14 +200,10 @@
   border-color: rgba(255, 255, 255, 0.6);
 }
 
-.icon-emoji {
-  font-size: 1.5rem;
-  line-height: 1;
-  display: inline-block;
-}
-
-.social-icon-link .icon-emoji {
-  font-size: 1.4rem;
+.social-icon-link svg {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
 }
 
 /* Links/Buttons */
@@ -310,6 +306,11 @@
   color: #667eea;
   flex-shrink: 0;
   transition: all 0.3s ease;
+}
+
+.link-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .bio-link:hover .link-icon {

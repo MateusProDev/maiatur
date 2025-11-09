@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { FiExternalLink } from 'react-icons/fi';
+import { 
+  FiExternalLink, 
+  FiInstagram, 
+  FiFacebook, 
+  FiGlobe, 
+  FiMail, 
+  FiPhone, 
+  FiMapPin 
+} from 'react-icons/fi';
+import { 
+  FaWhatsapp, 
+  FaTiktok, 
+  FaYoutube, 
+  FaBlog, 
+  FaTripadvisor, 
+  FaStar, 
+  FaTicketAlt 
+} from 'react-icons/fa';
+import { GiWaterPark } from 'react-icons/gi';
 import './LinkInBio.css';
 
 const LinkInBio = () => {
@@ -56,24 +74,24 @@ const LinkInBio = () => {
 
   const getIconComponent = (iconName) => {
     const icons = {
-      instagram: '📷',
-      facebook: '👍',
-      tiktok: '🎵',
-      youtube: '▶️',
-      globe: '🌐',
-      blog: '📝',
-      mail: '📧',
-      phone: '📞',
-      whatsapp: '💬',
-      mapPin: '📍',
-      tripadvisor: '🦉',
-      googleReviews: '⭐',
-      beachPark: '🎢',
-      tickets: '🎫',
-      externalLink: '🔗'
+      instagram: FiInstagram,
+      facebook: FiFacebook,
+      tiktok: FaTiktok,
+      youtube: FaYoutube,
+      globe: FiGlobe,
+      blog: FaBlog,
+      mail: FiMail,
+      phone: FiPhone,
+      whatsapp: FaWhatsapp,
+      mapPin: FiMapPin,
+      tripadvisor: FaTripadvisor,
+      googleReviews: FaStar,
+      beachPark: GiWaterPark,
+      tickets: FaTicketAlt,
+      externalLink: FiExternalLink
     };
     
-    return icons[iconName] || '🔗';
+    return icons[iconName] || FiExternalLink;
   };
 
   const getIconLabel = (iconName) => {
@@ -136,7 +154,7 @@ const LinkInBio = () => {
             </div>
           )}
           
-          <h1 className="bio-name">{bioData.name || 'Maiatur Turismo'}</h1>
+          <h1 className="bio-name">{bioData.name || 'Tranfer Fortaleza Tur'}</h1>
           
           {bioData.description && (
             <p className="bio-description">{bioData.description}</p>
@@ -146,7 +164,7 @@ const LinkInBio = () => {
           {bioData.socialLinks && bioData.socialLinks.length > 0 && (
             <div className="bio-social-icons">
               {bioData.socialLinks.map((social, index) => {
-                const iconEmoji = getIconComponent(social.icon);
+                const IconComponent = getIconComponent(social.icon);
                 const iconLabel = getIconLabel(social.icon);
                 return (
                   <a
@@ -158,7 +176,7 @@ const LinkInBio = () => {
                     aria-label={social.label || iconLabel}
                     title={social.label || iconLabel}
                   >
-                    <span className="icon-emoji">{iconEmoji}</span>
+                    <IconComponent />
                   </a>
                 );
               })}
@@ -172,7 +190,7 @@ const LinkInBio = () => {
             .filter(link => link.active)
             .sort((a, b) => (a.order || 0) - (b.order || 0))
             .map((link, index) => {
-              const iconEmoji = getIconComponent(link.icon);
+              const IconComponent = getIconComponent(link.icon);
               
               return (
                 <a
@@ -187,7 +205,7 @@ const LinkInBio = () => {
                 >
                   <div className="link-content">
                     <div className="link-icon">
-                      <span className="icon-emoji">{iconEmoji}</span>
+                      <IconComponent />
                     </div>
                     <div className="link-text">
                       <span className="link-title">{link.title}</span>
@@ -208,7 +226,7 @@ const LinkInBio = () => {
             <p className="footer-text">{bioData.footerText}</p>
           )}
           <p className="powered-by">
-            ✈️ Powered by <strong>Maiatur Turismo</strong> 🌴
+            ✈️ Powered by <strong>Tranfer Fortaleza Tur</strong> 🌴
           </p>
         </div>
       </div>
