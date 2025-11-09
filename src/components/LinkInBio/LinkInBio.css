@@ -417,71 +417,358 @@
   text-align: center;
 }
 
-/* Responsive */
+/* Responsive - Super Responsividade para Mobile */
+
+/* Tablets e dispositivos médios */
 @media (max-width: 768px) {
   .bio-container {
-    padding: 2rem 1rem;
+    padding: 2rem 1.25rem;
+    max-width: 100%;
   }
 
   .bio-avatar {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
   }
 
   .bio-name {
-    font-size: 1.75rem;
+    font-size: 1.85rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .bio-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0 1rem;
+  }
+
+  .bio-social-icons {
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .social-icon-link {
+    width: 48px;
+    height: 48px;
+  }
+
+  .social-icon-link svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .bio-links {
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .bio-link {
+    padding: 1.1rem 1.5rem;
+    border-radius: 14px;
+  }
+
+  .link-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 1.4rem;
+  }
+
+  .link-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .link-title {
+    font-size: 1rem;
+  }
+
+  .link-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .link-arrow {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bio-footer {
+    margin-top: 2.5rem;
+    padding: 0 1rem;
+  }
+
+  .footer-text {
+    font-size: 0.9rem;
+  }
+
+  .powered-by {
+    font-size: 0.8rem;
+  }
+
+  /* Tourism elements - menos visíveis em tablets */
+  .tourism-elements .floating-icon {
+    font-size: 2rem;
+    opacity: 0.2;
+  }
+}
+
+/* Smartphones */
+@media (max-width: 480px) {
+  .bio-container {
+    padding: 1.5rem 1rem;
+    min-height: 100vh;
+  }
+
+  .bio-header {
+    margin-bottom: 2rem;
+  }
+
+  .bio-avatar {
+    width: 95px;
+    height: 95px;
+  }
+
+  .bio-name {
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
   }
 
   .bio-description {
     font-size: 0.95rem;
+    line-height: 1.55;
+    padding: 0 0.5rem;
   }
 
-  .bio-link {
-    padding: 1rem 1.25rem;
-  }
-
-  .link-icon {
-    width: 42px;
-    height: 42px;
-    font-size: 1.25rem;
-  }
-
-  .link-title {
-    font-size: 0.95rem;
-  }
-
-  .link-subtitle {
-    font-size: 0.8rem;
+  .bio-social-icons {
+    gap: 0.85rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .social-icon-link {
     width: 44px;
     height: 44px;
-    font-size: 1.1rem;
+  }
+
+  .social-icon-link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bio-links {
+    gap: 0.9rem;
+    margin-top: 1.75rem;
+  }
+
+  .bio-link {
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    min-height: 70px;
+  }
+
+  .link-content {
+    gap: 0.85rem;
+  }
+
+  .link-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+    border-radius: 10px;
+  }
+
+  .link-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .link-title {
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .link-subtitle {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .link-arrow {
+    width: 18px;
+    height: 18px;
+  }
+
+  .bio-footer {
+    margin-top: 2rem;
+    padding: 0 0.75rem;
+  }
+
+  .footer-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .powered-by {
+    font-size: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  /* Tourism elements - discretos em mobile */
+  .tourism-elements .floating-icon {
+    font-size: 1.75rem;
+    opacity: 0.15;
+  }
+
+  /* Partículas menos densas */
+  .particle {
+    width: 3px;
+    height: 3px;
   }
 }
 
-@media (max-width: 480px) {
+/* Smartphones pequenos (iPhone SE, etc) */
+@media (max-width: 375px) {
   .bio-container {
-    padding: 1.5rem 1rem;
+    padding: 1.25rem 0.85rem;
   }
 
   .bio-avatar {
-    width: 90px;
-    height: 90px;
+    width: 85px;
+    height: 85px;
+  }
+
+  .bio-name {
+    font-size: 1.45rem;
+  }
+
+  .bio-description {
+    font-size: 0.9rem;
+    padding: 0 0.25rem;
+  }
+
+  .social-icon-link {
+    width: 42px;
+    height: 42px;
+  }
+
+  .social-icon-link svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .bio-link {
+    padding: 0.95rem 1.1rem;
+    min-height: 65px;
+  }
+
+  .link-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .link-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .link-title {
+    font-size: 0.9rem;
+  }
+
+  .link-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .bio-footer {
+    margin-top: 1.75rem;
+  }
+
+  .footer-text {
+    font-size: 0.8rem;
+  }
+
+  .powered-by {
+    font-size: 0.7rem;
+  }
+}
+
+/* Landscape mode em mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .bio-container {
+    padding: 1.5rem 2rem;
+  }
+
+  .bio-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .bio-avatar {
+    width: 80px;
+    height: 80px;
   }
 
   .bio-name {
     font-size: 1.5rem;
   }
 
+  .bio-description {
+    font-size: 0.9rem;
+  }
+
+  .bio-links {
+    margin-top: 1.5rem;
+    gap: 0.85rem;
+  }
+
+  .bio-link {
+    padding: 0.9rem 1.2rem;
+    min-height: 60px;
+  }
+
+  .bio-footer {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Ajustes para telas muito pequenas em altura */
+@media (max-height: 600px) {
+  .bio-container {
+    padding: 1rem 1rem;
+  }
+
+  .bio-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .bio-avatar {
+    width: 75px;
+    height: 75px;
+  }
+
+  .bio-name {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .bio-description {
+    font-size: 0.85rem;
+  }
+
   .bio-social-icons {
+    margin-top: 0.75rem;
+  }
+
+  .bio-links {
+    margin-top: 1.25rem;
     gap: 0.75rem;
   }
 
-  .social-icon-link {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
+  .bio-link {
+    padding: 0.85rem 1.1rem;
+    min-height: 58px;
+  }
+
+  .bio-footer {
+    margin-top: 1.25rem;
   }
 }
