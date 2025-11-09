@@ -6,7 +6,7 @@ import {
   sendPasswordResetEmail
 } from "firebase/auth";
 import { auth, db } from "../../../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { FaLock, FaEnvelope, FaShieldAlt } from "react-icons/fa";
 
 const AdminLogin = () => {
@@ -21,11 +21,14 @@ const AdminLogin = () => {
   // Verificar se o email está autorizado no Firestore
   const checkAuthorization = async (userEmail) => {
     try {
-      // Buscar documento por email (você precisa criar com email como ID ou buscar por campo)
-      const userDoc = await getDoc(doc(db, 'authorizedUsers', userEmail));
+      // Buscar documento por campo email (não por ID)
+      const usersRef = collection(db, 'authorizedUsers');
+      const q = query(usersRef, where('email', '==', userEmail));
+      const querySnapshot = await getDocs(q);
       
-      if (userDoc.exists() && userDoc.data().authorized === true) {
-        return true;
+      if (!querySnapshot.empty) {
+        const userData = querySnapshot.docs[0].data();
+        return userData.authorized === true;
       }
       
       return false;
