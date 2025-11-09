@@ -223,7 +223,7 @@ const AdminLinkInBio = () => {
                 type="text"
                 value={bioData.name}
                 onChange={(e) => setBioData(prev => ({ ...prev, name: e.target.value }))}
-                placeholder="Maiatur Turismo"
+                placeholder="TranferFortalezaTur"
               />
             </div>
 
