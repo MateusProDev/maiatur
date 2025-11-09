@@ -1,28 +1,28 @@
 /* Link in Bio - Design Moderno e Completo */
 
-* {
-  box-sizing: border-box;
+.link-in-bio * {
+  box-sizing: border-box !important;
 }
 
 .link-in-bio {
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background: #000;
-  width: 100%;
-  max-width: 100vw;
+  min-height: 100vh !important;
+  position: relative !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  background: #000 !important;
+  width: 100% !important;
+  max-width: 100vw !important;
 }
 
 /* Background Animado */
 .bio-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  overflow: hidden;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0 !important;
+  overflow: hidden !important;
 }
 
 .bio-gradient {
@@ -83,26 +83,26 @@
 
 /* Container Principal */
 .bio-container {
-  position: relative;
-  z-index: 1;
-  max-width: 680px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 3rem 1.5rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
+  position: relative !important;
+  z-index: 1 !important;
+  max-width: 680px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 3rem 1.5rem !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
 }
 
 /* Header com Avatar */
 .bio-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  animation: fadeInDown 0.8s ease;
-  width: 100%;
-  max-width: 100%;
+  text-align: center !important;
+  margin-bottom: 2.5rem !important;
+  animation: fadeInDown 0.8s ease !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 @keyframes fadeInDown {
@@ -220,33 +220,33 @@
 
 /* Links/Buttons */
 .bio-links {
-  width: 100%;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  margin-bottom: 2rem !important;
+  box-sizing: border-box !important;
 }
 
 .bio-link {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 16px;
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-decoration: none;
-  color: #1a1a1a;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  animation: slideInUp 0.6s ease both;
-  width: 100%;
-  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 16px !important;
+  padding: 1.25rem 1.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  text-decoration: none !important;
+  color: #1a1a1a !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  animation: slideInUp 0.6s ease both !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 @keyframes slideInUp {
@@ -304,63 +304,63 @@
 }
 
 .link-content {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
 }
 
 .link-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: #667eea;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.5rem !important;
+  color: #667eea !important;
+  flex-shrink: 0 !important;
+  transition: all 0.3s ease !important;
 }
 
 .link-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 24px !important;
+  height: 24px !important;
 }
 
 .bio-link:hover .link-icon {
-  transform: rotate(10deg) scale(1.1);
+  transform: rotate(10deg) scale(1.1) !important;
 }
 
 .link-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  text-align: left;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+  text-align: left !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
 }
 
 .link-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 .link-subtitle {
-  font-size: 0.875rem;
-  opacity: 0.7;
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 0.875rem !important;
+  opacity: 0.7 !important;
+  line-height: 1.4 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 .link-arrow {
@@ -544,225 +544,225 @@
 /* Smartphones */
 @media (max-width: 480px) {
   .link-in-bio {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
   }
 
   .bio-container {
-    padding: 1.5rem 1rem;
-    min-height: 100vh;
-    width: 100%;
-    max-width: 100%;
+    padding: 1.5rem 1rem !important;
+    min-height: 100vh !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .bio-header {
-    margin-bottom: 2rem;
-    padding: 0;
-    width: 100%;
+    margin-bottom: 2rem !important;
+    padding: 0 !important;
+    width: 100% !important;
   }
 
   .bio-avatar {
-    width: 95px;
-    height: 95px;
+    width: 95px !important;
+    height: 95px !important;
   }
 
   .bio-name {
-    font-size: 1.6rem;
-    margin-bottom: 0.6rem;
-    line-height: 1.3;
-    word-wrap: break-word;
-    padding: 0 0.5rem;
+    font-size: 1.6rem !important;
+    margin-bottom: 0.6rem !important;
+    line-height: 1.3 !important;
+    word-wrap: break-word !important;
+    padding: 0 0.5rem !important;
   }
 
   .bio-description {
-    font-size: 0.95rem;
-    line-height: 1.55;
-    padding: 0 1rem;
-    word-wrap: break-word;
+    font-size: 0.95rem !important;
+    line-height: 1.55 !important;
+    padding: 0 1rem !important;
+    word-wrap: break-word !important;
   }
 
   .bio-social-icons {
-    gap: 0.85rem;
-    margin-top: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0 0.5rem;
+    gap: 0.85rem !important;
+    margin-top: 1rem !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    padding: 0 0.5rem !important;
   }
 
   .social-icon-link {
-    width: 44px;
-    height: 44px;
+    width: 44px !important;
+    height: 44px !important;
   }
 
   .social-icon-link svg {
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   .bio-links {
-    gap: 0.9rem;
-    margin-top: 1.75rem;
-    padding: 0;
-    width: 100%;
+    gap: 0.9rem !important;
+    margin-top: 1.75rem !important;
+    padding: 0 !important;
+    width: 100% !important;
   }
 
   .bio-link {
-    padding: 1rem 1rem;
-    border-radius: 12px;
-    min-height: 70px;
-    width: 100%;
-    margin: 0;
+    padding: 1rem 1rem !important;
+    border-radius: 12px !important;
+    min-height: 70px !important;
+    width: 100% !important;
+    margin: 0 !important;
   }
 
   .link-content {
-    gap: 0.75rem;
-    flex: 1;
-    min-width: 0;
+    gap: 0.75rem !important;
+    flex: 1 !important;
+    min-width: 0 !important;
   }
 
   .link-icon {
-    width: 44px;
-    height: 44px;
-    font-size: 1.3rem;
-    border-radius: 10px;
-    flex-shrink: 0;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.3rem !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
   }
 
   .link-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   .link-text {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
+    flex: 1 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
   }
 
   .link-title {
-    font-size: 0.95rem;
-    line-height: 1.3;
-    white-space: normal;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
   }
 
   .link-subtitle {
-    font-size: 0.8rem;
-    line-height: 1.4;
-    white-space: normal;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
   }
 
   .link-arrow {
-    width: 18px;
-    height: 18px;
-    font-size: 1rem;
-    flex-shrink: 0;
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 1rem !important;
+    flex-shrink: 0 !important;
   }
 
   .bio-footer {
-    margin-top: 2rem;
-    padding: 0 1rem;
-    width: 100%;
+    margin-top: 2rem !important;
+    padding: 0 1rem !important;
+    width: 100% !important;
   }
 
   .footer-text {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    word-wrap: break-word;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+    word-wrap: break-word !important;
   }
 
   .powered-by {
-    font-size: 0.75rem;
-    margin-top: 0.75rem;
-    word-wrap: break-word;
+    font-size: 0.75rem !important;
+    margin-top: 0.75rem !important;
+    word-wrap: break-word !important;
   }
 
   /* Tourism elements - discretos em mobile */
   .tourism-elements .floating-icon {
-    font-size: 1.75rem;
-    opacity: 0.15;
+    font-size: 1.75rem !important;
+    opacity: 0.15 !important;
   }
 
   /* Partículas menos densas */
   .particle {
-    width: 3px;
-    height: 3px;
+    width: 3px !important;
+    height: 3px !important;
   }
 }
 
 /* Smartphones pequenos (iPhone SE, etc) */
 @media (max-width: 375px) {
   .bio-container {
-    padding: 1.25rem 0.75rem;
-    width: 100%;
+    padding: 1.25rem 0.75rem !important;
+    width: 100% !important;
   }
 
   .bio-avatar {
-    width: 85px;
-    height: 85px;
+    width: 85px !important;
+    height: 85px !important;
   }
 
   .bio-name {
-    font-size: 1.45rem;
-    padding: 0 0.5rem;
+    font-size: 1.45rem !important;
+    padding: 0 0.5rem !important;
   }
 
   .bio-description {
-    font-size: 0.9rem;
-    padding: 0 0.5rem;
+    font-size: 0.9rem !important;
+    padding: 0 0.5rem !important;
   }
 
   .social-icon-link {
-    width: 42px;
-    height: 42px;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   .social-icon-link svg {
-    width: 19px;
-    height: 19px;
+    width: 19px !important;
+    height: 19px !important;
   }
 
   .bio-link {
-    padding: 0.95rem 0.9rem;
-    min-height: 65px;
-    width: 100%;
+    padding: 0.95rem 0.9rem !important;
+    min-height: 65px !important;
+    width: 100% !important;
   }
 
   .link-content {
-    gap: 0.65rem;
+    gap: 0.65rem !important;
   }
 
   .link-icon {
-    width: 42px;
-    height: 42px;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   .link-icon svg {
-    width: 19px;
-    height: 19px;
+    width: 19px !important;
+    height: 19px !important;
   }
 
   .link-title {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
   }
 
   .link-subtitle {
-    font-size: 0.75rem;
+    font-size: 0.75rem !important;
   }
 
   .bio-footer {
-    margin-top: 1.75rem;
-    padding: 0 0.75rem;
+    margin-top: 1.75rem !important;
+    padding: 0 0.75rem !important;
   }
 
   .footer-text {
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
   }
 
   .powered-by {
-    font-size: 0.7rem;
+    font-size: 0.7rem !important;
   }
 }
 
