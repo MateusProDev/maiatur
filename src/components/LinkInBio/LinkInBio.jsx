@@ -17,9 +17,9 @@ import {
   FaBlog, 
   FaTripadvisor, 
   FaStar, 
-  FaTicketAlt 
+  FaTicketAlt,
+  FaUmbrellaBeach
 } from 'react-icons/fa';
-import { GiWaterPark } from 'react-icons/gi';
 import './LinkInBio.css';
 
 const LinkInBio = () => {
@@ -86,7 +86,7 @@ const LinkInBio = () => {
       mapPin: FiMapPin,
       tripadvisor: FaTripadvisor,
       googleReviews: FaStar,
-      beachPark: GiWaterPark,
+      beachPark: FaUmbrellaBeach,
       tickets: FaTicketAlt,
       externalLink: FiExternalLink
     };
