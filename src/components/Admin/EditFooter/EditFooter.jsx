@@ -3,7 +3,7 @@ import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./EditFooter.css";
-import { FiSave, FiChevronDown, FiBuilding, FiPhone, FiMail, FiMapPin, FiGlobe, FiFacebook, FiInstagram, FiTwitter, FiLinkedin, FiMenu } from "react-icons/fi";
+import { FiSave, FiChevronDown, FiHome, FiPhone, FiMail, FiMapPin, FiGlobe, FiFacebook, FiInstagram, FiTwitter, FiLinkedin, FiMenu } from "react-icons/fi";
 
 // Importação dos ícones disponíveis da pasta assets
 import fbIcon1 from "../../../assets/Facebook.png";
@@ -206,7 +206,7 @@ const EditFooter = () => {
             onClick={() => toggleSection('company')}
             style={{ cursor: 'pointer' }}
           >
-            <div className="section-icon"><FiBuilding /></div>
+            <div className="section-icon"><FiHome /></div>
             <h3>Informações da Empresa</h3>
             <FiChevronDown 
               style={{ 
