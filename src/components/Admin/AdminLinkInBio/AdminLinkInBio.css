@@ -479,40 +479,460 @@
   animation: spin 0.8s linear infinite;
 }
 
-/* Responsive */
+/* Responsive - Super Responsividade Mobile */
+
+/* Tablets e dispositivos médios */
+@media (max-width: 1024px) {
+  .admin-link-bio {
+    padding: 2rem 1.5rem;
+    max-width: 100%;
+  }
+
+  .admin-bio-header h1 {
+    font-size: 2.25rem;
+  }
+
+  .admin-bio-header p {
+    font-size: 1rem;
+  }
+
+  .bio-section {
+    margin-bottom: 2rem;
+  }
+
+  .section-content {
+    padding: 1.75rem;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .social-fields {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Tablets pequenos e smartphones grandes */
 @media (max-width: 768px) {
   .admin-link-bio {
     padding: 1.5rem 1rem;
   }
 
+  .admin-bio-header {
+    margin-bottom: 2rem;
+  }
+
   .admin-bio-header h1 {
-    font-size: 2rem;
+    font-size: 1.85rem;
+    line-height: 1.2;
+  }
+
+  .admin-bio-header p {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }
+
+  .preview-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .bio-section {
+    margin-bottom: 1.5rem;
+    border-radius: 14px;
+  }
+
+  .section-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .section-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.65rem;
   }
 
   .section-content {
     padding: 1.5rem;
   }
 
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
   .field-row {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .social-fields {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .social-item {
+    padding: 1.25rem;
+  }
+
+  .link-item {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .link-header {
     flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .link-order {
+    font-size: 1.5rem;
+    min-width: 45px;
+    height: 45px;
+  }
+
+  .link-title-display {
+    font-size: 1rem;
   }
 
   .link-actions {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .action-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .checkbox-label {
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .add-btn,
+  .save-btn {
+    padding: 0.85rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .info-box {
+    padding: 1rem;
+    font-size: 0.85rem;
+    margin-top: 1rem;
   }
 
   .save-notification {
     top: 1rem;
     right: 1rem;
     left: 1rem;
+    max-width: calc(100% - 2rem);
+    font-size: 0.9rem;
+    padding: 1rem 1.25rem;
+  }
+}
+
+/* Smartphones */
+@media (max-width: 480px) {
+  .admin-link-bio {
+    padding: 1rem 0.75rem;
+  }
+
+  .admin-bio-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .admin-bio-header h1 {
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+
+  .admin-bio-header p {
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+  }
+
+  .preview-btn {
+    padding: 0.7rem 1.1rem;
+    font-size: 0.9rem;
+    gap: 0.4rem;
+  }
+
+  .preview-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .bio-section {
+    margin-bottom: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .section-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .section-title svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .section-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.55rem;
+  }
+
+  .section-content {
+    padding: 1.25rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+
+  .form-textarea {
+    min-height: 90px;
+  }
+
+  .social-item {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .link-item {
+    padding: 1rem;
+    margin-bottom: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .link-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .link-order {
+    font-size: 1.35rem;
+    min-width: 40px;
+    height: 40px;
+  }
+
+  .link-title-display {
+    font-size: 0.95rem;
+    flex: 1;
+  }
+
+  .link-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .action-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+  }
+
+  .remove-btn {
+    width: 100%;
+    height: auto;
+    padding: 0.6rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+
+  .link-fields {
+    gap: 0.85rem;
+  }
+
+  .checkbox-group {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .checkbox-label {
+    font-size: 0.8rem;
+    padding: 0.55rem 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  .add-btn {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    justify-content: center;
+  }
+
+  .add-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .save-btn {
+    width: 100%;
+    padding: 0.9rem;
+    font-size: 0.95rem;
+    position: sticky;
+    bottom: 1rem;
+    z-index: 10;
+  }
+
+  .save-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .info-box {
+    padding: 0.9rem;
+    font-size: 0.8rem;
+    border-radius: 8px;
+  }
+
+  .info-box svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .info-box a {
+    display: block;
+    margin-top: 0.5rem;
+    word-break: break-word;
+  }
+
+  .save-notification {
+    top: 0.75rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    font-size: 0.85rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .save-notification svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Smartphones muito pequenos */
+@media (max-width: 360px) {
+  .admin-link-bio {
+    padding: 0.85rem 0.5rem;
+  }
+
+  .admin-bio-header h1 {
+    font-size: 1.45rem;
+  }
+
+  .admin-bio-header p {
+    font-size: 0.85rem;
+  }
+
+  .preview-btn {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .section-header {
+    padding: 0.9rem 1rem;
+  }
+
+  .section-title {
+    font-size: 0.95rem;
+  }
+
+  .section-content {
+    padding: 1rem;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 0.65rem;
+    font-size: 0.85rem;
+  }
+
+  .link-order {
+    font-size: 1.2rem;
+    min-width: 36px;
+    height: 36px;
+  }
+
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Modo landscape em mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .admin-link-bio {
+    padding: 1rem 1.5rem;
+  }
+
+  .admin-bio-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .admin-bio-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .bio-section {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-content {
+    padding: 1.25rem;
+  }
+
+  .link-item {
+    padding: 1rem;
+  }
+
+  .save-btn {
+    position: relative;
+    bottom: auto;
   }
 }
