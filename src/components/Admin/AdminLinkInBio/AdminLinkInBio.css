@@ -161,40 +161,76 @@
   padding: 2rem !important;
 }
 
-/* Form Group - Classes isoladas */
+/* Form Group - Classes isoladas e estilizadas */
 .admin-link-bio .form-group {
   margin-bottom: 1.5rem !important;
+  position: relative !important;
 }
 
 .admin-link-bio .form-group label {
   display: block !important;
   font-weight: 600 !important;
-  margin-bottom: 0.5rem !important;
-  color: #475569 !important;
-  font-size: 0.875rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
+  margin-bottom: 0.75rem !important;
+  color: #1e293b !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.01em !important;
+  position: relative !important;
+  padding-left: 0.25rem !important;
+}
+
+.admin-link-bio .form-group label::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 3px !important;
+  height: 70% !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border-radius: 2px !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.admin-link-bio .form-group:focus-within label::before {
+  opacity: 1 !important;
 }
 
 .admin-link-bio .form-group input,
 .admin-link-bio .form-group textarea,
 .admin-link-bio .form-group select {
   width: 100% !important;
-  padding: 0.875rem 1rem !important;
+  padding: 1rem 1.25rem !important;
   border: 2px solid #e2e8f0 !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
   font-size: 1rem !important;
-  transition: all 0.3s ease !important;
-  background: #f8fafc !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  background: white !important;
   color: #1e293b !important;
   font-family: inherit !important;
   box-sizing: border-box !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  line-height: 1.5 !important;
+}
+
+.admin-link-bio .form-group input::placeholder,
+.admin-link-bio .form-group textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
 }
 
 .admin-link-bio .form-group textarea {
   resize: vertical !important;
-  min-height: 80px !important;
+  min-height: 100px !important;
   line-height: 1.6 !important;
+  font-family: inherit !important;
+}
+
+.admin-link-bio .form-group input:hover,
+.admin-link-bio .form-group textarea:hover,
+.admin-link-bio .form-group select:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
 }
 
 .admin-link-bio .form-group input:focus,
@@ -202,8 +238,19 @@
 .admin-link-bio .form-group select:focus {
   border-color: #667eea !important;
   background: white !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 2px 8px rgba(102, 126, 234, 0.15) !important;
   outline: none !important;
+  transform: translateY(-1px) !important;
+}
+
+.admin-link-bio .form-group select {
+  cursor: pointer !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  background-size: 12px !important;
+  padding-right: 3rem !important;
 }
 
 /* Info Box - Classe única isolada */
@@ -319,14 +366,34 @@
 
 .link-title-input {
   flex: 1 !important;
-  font-size: 1.1rem !important;
+  font-size: 1.05rem !important;
   font-weight: 600 !important;
-  padding: 0.75rem 1rem !important;
+  padding: 0.9rem 1.25rem !important;
   border: 2px solid #e2e8f0 !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
   background: white !important;
   width: 100% !important;
   box-sizing: border-box !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  color: #1e293b !important;
+}
+
+.link-title-input::placeholder {
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+}
+
+.link-title-input:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+.link-title-input:focus {
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 2px 8px rgba(102, 126, 234, 0.15) !important;
+  outline: none !important;
+  transform: translateY(-1px) !important;
 }
 
 .link-actions {
@@ -376,25 +443,71 @@
   width: 100% !important;
 }
 
+.admin-link-bio .field,
+.field {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.admin-link-bio .field label,
 .field label {
   display: block !important;
   font-weight: 600 !important;
-  margin-bottom: 0.5rem !important;
-  color: #475569 !important;
-  font-size: 0.8rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
+  margin-bottom: 0.6rem !important;
+  color: #1e293b !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.01em !important;
 }
 
+.admin-link-bio .field input,
+.admin-link-bio .field select,
 .field input,
 .field select {
   width: 100% !important;
-  padding: 0.75rem 1rem !important;
+  padding: 0.9rem 1.1rem !important;
   border: 2px solid #e2e8f0 !important;
   border-radius: 10px !important;
   font-size: 0.95rem !important;
   background: white !important;
   box-sizing: border-box !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  color: #1e293b !important;
+  font-family: inherit !important;
+}
+
+.admin-link-bio .field input::placeholder,
+.field input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.admin-link-bio .field input:hover,
+.admin-link-bio .field select:hover,
+.field input:hover,
+.field select:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+.admin-link-bio .field input:focus,
+.admin-link-bio .field select:focus,
+.field input:focus,
+.field select:focus {
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 2px 8px rgba(102, 126, 234, 0.15) !important;
+  outline: none !important;
+  transform: translateY(-1px) !important;
+}
+
+.admin-link-bio .field select,
+.field select {
+  cursor: pointer !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  background-size: 12px !important;
+  padding-right: 2.5rem !important;
 }
 
 .link-options {
