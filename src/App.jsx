@@ -36,6 +36,7 @@ import EditCarousel from "./components/Admin/EditCarousel/EditCarousel";
 import EditHours from "./components/Admin/EditHours/EditHours";
 import BannerAdmin from "./components/Admin/BannerAdmin/BannerAdmin";
 import LinkInBio from "./components/LinkInBio/LinkInBio";
+import GoogleHub from "./pages/GoogleHub/GoogleHub";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import { autoInitialize } from "./utils/firestoreUtils";
 import analyticsService from "./services/analyticsService";
@@ -164,8 +165,9 @@ const App = () => {
               <Route path="/admin/banner-admin" element={<ProtectedRoute><BannerAdmin /></ProtectedRoute>} />
               <Route path="/admin/view-users" element={<ProtectedRoute><ViewUsers /></ProtectedRoute>} />
               
-              {/* Página Pública - Link in Bio */}
+              {/* Páginas Públicas */}
               <Route path="/link-bio" element={<LinkInBio />} />
+              <Route path="/google" element={<GoogleHub />} />
               
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

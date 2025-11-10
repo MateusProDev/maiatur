@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { FaGoogle, FaStar, FaTrash, FaPlus, FaChevronDown, FaChevronUp, FaCloudUploadAlt } from 'react-icons/fa';
@@ -25,21 +25,26 @@ const AdminGoogleReviews = () => {
     reviews: true
   });
 
-  useEffect(() => {
-    loadSettings();
-  }, []);
-
-  const loadSettings = async () => {
+  const loadSettings = useCallback(async () => {
     try {
       setLoading(true);
       const docRef = doc(db, 'content', 'googleReviews');
       const docSnap = await getDoc(docRef);
       
       if (docSnap.exists()) {
-        setSettings({ ...settings, ...docSnap.data() });
+        setSettings(prevSettings => ({ ...prevSettings, ...docSnap.data() }));
       } else {
         // Initialize with default data
-        await setDoc(docRef, settings);
+        const defaultSettings = {
+          title: 'O Que Nossos Clientes Dizem',
+          subtitle: 'Avaliações reais de viajantes satisfeitos',
+          active: true,
+          autoplay: true,
+          autoplayDelay: 5000,
+          googleUrl: '',
+          reviews: []
+        };
+        await setDoc(docRef, defaultSettings);
       }
     } catch (error) {
       console.error('Erro ao carregar configurações:', error);
@@ -47,7 +52,11 @@ const AdminGoogleReviews = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadSettings();
+  }, [loadSettings]);
 
   const handleSave = async () => {
     try {
