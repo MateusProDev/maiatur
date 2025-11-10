@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Home Page -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Pacotes -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/pacotes</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Reservas -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/reservas</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Destinos -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/destinos</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Sobre -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/sobre</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Contato -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/contato</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Blog -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/blog</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Avaliações -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/avaliacoes</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Categorias -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/categoria/passeio</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://transferfortalezatur.com.br/categoria/transfer</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://transferfortalezatur.com.br/categoria/beach-park</loc>
+    <lastmod>2025-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+</urlset>

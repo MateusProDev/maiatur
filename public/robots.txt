@@ -1,3 +1,20 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap
+Sitemap: https://transferfortalezatur.com.br/sitemap.xml
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /admin/*
+
+# Allow important pages
+Allow: /pacotes
+Allow: /reservas
+Allow: /destinos
+Allow: /sobre
+Allow: /contato
+Allow: /blog
+Allow: /avaliacoes
+
