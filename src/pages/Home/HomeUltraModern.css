@@ -1231,9 +1231,10 @@
 
 .cta-icon-large {
   font-size: 4rem;
-  color: var(--white);
+  color: var(--white) !important;
   margin-bottom: 1.5rem;
-  animation: float 3s ease-in-out infinite;
+  /* animation: float 3s ease-in-out infinite; */
+  display: block;
 }
 
 .cta-title-ultra {
