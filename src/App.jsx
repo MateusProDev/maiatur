@@ -23,6 +23,7 @@ import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
 import AdminEditPacote from "./components/Admin/AdminEditPacote/AdminEditPacote";
 import AdminLinkInBio from "./components/Admin/AdminLinkInBio/AdminLinkInBio";
 import AdminGoogleReviews from "./components/Admin/AdminGoogleReviews/AdminGoogleReviews";
+import AdminServices from "./components/Admin/AdminServices/AdminServices";
 import BlogAdmin from "./components/Admin/BlogAdmin/BlogAdmin";
 import ViewUsers from "./components/Admin/Users/ViewUsers";
 import AdminUsers from "./components/Admin/AdminUsers/AdminUsers";
@@ -152,6 +153,7 @@ const App = () => {
               <Route path="/admin/banners" element={<ProtectedRoute><AdminBanners /></ProtectedRoute>} />
               <Route path="/admin/link-bio" element={<ProtectedRoute><AdminLinkInBio /></ProtectedRoute>} />
               <Route path="/admin/google-reviews" element={<ProtectedRoute><AdminGoogleReviews /></ProtectedRoute>} />
+              <Route path="/admin/services" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
               <Route path="/admin/blog" element={<ProtectedRoute><BlogAdmin /></ProtectedRoute>} />
               {/* Redirecionar rota antiga do banner para o novo sistema de carrossel */}
               <Route path="/admin/edit-banner" element={<Navigate to="/admin/banners" replace />} />
