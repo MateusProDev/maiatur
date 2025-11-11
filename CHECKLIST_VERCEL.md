@@ -11,7 +11,7 @@
 - [ ] Clicar em **Environment Variables** (menu lateral)
 
 ### ☐ 3. Adicionar Variáveis do Firebase (6 variáveis)
-- [ ] `REACT_APP_FIREBASE_API_KEY` = `AIzaSyBwxcShz_SMx7PG8gzTOvjjkG7SbJ7PBcw`
+- [ ] `REACT_APP_FIREBASE_API_KEY` = `sua_api_key_aqui`
 - [ ] `REACT_APP_FIREBASE_AUTH_DOMAIN` = `maiatur.firebaseapp.com`
 - [ ] `REACT_APP_FIREBASE_PROJECT_ID` = `maiatur`
 - [ ] `REACT_APP_FIREBASE_STORAGE_BUCKET` = `maiatur.firebasestorage.app`

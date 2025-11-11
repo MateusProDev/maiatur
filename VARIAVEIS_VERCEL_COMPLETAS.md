@@ -4,7 +4,7 @@
 
 ### 🔥 FIREBASE (Projeto: maiatur)
 ```
-REACT_APP_FIREBASE_API_KEY=AIzaSyBwxcShz_SMx7PG8gzTOvjjkG7SbJ7PBcw
+REACT_APP_FIREBASE_API_KEY=sua_api_key_aqui
 REACT_APP_FIREBASE_AUTH_DOMAIN=maiatur.firebaseapp.com
 REACT_APP_FIREBASE_PROJECT_ID=maiatur
 REACT_APP_FIREBASE_STORAGE_BUCKET=maiatur.firebasestorage.app
@@ -44,7 +44,7 @@ B2_KEY_ID=005b41b3fdf793a0000000005
 
 **Para cada variável:**
 1. Cole o **nome** (ex: `REACT_APP_FIREBASE_API_KEY`)
-2. Cole o **valor** (ex: `AIzaSyBwxcShz_SMx7PG8gzTOvjjkG7SbJ7PBcw`)
+2. Cole o **valor** (ex: `AIzaSy...sua_key`)
 3. Selecione os ambientes: **Production**, **Preview**, **Development**
 4. Clique em **Save**
 
