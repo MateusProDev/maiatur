@@ -46,6 +46,24 @@ const AdminServices = () => {
               color: '#21A657',
               link: '/pacotes',
               linkText: 'Saiba mais'
+            },
+            {
+              id: Date.now() + 1,
+              title: 'Passeios Privativos',
+              description: 'Experiências exclusivas com roteiros personalizados para você',
+              image: '/jericoaquaraservico.png',
+              color: '#EE7C35',
+              link: '/pacotes',
+              linkText: 'Saiba mais'
+            },
+            {
+              id: Date.now() + 2,
+              title: 'City Tours',
+              description: 'Conheça as principais atrações e cultura local com nossos guias',
+              image: '/fortalezacityservico.png',
+              color: '#F8C144',
+              link: '/pacotes',
+              linkText: 'Saiba mais'
             }
           ]
         };
