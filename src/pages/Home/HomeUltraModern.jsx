@@ -8,6 +8,7 @@ import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton';
 import BannerCarousel from '../../components/BannerCarousel/BannerCarousel';
 import BlogPreview from '../../components/BlogPreview/BlogPreview';
 import PacotesCarousel from '../../components/PacotesCarousel/PacotesCarousel';
+import GoogleReviews from '../../components/GoogleReviews/GoogleReviews';
 import { 
   FiMapPin, 
   FiStar, 
@@ -467,6 +468,8 @@ const HomeUltraModern = () => {
           </div>
         </div>
       </section>
+
+      <GoogleReviews />
 
       <BlogPreview />
 

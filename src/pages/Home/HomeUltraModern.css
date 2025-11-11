@@ -1235,6 +1235,8 @@
   margin-bottom: 1.5rem;
   /* animation: float 3s ease-in-out infinite; */
   display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cta-title-ultra {
