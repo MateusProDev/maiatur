@@ -28,33 +28,8 @@ const GoogleReviews = () => {
     }
   };
 
-  // Reviews de exemplo (você pode substituir por dados reais se usar API)
-  const reviews = settings?.reviews || [
-    {
-      id: 1,
-      author: 'Maria Silva',
-      rating: 5,
-      text: 'Excelente serviço! Super recomendo. A equipe é muito atenciosa e profissional.',
-      date: '2 semanas atrás',
-      photo: 'https://via.placeholder.com/80'
-    },
-    {
-      id: 2,
-      author: 'João Santos',
-      rating: 5,
-      text: 'Melhor experiência que tive! Tudo perfeito, desde o atendimento até a execução do serviço.',
-      date: '1 mês atrás',
-      photo: 'https://via.placeholder.com/80'
-    },
-    {
-      id: 3,
-      author: 'Ana Costa',
-      rating: 5,
-      text: 'Simplesmente perfeito! Superou todas as minhas expectativas. Voltarei com certeza!',
-      date: '3 semanas atrás',
-      photo: 'https://via.placeholder.com/80'
-    }
-  ];
+  // Reviews do Firebase
+  const reviews = settings?.reviews && settings.reviews.length > 0 ? settings.reviews : [];
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % reviews.length);
@@ -65,14 +40,14 @@ const GoogleReviews = () => {
   };
 
   useEffect(() => {
-    if (!settings?.autoplay) return;
+    if (!settings?.autoplay || reviews.length === 0) return;
     
     const interval = setInterval(() => {
       nextSlide();
     }, settings?.autoplayDelay || 5000);
 
     return () => clearInterval(interval);
-  }, [currentSlide, settings]);
+  }, [currentSlide, settings, reviews.length]);
 
   if (loading) {
     return (
@@ -82,7 +57,7 @@ const GoogleReviews = () => {
     );
   }
 
-  if (!settings?.active) {
+  if (!settings?.active || reviews.length === 0) {
     return null;
   }
 
@@ -124,11 +99,11 @@ const GoogleReviews = () => {
                   <div className="review-header">
                     <img 
                       src={review.photo} 
-                      alt={review.author}
+                      alt={review.name}
                       className="reviewer-photo"
                     />
                     <div className="reviewer-info">
-                      <h3 className="reviewer-name">{review.author}</h3>
+                      <h3 className="reviewer-name">{review.name}</h3>
                       <div className="review-stars">
                         {[...Array(review.rating)].map((_, i) => (
                           <FaStar key={i} className="star" />
