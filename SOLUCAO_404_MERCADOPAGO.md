@@ -8,7 +8,7 @@ POST https://20buscarvacationbeach.com.br/api/mercadopago 500 (Internal Server E
 **Deploy Atual:** https://favelachique-i2ev2o91y-mateus-ferreiras-projects.vercel.app
 
 ---
-
+ 
 ## ✅ **SOLUÇÃO PASSO A PASSO:**
 
 ### **1. Configurar Variáveis no Dashboard Vercel**
