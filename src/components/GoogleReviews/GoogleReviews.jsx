@@ -32,10 +32,12 @@ const GoogleReviews = () => {
   const reviews = settings?.reviews && settings.reviews.length > 0 ? settings.reviews : [];
 
   const nextSlide = () => {
+    if (reviews.length === 0) return;
     setCurrentSlide((prev) => (prev + 1) % reviews.length);
   };
 
   const prevSlide = () => {
+    if (reviews.length === 0) return;
     setCurrentSlide((prev) => (prev - 1 + reviews.length) % reviews.length);
   };
 
@@ -43,11 +45,11 @@ const GoogleReviews = () => {
     if (!settings?.autoplay || reviews.length === 0) return;
     
     const interval = setInterval(() => {
-      nextSlide();
+      setCurrentSlide((prev) => (prev + 1) % reviews.length);
     }, settings?.autoplayDelay || 5000);
 
     return () => clearInterval(interval);
-  }, [currentSlide, settings, reviews.length]);
+  }, [currentSlide, settings?.autoplay, settings?.autoplayDelay, reviews.length]);
 
   if (loading) {
     return (
