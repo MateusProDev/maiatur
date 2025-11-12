@@ -139,6 +139,7 @@ const App = () => {
               <Route path="/reservas/transfer-saida" element={<TransferSaidaPage />} />
               <Route path="/reservas/transfer-entre-hoteis" element={<TransferEntreHoteisPage />} />
               <Route path="/politica" element={<PoliticaPage />} />
+              <Route path="/inicializar" element={<InicializadorPage />} />
 
               {/* Rotas Administrativas */}
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />

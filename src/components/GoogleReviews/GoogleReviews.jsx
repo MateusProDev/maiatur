@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { FaStar, FaGoogle, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import './GoogleReviews.css';
+import { FiArrowRight } from 'react-icons/fi';
+import './GoogleReviews-new.css';
 
 const GoogleReviews = () => {
   const [settings, setSettings] = useState(null);
@@ -53,8 +54,8 @@ const GoogleReviews = () => {
 
   if (loading) {
     return (
-      <div className="google-reviews-loading">
-        <div className="spinner"></div>
+      <div className="gr-loading">
+        <div className="gr-spinner"></div>
       </div>
     );
   }
@@ -64,95 +65,111 @@ const GoogleReviews = () => {
   }
 
   return (
-    <section className="google-reviews-section">
-      <div className="reviews-container">
+    <section className="gr-section">
+      <div className="gr-wrapper">
         {/* Header */}
-        <div className="reviews-header">
-          <h2>{settings?.title || 'O que nossos clientes dizem'}</h2>
-          <p className="reviews-subtitle">{settings?.subtitle || 'Avaliações reais de clientes satisfeitos'}</p>
+        <div className="gr-header">
+          {settings?.badge && (
+            <span className="gr-badge">{settings.badge}</span>
+          )}
+          <h2 className="gr-title">{settings?.title || 'O que nossos clientes dizem'}</h2>
+          {settings?.subtitle && (
+            <p className="gr-description">{settings.subtitle}</p>
+          )}
           
-          {/* Google Rating */}
-          <div className="google-rating">
-            <FaGoogle className="google-icon" />
-            <div className="rating-info">
-              <div className="stars">
+          {/* Google Rating Badge */}
+          <div className="gr-rating-badge">
+            <FaGoogle className="gr-google-icon" />
+            <div className="gr-rating-content">
+              <div className="gr-stars">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <FaStar key={star} className="star-icon" />
+                  <FaStar key={star} className="gr-star" />
                 ))}
               </div>
-              <span className="rating-text">5.0 no Google</span>
+              <span className="gr-rating-text">5.0 no Google</span>
             </div>
           </div>
         </div>
 
-        {/* Carrossel */}
-        <div className="reviews-carousel">
-          <button className="carousel-btn prev" onClick={prevSlide} aria-label="Anterior">
+        {/* Carousel */}
+        <div className="gr-carousel">
+          <button 
+            className="gr-btn gr-btn-prev" 
+            onClick={prevSlide} 
+            aria-label="Anterior"
+            disabled={reviews.length <= 1}
+          >
             <FaChevronLeft />
           </button>
 
-          <div className="reviews-track">
+          <div className="gr-track">
             <div 
-              className="reviews-slider"
+              className="gr-slides"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {reviews.map((review) => (
-                <div key={review.id} className="review-card">
-                  <div className="review-header">
-                    <img 
-                      src={review.photo} 
-                      alt={review.name}
-                      className="reviewer-photo"
-                    />
-                    <div className="reviewer-info">
-                      <h3 className="reviewer-name">{review.name}</h3>
-                      <div className="review-stars">
-                        {[...Array(review.rating)].map((_, i) => (
-                          <FaStar key={i} className="star" />
-                        ))}
+                <div key={review.id} className="gr-card">
+                  <div className="gr-card-inner">
+                    <div className="gr-card-header">
+                      <img 
+                        src={review.photo} 
+                        alt={review.name}
+                        className="gr-avatar"
+                      />
+                      <div className="gr-reviewer-info">
+                        <h3 className="gr-reviewer-name">{review.name}</h3>
+                        <div className="gr-review-stars">
+                          {[...Array(review.rating)].map((_, i) => (
+                            <FaStar key={i} className="gr-review-star" />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  
-                  <p className="review-text">{review.text}</p>
-                  
-                  <div className="review-footer">
-                    <span className="review-date">{review.date}</span>
-                    <FaGoogle className="google-badge" />
+                    
+                    <p className="gr-review-text">{review.text}</p>
+                    
+                    <span className="gr-review-date">{review.date}</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <button className="carousel-btn next" onClick={nextSlide} aria-label="Próximo">
+          <button 
+            className="gr-btn gr-btn-next" 
+            onClick={nextSlide} 
+            aria-label="Próximo"
+            disabled={reviews.length <= 1}
+          >
             <FaChevronRight />
           </button>
         </div>
 
-        {/* Dots */}
-        <div className="carousel-dots">
-          {reviews.map((_, index) => (
-            <button
-              key={index}
-              className={`dot ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => setCurrentSlide(index)}
-              aria-label={`Ir para avaliação ${index + 1}`}
-            />
-          ))}
-        </div>
+        {/* Dots Navigation */}
+        {reviews.length > 1 && (
+          <div className="gr-dots">
+            {reviews.map((_, index) => (
+              <button
+                key={index}
+                className={`gr-dot ${index === currentSlide ? 'gr-dot-active' : ''}`}
+                onClick={() => setCurrentSlide(index)}
+                aria-label={`Ir para avaliação ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
 
-        {/* Link para Google */}
+        {/* CTA Button */}
         {settings?.googleUrl && (
-          <div className="reviews-cta">
+          <div className="gr-cta">
             <a 
               href={settings.googleUrl} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="google-btn"
+              className="gr-cta-btn"
             >
-              <FaGoogle />
-              Ver todas as avaliações no Google
+              <span className="gr-cta-text">Ver todas as avaliações no Google</span>
+              <FiArrowRight className="gr-cta-icon" />
             </a>
           </div>
         )}

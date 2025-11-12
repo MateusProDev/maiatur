@@ -11,8 +11,8 @@ service cloud.firestore {
     // Content: leitura pública, escrita autenticada
     match /content/{documentId} {
       allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+      allow create, update: if true; // permite inicialização e atualização
+      allow delete: if request.auth != null;
     }
 
     // Pacotes: leitura pública, escrita autenticada

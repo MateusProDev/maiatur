@@ -6,12 +6,73 @@ import "./InicializadorPage.css";
 const InicializadorPage = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMigracao, setLoadingMigracao] = useState(false);
+  const [loadingServicos, setLoadingServicos] = useState(false);
   const [resultado, setResultado] = useState("");
   const [resultadoMigracao, setResultadoMigracao] = useState("");
+  const [resultadoServicos, setResultadoServicos] = useState("");
+
+  const inicializarServicos = async () => {
+    setLoadingServicos(true);
+    setResultadoServicos("");
+
+    try {
+      const servicesData = {
+        active: true,
+        badge: 'Experiências Personalizadas',
+        title: 'Nossos Serviços',
+        subtitle: 'Cada detalhe pensado para tornar sua viagem perfeita',
+        services: [
+          {
+            id: 1731340800000,
+            title: 'Transfers & Receptivo',
+            description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
+            image: '/aviaoservico.png',
+            color: '#21A657',
+            link: '/pacotes',
+            linkText: 'Saiba mais'
+          },
+          {
+            id: 1731340800001,
+            title: 'Passeios Privativos',
+            description: 'Experiências exclusivas com roteiros personalizados para você',
+            image: '/jericoaquaraservico.png',
+            color: '#EE7C35',
+            link: '/pacotes',
+            linkText: 'Saiba mais'
+          },
+          {
+            id: 1731340800002,
+            title: 'City Tours',
+            description: 'Conheça as principais atrações e cultura local com nossos guias',
+            image: '/fortalezacityservico.png',
+            color: '#F8C144',
+            link: '/pacotes',
+            linkText: 'Saiba mais'
+          }
+        ]
+      };
+
+      await setDoc(doc(db, 'content', 'servicesSection'), servicesData);
+      
+      setResultadoServicos(
+        "✅ 3 serviços inicializados com sucesso!\n" +
+        "   1. Transfers & Receptivo (verde)\n" +
+        "   2. Passeios Privativos (laranja)\n" +
+        "   3. City Tours (amarelo)\n\n" +
+        "Acesse /admin/services para gerenciar!"
+      );
+    } catch (error) {
+      console.error("Erro ao inicializar serviços:", error);
+      setResultadoServicos(`❌ Erro: ${error.message}`);
+    } finally {
+      setLoadingServicos(false);
+    }
+  };
 
   const inicializar = async () => {
     setLoading(true);
     setResultado("");
+
 
     try {
       // 1. Criar lista de passeios
@@ -224,6 +285,39 @@ const InicializadorPage = () => {
         {resultadoMigracao && (
           <div className={`resultado ${resultadoMigracao.includes("✅") ? "sucesso" : "erro"}`}>
             <pre>{resultadoMigracao}</pre>
+          </div>
+        )}
+
+        <hr style={{ margin: "40px 0", border: "1px solid #ddd" }} />
+
+        <h2>🎯 Inicializar Seção de Serviços</h2>
+        <p>
+          Cria/atualiza a seção "Nossos Serviços" na homepage com 3 serviços padrão:
+        </p>
+
+        <ul className="lista-acoes">
+          <li>✅ Transfers & Receptivo (verde #21A657)</li>
+          <li>✅ Passeios Privativos (laranja #EE7C35)</li>
+          <li>✅ City Tours (amarelo #F8C144)</li>
+        </ul>
+
+        <div className="alerta">
+          <strong>ℹ️ Info:</strong> Esta ação cria o documento <code>content/servicesSection</code>
+          com os 3 serviços. Você poderá gerenciar em <code>/admin/services</code> depois.
+        </div>
+
+        <button
+          onClick={inicializarServicos}
+          disabled={loadingServicos}
+          className="btn-inicializar"
+          style={{ backgroundColor: "#10b981" }}
+        >
+          {loadingServicos ? "Inicializando..." : "🚀 Inicializar 3 Serviços"}
+        </button>
+
+        {resultadoServicos && (
+          <div className={`resultado ${resultadoServicos.includes("✅") ? "sucesso" : "erro"}`}>
+            <pre>{resultadoServicos}</pre>
           </div>
         )}
 

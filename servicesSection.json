@@ -1,0 +1,35 @@
+{
+  "active": true,
+  "badge": "Experiências Personalizadas",
+  "title": "Nossos Serviços",
+  "subtitle": "Cada detalhe pensado para tornar sua viagem perfeita",
+  "services": [
+    {
+      "id": 1731340800000,
+      "title": "Transfers & Receptivo",
+      "description": "Transporte seguro do aeroporto ao hotel com conforto e pontualidade",
+      "image": "/aviaoservico.png",
+      "color": "#21A657",
+      "link": "/pacotes",
+      "linkText": "Saiba mais"
+    },
+    {
+      "id": 1731340800001,
+      "title": "Passeios Privativos",
+      "description": "Experiências exclusivas com roteiros personalizados para você",
+      "image": "/jericoaquaraservico.png",
+      "color": "#EE7C35",
+      "link": "/pacotes",
+      "linkText": "Saiba mais"
+    },
+    {
+      "id": 1731340800002,
+      "title": "City Tours",
+      "description": "Conheça as principais atrações e cultura local com nossos guias",
+      "image": "/fortalezacityservico.png",
+      "color": "#F8C144",
+      "link": "/pacotes",
+      "linkText": "Saiba mais"
+    }
+  ]
+}

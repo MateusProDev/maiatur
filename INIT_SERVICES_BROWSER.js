@@ -1,5 +1,7 @@
-// Script para inicializar a seção de serviços no Firestore
-// Execute com: node inicializar-servicos.js
+// INSTRUÇÕES: Execute este arquivo através do console do navegador
+// 1. Acesse http://localhost:3000/admin/services
+// 2. Abra o console (F12)
+// 3. Cole este código e pressione Enter
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
@@ -10,11 +12,10 @@ const firebaseConfig = {
   projectId: "maiatur",
   storageBucket: "maiatur.firebasestorage.app",
   messagingSenderId: "1037976703161",
-  appId: "1:1037976703161:web:124bbc5c66546180d04b68",
-  measurementId: "G-PTWQ45MF15"
+  appId: "1:1037976703161:web:124bbc5c66546180d04b68"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig, 'temp-init');
 const db = getFirestore(app);
 
 const servicesData = {
@@ -53,30 +54,10 @@ const servicesData = {
   ]
 };
 
-async function initializeServices() {
-  try {
-    console.log('🚀 Inicializando seção de serviços...');
-    console.log('📍 Projeto:', firebaseConfig.projectId);
-    
-    const docRef = doc(db, 'content', 'servicesSection');
-    await setDoc(docRef, servicesData);
-    
-    console.log('\n✅ Seção de serviços inicializada com sucesso!');
-    console.log(`📊 ${servicesData.services.length} serviços cadastrados:\n`);
-    servicesData.services.forEach((service, index) => {
-      console.log(`   ${index + 1}. ${service.title}`);
-      console.log(`      Cor: ${service.color}`);
-      console.log(`      Imagem: ${service.image}`);
-      console.log(`      Link: ${service.link}\n`);
-    });
-    
-    console.log('🎯 Acesse /admin/services para gerenciar!');
-    process.exit(0);
-  } catch (error) {
-    console.error('❌ Erro ao inicializar:', error);
-    console.error('💡 Verifique se as variáveis de ambiente estão configuradas no arquivo .env');
-    process.exit(1);
-  }
+try {
+  await setDoc(doc(db, 'content', 'servicesSection'), servicesData);
+  console.log('✅ 3 serviços adicionados com sucesso!');
+  console.log('Recarregue a página para ver os 3 serviços.');
+} catch (error) {
+  console.error('❌ Erro:', error);
 }
-
-initializeServices();
