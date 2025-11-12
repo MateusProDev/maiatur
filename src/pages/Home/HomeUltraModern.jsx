@@ -32,32 +32,12 @@ const HomeUltraModern = () => {
   const [loading, setLoading] = useState(true);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [services, setServices] = useState([]);
 
   const categorias = {
     'passeio': 'Passeios e Experiências',
     'transfers': 'Transfers e Traslados'
   };
-
-  const services = [
-    {
-      image: '/aviaoservico.png',
-      title: 'Transfers & Receptivo',
-      description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
-      color: '#21A657'
-    },
-    {
-      image: '/jericoaquaraservico.png',
-      title: 'Passeios Privativos',
-      description: 'Experiências exclusivas com roteiros personalizados para você',
-      color: '#EE7C35'
-    },
-    {
-      image: '/fortalezacityservico.png',
-      title: 'City Tours',
-      description: 'Conheça as principais atrações e cultura local com nossos guias',
-      color: '#F8C144'
-    }
-  ];
 
   const whyChooseUs = [
     {
@@ -89,6 +69,36 @@ const HomeUltraModern = () => {
         const whatsappDoc = await getDoc(doc(db, 'settings', 'whatsapp'));
         if (whatsappDoc.exists()) {
           setWhatsappNumber(whatsappDoc.data().phoneNumber || '');
+        }
+
+        // Buscar Serviços do Firestore
+        const servicesDoc = await getDoc(doc(db, 'content', 'servicesSection'));
+        if (servicesDoc.exists() && servicesDoc.data().services) {
+          setServices(servicesDoc.data().services);
+          console.log('✅ Serviços carregados do Firestore:', servicesDoc.data().services);
+        } else {
+          // Fallback para dados estáticos se não encontrar no Firestore
+          setServices([
+            {
+              image: '/aviaoservico.png',
+              title: 'Transfers & Receptivo',
+              description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
+              color: '#21A657'
+            },
+            {
+              image: '/jericoaquaraservico.png',
+              title: 'Passeios Privativos',
+              description: 'Experiências exclusivas com roteiros personalizados para você',
+              color: '#EE7C35'
+            },
+            {
+              image: '/fortalezacityservico.png',
+              title: 'City Tours',
+              description: 'Conheça as principais atrações e cultura local com nossos guias',
+              color: '#F8C144'
+            }
+          ]);
+          console.log('⚠️ Usando serviços estáticos (Firestore não encontrado)');
         }
 
         // Buscar Pacotes (todos, não apenas 6)
@@ -287,15 +297,20 @@ const HomeUltraModern = () => {
           <div className="servicos-grid-ultra">
             {services.map((service, index) => (
               <div 
-                key={index} 
+                key={service.id || index} 
                 className="servico-card-ultra"
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
                 <div className="servico-image-wrapper">
                   <img 
-                    src={service.image} 
+                    src={`${service.image}${service.image.includes('?') ? '&' : '?'}t=${Date.now()}`}
                     alt={service.title}
                     className="servico-image"
+                    loading="lazy"
+                    onError={(e) => {
+                      console.error('❌ Erro ao carregar imagem:', service.image);
+                      e.target.src = '/placeholder-service.jpg';
+                    }}
                   />
                   <div className="servico-overlay"></div>
                 </div>
@@ -306,7 +321,7 @@ const HomeUltraModern = () => {
                     onClick={() => handleWhatsApp(`Gostaria de saber mais sobre: ${service.title}`)}
                     className="servico-link"
                   >
-                    Saiba mais
+                    {service.linkText || 'Saiba mais'}
                     <FiArrowRight />
                   </button>
                 </div>
