@@ -786,14 +786,16 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  margin: 0;
 }
 
 .servico-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: center;
   transition: transform 0.5s var(--transition-smooth);
+  display: block;
 }
 
 .servico-card-ultra:hover .servico-image {
@@ -1444,10 +1446,6 @@
   .servicos-grid-ultra {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-  }
-
-  .servico-card-ultra {
-    padding: 2rem 1.5rem;
   }
 
   .features-list-ultra {
