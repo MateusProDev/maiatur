@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import Header from '../../components/Header/Header';
@@ -21,12 +21,14 @@ import {
   FiSmile,
   FiCreditCard,
   FiChevronLeft,
-  FiChevronRight
+  FiChevronRight,
+  FiPackage
 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import './HomeUltraModern.css';
 
 const HomeUltraModern = () => {
+  const navigate = useNavigate();
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -362,8 +364,11 @@ const HomeUltraModern = () => {
                 ))}
               </div>
 
-              <button onClick={() => handleWhatsApp()} className="btn-cta-large">
-                <FaWhatsapp />
+              <button 
+                onClick={() => navigate('/pacotes')} 
+                className="btn-cta-large"
+              >
+                <FiPackage />
                 Planejar Minha Viagem
               </button>
             </div>
