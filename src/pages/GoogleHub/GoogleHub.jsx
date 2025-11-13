@@ -115,8 +115,8 @@ const GoogleHub = () => {
             <div className="trust-label">Avaliação Google</div>
           </div>
           <div className="trust-item">
-            <div className="trust-number">24/7</div>
-            <div className="trust-label">Suporte</div>
+            <div className="trust-number">✓</div>
+            <div className="trust-label">Suporte Dedicado</div>
           </div>
         </div>
       </div>

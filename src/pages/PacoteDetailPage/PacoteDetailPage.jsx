@@ -329,7 +329,7 @@ const PacoteDetailPage = () => {
               <h3>🛡️ Viaje com Segurança</h3>
               <ul>
                 <li>✅ Pacotes verificados</li>
-                <li>✅ Suporte 24/7</li>
+                <li>✅ Atendimento dedicado</li>
                 <li>✅ Pagamento seguro</li>
               </ul>
             </div>

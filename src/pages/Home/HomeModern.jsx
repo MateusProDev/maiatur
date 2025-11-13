@@ -86,12 +86,12 @@ const HomeModern = () => {
               <FiGlobe /> Viagens Inesquecíveis
             </span>
             <h1 className="hero-title">
-              Descubra o Mundo com a
+              Descubra Destinos Incríveis com a
               <span className="gradient-text"> Transfer Fortaleza Tur</span>
             </h1>
             <p className="hero-description">
               Transforme seus sonhos em realidade com pacotes personalizados 
-              e experiências únicas ao redor do mundo.
+              e experiências únicas em Fortaleza e região.
             </p>
             <div className="hero-actions">
               <Link to="/pacotes" className="btn-primary-hero">
@@ -267,7 +267,7 @@ const HomeModern = () => {
                 <FiMapPin />
               </div>
               <h3>Destinos Exclusivos</h3>
-              <p>Acesso a lugares incríveis em todo o mundo</p>
+              <p>Acesso a lugares incríveis em Fortaleza e região</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">

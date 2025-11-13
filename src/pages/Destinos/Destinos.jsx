@@ -16,20 +16,20 @@ const Destinos = () => {
           
           <h1 className="destinos-title">Nossos Destinos</h1>
           <p className="destinos-description">
-            Explore os destinos mais incríveis que oferecemos. 
-            De praias paradisíacas a montanhas majestosas, 
+            Explore os destinos mais incríveis da região de Fortaleza. 
+            De praias paradisíacas a experiências culturais únicas, 
             temos o destino perfeito para sua próxima aventura.
           </p>
           
           <div className="destinos-content">
             <div className="destino-card">
-              <h3>Destinos Nacionais</h3>
-              <p>Descubra as belezas do Brasil</p>
+              <h3>Praias do Ceará</h3>
+              <p>Descubra as praias mais bonitas do litoral cearense</p>
             </div>
             
             <div className="destino-card">
-              <h3>Destinos Internacionais</h3>
-              <p>Explore o mundo conosco</p>
+              <h3>Passeios Regionais</h3>
+              <p>Conheça os melhores passeios de Fortaleza e região</p>
             </div>
             
             <div className="destino-card">

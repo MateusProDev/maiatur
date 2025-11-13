@@ -49,7 +49,7 @@ const Header = () => {
         const whatsappRef = doc(db, 'settings', 'whatsapp');
         const whatsappDoc = await getDoc(whatsappRef);
         if (whatsappDoc.exists()) {
-          setWhatsappNumber(whatsappDoc.data().phoneNumber || '5511999999999');
+          setWhatsappNumber(whatsappDoc.data().number || '5511999999999');
         }
 
         // Buscar redes sociais do footer

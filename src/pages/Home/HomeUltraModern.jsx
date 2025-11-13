@@ -49,8 +49,8 @@ const HomeUltraModern = () => {
     },
     {
       icon: <FiSmile />,
-      title: 'Atendimento Premium',
-      description: 'Equipe dedicada 24/7 para sua viagem perfeita'
+      title: 'Atendimento Personalizado',
+      description: 'Equipe dedicada para ajudar no planejamento da sua viagem'
     },
     {
       icon: <FiCreditCard />,
@@ -70,7 +70,7 @@ const HomeUltraModern = () => {
         // Buscar WhatsApp
         const whatsappDoc = await getDoc(doc(db, 'settings', 'whatsapp'));
         if (whatsappDoc.exists()) {
-          setWhatsappNumber(whatsappDoc.data().phoneNumber || '');
+          setWhatsappNumber(whatsappDoc.data().number || '');
         }
 
         // Buscar Serviços do Firestore

@@ -295,7 +295,7 @@ const HomeNew = () => {
                   <Tour />
                 </Box>
                 <Typography variant="h5" className="feature-title">
-                  Suporte 24/7
+                  Atendimento Completo
                 </Typography>
                 <Typography variant="body2" className="feature-description">
                   Estamos com você antes, durante e depois da viagem. Equipe especializada sempre à disposição.
@@ -305,7 +305,7 @@ const HomeNew = () => {
                     <CheckCircle /> <span>Atendimento humanizado</span>
                   </Box>
                   <Box className="feature-item">
-                    <CheckCircle /> <span>Chat online 24h</span>
+                    <CheckCircle /> <span>Suporte via WhatsApp</span>
                   </Box>
                   <Box className="feature-item">
                     <CheckCircle /> <span>WhatsApp dedicado</span>
@@ -348,14 +348,14 @@ const HomeNew = () => {
           <Box className="section-header-center">
             <Chip 
               icon={<Explore />} 
-              label="Explore o Mundo" 
+              label="Explore a Região" 
               className="section-chip"
             />
             <Typography variant="h2" className="section-title">
               Destinos Populares
             </Typography>
             <Typography variant="body1" className="section-description">
-              Do nacional ao internacional, temos o destino perfeito para você
+              Os melhores destinos de Fortaleza e região
             </Typography>
           </Box>
 

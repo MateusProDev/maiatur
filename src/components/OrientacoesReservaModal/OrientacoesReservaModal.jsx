@@ -296,7 +296,7 @@ Aguardo retorno!`;
             <Box className="feature-card">
               <SupportAgent className="feature-icon" />
               <Typography variant="subtitle2">Suporte</Typography>
-              <Typography variant="body2">Atendimento 24h via WhatsApp</Typography>
+              <Typography variant="body2">Atendimento dedicado via WhatsApp</Typography>
             </Box>
             
             <Box className="feature-card">
