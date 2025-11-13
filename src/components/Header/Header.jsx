@@ -302,7 +302,7 @@ const Header = () => {
               <FiPhone className="nav-contact-icon" />
               <span>Ligue para Nós</span>
             </a>
-            <a href="mailto:contato@maiatur.com.br" className="nav-contact-item">
+            <a href="mailto:contato@transferfortalezatur.com.br" className="nav-contact-item">
               <FiMail className="nav-contact-icon" />
               <span>Envie um E-mail</span>
             </a>

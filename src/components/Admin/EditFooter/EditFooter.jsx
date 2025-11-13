@@ -287,7 +287,7 @@ const EditFooter = () => {
                         contact: { ...prev.contact, email: e.target.value },
                       }))
                     }
-                    placeholder="contato@maiatur.com.br"
+                    placeholder="contato@transferfortalezatur.com.br"
                   />
                 </div>
               </div>

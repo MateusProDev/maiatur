@@ -20,7 +20,7 @@ const SMTP_CONFIG = {
 
 const AGENCY_INFO = {
   brand: process.env.AGENCY_BRAND || "Maiatur",
-  email: process.env.AGENCY_EMAIL || "contato@maiatur.com.br",
+  email: process.env.AGENCY_EMAIL || "contato@transferfortalezatur.com.br",
   phone: process.env.AGENCY_PHONE_DISPLAY || "+55 (85) 0000-0000",
   cnpj: process.env.AGENCY_CNPJ || "00.000.000/0001-00",
 };

@@ -51,7 +51,7 @@ const PoliticaPage = () => {
         <section>
           <h2>5. Informações de Contato</h2>
           <p>
-            <strong>E-mail:</strong> contato@maiatur.com.br<br />
+            <strong>E-mail:</strong> contato@transferfortalezatur.com.br<br />
             <strong>WhatsApp:</strong> +55 (85) 0000-0000<br />
             <strong>CNPJ:</strong> 00.000.000/0001-00
           </p>

@@ -97,7 +97,7 @@ const GoogleHub = () => {
               <FiPhone />
               <span>(85) 98877-6655</span>
             </a>
-            <a href="mailto:contato@Transfer Fortaleza Tur.com.br" className="contact-btn email">
+            <a href="mailto:contato@transferfortalezatur.com.br" className="contact-btn email">
               <FiMail />
               <span>Email</span>
             </a>

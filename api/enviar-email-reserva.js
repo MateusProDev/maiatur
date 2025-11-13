@@ -436,7 +436,7 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
               <h3 style="color: #1a4d7a; margin-top: 0;">📞 Precisa de Ajuda?</h3>
               <p>Nossa equipe está pronta para atendê-lo:</p>
               <p>📱 WhatsApp: ${process.env.AGENCY_PHONE || '+55 (85) 0000-0000'}</p>
-              <p>📧 Email: ${process.env.AGENCY_EMAIL || 'contato@maiatur.com.br'}</p>
+              <p>📧 Email: ${process.env.AGENCY_EMAIL || 'contato@transferfortalezatur.com.br'}</p>
             </div>
             
             <div style="text-align: center; margin-top: 30px;">

@@ -34,9 +34,9 @@ const Contato = () => {
         if (footerDoc.exists()) {
           const data = footerDoc.data();
           setContactData({
-            email: data.email || '',
-            whatsapp: data.whatsapp || '',
-            endereco: data.endereco || ''
+            email: data.contact?.email || '',
+            whatsapp: data.contact?.whatsapp || '',
+            endereco: data.contact?.address || ''
           });
         }
 
