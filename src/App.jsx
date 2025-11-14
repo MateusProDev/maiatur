@@ -1,56 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
-import HomeUltraModern from "./pages/Home/HomeUltraModern";
-import AboutPage from "./pages/AboutPage/AboutPage";
-import PacotesListPage from "./pages/PacotesListPage/PacotesListPage";
-import PacoteDetailPage from "./pages/PacoteDetailPage/PacoteDetailPage";
-import CategoriaPage from "./pages/CategoriaPage/CategoriaPage";
-import AvaliacoesPage from "./pages/AvaliacoesPage/AvaliacoesPage";
-import Destinos from "./pages/Destinos/Destinos";
-import Contato from "./pages/Contato/Contato";
-import BlogPage from "./pages/BlogPage/BlogPage";
-import BlogPostPage from "./pages/BlogPostPage/BlogPostPage";
-import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
-import AdminDashboard from "./components/Admin/AdminDashboard/AdminDashboard";
-import AdminHelp from "./components/Admin/AdminHelp/AdminHelp";
-import AdminPacotes from "./components/AdminPacotes/AdminPacotes";
-import AdminReservas from "./components/Admin/AdminReservas/AdminReservas";
-import AdminBanners from "./components/Admin/AdminBanners/AdminBanners";
-import AdminEditPacote from "./components/Admin/AdminEditPacote/AdminEditPacote";
-import AdminLinkInBio from "./components/Admin/AdminLinkInBio/AdminLinkInBio";
-import AdminGoogleReviews from "./components/Admin/AdminGoogleReviews/AdminGoogleReviews";
-import AdminServices from "./components/Admin/AdminServices/AdminServices";
-import BlogAdmin from "./components/Admin/BlogAdmin/BlogAdmin";
-import ViewUsers from "./components/Admin/Users/ViewUsers";
-import AdminUsers from "./components/Admin/AdminUsers/AdminUsers";
-import EditHeader from "./components/Admin/EditHeader/EditHeader";
-// import EditBanner from "./components/Admin/EditBanner/EditBanner"; // Substituído por AdminBanners
-import EditBoxes from "./components/Admin/EditBoxes/EditBoxes";
-import EditAbout from "./components/Admin/EditAbout/EditAbout";
-import EditFooter from "./components/Admin/EditFooter/EditFooter";
-import AdminWhatsAppConfig from "./components/Admin/AdminWhatsAppConfig/AdminWhatsAppConfig";
-import EditCarousel from "./components/Admin/EditCarousel/EditCarousel";
-import EditHours from "./components/Admin/EditHours/EditHours";
-import BannerAdmin from "./components/Admin/BannerAdmin/BannerAdmin";
-import LinkInBio from "./components/LinkInBio/LinkInBio";
-import GoogleHub from "./pages/GoogleHub/GoogleHub";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import { autoInitialize } from "./utils/firestoreUtils";
 import analyticsService from "./services/analyticsService";
 
+// Lazy load components for code splitting
+const HomeUltraModern = lazy(() => import("./pages/Home/HomeUltraModern"));
+const AboutPage = lazy(() => import("./pages/AboutPage/AboutPage"));
+const PacotesListPage = lazy(() => import("./pages/PacotesListPage/PacotesListPage"));
+const PacoteDetailPage = lazy(() => import("./pages/PacoteDetailPage/PacoteDetailPage"));
+const CategoriaPage = lazy(() => import("./pages/CategoriaPage/CategoriaPage"));
+const AvaliacoesPage = lazy(() => import("./pages/AvaliacoesPage/AvaliacoesPage"));
+const Destinos = lazy(() => import("./pages/Destinos/Destinos"));
+const Contato = lazy(() => import("./pages/Contato/Contato"));
+const BlogPage = lazy(() => import("./pages/BlogPage/BlogPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage/BlogPostPage"));
+const AdminLogin = lazy(() => import("./components/Admin/AdminLogin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./components/Admin/AdminDashboard/AdminDashboard"));
+const AdminHelp = lazy(() => import("./components/Admin/AdminHelp/AdminHelp"));
+const AdminPacotes = lazy(() => import("./components/AdminPacotes/AdminPacotes"));
+const AdminReservas = lazy(() => import("./components/Admin/AdminReservas/AdminReservas"));
+const AdminBanners = lazy(() => import("./components/Admin/AdminBanners/AdminBanners"));
+const AdminEditPacote = lazy(() => import("./components/Admin/AdminEditPacote/AdminEditPacote"));
+const AdminLinkInBio = lazy(() => import("./components/Admin/AdminLinkInBio/AdminLinkInBio"));
+const AdminGoogleReviews = lazy(() => import("./components/Admin/AdminGoogleReviews/AdminGoogleReviews"));
+const AdminServices = lazy(() => import("./components/Admin/AdminServices/AdminServices"));
+const BlogAdmin = lazy(() => import("./components/Admin/BlogAdmin/BlogAdmin"));
+const ViewUsers = lazy(() => import("./components/Admin/Users/ViewUsers"));
+const AdminUsers = lazy(() => import("./components/Admin/AdminUsers/AdminUsers"));
+const EditHeader = lazy(() => import("./components/Admin/EditHeader/EditHeader"));
+const EditBoxes = lazy(() => import("./components/Admin/EditBoxes/EditBoxes"));
+const EditAbout = lazy(() => import("./components/Admin/EditAbout/EditAbout"));
+const EditFooter = lazy(() => import("./components/Admin/EditFooter/EditFooter"));
+const AdminWhatsAppConfig = lazy(() => import("./components/Admin/AdminWhatsAppConfig/AdminWhatsAppConfig"));
+const EditCarousel = lazy(() => import("./components/Admin/EditCarousel/EditCarousel"));
+const EditHours = lazy(() => import("./components/Admin/EditHours/EditHours"));
+const BannerAdmin = lazy(() => import("./components/Admin/BannerAdmin/BannerAdmin"));
+const LinkInBio = lazy(() => import("./components/LinkInBio/LinkInBio"));
+const GoogleHub = lazy(() => import("./pages/GoogleHub/GoogleHub"));
+
 // Páginas do Sistema de Reservas
-import ReservasPage from "./pages/ReservasPage/ReservasPage";
-import PasseioPage from "./pages/PasseioPage/PasseioPage";
-import TransferChegadaPage from "./pages/TransferChegadaPage/TransferChegadaPage";
-import TransferChegadaSaidaPage from "./pages/TransferChegadaSaidaPage/TransferChegadaSaidaPage";
-import TransferSaidaPage from "./pages/TransferSaidaPage/TransferSaidaPage";
-import TransferEntreHoteisPage from "./pages/TransferEntreHoteisPage/TransferEntreHoteisPage";
-import PoliticaPage from "./pages/PoliticaPage/PoliticaPage";
-import InicializadorPage from "./pages/InicializadorPage/InicializadorPage";
+const ReservasPage = lazy(() => import("./pages/ReservasPage/ReservasPage"));
+const PasseioPage = lazy(() => import("./pages/PasseioPage/PasseioPage"));
+const TransferChegadaPage = lazy(() => import("./pages/TransferChegadaPage/TransferChegadaPage"));
+const TransferChegadaSaidaPage = lazy(() => import("./pages/TransferChegadaSaidaPage/TransferChegadaSaidaPage"));
+const TransferSaidaPage = lazy(() => import("./pages/TransferSaidaPage/TransferSaidaPage"));
+const TransferEntreHoteisPage = lazy(() => import("./pages/TransferEntreHoteisPage/TransferEntreHoteisPage"));
+const PoliticaPage = lazy(() => import("./pages/PoliticaPage/PoliticaPage"));
+const InicializadorPage = lazy(() => import("./pages/InicializadorPage/InicializadorPage"));
 
 // Contexto para controle global do loading
 export const LoadingContext = React.createContext();
@@ -115,21 +116,28 @@ const App = () => {
             />
           )}
           <ErrorBoundary>
-            <Routes>
-              {/* As rotas de motorista e usuário foram removidas conforme solicitado */}
-              
-              {/* Rotas Públicas */}
-              <Route path="/" element={<HomeUltraModern />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/sobre" element={<AboutPage />} />
-              <Route path="/pacotes" element={<PacotesListPage />} />
-              <Route path="/categoria/:categoria" element={<CategoriaPage />} />
-              <Route path="/avaliacoes" element={<AvaliacoesPage />} />
-              <Route path="/destinos" element={<Destinos />} />
-              <Route path="/contato" element={<Contato />} />
-              <Route path="/pacote/:pacoteSlug" element={<PacoteDetailPage />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Suspense fallback={
+              <LoadingSpinner 
+                size="large" 
+                text="Carregando..." 
+                fullScreen={true} 
+              />
+            }>
+              <Routes>
+                {/* As rotas de motorista e usuário foram removidas conforme solicitado */}
+                
+                {/* Rotas Públicas */}
+                <Route path="/" element={<HomeUltraModern />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/sobre" element={<AboutPage />} />
+                <Route path="/pacotes" element={<PacotesListPage />} />
+                <Route path="/categoria/:categoria" element={<CategoriaPage />} />
+                <Route path="/avaliacoes" element={<AvaliacoesPage />} />
+                <Route path="/destinos" element={<Destinos />} />
+                <Route path="/contato" element={<Contato />} />
+                <Route path="/pacote/:pacoteSlug" element={<PacoteDetailPage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:slug" element={<BlogPostPage />} />
 
               {/* Rotas do Sistema de Reservas */}
               <Route path="/reservas" element={<ReservasPage />} />
@@ -173,7 +181,8 @@ const App = () => {
               <Route path="/google" element={<GoogleHub />} />
               
               <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
+              </Routes>
+            </Suspense>
           </ErrorBoundary>
         </Router>
       </AuthProvider>
