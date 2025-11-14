@@ -115,6 +115,9 @@ const GoogleReviews = () => {
                         src={review.photo} 
                         alt={review.name}
                         className="gr-avatar"
+                        width="60"
+                        height="60"
+                        loading="lazy"
                       />
                       <div className="gr-reviewer-info">
                         <h3 className="gr-reviewer-name">{review.name}</h3>

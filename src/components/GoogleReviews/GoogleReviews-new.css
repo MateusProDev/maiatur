@@ -329,20 +329,26 @@
 }
 
 .gr-dot {
-  width: 14px;
-  height: 14px;
+  min-width: 48px;
+  min-height: 48px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: rgba(148, 163, 184, 0.3);
   border: 2px solid rgba(148, 163, 184, 0.5);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .gr-dot::before {
   content: '';
-  position: absolute;
-  inset: -4px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: transparent;
   transition: all 0.3s ease;
@@ -350,11 +356,14 @@
 
 .gr-dot:hover::before {
   background: rgba(59, 130, 246, 0.15);
+  width: 20px;
+  height: 20px;
 }
 
-.gr-dot.gr-dot-active {
+.gr-dot.gr-dot-active::before {
   background: #3b82f6;
   width: 40px;
+  height: 14px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }

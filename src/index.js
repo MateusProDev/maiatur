@@ -20,12 +20,24 @@ setTimeout(() => {
 // Criação do root
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-// Registro do Service Worker (temporariamente desabilitado)
-if (false && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+// Registro do Service Worker para melhor cache e performance
+if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/serviceWorker.js')
-      .then((reg) => console.log('Service Worker registrado com sucesso:', reg))
-      .catch((err) => console.error('Erro ao registrar Service Worker:', err));
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((reg) => {
+        console.log('✅ Service Worker registrado com sucesso:', reg.scope);
+        
+        // Verificar se há atualizações
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('🔄 Nova versão disponível! Recarregue a página para atualizar.');
+            }
+          });
+        });
+      })
+      .catch((err) => console.error('❌ Erro ao registrar Service Worker:', err));
   });
 }
 

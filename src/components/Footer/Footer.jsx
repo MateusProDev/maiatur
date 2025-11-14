@@ -102,7 +102,7 @@ const FooterUltraModern = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     className="newsletter-input-ultra"
                   />
-                  <button type="submit" className="newsletter-btn-ultra">
+                  <button type="submit" className="newsletter-btn-ultra" aria-label="Inscrever na newsletter">
                     <FiSend />
                   </button>
                 </div>

@@ -292,13 +292,13 @@
   display: flex !important;
   align-items: center !important;
   gap: 0.5rem !important;
-  padding: 0.75rem 1.25rem !important;
+  padding: 0.85rem 1.5rem !important;
   background: var(--color-primary, #21A657) !important;
   color: var(--color-white, #ffffff) !important;
   border: none !important;
   border-radius: 50px !important;
-  font-size: 0.9rem !important;
-  font-weight: 600 !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
   transition: all 0.3s ease !important;
   box-shadow: 0 4px 15px rgba(33, 166, 87, 0.3) !important;
   white-space: nowrap !important;
@@ -307,6 +307,7 @@
   margin: 0 !important;
   box-sizing: border-box !important;
   outline: none !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
 }
 
 .carousel-card:hover .carousel-card-btn {
@@ -335,12 +336,12 @@
 }
 
 .carousel-dot {
-  width: 12px !important;
-  height: 12px !important;
-  min-width: 12px !important;
-  min-height: 12px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 50% !important;
-  background: rgba(33, 166, 87, 0.2) !important;
+  background: transparent !important;
   border: none !important;
   cursor: pointer !important;
   transition: all 0.3s ease !important;
@@ -348,16 +349,30 @@
   margin: 0 !important;
   box-sizing: border-box !important;
   outline: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
 }
 
-.carousel-dot:hover {
+.carousel-dot::before {
+  content: '' !important;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background: rgba(33, 166, 87, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+.carousel-dot:hover::before {
   background: rgba(33, 166, 87, 0.5) !important;
   transform: scale(1.2) !important;
 }
 
-.carousel-dot.active {
+.carousel-dot.active::before {
   background: var(--color-primary, #21A657) !important;
   width: 32px !important;
+  height: 12px !important;
   border-radius: 6px !important;
 }
 

@@ -309,6 +309,8 @@ const HomeUltraModern = () => {
                     alt={service.title}
                     className="servico-image"
                     loading="lazy"
+                    width="665"
+                    height="374"
                     onError={(e) => {
                       console.error('❌ Erro ao carregar imagem:', service.image);
                       e.target.src = '/placeholder-service.jpg';

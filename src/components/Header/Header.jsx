@@ -149,7 +149,13 @@ const Header = () => {
       <div className="header-container-modern">
         <Link to="/" className="header-logo-modern">
           {logoUrl ? (
-            <img src={logoUrl} alt="Transfer Fortaleza Tur Logo" />
+            <img 
+              src={logoUrl} 
+              alt="Transfer Fortaleza Tur Logo"
+              width="105"
+              height="105"
+              loading="eager"
+            />
           ) : (
             <div className="logo-placeholder-modern">
               <span className="logo-text">TRANSFER FORTALEZA TUR</span>

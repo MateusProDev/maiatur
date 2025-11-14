@@ -172,13 +172,14 @@
 }
 
 .read-more {
-  color: #21A657 !important;
+  color: #0F7A3A !important; /* Cor mais escura para contraste 4.5:1 */
   font-weight: 700 !important;
   transition: all 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .blog-preview-card:hover .read-more {
-  color: #EE7C35 !important;
+  color: #C35A1A !important; /* Cor mais escura do laranja para contraste adequado */
   gap: 0.75rem;
 }
 

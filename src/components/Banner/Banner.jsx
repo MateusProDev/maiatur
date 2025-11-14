@@ -45,7 +45,15 @@ const Banner = () => {
 
       {/* Imagem principal */}
       {bannerImageUrl && (
-        <img src={bannerImageUrl} alt="Banner Principal" className="banner-image" />
+        <img 
+          src={bannerImageUrl} 
+          alt="Banner Principal" 
+          className="banner-image" 
+          width="1920"
+          height="800"
+          loading="eager"
+          fetchpriority="high"
+        />
       )}
 
       {/* Texto e descrição */}

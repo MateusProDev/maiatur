@@ -123,21 +123,22 @@ const App = () => {
                 fullScreen={true} 
               />
             }>
-              <Routes>
-                {/* As rotas de motorista e usuário foram removidas conforme solicitado */}
-                
-                {/* Rotas Públicas */}
-                <Route path="/" element={<HomeUltraModern />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/sobre" element={<AboutPage />} />
-                <Route path="/pacotes" element={<PacotesListPage />} />
-                <Route path="/categoria/:categoria" element={<CategoriaPage />} />
-                <Route path="/avaliacoes" element={<AvaliacoesPage />} />
-                <Route path="/destinos" element={<Destinos />} />
-                <Route path="/contato" element={<Contato />} />
-                <Route path="/pacote/:pacoteSlug" element={<PacoteDetailPage />} />
-                <Route path="/blog" element={<BlogPage />} />
-                <Route path="/blog/:slug" element={<BlogPostPage />} />
+              <main role="main">
+                <Routes>
+                  {/* As rotas de motorista e usuário foram removidas conforme solicitado */}
+                  
+                  {/* Rotas Públicas */}
+                  <Route path="/" element={<HomeUltraModern />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/sobre" element={<AboutPage />} />
+                  <Route path="/pacotes" element={<PacotesListPage />} />
+                  <Route path="/categoria/:categoria" element={<CategoriaPage />} />
+                  <Route path="/avaliacoes" element={<AvaliacoesPage />} />
+                  <Route path="/destinos" element={<Destinos />} />
+                  <Route path="/contato" element={<Contato />} />
+                  <Route path="/pacote/:pacoteSlug" element={<PacoteDetailPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/blog/:slug" element={<BlogPostPage />} />
 
               {/* Rotas do Sistema de Reservas */}
               <Route path="/reservas" element={<ReservasPage />} />
@@ -181,7 +182,8 @@ const App = () => {
               <Route path="/google" element={<GoogleHub />} />
               
               <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
+                </Routes>
+              </main>
             </Suspense>
           </ErrorBoundary>
         </Router>

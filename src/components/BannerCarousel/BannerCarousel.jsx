@@ -104,6 +104,10 @@ const BannerCarousel = () => {
                 src={banner.imagem} 
                 alt={banner.titulo}
                 className="banner-image"
+                width="1920"
+                height="800"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                fetchpriority={index === 0 ? 'high' : undefined}
               />
               <div className="banner-overlay"></div>
             </div>
