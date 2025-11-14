@@ -1,608 +1,287 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  Button,
-  TextField,
-  Rating,
-  Avatar,
-  Grid,
-  Container,
-  IconButton,
-  Skeleton,
-  Fade,
-  
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Pagination,
-  Alert,
-  Snackbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
-} from '@mui/material';
-import {
-  Star,
-  StarBorder,
-  Search,
-  FilterList,
-  Sort,
-  ThumbUp,
-  Verified,
-  FormatQuote,
-  ArrowBack,
-  RateReview,
-  TrendingUp,
-  People,
-  EmojiEvents,
-  Close
-} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { avaliacoesService } from '../../services/avaliacoesService';
+import { db } from '../../firebase/firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
+import { FiStar, FiChevronLeft, FiChevronRight, FiArrowLeft } from 'react-icons/fi';
 import './AvaliacoesPage.css';
 
 const AvaliacoesPage = () => {
   const navigate = useNavigate();
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [filtros, setFiltros] = useState({
-    busca: '',
-    nota: '',
-    ordenacao: 'recente'
-  });
-  const [modalOpen, setModalOpen] = useState(false);
-  const [novaAvaliacao, setNovaAvaliacao] = useState({
-    nota: 5,
-    comentario: '',
-    nomeUsuario: ''
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
-  const [estatisticas, setEstatisticas] = useState({
-    media: 0,
-    total: 0,
-    distribuicao: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
-  });
-
-  const ITEMS_PER_PAGE = 9;
-
-  // Função para validar se o nome é um nome de pessoa real
-  const validarNomePessoa = (nome) => {
-    const nomeMinusculo = nome.toLowerCase().trim();
-    
-    const palavrasInvalidas = [
-      'usuario', 'user', 'admin', 'test', 'teste', 'exemplo',
-      'pauzudo', 'pinto', 'pica', 'buceta', 'cu', 'merda', 'bosta',
-      'fdp', 'porra', 'caralho', 'puta', 'viado', 'gay', 'penis',
-      'vagina', 'sexo', 'fodase', 'foda-se', 'vai se fuder',
-      'objeto', 'coisa', 'negocio', 'trem', 'bagulho',
-      'anonimo', 'anonymous', 'desconhecido', 'fulano', 'ciclano',
-      'beltrano', 'ninguem', 'alguem', 'qualquer', 'random',
-      'bot', 'robot', 'fake', 'falso', 'inventado'
-    ];
-
-    for (const palavra of palavrasInvalidas) {
-      if (nomeMinusculo.includes(palavra)) {
-        return false;
-      }
-    }
-
-    const partes = nome.trim().split(' ').filter(parte => parte.length > 0);
-    if (partes.length < 2) {
-      return false;
-    }
-
-    for (const parte of partes) {
-      if (parte.length < 2) {
-        return false;
-      }
-    }
-
-    const regexNome = /^[a-zA-ZÀ-ÿ\\s]+$/;
-    if (!regexNome.test(nome)) {
-      return false;
-    }
-
-    return true;
-  };
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [filtroNota, setFiltroNota] = useState('todas');
 
   useEffect(() => {
     loadAvaliacoes();
-    loadEstatisticas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, filtros]);
+  }, []);
+
+  // Resetar slide quando filtro mudar
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [filtroNota]);
 
   const loadAvaliacoes = async () => {
     try {
       setLoading(true);
-      const offset = (page - 1) * ITEMS_PER_PAGE;
-      const response = await avaliacoesService.getAvaliacoes({ 
-        limit: ITEMS_PER_PAGE,
-        offset,
-        filtros 
-      });
-      setAvaliacoes(response.avaliacoes);
-      setTotalPages(Math.ceil(response.total / ITEMS_PER_PAGE));
+      
+      // Buscar do documento content/googleReviews
+      const googleReviewsRef = doc(db, 'content', 'googleReviews');
+      const googleReviewsDoc = await getDoc(googleReviewsRef);
+      
+      if (googleReviewsDoc.exists()) {
+        const data = googleReviewsDoc.data();
+        const reviews = data.reviews || [];
+        
+        // Transformar os dados para o formato esperado
+        const avaliacoesData = reviews.map(review => ({
+          id: review.id || Math.random(),
+          nomeUsuario: review.name,
+          nomeCliente: review.name,
+          nota: review.rating,
+          comentario: review.text,
+          createdAt: review.date,
+          avatarUsuario: review.photo
+        }));
+        
+        setAvaliacoes(avaliacoesData);
+      }
     } catch (error) {
-      console.error('Erro ao carregar avaliações:', error);
+      console.error('Erro ao buscar avaliações:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const loadEstatisticas = async () => {
-    try {
-      const stats = await avaliacoesService.getEstatisticas();
-      setEstatisticas(stats);
-    } catch (error) {
-      console.error('Erro ao carregar estatísticas:', error);
-    }
-  };
-
-  const handleSubmitAvaliacao = async () => {
-    if (!novaAvaliacao.comentario.trim() || !novaAvaliacao.nomeUsuario.trim()) {
-      setSnackbar({
-        open: true,
-        message: 'Preencha todos os campos obrigatórios',
-        severity: 'warning'
-      });
-      return;
-    }
-
-    if (!validarNomePessoa(novaAvaliacao.nomeUsuario)) {
-      setSnackbar({
-        open: true,
-        message: 'Por favor, digite um nome real (nome e sobrenome). Evite apelidos, palavrões ou nomes falsos.',
-        severity: 'warning'
-      });
-      return;
-    }
-
-    setConfirmModalOpen(true);
-  };
-
-  const handleConfirmSubmit = async () => {
-    try {
-      setSubmitting(true);
-      await avaliacoesService.criarAvaliacao({
-        nota: novaAvaliacao.nota,
-        comentario: novaAvaliacao.comentario,
-        nomeUsuario: novaAvaliacao.nomeUsuario,
-        userId: null,
-        emailUsuario: null,
-        avatarUsuario: null
-      });
-
-      setSnackbar({
-        open: true,
-        message: 'Avaliação enviada com sucesso!',
-        severity: 'success'
-      });
-
-      setModalOpen(false);
-      setConfirmModalOpen(false);
-      setNovaAvaliacao({
-        nota: 5,
-        comentario: '',
-        nomeUsuario: ''
-      });
-
-      loadAvaliacoes();
-      loadEstatisticas();
-    } catch (error) {
-      console.error('Erro ao enviar avaliação:', error);
-      setSnackbar({
-        open: true,
-        message: error.message || 'Erro ao enviar avaliação',
-        severity: 'error'
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleFiltroChange = (campo, valor) => {
-    setFiltros(prev => ({ ...prev, [campo]: valor }));
-    setPage(1);
-  };
-
-  const renderEstrelas = (nota) => {
-    return (
-      <Rating
-        value={nota}
-        readOnly
-        precision={0.5}
-        icon={<Star sx={{ color: '#FFD700' }} />}
-        emptyIcon={<StarBorder sx={{ color: '#E0E0E0' }} />}
-      />
+  const nextSlide = () => {
+    setCurrentSlide((prev) => 
+      prev === avaliacoesFiltradas.length - 1 ? 0 : prev + 1
     );
   };
 
-  const renderAvaliacaoCard = (avaliacao) => (
-    <Card key={avaliacao.id} className="avaliacao-card" elevation={2}>
-      <CardContent>
-        <Box className="avaliacao-header">
-          <Box className="usuario-info">
-            <Avatar
-              src={avaliacao.avatarUsuario}
-              alt={avaliacao.nomeUsuario}
-              className="usuario-avatar"
-            >
-              {avaliacao.nomeUsuario?.[0]?.toUpperCase()}
-            </Avatar>
-            <Box>
-              <Typography variant="subtitle1" className="usuario-nome">
-                {avaliacao.nomeUsuario}
-                {avaliacao.verificado && (
-                  <Verified className="icone-verificado" />
-                )}
-              </Typography>
-              <Typography variant="caption" className="data-avaliacao">
-                {new Date(avaliacao.createdAt?.seconds * 1000).toLocaleDateString('pt-BR')}
-              </Typography>
-            </Box>
-          </Box>
-          {renderEstrelas(avaliacao.nota)}
-        </Box>
+  const prevSlide = () => {
+    setCurrentSlide((prev) => 
+      prev === 0 ? avaliacoesFiltradas.length - 1 : prev - 1
+    );
+  };
 
-        <Box className="avaliacao-comentario">
-          <FormatQuote className="aspas-icone" />
-          <Typography variant="body1">
-            {avaliacao.comentario}
-          </Typography>
-        </Box>
+  const calcularMedia = () => {
+    if (avaliacoes.length === 0) return 0;
+    const soma = avaliacoes.reduce((acc, av) => acc + (av.nota || 0), 0);
+    return (soma / avaliacoes.length).toFixed(1);
+  };
 
-        <Box className="avaliacao-actions">
-          <Button
-            size="small"
-            startIcon={<ThumbUp />}
-            className="btn-util"
-          >
-            Útil ({avaliacao.likes || 0})
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
-  );
+  const contarPorNota = (nota) => {
+    return avaliacoes.filter(av => av.nota === nota).length;
+  };
+
+  const formatarData = (timestamp) => {
+    if (!timestamp) return 'Data não disponível';
+    
+    // Se for string no formato "DD/MM/YYYY"
+    if (typeof timestamp === 'string') {
+      return timestamp;
+    }
+    
+    let date;
+    if (timestamp.seconds) {
+      date = new Date(timestamp.seconds * 1000);
+    } else if (timestamp instanceof Date) {
+      date = timestamp;
+    } else {
+      date = new Date(timestamp);
+    }
+    
+    return date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  // Filtrar avaliações por nota
+  const avaliacoesFiltradas = filtroNota === 'todas' 
+    ? avaliacoes 
+    : avaliacoes.filter(av => av.nota === Number(filtroNota));
 
   return (
-    <Box className="avaliacoes-page">
-      {/* Hero Section */}
-      <Box className="hero-section">
-        <Container maxWidth="lg">
-          <Box className="hero-content">
-            <Button
-              startIcon={<ArrowBack />}
-              onClick={() => navigate('/')}
-              className="btn-voltar"
-            >
-              Voltar ao Início
-            </Button>
-            
-            <Typography variant="h1" className="page-title">
-              Todas as Avaliações
-            </Typography>
-            
-            <Typography variant="h6" className="page-subtitle">
-              Descubra as experiências reais dos nossos visitantes
-            </Typography>
-
-            {/* Estatísticas */}
-            <Box className="stats-grid">
-              <Box className="stat-card">
-                <EmojiEvents className="stat-icon" />
-                <Typography variant="h3">{estatisticas.media.toFixed(1)}</Typography>
-                <Typography variant="body2">Nota Média</Typography>
-              </Box>
-              <Box className="stat-card">
-                <People className="stat-icon" />
-                <Typography variant="h3">{estatisticas.total}</Typography>
-                <Typography variant="body2">Avaliações</Typography>
-              </Box>
-              <Box className="stat-card">
-                <TrendingUp className="stat-icon" />
-                <Typography variant="h3">98%</Typography>
-                <Typography variant="body2">Satisfação</Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Filtros e Controles */}
-      <Container maxWidth="lg" className="main-content">
-        <Box className="filtros-section">
-          <Grid container spacing={3} alignItems="center">
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                placeholder="Buscar avaliações..."
-                value={filtros.busca}
-                onChange={(e) => handleFiltroChange('busca', e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-                className="campo-busca"
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <FormControl fullWidth>
-                <InputLabel>Nota</InputLabel>
-                <Select
-                  value={filtros.nota}
-                  onChange={(e) => handleFiltroChange('nota', e.target.value)}
-                  startAdornment={<FilterList />}
-                >
-                  <MenuItem value="">Todas</MenuItem>
-                  <MenuItem value="5">5 estrelas</MenuItem>
-                  <MenuItem value="4">4 estrelas</MenuItem>
-                  <MenuItem value="3">3 estrelas</MenuItem>
-                  <MenuItem value="2">2 estrelas</MenuItem>
-                  <MenuItem value="1">1 estrela</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <FormControl fullWidth>
-                <InputLabel>Ordenar por</InputLabel>
-                <Select
-                  value={filtros.ordenacao}
-                  onChange={(e) => handleFiltroChange('ordenacao', e.target.value)}
-                  startAdornment={<Sort />}
-                >
-                  <MenuItem value="recente">Mais recentes</MenuItem>
-                  <MenuItem value="antiga">Mais antigas</MenuItem>
-                  <MenuItem value="nota_alta">Maior nota</MenuItem>
-                  <MenuItem value="nota_baixa">Menor nota</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Button
-                variant="contained"
-                fullWidth
-                startIcon={<RateReview />}
-                onClick={() => setModalOpen(true)}
-                className="btn-avaliar"
-              >
-                Avaliar
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-
-        {/* Grade de Avaliações */}
-        <Box className="avaliacoes-container">
-          {loading ? (
-            <Grid container spacing={4}>
-              {[...Array(9)].map((_, index) => (
-                <Grid item xs={12} md={6} lg={4} key={index}>
-                  <Card className="skeleton-card">
-                    <CardContent>
-                      <Box display="flex" alignItems="center" gap={2} mb={2}>
-                        <Skeleton variant="circular" width={56} height={56} />
-                        <Box flex={1}>
-                          <Skeleton variant="text" height={24} width="60%" />
-                          <Skeleton variant="text" height={16} width="40%" />
-                        </Box>
-                        <Skeleton variant="rectangular" width={120} height={24} />
-                      </Box>
-                      <Skeleton variant="rectangular" height={100} />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <Grid container spacing={4}>
-              {avaliacoes.map((avaliacao, index) => (
-                <Grid item xs={12} md={6} lg={4} key={avaliacao.id}>
-                  <Fade in={true} timeout={600} style={{ transitionDelay: `${index * 100}ms` }}>
-                    <div>
-                      {renderAvaliacaoCard(avaliacao)}
-                    </div>
-                  </Fade>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-
-          {/* Paginação */}
-          {!loading && totalPages > 1 && (
-            <Box className="paginacao-container">
-              <Pagination
-                count={totalPages}
-                page={page}
-                onChange={(e, newPage) => setPage(newPage)}
-                color="primary"
-                size="large"
-                showFirstButton
-                showLastButton
-              />
-            </Box>
-          )}
-        </Box>
-      </Container>
-
-      {/* Modal de Nova Avaliação */}
-      <Dialog
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        maxWidth="md"
-        fullWidth
-        className="modal-avaliacao"
-      >
-        <DialogTitle>
-          <Box className="modal-header">
-            <Typography variant="h5">Compartilhar Experiência</Typography>
-            <IconButton onClick={() => setModalOpen(false)}>
-              <Close />
-            </IconButton>
-          </Box>
-        </DialogTitle>
-        <DialogContent>
-          <Box className="form-avaliacao">
-            <Box className="campo-nota">
-              <Typography variant="subtitle1" gutterBottom>
-                Sua avaliação geral *
-              </Typography>
-              <Rating
-                value={novaAvaliacao.nota}
-                onChange={(e, newValue) =>
-                  setNovaAvaliacao(prev => ({ ...prev, nota: newValue }))
-                }
-                size="large"
-                icon={<Star sx={{ color: '#FFD700' }} />}
-                emptyIcon={<StarBorder sx={{ color: '#E0E0E0' }} />}
-              />
-            </Box>
-
-            <TextField
-              label="Seu nome *"
-              value={novaAvaliacao.nomeUsuario}
-              onChange={(e) =>
-                setNovaAvaliacao(prev => ({ ...prev, nomeUsuario: e.target.value }))
-              }
-              fullWidth
-              margin="normal"
-              placeholder="Digite seu nome completo"
-            />
-
-            <TextField
-              label="Seu comentário *"
-              value={novaAvaliacao.comentario}
-              onChange={(e) =>
-                setNovaAvaliacao(prev => ({ ...prev, comentario: e.target.value }))
-              }
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-              placeholder="Conte sobre sua experiência..."
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions className="modal-actions">
-          <Button
-            onClick={() => setModalOpen(false)}
-            disabled={submitting}
-          >
-            Cancelar
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleSubmitAvaliacao}
-            disabled={submitting}
-            className="btn-enviar"
-          >
-            {submitting ? 'Processando...' : 'Avaliar'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Modal de Confirmação */}
-      <Dialog
-        open={confirmModalOpen}
-        onClose={() => setConfirmModalOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>
-          <Box className="modal-header">
-            <Typography variant="h6">
-              Confirmar Avaliação
-            </Typography>
-            <IconButton onClick={() => setConfirmModalOpen(false)}>
-              <Close />
-            </IconButton>
-          </Box>
-        </DialogTitle>
-        <DialogContent>
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              Sua avaliação:
-            </Typography>
-            {renderEstrelas(novaAvaliacao.nota)}
-          </Box>
-          
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              Nome:
-            </Typography>
-            <Typography variant="body1">
-              {novaAvaliacao.nomeUsuario}
-            </Typography>
-          </Box>
-
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              Comentário:
-            </Typography>
-            <Typography variant="body1" sx={{ 
-              backgroundColor: '#f5f5f5', 
-              padding: '12px', 
-              borderRadius: '8px',
-              fontStyle: 'italic'
-            }}>
-              "{novaAvaliacao.comentario}"
-            </Typography>
-          </Box>
-
-          <Typography variant="body2" color="text.secondary">
-            Deseja enviar esta avaliação ou fazer alterações?
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => setConfirmModalOpen(false)}
-            disabled={submitting}
-          >
-            Editar
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleConfirmSubmit}
-            disabled={submitting}
-            sx={{ 
-              backgroundColor: '#4CAF50',
-              '&:hover': {
-                backgroundColor: '#45a049'
-              }
-            }}
-          >
-            {submitting ? 'Enviando...' : 'Confirmar e Enviar'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Snackbar para notificações */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
-      >
-        <Alert
-          onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
+    <div className="avaliacoespage-container-unique">
+      {/* Header com botão voltar */}
+      <div className="avaliacoespage-header-unique">
+        <button 
+          className="avaliacoespage-btn-back-unique"
+          onClick={() => navigate('/')}
         >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Box>
+          <FiArrowLeft /> Voltar
+        </button>
+        <h1 className="avaliacoespage-title-unique">
+          Avaliações dos Nossos <span className="avaliacoespage-highlight-unique">Clientes</span>
+        </h1>
+        <p className="avaliacoespage-subtitle-unique">
+          Veja o que nossos viajantes têm a dizer sobre suas experiências
+        </p>
+      </div>
+
+      {/* Estatísticas */}
+      <div className="avaliacoespage-stats-unique">
+        <div className="avaliacoespage-stat-card-unique">
+          <div className="avaliacoespage-stat-number-unique">{calcularMedia()}</div>
+          <div className="avaliacoespage-stat-label-unique">Nota Média</div>
+          <div className="avaliacoespage-stat-stars-unique">
+            {[...Array(5)].map((_, i) => (
+              <FiStar 
+                key={i} 
+                className={i < Math.round(calcularMedia()) ? 'avaliacoespage-star-filled-unique' : 'avaliacoespage-star-empty-unique'}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="avaliacoespage-stat-card-unique">
+          <div className="avaliacoespage-stat-number-unique">{avaliacoes.length}</div>
+          <div className="avaliacoespage-stat-label-unique">Total de Avaliações</div>
+        </div>
+
+        <div className="avaliacoespage-stat-card-unique">
+          <div className="avaliacoespage-stat-number-unique">{contarPorNota(5)}</div>
+          <div className="avaliacoespage-stat-label-unique">5 Estrelas</div>
+        </div>
+      </div>
+
+      {/* Filtros */}
+      <div className="avaliacoespage-filters-unique">
+        <button 
+          className={`avaliacoespage-filter-btn-unique ${filtroNota === 'todas' ? 'avaliacoespage-filter-active-unique' : ''}`}
+          onClick={() => setFiltroNota('todas')}
+        >
+          Todas ({avaliacoes.length})
+        </button>
+        {[5, 4, 3, 2, 1].map(nota => (
+          <button
+            key={nota}
+            className={`avaliacoespage-filter-btn-unique ${filtroNota === String(nota) ? 'avaliacoespage-filter-active-unique' : ''}`}
+            onClick={() => setFiltroNota(String(nota))}
+          >
+            {nota} <FiStar className="avaliacoespage-filter-star-unique" /> ({contarPorNota(nota)})
+          </button>
+        ))}
+      </div>
+
+      {/* Carrossel Principal */}
+      {loading ? (
+        <div className="avaliacoespage-loading-unique">
+          <div className="avaliacoespage-spinner-unique"></div>
+          <p>Carregando avaliações...</p>
+        </div>
+      ) : avaliacoesFiltradas.length === 0 ? (
+        <div className="avaliacoespage-empty-unique">
+          <FiStar className="avaliacoespage-empty-icon-unique" />
+          <h3>Nenhuma avaliação encontrada</h3>
+          <p>Não há avaliações com este filtro!</p>
+        </div>
+      ) : (
+        <>
+          <div className="avaliacoespage-carousel-unique">
+            <button 
+              className="avaliacoespage-carousel-btn-unique avaliacoespage-carousel-prev-unique"
+              onClick={prevSlide}
+            >
+              <FiChevronLeft />
+            </button>
+
+            <div className="avaliacoespage-carousel-track-unique">
+              {avaliacoesFiltradas.map((avaliacao, index) => (
+                <div
+                  key={avaliacao.id}
+                  className={`avaliacoespage-carousel-card-unique ${
+                    index === currentSlide ? 'avaliacoespage-carousel-active-unique' : ''
+                  }`}
+                  style={{
+                    transform: `translateX(${(index - currentSlide) * 105}%)`,
+                    opacity: index === currentSlide ? 1 : 0.3
+                  }}
+                >
+                  <div className="avaliacoespage-card-stars-unique">
+                    {[...Array(avaliacao.nota || 5)].map((_, i) => (
+                      <FiStar key={i} className="avaliacoespage-star-filled-unique" />
+                    ))}
+                  </div>
+
+                  <p className="avaliacoespage-card-comment-unique">
+                    "{avaliacao.comentario}"
+                  </p>
+
+                  <div className="avaliacoespage-card-author-unique">
+                    <div className="avaliacoespage-author-avatar-unique">
+                      {avaliacao.avatarUsuario ? (
+                        <img src={avaliacao.avatarUsuario} alt={avaliacao.nomeUsuario} style={{width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover'}} />
+                      ) : (
+                        (avaliacao.nomeUsuario || avaliacao.nomeCliente || 'C').charAt(0).toUpperCase()
+                      )}
+                    </div>
+                    <div className="avaliacoespage-author-info-unique">
+                      <h4>{avaliacao.nomeUsuario || avaliacao.nomeCliente || 'Cliente Satisfeito'}</h4>
+                      <p>{formatarData(avaliacao.createdAt)}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button 
+              className="avaliacoespage-carousel-btn-unique avaliacoespage-carousel-next-unique"
+              onClick={nextSlide}
+            >
+              <FiChevronRight />
+            </button>
+          </div>
+
+          <div className="avaliacoespage-carousel-dots-unique">
+            {avaliacoesFiltradas.map((_, index) => (
+              <button
+                key={index}
+                className={`avaliacoespage-dot-unique ${
+                  index === currentSlide ? 'avaliacoespage-dot-active-unique' : ''
+                }`}
+                onClick={() => setCurrentSlide(index)}
+              />
+            ))}
+          </div>
+
+          {/* Grade de todas as avaliações */}
+          <div className="avaliacoespage-grid-unique">
+            <h2 className="avaliacoespage-grid-title-unique">Todas as Avaliações</h2>
+            <div className="avaliacoespage-grid-container-unique">
+              {avaliacoesFiltradas.map((avaliacao) => (
+                <div key={avaliacao.id} className="avaliacoespage-grid-card-unique">
+                  <div className="avaliacoespage-grid-header-unique">
+                    <div className="avaliacoespage-grid-avatar-unique">
+                      {avaliacao.avatarUsuario ? (
+                        <img src={avaliacao.avatarUsuario} alt={avaliacao.nomeUsuario} style={{width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover'}} />
+                      ) : (
+                        (avaliacao.nomeUsuario || avaliacao.nomeCliente || 'C').charAt(0).toUpperCase()
+                      )}
+                    </div>
+                    <div className="avaliacoespage-grid-info-unique">
+                      <h4>{avaliacao.nomeUsuario || avaliacao.nomeCliente || 'Cliente'}</h4>
+                      <p>{formatarData(avaliacao.createdAt)}</p>
+                    </div>
+                    <div className="avaliacoespage-grid-rating-unique">
+                      {[...Array(avaliacao.nota || 5)].map((_, i) => (
+                        <FiStar key={i} className="avaliacoespage-star-filled-unique" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="avaliacoespage-grid-comment-unique">
+                    {avaliacao.comentario}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
