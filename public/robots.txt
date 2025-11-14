@@ -2,6 +2,14 @@
 User-agent: *
 Allow: /
 
+# Allow all images and icons
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.ico$
+Allow: /favicon.ico
+Allow: /android-icon-*.png
+Allow: /apple-icon-*.png
+
 # Sitemap
 Sitemap: https://transferfortalezatur.com.br/sitemap.xml
 
