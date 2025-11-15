@@ -782,6 +782,24 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
   
   await transporter.sendMail(mailOptions);
   console.log(`✅ Email enviado para ${reserva.responsavel.email}`);
+
+  // Enviar notificação para o admin
+  const adminMailOptions = {
+    from: `Reserva Notificação <${fromAddress}>`,
+    to: 'maiatur000@gmail.com',
+    subject: `Nova reserva criada - ${reserva.responsavel.nome}`,
+    text:
+      `Uma nova reserva foi criada!\n\n` +
+      `Nome do cliente: ${reserva.responsavel.nome}\n` +
+      `Email do cliente: ${reserva.responsavel.email}\n` +
+      `Telefone: ${reserva.responsavel.ddi} ${reserva.responsavel.telefone}\n` +
+      `Tipo: ${reserva.tipo}\n` +
+      `Número da reserva: #${reservaId.substring(0, 12).toUpperCase()}\n` +
+      `Valor total: R$ ${reserva.pagamento.valorTotal?.toFixed?.(2) || reserva.pagamento.valorTotal}\n` +
+      `\nAcesse o painel para mais detalhes.`
+  };
+  await transporter.sendMail(adminMailOptions);
+  console.log('✅ Notificação enviada para maiatur000@gmail.com');
 }
 
 // Handler da Vercel
