@@ -563,16 +563,153 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
       <html>
       <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #1a4d7a 0%, #2980b9 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-          .voucher-box { background: white; border: 2px solid #e67e22; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
-          .voucher-number { font-size: 24px; font-weight: bold; color: #e67e22; margin: 10px 0; }
-          .info-box { background: white; padding: 20px; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-          .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #777; }
-          .btn { display: inline-block; background: #e67e22; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin: 15px 0; }
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background-color: #f5f5f5;
+          }
+          .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: #ffffff;
+          }
+          .header { 
+            background: linear-gradient(135deg, #1a4d7a 0%, #2980b9 100%); 
+            color: white; 
+            padding: 40px 30px; 
+            text-align: center; 
+          }
+          .header h1 { 
+            font-size: 28px; 
+            margin-bottom: 10px;
+            font-weight: 600;
+          }
+          .header p { 
+            font-size: 16px; 
+            opacity: 0.95;
+          }
+          .content { 
+            background: #ffffff; 
+            padding: 30px; 
+          }
+          .voucher-box { 
+            background: linear-gradient(135deg, #fff5eb 0%, #ffe8d1 100%); 
+            border: 3px solid #e67e22; 
+            border-radius: 12px; 
+            padding: 25px; 
+            margin: 25px 0; 
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(230, 126, 34, 0.1);
+          }
+          .voucher-label {
+            margin: 0; 
+            color: #e67e22; 
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .voucher-number { 
+            font-size: 32px; 
+            font-weight: bold; 
+            color: #e67e22; 
+            margin: 12px 0;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+          }
+          .voucher-note {
+            margin: 12px 0 0 0; 
+            font-size: 13px; 
+            color: #666;
+          }
+          .info-box { 
+            background: #f9fafb; 
+            padding: 25px; 
+            border-radius: 10px; 
+            margin: 20px 0; 
+            border-left: 4px solid #1a4d7a;
+          }
+          .info-box h3 { 
+            color: #1a4d7a; 
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+          }
+          .info-box p { 
+            margin: 10px 0;
+            font-size: 15px;
+          }
+          .info-box strong {
+            color: #1a4d7a;
+          }
+          .highlight-box {
+            background: #fff9e6;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+          }
+          .highlight-box p {
+            margin: 8px 0;
+            font-size: 15px;
+          }
+          .contact-info {
+            background: #e8f4f8;
+            border-left: 4px solid #2980b9;
+          }
+          .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #e67e22 0%, #1a4d7a 100%);
+            margin: 25px 0;
+            border: none;
+          }
+          .emoji-section {
+            text-align: center; 
+            margin: 30px 0 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+          }
+          .emoji-section p:first-child {
+            color: #555; 
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+          }
+          .emoji-section p:last-child {
+            font-size: 28px; 
+            margin: 0;
+          }
+          .footer { 
+            text-align: center; 
+            padding: 30px; 
+            background-color: #f8f9fa;
+            border-top: 3px solid #e67e22;
+          }
+          .footer p {
+            margin: 8px 0;
+          }
+          .footer-brand {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1a4d7a;
+            margin-bottom: 10px;
+          }
+          .footer-badges {
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0;
+          }
+          .footer-disclaimer {
+            font-size: 11px; 
+            color: #999; 
+            margin-top: 20px;
+            line-height: 1.5;
+          }
         </style>
       </head>
       <body>
@@ -584,42 +721,44 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
           
           <div class="content">
             <div class="voucher-box">
-              <p style="margin: 0; color: #666;">Número da Reserva</p>
+              <p class="voucher-label">Número da Reserva</p>
               <div class="voucher-number">#${reservaId.substring(0, 12).toUpperCase()}</div>
-              <p style="margin: 10px 0 0 0; font-size: 14px; color: #666;">Guarde este número para referência</p>
+              <p class="voucher-note">Guarde este número para referência</p>
             </div>
+
+            <hr class="divider">
             
             <div class="info-box">
-              <h3 style="color: #1a4d7a; margin-top: 0;">📋 Detalhes da Reserva</h3>
+              <h3>📋 Detalhes da Reserva</h3>
               <p><strong>Tipo:</strong> ${tipoMap[reserva.tipo]}</p>
               <p><strong>Responsável:</strong> ${reserva.responsavel.nome}</p>
               <p><strong>Passageiros:</strong> ${reserva.quantidades.adultos} adulto(s)${reserva.quantidades.criancas > 0 ? ` + ${reserva.quantidades.criancas} criança(s)` : ''}</p>
-              <p><strong>Valor Total:</strong> R$ ${reserva.pagamento.valorTotal.toFixed(2)}</p>
+              <p><strong>Valor Total:</strong> <span style="color: #27ae60; font-weight: 600;">R$ ${reserva.pagamento.valorTotal.toFixed(2)}</span></p>
             </div>
             
-            <div class="info-box">
-              <h3 style="color: #1a4d7a; margin-top: 0;">📎 Voucher em Anexo</h3>
-              <p>Seu voucher está anexado a este email em formato PDF.</p>
-              <p><strong>⚠️ Importante:</strong> Apresente o voucher impresso ou no celular no dia do serviço, juntamente com um documento com foto.</p>
+            <div class="highlight-box">
+              <h3 style="color: #e67e22; margin: 0 0 12px 0; font-size: 18px;">📎 Voucher em Anexo</h3>
+              <p style="margin-bottom: 12px;">Seu voucher está anexado a este email em formato PDF.</p>
+              <p><strong style="color: #e67e22;">⚠️ Importante:</strong> Apresente o voucher impresso ou no celular no dia do serviço, juntamente com um documento com foto.</p>
             </div>
             
-            <div class="info-box">
-              <h3 style="color: #1a4d7a; margin-top: 0;">📞 Precisa de Ajuda?</h3>
+            <div class="info-box contact-info">
+              <h3>📞 Precisa de Ajuda?</h3>
               <p>Nossa equipe está pronta para atendê-lo:</p>
-              <p>📱 WhatsApp: ${process.env.AGENCY_PHONE || '+55 (85) 0000-0000'}</p>
-              <p>📧 Email: ${process.env.AGENCY_EMAIL || 'contato@transferfortalezatur.com.br'}</p>
+              <p><strong>📱 WhatsApp:</strong> ${process.env.AGENCY_PHONE || '+55 (85) 0000-0000'}</p>
+              <p><strong>📧 Email:</strong> ${process.env.AGENCY_EMAIL || 'contato@transferfortalezatur.com.br'}</p>
             </div>
             
-            <div style="text-align: center; margin-top: 30px;">
-              <p style="color: #666; font-size: 14px;">Estamos ansiosos para recebê-lo!</p>
-              <p style="font-size: 20px; margin: 10px 0;">✈️ 🏖️ 🎉</p>
+            <div class="emoji-section">
+              <p>Estamos ansiosos para recebê-lo!</p>
+              <p>✈️ 🏖️ � ☀️</p>
             </div>
           </div>
           
           <div class="footer">
-            <p><strong>Transfer Fortaleza Tur</strong></p>
-            <p>Top 3 no Tripadvisor • Empresa Certificada • Site Blindado</p>
-            <p style="font-size: 11px; color: #999; margin-top: 15px;">
+            <p class="footer-brand">Transfer Fortaleza Tur</p>
+            <p class="footer-badges">⭐ Google Avaliações 5 Estrelas • Empresa Certificada • Site Blindado 🔒</p>
+            <p class="footer-disclaimer">
               Este é um email automático, por favor não responda.<br>
               Para contato, utilize nossos canais oficiais acima.
             </p>
