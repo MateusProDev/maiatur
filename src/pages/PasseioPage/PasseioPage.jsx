@@ -29,7 +29,6 @@ const PasseioPage = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [reservaId, setReservaId] = useState("");
   const [passeiosDisponiveis, setPasseiosDisponiveis] = useState([]);
-  const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([]);
   const [logoUrl, setLogoUrl] = useState("");
 
   const {
@@ -42,6 +41,14 @@ const PasseioPage = () => {
       tipo: "passeio",
     },
   });
+
+  const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([
+    "Carro até 6 pessoas",
+    "Van até 15 pessoas",
+    "Transfer executivo",
+    "4x4",
+    "Buggy"
+  ]);
 
   useEffect(() => {
     // Carregar listas do Firestore
@@ -78,12 +85,8 @@ const PasseioPage = () => {
       console.log("📋 Títulos dos pacotes:", titulosPacotes);
       
       setPasseiosDisponiveis(titulosPacotes);
-      setVeiculosDisponiveis(veiculos);
     };
     carregarListas();
-  }, []);
-
-  const onSubmit = async (data) => {
     setLoading(true);
     console.log("📋 [Passeio] Submetendo dados:", data);
     try {
@@ -138,7 +141,6 @@ const PasseioPage = () => {
     } finally {
       setLoading(false);
     }
-  };
 
   const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID || "seu-projeto";
   const voucherUrl = `https://us-central1-${projectId}.cloudfunctions.net/voucher/${reservaId}`;
