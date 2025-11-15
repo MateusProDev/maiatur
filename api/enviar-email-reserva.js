@@ -100,14 +100,15 @@ async function gerarVoucherPDF(reserva, reservaId) {
   });
   
   yPos -= 20;
-  page.drawText("CNPJ: " + (process.env.AGENCY_CNPJ || "00.000.000/0001-00"), {
-    x: 50,
-    y: yPos,
-    size: 10,
-    font: font,
-  });
+  // CNPJ removido temporariamente até obter o número correto
+  // page.drawText("CNPJ: " + (process.env.AGENCY_CNPJ || "00.000.000/0001-00"), {
+  //   x: 50,
+  //   y: yPos,
+  //   size: 10,
+  //   font: font,
+  // });
+  // yPos -= 15;
   
-  yPos -= 15;
   page.drawText("Telefone: " + (process.env.AGENCY_PHONE || "+55 (85) 0000-0000"), {
     x: 50,
     y: yPos,
