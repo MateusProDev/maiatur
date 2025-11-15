@@ -36,6 +36,30 @@ import {
 import "./AdminReservas.css";
 
 const AdminReservas = () => {
+    const excluirReserva = async (reservaId) => {
+      if (reservaId === "_modelo") {
+        showNotification("error", "Não é permitido excluir o documento modelo.");
+        return;
+      }
+      // Não permitir se só restar uma reserva (além do modelo)
+      const reservasValidas = reservas.filter(r => r.id !== "_modelo" && !r._isModelo);
+      if (reservasValidas.length <= 1) {
+        showNotification("error", "Não é permitido excluir todas as reservas. Deve haver ao menos uma reserva cadastrada.");
+        return;
+      }
+      try {
+        setAtualizando(true);
+        await import("firebase/firestore").then(({ deleteDoc, doc }) => deleteDoc(doc(db, "reservas", reservaId)));
+        setReservas(reservas.filter(r => r.id !== reservaId));
+        setModalAberto(false);
+        showNotification("success", "Reserva excluída com sucesso!");
+      } catch (error) {
+        console.error("Erro ao excluir reserva:", error);
+        showNotification("error", "Erro ao excluir reserva");
+      } finally {
+        setAtualizando(false);
+      }
+    };
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtroTipo, setFiltroTipo] = useState("todos");
@@ -431,6 +455,14 @@ const AdminReservas = () => {
             
             <DialogActions>
               <Button onClick={() => setModalAberto(false)}>Fechar</Button>
+              <Button
+                color="error"
+                variant="contained"
+                disabled={atualizando || reservaSelecionada?.id === "_modelo"}
+                onClick={() => excluirReserva(reservaSelecionada.id)}
+              >
+                Excluir Reserva
+              </Button>
             </DialogActions>
           </>
         )}

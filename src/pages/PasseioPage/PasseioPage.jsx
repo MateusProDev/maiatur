@@ -29,7 +29,7 @@ const PasseioPage = () => {
       try {
         // Normalizar telefone
         const telefone = normalizarTelefone(data.responsavel.telefone);
-        // Montar objeto de reserva
+        // Montar objeto de reserva alinhado com transfer/email/voucher
         const reserva = {
           tipo: "passeio",
           status: "pendente",
@@ -49,15 +49,9 @@ const PasseioPage = () => {
             valorTotal: data.pagamento.valorTotal,
           },
           observacoes: data.observacoes || "",
-          passeio: {
-            nome: data.passeioDesejado,
-            data: data.dataPasseio,
-            horario: data.horaPasseio,
-            localEmbarque: data.localSaida,
-          },
           detalhes: {
-            passeioDesejado: data.passeioDesejado,
-            tipoPasseioVeiculo: data.tipoPasseioVeiculo,
+            nomePasseio: data.passeioDesejado,
+            tipoVeiculo: data.tipoPasseioVeiculo,
             dataPasseio: data.dataPasseio,
             horaPasseio: data.horaPasseio,
             localSaida: data.localSaida,
