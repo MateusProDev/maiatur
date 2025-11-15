@@ -24,6 +24,58 @@ import { doc, getDoc } from "firebase/firestore";
 import "./PasseioPage.css";
 
 const PasseioPage = () => {
+    const onSubmit = async (data) => {
+      setLoading(true);
+      try {
+        // Normalizar telefone
+        const telefone = normalizarTelefone(data.responsavel.telefone);
+        // Montar objeto de reserva
+        const reserva = {
+          tipo: "passeio",
+          status: "pendente",
+          responsavel: {
+            nome: data.responsavel.nome,
+            email: data.responsavel.email,
+            ddi: data.responsavel.ddi,
+            telefone,
+          },
+          quantidades: {
+            adultos: data.quantidades.adultos,
+            criancas: data.quantidades.criancas,
+          },
+          passageiros: data.passageiros, // enviar como texto; service fará o parse
+          pagamento: {
+            forma: data.pagamento.forma,
+            valorTotal: data.pagamento.valorTotal,
+          },
+          observacoes: data.observacoes || "",
+          passeio: {
+            nome: data.passeioDesejado,
+            data: data.dataPasseio,
+            horario: data.horaPasseio,
+            localEmbarque: data.localSaida,
+          },
+          detalhes: {
+            passeioDesejado: data.passeioDesejado,
+            tipoPasseioVeiculo: data.tipoPasseioVeiculo,
+            dataPasseio: data.dataPasseio,
+            horaPasseio: data.horaPasseio,
+            localSaida: data.localSaida,
+            horaSaida: data.horaSaida,
+            horaRetorno: data.horaRetorno,
+          },
+        };
+        // Salvar no Firestore
+        const id = await criarReserva(reserva);
+        setReservaId(id);
+        setModalAberto(true);
+      } catch (error) {
+        console.error("Erro ao criar reserva:", error);
+        alert("Erro ao criar reserva. Tente novamente.");
+      } finally {
+        setLoading(false);
+      }
+    };
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
