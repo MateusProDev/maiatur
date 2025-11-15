@@ -123,12 +123,13 @@ const TransferEntreHoteisPage = () => {
         },
         observacoes: data.observacoes || "",
         detalhes: {
+          rotaTransfer: data.rotaTransfer, // Pacote selecionado
           tipoTransferVeiculo: data.tipoTransferVeiculo,
           data: data.data,
           hora: data.hora,
           // O schema agora garante que 'hotelPartida' e 'hotelDestino' são objetos
-          hotelPartida: data.hotelPartida.hotel,
-          hotelDestino: data.hotelDestino.hotel,
+          hotelPartida: data.hotelPartida?.hotel || "",
+          hotelDestino: data.hotelDestino?.hotel || "",
           quantidadeMalas: data.quantidades.malas || 0,
         },
       };

@@ -123,12 +123,13 @@ const TransferChegadaSaidaPage = () => {
         },
         observacoes: data.observacoes || "",
         detalhes: {
+          destinoTransfer: data.destinoTransfer, // Pacote selecionado
           dataHoraChegada: data.dataHoraChegada,
           numeroVooChegada: data.numeroVooChegada,
           // O schema agora garante que 'hotelDestino' e 'localSaida' são objetos
-          hotelDestino: data.hotelDestino.hotel,
+          hotelDestino: data.hotelDestino?.hotel || "",
           dataHoraSaida: data.dataHoraSaida,
-          localSaida: data.localSaida.hotel,
+          localSaida: data.localSaida?.hotel || "",
           numeroVooSaida: data.numeroVooSaida,
           quantidadeMalas: data.quantidades.malas || 0,
         },

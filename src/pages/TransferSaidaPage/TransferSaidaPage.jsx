@@ -141,10 +141,11 @@ const TransferSaidaPage = () => {
         },
         observacoes: data.observacoes || "",
         detalhes: {
+          origemTransfer: data.origemTransfer, // Pacote selecionado
           tipoTransferVeiculo: data.tipoTransferVeiculo,
           dataHoraSaida: data.dataHoraSaida,
           // O schema agora garante que 'localSaida' é um objeto { hotel, endereco }
-          localSaida: data.localSaida.hotel,
+          localSaida: data.localSaida?.hotel || "",
           aeroportoDestino: "Aeroporto de Fortaleza",
           quantidadeMalas: data.quantidades.malas || 0,
         },

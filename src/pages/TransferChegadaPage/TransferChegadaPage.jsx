@@ -141,12 +141,13 @@ const TransferChegadaPage = () => {
         },
         observacoes: data.observacoes || "",
         detalhes: {
+          destinoTransfer: data.destinoTransfer, // Pacote selecionado
           tipoTransferVeiculo: data.tipoTransferVeiculo,
           dataHoraChegada: data.dataHoraChegada,
           numeroVoo: data.numeroVoo,
           localChegada: "Aeroporto de Fortaleza",
           // O schema agora garante que 'destino' é um objeto { hotel, endereco }
-          destino: data.destino.hotel, 
+          destino: data.destino?.hotel || "", 
           quantidadeMalas: data.quantidades.malas || 0,
         },
         // Estrutura compatível com gerador de voucher

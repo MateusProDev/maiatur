@@ -32,6 +32,16 @@ function gerarTextoPlano(reserva, reservaId, tipoLabel) {
     if (reserva.passeio.horario) linhas.push(`Horário: ${reserva.passeio.horario}`);
     if (reserva.passeio.localEmbarque) linhas.push(`Local de embarque: ${reserva.passeio.localEmbarque}`);
   }
+  if (reserva.detalhes) {
+    if (reserva.detalhes.destinoTransfer) linhas.push(`Destino: ${reserva.detalhes.destinoTransfer}`);
+    if (reserva.detalhes.origemTransfer) linhas.push(`Origem: ${reserva.detalhes.origemTransfer}`);
+    if (reserva.detalhes.rotaTransfer) linhas.push(`Rota: ${reserva.detalhes.rotaTransfer}`);
+    if (reserva.detalhes.tipoTransferVeiculo) linhas.push(`Veículo: ${reserva.detalhes.tipoTransferVeiculo}`);
+    if (reserva.detalhes.dataHoraChegada) linhas.push(`Data/Hora Chegada: ${reserva.detalhes.dataHoraChegada}`);
+    if (reserva.detalhes.dataHoraSaida) linhas.push(`Data/Hora Saída: ${reserva.detalhes.dataHoraSaida}`);
+    if (reserva.detalhes.destino) linhas.push(`Endereço Destino: ${reserva.detalhes.destino}`);
+    if (reserva.detalhes.localSaida) linhas.push(`Local Saída: ${reserva.detalhes.localSaida}`);
+  }
   if (reserva.vooChegada || reserva.voo) {
     const voo = reserva.vooChegada || reserva.voo;
     if (voo.numeroVoo) linhas.push(`Voo: ${voo.numeroVoo}`);
@@ -274,6 +284,166 @@ async function gerarVoucherPDF(reserva, reservaId) {
       size: 10,
       font: font,
     });
+  }
+  
+  // Informações de Transfer
+  if (reserva.detalhes) {
+    page.drawText("DETALHES DO TRANSFER", {
+      x: 50,
+      y: yPos,
+      size: 12,
+      font: fontBold,
+      color: primaryColor,
+    });
+    
+    yPos -= 25;
+    
+    // Destino/Origem/Rota do Transfer (pacote selecionado)
+    if (reserva.detalhes.destinoTransfer) {
+      page.drawText(`Destino: ${reserva.detalhes.destinoTransfer}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: fontBold,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.origemTransfer) {
+      page.drawText(`Origem: ${reserva.detalhes.origemTransfer}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: fontBold,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.rotaTransfer) {
+      page.drawText(`Rota: ${reserva.detalhes.rotaTransfer}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: fontBold,
+      });
+      yPos -= 18;
+    }
+    
+    // Tipo de veículo
+    if (reserva.detalhes.tipoTransferVeiculo) {
+      page.drawText(`Veículo: ${reserva.detalhes.tipoTransferVeiculo}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    // Informações de chegada
+    if (reserva.detalhes.dataHoraChegada) {
+      page.drawText(`Data/Hora Chegada: ${reserva.detalhes.dataHoraChegada}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.numeroVoo || reserva.detalhes.numeroVooChegada) {
+      const numVoo = reserva.detalhes.numeroVoo || reserva.detalhes.numeroVooChegada;
+      page.drawText(`Voo: ${numVoo}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    // Informações de saída
+    if (reserva.detalhes.dataHoraSaida) {
+      page.drawText(`Data/Hora Saída: ${reserva.detalhes.dataHoraSaida}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.numeroVooSaida) {
+      page.drawText(`Voo Saída: ${reserva.detalhes.numeroVooSaida}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    // Locais
+    if (reserva.detalhes.destino) {
+      page.drawText(`Endereço Destino: ${reserva.detalhes.destino}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.localSaida) {
+      page.drawText(`Local Saída: ${reserva.detalhes.localSaida}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.hotelDestino) {
+      page.drawText(`Hotel Destino: ${reserva.detalhes.hotelDestino}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.hotelPartida) {
+      page.drawText(`Hotel Partida: ${reserva.detalhes.hotelPartida}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    // Entre hotéis
+    if (reserva.detalhes.data) {
+      page.drawText(`Data: ${reserva.detalhes.data}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    
+    if (reserva.detalhes.hora) {
+      page.drawText(`Horário: ${reserva.detalhes.hora}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
   }
   
   if (reserva.voo || reserva.vooChegada) {
