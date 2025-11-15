@@ -194,7 +194,7 @@ const TransferChegadaSaidaPage = () => {
 
           <div className="campo-form">
             <label>Selecione o Destino *</label>
-            <select {...register("destinoTransfer")}>
+            <select {...register("destinoTransfer")}> 
               <option value="">Selecione o destino...</option>
               {pacotesTransfer.map((pacote) => (
                 <option key={pacote.id} value={pacote.titulo}>
@@ -204,6 +204,21 @@ const TransferChegadaSaidaPage = () => {
             </select>
             {errors.destinoTransfer && (
               <span className="erro">{errors.destinoTransfer.message}</span>
+            )}
+          </div>
+
+          <div className="campo-form">
+            <label>Tipo de Transfer e Veículo *</label>
+            <select {...register("tipoTransferVeiculo")}> 
+              <option value="">Selecione...</option>
+              {["Carro até 6 pessoas", "Van até 15 pessoas", "Transfer executivo", "4x4", "Buggy"].map((v) => (
+                <option key={v} value={v}>
+                  {v}
+                </option>
+              ))}
+            </select>
+            {errors.tipoTransferVeiculo && (
+              <span className="erro">{errors.tipoTransferVeiculo.message}</span>
             )}
           </div>
         </div>

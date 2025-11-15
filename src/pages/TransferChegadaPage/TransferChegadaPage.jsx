@@ -208,7 +208,7 @@ const TransferChegadaPage = () => {
 
           <div className="campo-form">
             <label>Destino do Transfer *</label>
-            <select {...register("destinoTransfer")}>
+            <select {...register("destinoTransfer")}> 
               <option value="">Selecione o destino...</option>
               {pacotesTransfer.map((pacote) => (
                 <option key={pacote.id} value={pacote.titulo}>
@@ -223,9 +223,9 @@ const TransferChegadaPage = () => {
 
           <div className="campo-form">
             <label>Tipo de Transfer e Veículo *</label>
-            <select {...register("tipoTransferVeiculo")}>
+            <select {...register("tipoTransferVeiculo")}> 
               <option value="">Selecione...</option>
-              {veiculosDisponiveis.map((v) => (
+              {["Carro até 6 pessoas", "Van até 15 pessoas", "Transfer executivo", "4x4", "Buggy"].map((v) => (
                 <option key={v} value={v}>
                   {v}
                 </option>
