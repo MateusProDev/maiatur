@@ -4,6 +4,7 @@ import { db } from '../../firebase/firebase';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import './BannerCarousel.css';
 
 const BannerCarousel = () => {
@@ -101,7 +102,7 @@ const BannerCarousel = () => {
           >
             <div className="banner-image-wrapper">
               <img 
-                src={banner.imagem} 
+                src={autoOptimize(banner.imagem, 'banner')} 
                 alt={banner.titulo}
                 className="banner-image"
                 width="1920"

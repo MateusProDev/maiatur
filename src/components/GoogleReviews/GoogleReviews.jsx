@@ -3,6 +3,7 @@ import { db } from '../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { FaStar, FaGoogle, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
+import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import './GoogleReviews-new.css';
 
 const GoogleReviews = () => {
@@ -112,7 +113,7 @@ const GoogleReviews = () => {
                   <div className="gr-card-inner">
                     <div className="gr-card-header">
                       <img 
-                        src={review.photo} 
+                        src={autoOptimize(review.photo, 'avatar')} 
                         alt={review.name}
                         className="gr-avatar"
                         width="60"

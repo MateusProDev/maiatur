@@ -3,6 +3,7 @@ import './Header.css';
 import { Link } from 'react-router-dom';
 import { db } from '../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import { 
   FiMenu, 
   FiX, 
@@ -150,10 +151,10 @@ const Header = () => {
         <Link to="/" className="header-logo-modern">
           {logoUrl ? (
             <img 
-              src={logoUrl} 
+              src={autoOptimize(logoUrl, 'logo')} 
               alt="Transfer Fortaleza Tur Logo"
-              width="105"
-              height="105"
+              width="50"
+              height="50"
               loading="eager"
             />
           ) : (

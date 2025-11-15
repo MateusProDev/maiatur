@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FiStar, FiArrowRight } from 'react-icons/fi';
+import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import './PacotesCarousel.css';
 
 const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisLink = '/pacotes' }) => {
@@ -195,9 +196,11 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
               >
                 <div className="carousel-card-image">
                   <img 
-                    src={imagemUrl} 
+                    src={autoOptimize(imagemUrl, 'packageCard')} 
                     alt={pacote.titulo}
                     loading="lazy"
+                    width="600"
+                    height="400"
                     onError={(e) => {
                       e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80';
                     }}

@@ -27,6 +27,8 @@ import {
 import { FaWhatsapp } from 'react-icons/fa';
 import './HomeUltraModern.css';
 
+import { autoOptimize } from '../../utils/cloudinaryOptimizer';
+
 const HomeUltraModern = () => {
   const navigate = useNavigate();
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
@@ -305,7 +307,7 @@ const HomeUltraModern = () => {
               >
                 <div className="servico-image-wrapper">
                   <img 
-                    src={`${service.image}${service.image.includes('?') ? '&' : '?'}t=${Date.now()}`}
+                    src={autoOptimize(service.image, 'serviceCard')}
                     alt={service.title}
                     className="servico-image"
                     loading="lazy"
