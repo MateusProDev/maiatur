@@ -745,8 +745,8 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
             <div class="info-box contact-info">
               <h3>📞 Precisa de Ajuda?</h3>
               <p>Nossa equipe está pronta para atendê-lo:</p>
-              <p><strong>📱 WhatsApp:</strong> ${process.env.AGENCY_PHONE || '+55 (85) 0000-0000'}</p>
-              <p><strong>📧 Email:</strong> ${process.env.AGENCY_EMAIL || 'contato@transferfortalezatur.com.br'}</p>
+              <p><strong>📱 WhatsApp:</strong> +55 (85) 9 9674-8958</p>
+              <p><strong>📧 Email:</strong> contato@transferfortalezatur.com.br</p>
             </div>
             
             <div class="emoji-section">
