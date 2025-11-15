@@ -87,61 +87,7 @@ const PasseioPage = () => {
       setPasseiosDisponiveis(titulosPacotes);
     };
     carregarListas();
-    setLoading(true);
-    console.log("📋 [Passeio] Submetendo dados:", data);
-    try {
-      // Normalizar telefone
-      const telefone = normalizarTelefone(data.responsavel.telefone);
-
-      // Montar objeto de reserva
-      const reserva = {
-        tipo: "passeio",
-        status: "pendente",
-        responsavel: {
-          nome: data.responsavel.nome,
-          email: data.responsavel.email,
-          ddi: data.responsavel.ddi,
-          telefone,
-        },
-        quantidades: {
-          adultos: data.quantidades.adultos,
-          criancas: data.quantidades.criancas,
-        },
-        passageiros: data.passageiros, // enviar como texto; service fará o parse
-        pagamento: {
-          forma: data.pagamento.forma,
-          valorTotal: data.pagamento.valorTotal,
-        },
-        observacoes: data.observacoes || "",
-        // Estrutura esperada pelo gerador de voucher/email
-        passeio: {
-          nome: data.passeioDesejado,
-          data: data.dataPasseio,
-          horario: data.horaPasseio,
-          localEmbarque: data.localSaida,
-        },
-        detalhes: {
-          passeioDesejado: data.passeioDesejado,
-          tipoPasseioVeiculo: data.tipoPasseioVeiculo,
-          dataPasseio: data.dataPasseio,
-          horaPasseio: data.horaPasseio,
-          localSaida: data.localSaida,
-          horaSaida: data.horaSaida,
-          horaRetorno: data.horaRetorno,
-        },
-      };
-
-      // Salvar no Firestore
-      const id = await criarReserva(reserva);
-      setReservaId(id);
-      setModalAberto(true);
-    } catch (error) {
-      console.error("Erro ao criar reserva:", error);
-      alert("Erro ao criar reserva. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-
+  }, []);
   const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID || "seu-projeto";
   const voucherUrl = `https://us-central1-${projectId}.cloudfunctions.net/voucher/${reservaId}`;
   const whatsappNumber = process.env.REACT_APP_AGENCY_PHONE_WHATS || "558500000000";
