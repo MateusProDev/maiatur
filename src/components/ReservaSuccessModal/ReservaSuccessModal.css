@@ -74,7 +74,7 @@
 .success-title {
   font-weight: 700 !important;
   font-size: 2rem !important;
-  margin-bottom: 8px !important;
+  margin-bottom: 0 !important;
   position: relative;
   z-index: 2;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

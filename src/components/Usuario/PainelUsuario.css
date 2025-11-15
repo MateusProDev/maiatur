@@ -147,7 +147,7 @@
   border: 1px solid #e1e8f4;
   border-radius: 8px;
   padding: 12px;
-  margin: 8px 0;
+  margin: 0;
   font-size: 0.95rem;
   color: #4a5568;
   line-height: 1.4;
@@ -588,7 +588,7 @@
   
   .pu-dashboard {
     padding: 16px 12px 12px 12px;
-    margin: 8px 0;
+  margin: 0;
     border-radius: 16px;
   }
   

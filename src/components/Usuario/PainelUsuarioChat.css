@@ -81,7 +81,7 @@
   color: #fff;
   font-size: 1.3rem;
   cursor: pointer;
-  margin-left: 8px;
+  margin-left: 0;
   transition: color 0.2s;
 }
 .puchat-close:hover {
