@@ -142,11 +142,10 @@ const TransferChegadaPage = () => {
         observacoes: data.observacoes || "",
         detalhes: {
           destinoTransfer: data.destinoTransfer, // Pacote selecionado
-          tipoTransferVeiculo: data.tipoTransferVeiculo,
+          tipoVeiculo: data.tipoTransferVeiculo,
           dataHoraChegada: data.dataHoraChegada,
           numeroVoo: data.numeroVoo,
           localChegada: "Aeroporto de Fortaleza",
-          // O schema agora garante que 'destino' é um objeto { hotel, endereco }
           destino: data.destino?.hotel || "", 
           quantidadeMalas: data.quantidades.malas || 0,
         },

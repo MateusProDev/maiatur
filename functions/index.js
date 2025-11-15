@@ -21,7 +21,7 @@ const SMTP_CONFIG = {
 const AGENCY_INFO = {
   brand: process.env.AGENCY_BRAND || "Maiatur",
   email: process.env.AGENCY_EMAIL || "contato@transferfortalezatur.com.br",
-  phone: process.env.AGENCY_PHONE_DISPLAY || "+55 (85) 0000-0000",
+  phone: "+55 85 9674-8958",
   cnpj: process.env.AGENCY_CNPJ || "00.000.000/0001-00",
 };
 
@@ -286,8 +286,8 @@ function desenharDetalhes(page, font, tipo, detalhes, y) {
 
   switch (tipo) {
     case "passeio":
-      y = desenharLinha(page, font, "Passeio", detalhes.passeioDesejado, y);
-      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoPasseioVeiculo, y);
+      y = desenharLinha(page, font, "Passeio", detalhes.nomePasseio || detalhes.passeioDesejado, y);
+      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoVeiculo, y);
       y = desenharLinha(page, font, "Data", detalhes.dataPasseio, y);
       y = desenharLinha(page, font, "Hora", detalhes.horaPasseio, y);
       y = desenharLinha(page, font, "Local de Saída", detalhes.localSaida, y);
@@ -296,7 +296,7 @@ function desenharDetalhes(page, font, tipo, detalhes, y) {
       break;
 
     case "transfer_chegada":
-      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoTransferVeiculo, y);
+      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoVeiculo, y);
       y = desenharLinha(page, font, "Data/Hora Chegada", detalhes.dataHoraChegada, y);
       y = desenharLinha(page, font, "Nº Voo", detalhes.numeroVoo, y);
       y = desenharLinha(page, font, "Local Chegada", detalhes.localChegada, y);
@@ -304,6 +304,7 @@ function desenharDetalhes(page, font, tipo, detalhes, y) {
       break;
 
     case "transfer_chegada_saida":
+      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoVeiculo, y);
       y = desenharLinha(page, font, "Chegada", detalhes.dataHoraChegada, y);
       y = desenharLinha(page, font, "Voo Chegada", detalhes.numeroVooChegada, y);
       y = desenharLinha(page, font, "Hotel", detalhes.hotelDestino, y);
@@ -314,14 +315,14 @@ function desenharDetalhes(page, font, tipo, detalhes, y) {
       break;
 
     case "transfer_saida":
-      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoTransferVeiculo, y);
+      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoVeiculo, y);
       y = desenharLinha(page, font, "Data/Hora Saída", detalhes.dataHoraSaida, y);
       y = desenharLinha(page, font, "Local de Saída", detalhes.localSaida, y);
       y = desenharLinha(page, font, "Destino", detalhes.aeroportoDestino, y);
       break;
 
     case "transfer_entre_hoteis":
-      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoTransferVeiculo, y);
+      y = desenharLinha(page, font, "Tipo/Veículo", detalhes.tipoVeiculo, y);
       y = desenharLinha(page, font, "Data", detalhes.data, y);
       y = desenharLinha(page, font, "Hora", detalhes.hora, y);
       y = desenharLinha(page, font, "Hotel Partida", detalhes.hotelPartida, y);
