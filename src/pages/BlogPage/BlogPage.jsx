@@ -5,8 +5,10 @@ import { Helmet } from 'react-helmet-async';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { getPublishedPosts, getAllCategories } from '../../services/blogService';
 import { FiCalendar, FiUser, FiTag, FiEye } from 'react-icons/fi';
+import seoData from '../../utils/seoData';
 import './BlogPage.css';
 
 const BlogPage = () => {
@@ -57,9 +59,12 @@ const BlogPage = () => {
 
   return (
     <>
+      <SEOHelmet 
+        title={seoData.blog.title}
+        description={seoData.blog.description}
+        canonical={seoData.blog.canonical}
+      />
       <Helmet>
-        <title>Blog - Transfer Fortaleza Tur | Dicas e Destinos de Viagem</title>
-        <meta name="description" content="Descubra dicas exclusivas, destinos incríveis e tudo sobre viagens no blog da Transfer Fortaleza Tur." />
         <meta name="keywords" content="blog viagem, dicas de viagem, destinos turísticos, turismo" />
       </Helmet>
 

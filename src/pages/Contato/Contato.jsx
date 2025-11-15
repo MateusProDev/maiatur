@@ -3,6 +3,8 @@ import './Contato.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
+import { seoData } from '../../utils/seoData';
 import { FiMail, FiMapPin, FiClock, FiChevronDown, FiChevronUp, FiInfo, FiSend } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { db } from '../../firebase/firebase';
@@ -97,6 +99,11 @@ const Contato = () => {
   };
   return (
     <div className="contato-page">
+      <SEOHelmet 
+        title={seoData.contato.title}
+        description={seoData.contato.description}
+        canonical={seoData.contato.canonical}
+      />
       <Header />
       <main className="contato-main">
         <div className="contato-container">

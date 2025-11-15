@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { transferSaidaSchema } from "../../schemas/reservasSchemas";
 import { DDI_OPTIONS } from "../../types/reservas";
 import {
@@ -18,7 +19,7 @@ import {
 } from "../../services/reservasService";
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
 import "../PasseioPage/PasseioPage.css";
 
 const TransferSaidaPage = () => {
@@ -27,6 +28,7 @@ const TransferSaidaPage = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [reservaId, setReservaId] = useState("");
   const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([]);
+  const [pacotesTransfer, setPacotesTransfer] = useState([]);
   const [logoUrl, setLogoUrl] = useState("");
 
   const {
@@ -42,7 +44,7 @@ const TransferSaidaPage = () => {
 
   useEffect(() => {
     const carregarListas = async () => {
-      console.log("🔄 [TransferSaida] Carregando veículos...");
+      console.log("🔄 [TransferSaida] Carregando dados...");
       
       // Buscar logo
       try {
@@ -57,9 +59,57 @@ const TransferSaidaPage = () => {
         setLogoUrl('/icons/android-chrome-512x512.png');
       }
       
-      const veiculos = await buscarLista("veiculos");
+      // Lista de veículos disponíveis
+      const veiculos = [
+        "Carro até 6 pessoas",
+        "Van até 15 pessoas",
+        "Transfer executivo",
+        "4x4",
+        "Buggy"
+      ];
       console.log("✅ [TransferSaida] Veículos carregados:", veiculos);
       setVeiculosDisponiveis(veiculos);
+
+      // Buscar pacotes de transfer_saida E transfer_chegada_saida
+      try {
+        const q1 = query(
+          collection(db, 'pacotes'),
+          where('categoria', '==', 'transfer_saida')
+        );
+        const q2 = query(
+          collection(db, 'pacotes'),
+          where('categoria', '==', 'transfer_chegada_saida')
+        );
+        
+        const [querySnapshot1, querySnapshot2] = await Promise.all([
+          getDocs(q1),
+          getDocs(q2)
+        ]);
+        
+        const pacotes1 = querySnapshot1.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        
+        const pacotes2 = querySnapshot2.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        
+        const todosPacotes = [...pacotes1, ...pacotes2];
+        
+        console.log("✅ [TransferSaida] Pacotes transfer_saida:", pacotes1.length);
+        console.log("✅ [TransferSaida] Pacotes transfer_chegada_saida:", pacotes2.length);
+        console.log("📊 [TransferSaida] Total de pacotes:", todosPacotes.length);
+        setPacotesTransfer(todosPacotes);
+        
+        if (todosPacotes.length === 0) {
+          console.warn("⚠️ [TransferSaida] Nenhum pacote encontrado");
+          console.log("💡 [TransferSaida] Crie pacotes no Admin com categoria 'transfer_saida' ou 'transfer_chegada_saida'");
+        }
+      } catch (error) {
+        console.error('❌ [TransferSaida] Erro ao buscar pacotes transfer:', error);
+      }
     };
     carregarListas();
   }, []);
@@ -126,6 +176,10 @@ const TransferSaidaPage = () => {
 
   return (
     <div className="formulario-page">
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+        <title>Transfer de Saída - Transfer Fortaleza Tur</title>
+      </Helmet>
       <div className="form-header">
         <div className="form-header-top">
           <button onClick={() => navigate("/reservas")} className="btn-voltar">
@@ -146,6 +200,21 @@ const TransferSaidaPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="form-reserva">
         <div className="secao-form">
           <h3>🚗 Detalhes do Transfer</h3>
+
+          <div className="campo-form">
+            <label>Origem do Transfer *</label>
+            <select {...register("origemTransfer")}>
+              <option value="">Selecione a origem...</option>
+              {pacotesTransfer.map((pacote) => (
+                <option key={pacote.id} value={pacote.titulo}>
+                  {pacote.titulo}
+                </option>
+              ))}
+            </select>
+            {errors.origemTransfer && (
+              <span className="erro">{errors.origemTransfer.message}</span>
+            )}
+          </div>
 
           <div className="campo-form">
             <label>Tipo de Transfer e Veículo *</label>
@@ -175,7 +244,7 @@ const TransferSaidaPage = () => {
           </div>
 
           <div className="campo-form">
-            <label>Local de Saída (Hotel/Endereço) *</label>
+            <label>Local de Saída (Hotel/Endereço)</label>
             <input
               type="text"
               placeholder="Ex: Hotel Praia Mar, Av. Beira Mar, 123"

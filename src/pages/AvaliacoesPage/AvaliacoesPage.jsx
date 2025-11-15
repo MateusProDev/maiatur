@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { FiStar, FiChevronLeft, FiChevronRight, FiArrowLeft } from 'react-icons/fi';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
+import seoData from '../../utils/seoData';
 import './AvaliacoesPage.css';
 
 const AvaliacoesPage = () => {
@@ -106,6 +108,11 @@ const AvaliacoesPage = () => {
 
   return (
     <div className="avaliacoespage-container-unique">
+      <SEOHelmet 
+        title={seoData.avaliacoes.title}
+        description={seoData.avaliacoes.description}
+        canonical={seoData.avaliacoes.canonical}
+      />
       {/* Header com botão voltar */}
       <div className="avaliacoespage-header-unique">
         <button 

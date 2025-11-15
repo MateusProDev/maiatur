@@ -5,7 +5,9 @@ import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { FiSearch, FiX, FiFilter, FiMapPin, FiStar, FiPackage } from 'react-icons/fi';
+import seoData from '../../utils/seoData';
 import './PacotesListPage.css';
 
 const PacotesListPage = () => {
@@ -152,6 +154,11 @@ const PacotesListPage = () => {
 
   return (
     <div className="pacotes-page-modern">
+      <SEOHelmet 
+        title={seoData.pacotes.title}
+        description={seoData.pacotes.description}
+        canonical={seoData.pacotes.canonical}
+      />
       <Header />
       
       {/* Hero Section */}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import SEOHelmet from "../../components/SEOHelmet/SEOHelmet";
 import AboutCarousel from "../../components/About/AboutCarousel";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -43,6 +44,12 @@ const AboutPage = () => {
 
   return (
     <div className="about-page">
+      <SEOHelmet
+        title="Sobre Nós - Conheça a Transfer Fortaleza Tur"
+        description="Conheça a história, missão e valores da Transfer Fortaleza Tur. Mais de X anos levando você aos melhores destinos do Ceará com segurança e conforto."
+        canonical="/sobre"
+      />
+      
       <Header />
       
       <div className="about-content-wrapper">

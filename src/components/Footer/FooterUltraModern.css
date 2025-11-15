@@ -105,6 +105,13 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease;
+}
+
+.footer-logo-ultra:hover {
+  transform: translateY(-2px);
 }
 
 .footer-logo-icon {
@@ -457,6 +464,18 @@
   font-size: 14px;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
+}
+
+.footer-company-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.footer-company-link:hover {
+  color: var(--footer-cyan);
+  text-decoration: underline;
 }
 
 .footer-love-ultra {

@@ -1,0 +1,22 @@
+/* App Container - Remove qualquer margin/padding padrão */
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.App {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Garantir que nenhum container tenha margin padrão */
+.container,
+.main-container,
+.page-container {
+  margin: 0 auto;
+  padding: 0;
+}

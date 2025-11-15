@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRoute, FaPlane, FaExchangeAlt, FaPlaneDeparture, FaHotel } from "react-icons/fa";
 import Footer from "../../components/Footer/Footer";
+import SEOHelmet from "../../components/SEOHelmet/SEOHelmet";
+import seoData from "../../utils/seoData";
 import "./ReservasPage.css";
 
 const ReservasPage = () => {
@@ -52,6 +54,12 @@ const ReservasPage = () => {
 
   return (
     <div className="reservas-page">
+      <SEOHelmet 
+        title={seoData.reservas.title}
+        description={seoData.reservas.description}
+        canonical={seoData.reservas.canonical}
+        noindex={true}
+      />
       <div className="reservas-header">
         <img 
           src="/android-chrome-512x512.png" 

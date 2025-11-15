@@ -44,8 +44,11 @@
     <link rel="preconnect" href="https://www.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://apis.google.com" crossorigin />
     
+    <!-- DNS Prefetch for analytics and external services -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://maiatur.firebaseapp.com" />
+    <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" />
@@ -56,29 +59,8 @@
     <meta name="msapplication-TileColor" content="#21A657" />
     <meta name="msapplication-config" content="%PUBLIC_URL%/browserconfig.xml" />
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Transfer Fortaleza Tur - Transfers, passeios e experiências personalizadas em Fortaleza e região. Praticidade, segurança e destinos que encantam." />
-    <meta name="keywords" content="transfer fortaleza, transfer aeroporto fortaleza, passeios fortaleza, beach park transfer, jericoacoara passeio, city tour fortaleza, turismo fortaleza, agência turismo fortaleza, transfer fortaleza tur" />
+    <!-- SEO Meta Tags - Controlled by react-helmet-async per page -->
     <meta name="author" content="Transfer Fortaleza Tur" />
-    <meta name="robots" content="index, follow" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://transferfortalezatur.com.br/" />
-    <meta property="og:title" content="Transfer Fortaleza Tur - Transfers e Passeios em Fortaleza" />
-    <meta property="og:description" content="Transfers aeroporto, passeios turísticos e experiências inesquecíveis em Fortaleza, Beach Park, Jericoacoara e região." />
-    <meta property="og:image" content="https://transferfortalezatur.com.br/og-image.jpg" />
-    <meta property="og:locale" content="pt_BR" />
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://transferfortalezatur.com.br/" />
-    <meta name="twitter:title" content="Transfer Fortaleza Tur - Transfers e Passeios em Fortaleza" />
-    <meta name="twitter:description" content="Transfers aeroporto, passeios turísticos e experiências inesquecíveis em Fortaleza e região." />
-    <meta name="twitter:image" content="https://transferfortalezatur.com.br/og-image.jpg" />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://transferfortalezatur.com.br/" />
     
     <link rel="manifest" href="/manifest.json" />
     <link rel="manifest" href="/site.webmanifest" />

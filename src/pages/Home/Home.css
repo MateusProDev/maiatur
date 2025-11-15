@@ -1,10 +1,4 @@
 /* ===================== Global Styles ===================== */
-body {
-  font-family: 'Roboto', sans-serif;
-  color: var(--color-text-primary);
-  line-height: 1.6;
-}
-
 .section-title {
   font-weight: 700 !important;
   margin-bottom: 2rem !important;

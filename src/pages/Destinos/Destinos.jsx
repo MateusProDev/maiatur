@@ -3,10 +3,17 @@ import './Destinos.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
+import { seoData } from '../../utils/seoData';
 
 const Destinos = () => {
   return (
     <div className="destinos-page">
+      <SEOHelmet 
+        title={seoData.destinos.title}
+        description={seoData.destinos.description}
+        canonical={seoData.destinos.canonical}
+      />
       <Header />
       <main className="destinos-main">
         <div className="destinos-container">

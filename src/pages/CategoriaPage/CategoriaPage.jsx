@@ -5,7 +5,9 @@ import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { FiSearch, FiX, FiFilter, FiMapPin, FiTrendingUp, FiStar, FiPackage } from 'react-icons/fi';
+import seoData from '../../utils/seoData';
 import './CategoriaPage.css';
 
 // Mapeamento de categorias
@@ -54,6 +56,18 @@ const CategoriaPage = () => {
   };
 
   const Icon = categoriaInfo.icon;
+
+  // Determinar dados SEO baseado na categoria
+  const getSEOData = () => {
+    if (categoria === 'passeio') return seoData.categorias.passeio;
+    if (categoria.includes('transfer')) return seoData.categorias.transfer;
+    if (categoria === 'beach-park') return seoData.categorias['beach-park'];
+    return {
+      title: `${categoriaInfo.nome} - Transfer Fortaleza Tur`,
+      description: categoriaInfo.descricao,
+      canonical: `/categoria/${categoria}`
+    };
+  };
 
   // Busca pacotes da categoria específica
   useEffect(() => {
@@ -175,6 +189,8 @@ const CategoriaPage = () => {
     setPriceRange('all');
   };
 
+  const seoInfo = getSEOData();
+
   if (loading) {
     return (
       <>
@@ -187,6 +203,11 @@ const CategoriaPage = () => {
 
   return (
     <>
+      <SEOHelmet 
+        title={seoInfo.title}
+        description={seoInfo.description}
+        canonical={seoInfo.canonical}
+      />
       <Header />
       
       {/* Hero Section */}

@@ -1,0 +1,59 @@
+🔄 URLs PRIORITÁRIAS PARA SOLICITAR RE-INDEXAÇÃO NO GOOGLE SEARCH CONSOLE
+================================================================================
+
+⚠️ IMPORTANTE: O Google rastreou pela última vez em 13/11/2025, 00:30
+   Nosso último deploy foi em 15/11/2025, 12:25 (HOJE)
+   É necessário forçar re-indexação para o Google ver as correções!
+
+📋 INSTRUÇÕES:
+
+1. Acesse: https://search.google.com/search-console
+2. Para cada URL abaixo, faça:
+   a) Cole a URL completa no topo da página
+   b) Clique em "Solicitar indexação"
+   c) Aguarde a confirmação
+
+================================================================================
+
+🏠 PÁGINA HOME (PRIORIDADE MÁXIMA)
+https://transferfortalezatur.com.br/
+
+📞 PÁGINA CONTATO (PRIORIDADE ALTA - estava aparecendo no lugar da home)
+https://transferfortalezatur.com.br/contato
+
+📍 PÁGINAS PRINCIPAIS (PRIORIDADE ALTA)
+https://transferfortalezatur.com.br/sobre
+https://transferfortalezatur.com.br/pacotes
+https://transferfortalezatur.com.br/destinos
+https://transferfortalezatur.com.br/blog
+https://transferfortalezatur.com.br/avaliacoes
+
+🎯 CATEGORIAS (PRIORIDADE MÉDIA)
+https://transferfortalezatur.com.br/categoria/passeio
+https://transferfortalezatur.com.br/categoria/transfer
+https://transferfortalezatur.com.br/categoria/beach-park
+
+================================================================================
+
+✅ O QUE FOI CORRIGIDO NO ÚLTIMO DEPLOY:
+
+1. ✅ Removidas meta tags estáticas do index.html que causavam conflito
+2. ✅ Adicionado SEOHelmet na Home com canonical correto (/)
+3. ✅ Adicionado SEOHelmet no Contato com canonical correto (/contato)
+4. ✅ Adicionado SEOHelmet em Destinos com canonical correto (/destinos)
+5. ✅ Adicionado SEOHelmet em PacoteDetailPage com títulos dinâmicos
+6. ✅ Configurado redirect WWW -> non-WWW
+7. ✅ Twitter Cards adicionadas automaticamente via SEOHelmet
+
+🕐 TEMPO ESTIMADO:
+- Re-indexação manual: 24-48 horas
+- Cache do Google limpar: 3-7 dias
+
+📊 COMO VERIFICAR SE DEU CERTO:
+1. Após 24h, pesquise por: site:transferfortalezatur.com.br
+2. Clique em cada resultado
+3. Verifique se cada URL leva para sua própria página (não mais para /contato)
+
+================================================================================
+
+💡 DICA: Solicite re-indexação na ordem de prioridade listada acima!

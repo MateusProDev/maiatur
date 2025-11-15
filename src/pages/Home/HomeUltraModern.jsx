@@ -9,6 +9,8 @@ import BannerCarousel from '../../components/BannerCarousel/BannerCarousel';
 import BlogPreview from '../../components/BlogPreview/BlogPreview';
 import PacotesCarousel from '../../components/PacotesCarousel/PacotesCarousel';
 import GoogleReviews from '../../components/GoogleReviews/GoogleReviews';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
+import { seoData } from '../../utils/seoData';
 import { 
   FiMapPin, 
   FiStar, 
@@ -219,6 +221,13 @@ const HomeUltraModern = () => {
 
   return (
     <div className="home-ultra-modern">
+      <SEOHelmet 
+        title={seoData.home.title}
+        description={seoData.home.description}
+        canonical={seoData.home.canonical}
+        ogType="website"
+      />
+      
       <Header />
       
       {/* Hero Banner Carousel */}
@@ -227,6 +236,10 @@ const HomeUltraModern = () => {
       {/* ========== EXPLORAR DESTINOS POR CATEGORIA ========== */}
       <section className="destinos-section-ultra">
         <div className="container-ultra">
+          <h1 className="section-title-ultra">
+            Descubra o
+            <span className="gradient-text"> Ceará</span>
+          </h1>
           <div className="section-header-ultra">
             <span className="section-badge">
               <FiMapPin /> Destinos em Destaque

@@ -133,7 +133,17 @@ export const CamposPolitica = ({ register, errors }) => (
       <span className="erro">{errors.aceitouPolitica.message}</span>
     )}
     <div className="rodape-form">
-      <p><strong>Empresa Certificada</strong> · Top 3 Tripadvisor · Site Blindado</p>
+      <p>
+        <strong>Empresa Certificada</strong> · 
+        <a 
+          href="https://www.google.com/maps/place/Transfer+Fortaleza+Tur/@-3.7318825,-38.5267697,17z/data=!4m8!3m7!1s0x7c748ff0bd20e5f:0x7e5e5c9b1b3a9b1!8m2!3d-3.7318825!4d-38.5241948!9m1!1b1!16s%2Fg%2F11y3y3y3y3" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{ color: 'inherit', textDecoration: 'none' }}
+        >
+          Google Avaliações 5 Estrelas ⭐
+        </a> · Site Blindado
+      </p>
     </div>
   </div>
 );

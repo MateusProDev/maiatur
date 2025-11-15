@@ -485,13 +485,6 @@
   }
 }
 /* Estilos gerais */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-}
-
 .edit-boxes {
   max-width: 900px;
   margin: 0 auto;

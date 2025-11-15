@@ -30,6 +30,7 @@
     "draftjs-to-html": "^0.9.1",
     "firebase": "^11.10.0",
     "firebase-admin": "^13.6.0",
+    "googleapis": "^166.0.0",
     "html-to-draftjs": "^1.5.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",

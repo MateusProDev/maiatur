@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { transferEntreHoteisSchema } from "../../schemas/reservasSchemas";
 import { DDI_OPTIONS } from "../../types/reservas";
 import {
@@ -18,7 +19,7 @@ import {
 } from "../../services/reservasService";
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
 import "../PasseioPage/PasseioPage.css";
 
 const TransferEntreHoteisPage = () => {
@@ -27,6 +28,7 @@ const TransferEntreHoteisPage = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [reservaId, setReservaId] = useState("");
   const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([]);
+  const [pacotesTransfer, setPacotesTransfer] = useState([]);
   const [logoUrl, setLogoUrl] = useState("");
 
   const {
@@ -42,7 +44,7 @@ const TransferEntreHoteisPage = () => {
 
   useEffect(() => {
     const carregarListas = async () => {
-      console.log("🔄 [TransferEntreHoteis] Carregando veículos...");
+      console.log("🔄 [TransferEntreHoteis] Carregando dados...");
       
       // Buscar logo
       try {
@@ -57,9 +59,39 @@ const TransferEntreHoteisPage = () => {
         setLogoUrl('/icons/android-chrome-512x512.png');
       }
       
-      const veiculos = await buscarLista("veiculos");
+      // Lista de veículos disponíveis
+      const veiculos = [
+        "Carro até 6 pessoas",
+        "Van até 15 pessoas",
+        "Transfer executivo",
+        "4x4",
+        "Buggy"
+      ];
       console.log("✅ [TransferEntreHoteis] Veículos carregados:", veiculos);
       setVeiculosDisponiveis(veiculos);
+
+      // Buscar pacotes de transfer_entre_hoteis
+      try {
+        const q = query(
+          collection(db, 'pacotes'),
+          where('categoria', '==', 'transfer_entre_hoteis')
+        );
+        const querySnapshot = await getDocs(q);
+        const pacotes = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        console.log("✅ [TransferEntreHoteis] Pacotes transfer carregados:", pacotes);
+        console.log("📊 [TransferEntreHoteis] Total de pacotes:", pacotes.length);
+        setPacotesTransfer(pacotes);
+        
+        if (pacotes.length === 0) {
+          console.warn("⚠️ [TransferEntreHoteis] Nenhum pacote encontrado com categoria 'transfer_entre_hoteis'");
+          console.log("💡 [TransferEntreHoteis] Crie pacotes no Admin (/admin/pacotes) com categoria 'transfer_entre_hoteis'");
+        }
+      } catch (error) {
+        console.error('❌ [TransferEntreHoteis] Erro ao buscar pacotes transfer:', error);
+      }
     };
     carregarListas();
   }, []);
@@ -119,6 +151,10 @@ const TransferEntreHoteisPage = () => {
 
   return (
     <div className="formulario-page">
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+        <title>Transfer entre Hotéis - Transfer Fortaleza Tur</title>
+      </Helmet>
       <div className="form-header">
         <div className="form-header-top">
           <button onClick={() => navigate("/reservas")} className="btn-voltar">
@@ -139,6 +175,21 @@ const TransferEntreHoteisPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="form-reserva">
         <div className="secao-form">
           <h3>🚗 Detalhes do Transfer</h3>
+
+          <div className="campo-form">
+            <label>Rota do Transfer *</label>
+            <select {...register("rotaTransfer")}>
+              <option value="">Selecione a rota...</option>
+              {pacotesTransfer.map((pacote) => (
+                <option key={pacote.id} value={pacote.titulo}>
+                  {pacote.titulo}
+                </option>
+              ))}
+            </select>
+            {errors.rotaTransfer && (
+              <span className="erro">{errors.rotaTransfer.message}</span>
+            )}
+          </div>
 
           <div className="campo-form">
             <label>Tipo de Transfer e Veículo *</label>
@@ -174,7 +225,7 @@ const TransferEntreHoteisPage = () => {
           </div>
 
           <div className="campo-form">
-            <label>Hotel de Partida *</label>
+            <label>Hotel de Partida</label>
             <input
               type="text"
               placeholder="Ex: Hotel Praia Mar, Av. Beira Mar, 123"
@@ -186,7 +237,7 @@ const TransferEntreHoteisPage = () => {
           </div>
 
           <div className="campo-form">
-            <label>Hotel de Destino *</label>
+            <label>Hotel de Destino</label>
             <input
               type="text"
               placeholder="Ex: Hotel Vista Mar, Av. Abolição, 456"

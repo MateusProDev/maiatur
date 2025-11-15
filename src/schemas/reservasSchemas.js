@@ -72,6 +72,7 @@ export const passeioSchema = z.object({
 // Schema para Transfer Chegada
 export const transferChegadaSchema = z.object({
   tipo: z.literal("transfer_chegada"),
+  destinoTransfer: z.string().min(1, "Selecione o destino do transfer"),
   tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
@@ -86,7 +87,7 @@ export const transferChegadaSchema = z.object({
   horarioChegada: z.string().min(1, "Informe o horário de chegada").optional(),
   aeroporto: z.string().min(3, "Informe o aeroporto de chegada").optional(),
   // Destino pode ser uma string única (Hotel + endereço) informada no formulário
-  destino: localSchema,
+  destino: localSchema.optional(),
   pagamento: pagamentoSchema,
   observacoes: z.string().optional(),
   aceitouPolitica: z.boolean().refine(val => val === true, {
@@ -97,6 +98,7 @@ export const transferChegadaSchema = z.object({
 // Schema para Transfer Chegada e Saída (formulário usa campos planos)
 export const transferChegadaSaidaSchema = z.object({
   tipo: z.literal("transfer_chegada_saida"),
+  destinoTransfer: z.string().min(1, "Selecione o destino do transfer"),
   tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo").optional(),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
@@ -108,13 +110,13 @@ export const transferChegadaSaidaSchema = z.object({
     message: "A reserva deve ser feita com no mínimo 24h de antecedência"
   }),
   numeroVooChegada: z.string().min(3, "Número do voo inválido"),
-  hotelDestino: localSchema,
+  hotelDestino: localSchema.optional(),
   // Saída
   dataHoraSaida: z.string().refine(validarAntecedencia24h, {
     message: "A reserva deve ser feita com no mínimo 24h de antecedência"
   }),
   numeroVooSaida: z.string().min(3, "Número do voo inválido"),
-  localSaida: localSchema,
+  localSaida: localSchema.optional(),
   pagamento: pagamentoSchema,
   observacoes: z.string().optional(),
   aceitouPolitica: z.boolean().refine(val => val === true, {
@@ -125,6 +127,7 @@ export const transferChegadaSaidaSchema = z.object({
 // Schema para Transfer Saída (campos planos usados na UI)
 export const transferSaidaSchema = z.object({
   tipo: z.literal("transfer_saida"),
+  origemTransfer: z.string().min(1, "Selecione a origem do transfer"),
   tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
@@ -135,7 +138,7 @@ export const transferSaidaSchema = z.object({
   dataHoraSaida: z.string().refine(validarAntecedencia24h, {
     message: "A reserva deve ser feita com no mínimo 24h de antecedência"
   }),
-  localSaida: localSchema,
+  localSaida: localSchema.optional(),
   pagamento: pagamentoSchema,
   observacoes: z.string().optional(),
   aceitouPolitica: z.boolean().refine(val => val === true, {
@@ -146,6 +149,7 @@ export const transferSaidaSchema = z.object({
 // Schema para Transfer Entre Hotéis
 export const transferEntreHoteisSchema = z.object({
   tipo: z.literal("transfer_entre_hoteis"),
+  rotaTransfer: z.string().min(1, "Selecione a rota do transfer"),
   tipoTransferVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
   responsavel: responsavelSchema,
   quantidades: quantidadesSchema.extend({
@@ -157,8 +161,8 @@ export const transferEntreHoteisSchema = z.object({
     message: "A reserva deve ser feita com no mínimo 24h de antecedência"
   }),
   hora: z.string().min(1, "Informe o horário do transfer"),
-  hotelPartida: localSchema,
-  hotelDestino: localSchema,
+  hotelPartida: localSchema.optional(),
+  hotelDestino: localSchema.optional(),
   pagamento: pagamentoSchema,
   observacoes: z.string().optional(),
   aceitouPolitica: z.boolean().refine(val => val === true, {

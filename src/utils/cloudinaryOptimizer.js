@@ -24,7 +24,7 @@ export const optimizeCloudinaryUrl = (url, options = {}) => {
   const {
     width = null,
     height = null,
-    quality = 'auto:good',
+    quality = 'auto:eco', // Mudado de auto:good para auto:eco para melhor compressão
     format = 'auto',
     crop = 'limit',
     dpr = 'auto'
@@ -101,7 +101,7 @@ export const cloudinaryPresets = {
   banner: (url) => optimizeCloudinaryUrl(url, {
     width: 1920,
     height: 800,
-    quality: 'auto:good',
+    quality: 'auto:eco', // Mudado para eco - maior compressão
     crop: 'fill'
   }),
 
@@ -109,7 +109,7 @@ export const cloudinaryPresets = {
   serviceCard: (url) => optimizeCloudinaryUrl(url, {
     width: 800, // Tamanho médio
     height: 450,
-    quality: 'auto:good',
+    quality: 'auto:eco', // Mudado para eco
     crop: 'fill'
   }),
 
@@ -117,7 +117,7 @@ export const cloudinaryPresets = {
   packageCard: (url) => optimizeCloudinaryUrl(url, {
     width: 600,
     height: 400,
-    quality: 'auto:good',
+    quality: 'auto:eco', // Mudado para eco
     crop: 'fill'
   }),
 
@@ -125,7 +125,7 @@ export const cloudinaryPresets = {
   blogThumb: (url) => optimizeCloudinaryUrl(url, {
     width: 600,
     height: 400,
-    quality: 'auto',
+    quality: 'auto:eco', // Mudado para eco
     crop: 'fill'
   })
 };
@@ -143,7 +143,7 @@ export const autoOptimize = (url, context = 'default') => {
 
   // Caso contrário, aplica otimização básica
   return optimizeCloudinaryUrl(url, {
-    quality: 'auto:good',
+    quality: 'auto:eco', // Mudado para eco
     format: 'auto'
   });
 };

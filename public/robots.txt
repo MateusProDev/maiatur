@@ -17,9 +17,12 @@ Sitemap: https://transferfortalezatur.com.br/sitemap.xml
 Disallow: /admin/
 Disallow: /admin/*
 
+# Disallow reservation forms (noindex pages)
+Disallow: /reservas/
+Disallow: /reservas/*
+
 # Allow important pages
 Allow: /pacotes
-Allow: /reservas
 Allow: /destinos
 Allow: /sobre
 Allow: /contato

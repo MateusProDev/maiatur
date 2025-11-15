@@ -7,6 +7,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import './PacoteDetailPage.css';
@@ -149,6 +150,13 @@ const PacoteDetailPage = () => {
 
   return (
     <>
+      <SEOHelmet 
+        title={`${pacote.titulo} - Pacotes e Passeios`}
+        description={pacote.descricaoCurta || pacote.descricao?.substring(0, 160)}
+        canonical={`/pacotes/${pacoteSlug}`}
+        ogImage={pacote.imagemPrincipal || pacote.imagens?.[0]}
+        ogType="product"
+      />
       <Header />
       <div className="pdp-modern-container">
         {/* Hero Section com Imagem Principal */}
