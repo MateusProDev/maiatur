@@ -29,23 +29,38 @@ const Contato = () => {
   useEffect(() => {
     const fetchContactData = async () => {
       try {
-        // Buscar dados de contato
+        // Buscar dados de contato (email e endereço)
         const footerRef = doc(db, 'content', 'footer');
         const footerDoc = await getDoc(footerRef);
-        
+        let email = '';
+        let endereco = '';
         if (footerDoc.exists()) {
           const data = footerDoc.data();
-          setContactData({
-            email: data.contact?.email || '',
-            whatsapp: data.contact?.whatsapp || '',
-            endereco: data.contact?.address || ''
-          });
+          email = data.contact?.email || '';
+          endereco = data.contact?.address || '';
         }
+
+        // Buscar número do WhatsApp do settings/whatsapp
+        let whatsapp = '';
+        try {
+          const whatsappRef = doc(db, 'settings', 'whatsapp');
+          const whatsappDoc = await getDoc(whatsappRef);
+          if (whatsappDoc.exists()) {
+            whatsapp = whatsappDoc.data().number || '';
+          }
+        } catch (error) {
+          console.error('Erro ao buscar WhatsApp:', error);
+        }
+
+        setContactData({
+          email,
+          whatsapp,
+          endereco
+        });
 
         // Buscar horários de funcionamento (mesma estrutura do Footer)
         const hoursRef = doc(db, 'content', 'hours');
         const hoursDoc = await getDoc(hoursRef);
-        
         if (hoursDoc.exists() && hoursDoc.data().hours?.length > 0) {
           setOperatingHours(hoursDoc.data().hours);
         }
@@ -53,7 +68,6 @@ const Contato = () => {
         console.error('Erro ao buscar dados de contato:', error);
       }
     };
-
     fetchContactData();
   }, []);
 
