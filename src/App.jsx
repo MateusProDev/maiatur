@@ -42,7 +42,6 @@ const EditHours = lazy(() => import("./components/Admin/EditHours/EditHours"));
 const BannerAdmin = lazy(() => import("./components/Admin/BannerAdmin/BannerAdmin"));
 const LinkInBio = lazy(() => import("./components/LinkInBio/LinkInBio"));
 const GoogleHub = lazy(() => import("./pages/GoogleHub/GoogleHub"));
-
 // Páginas do Sistema de Reservas
 const ReservasPage = lazy(() => import("./pages/ReservasPage/ReservasPage"));
 const PasseioPage = lazy(() => import("./pages/PasseioPage/PasseioPage"));
@@ -52,6 +51,7 @@ const TransferSaidaPage = lazy(() => import("./pages/TransferSaidaPage/TransferS
 const TransferEntreHoteisPage = lazy(() => import("./pages/TransferEntreHoteisPage/TransferEntreHoteisPage"));
 const PoliticaPage = lazy(() => import("./pages/PoliticaPage/PoliticaPage"));
 const InicializadorPage = lazy(() => import("./pages/InicializadorPage/InicializadorPage"));
+const Falha = lazy(() => import("./pages/Falha/Falha"));
 
 // Contexto para controle global do loading
 export const LoadingContext = React.createContext();
@@ -181,7 +181,7 @@ const App = () => {
               <Route path="/link-bio" element={<LinkInBio />} />
               <Route path="/google" element={<GoogleHub />} />
               
-              <Route path="*" element={<Navigate to="/" />} />
+              <Route path="*" element={<Suspense fallback={<LoadingSpinner />}><Falha /></Suspense>} />
                 </Routes>
               </main>
             </Suspense>
