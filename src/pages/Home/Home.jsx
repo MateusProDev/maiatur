@@ -106,6 +106,10 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      <Helmet>
+        <title>Transfer Fortaleza Tur - Turismo, Passeios e Transfers em Fortaleza</title>
+        <meta name="description" content="Descubra os melhores passeios, transfers e experiências turísticas em Fortaleza e região. Reserve online com segurança e praticidade na Transfer Fortaleza Tur." />
+      </Helmet>
       <Header />
       <Banner />
       

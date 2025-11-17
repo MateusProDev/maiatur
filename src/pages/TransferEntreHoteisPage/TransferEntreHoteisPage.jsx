@@ -154,6 +154,7 @@ const TransferEntreHoteisPage = () => {
       <Helmet>
         <meta name="robots" content="noindex, nofollow" />
         <title>Transfer entre Hotéis - Transfer Fortaleza Tur</title>
+        <meta name="description" content="Reserve transfer entre hotéis em Fortaleza com praticidade, conforto e agilidade." />
       </Helmet>
       <div className="form-header">
         <div className="form-header-top">

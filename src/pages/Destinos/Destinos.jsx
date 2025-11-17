@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import './Destinos.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -9,6 +10,10 @@ import { seoData } from '../../utils/seoData';
 const Destinos = () => {
   return (
     <div className="destinos-page">
+      <Helmet>
+        <title>Destinos em Fortaleza | Transfer Fortaleza Tur</title>
+        <meta name="description" content="Explore os melhores destinos turísticos de Fortaleza e região com a Transfer Fortaleza Tur. Praias, passeios e experiências únicas para sua viagem." />
+      </Helmet>
       <SEOHelmet 
         title={seoData.destinos.title}
         description={seoData.destinos.description}

@@ -180,6 +180,7 @@ const TransferSaidaPage = () => {
       <Helmet>
         <meta name="robots" content="noindex, nofollow" />
         <title>Transfer de Saída - Transfer Fortaleza Tur</title>
+        <meta name="description" content="Reserve seu transfer de saída do aeroporto para o hotel em Fortaleza com segurança e pontualidade." />
       </Helmet>
       <div className="form-header">
         <div className="form-header-top">

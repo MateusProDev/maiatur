@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import './Contato.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -113,6 +114,10 @@ const Contato = () => {
   };
   return (
     <div className="contato-page">
+      <Helmet>
+        <title>Contato - Transfer Fortaleza Tur | Fale Conosco</title>
+        <meta name="description" content="Entre em contato com a Transfer Fortaleza Tur para dúvidas, reservas ou informações sobre passeios e transfers em Fortaleza." />
+      </Helmet>
       <SEOHelmet 
         title={seoData.contato.title}
         description={seoData.contato.description}

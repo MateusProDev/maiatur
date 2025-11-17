@@ -169,6 +169,7 @@ const TransferChegadaSaidaPage = () => {
       <Helmet>
         <meta name="robots" content="noindex, nofollow" />
         <title>Transfer Chegada e Saída - Transfer Fortaleza Tur</title>
+        <meta name="description" content="Reserve transfer de chegada e saída em Fortaleza. Serviço completo para sua viagem, com conforto e agilidade." />
       </Helmet>
       <div className="form-header">
         <div className="form-header-top">

@@ -144,6 +144,7 @@ const PasseioPage = () => {
       <Helmet>
         <meta name="robots" content="noindex, nofollow" />
         <title>Reserva de Passeio - Transfer Fortaleza Tur</title>
+        <meta name="description" content="Reserve passeios turísticos exclusivos em Fortaleza e região. Escolha entre pacotes, eventos ou outros tipos de passeio." />
       </Helmet>
       <div className="form-header">
         <div className="form-header-top">
