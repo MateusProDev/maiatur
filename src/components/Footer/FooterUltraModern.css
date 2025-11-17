@@ -360,8 +360,8 @@
   bottom: 0;
   left: 0;
   width: 40px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--footer-cyan), var(--footer-pink));
+  height: 40px;
+  font-size: 20px;
   border-radius: 2px;
 }
 
@@ -646,9 +646,11 @@
   }
 
   .social-icon-ultra {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 60px;
+    height: 60px;
+    font-size: 40px
+    ;
+    color: #fcb045;
   }
 
   .contact-item-ultra {

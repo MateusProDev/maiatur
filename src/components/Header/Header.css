@@ -7,12 +7,14 @@
   width: 100%;
   background: #128C7E;
   backdrop-filter: blur(10px);
+    /* Logo maior e com flex-grow para ocupar espaço disponível */
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
+
 
 .header-scrolled {
   background: #075E54;
@@ -54,7 +56,7 @@
   gap: 0.5rem;
   font-size: 1.8rem;
   font-weight: 900;
-  color: #ffffff;
+      height: 72px; /* Logo ajustado para telas pequenas */
   letter-spacing: -0.02em;
 }
 
@@ -170,7 +172,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 0;
+  height: 72px; /* Logo ajustado para telas pequenas */
   height: 100%;
   background: rgba(255, 255, 255, 0.15);
   transition: width 0.3s ease;
@@ -396,7 +398,7 @@
 @media (max-width: 480px) {
   .header-container-modern {
     padding: 0 0.75rem;
-    height: 75px; /* Aumentado de 65px para acomodar logo maior */
+    height: 90px; /* Aumentado de 65px para acomodar logo maior */
   }
 
   /* Logo ajustado para telas pequenas */
@@ -406,7 +408,7 @@
   }
 
   .header-logo-modern img {
-    height: 60px; /* Logo grande em telas pequenas - aumentado de 48px para 60px */
+    height: 90px; /* Logo grande em telas pequenas - aumentado de 48px para 60px */
     max-width: 100%;
   }
 
