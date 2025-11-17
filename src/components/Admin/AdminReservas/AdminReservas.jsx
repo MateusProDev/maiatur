@@ -20,7 +20,14 @@ import {
   DialogContent,
   DialogActions,
   CircularProgress,
-  Alert
+  Alert,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
 } from "@mui/material";
 import {
   Visibility as ViewIcon,
@@ -450,26 +457,28 @@ const AdminReservas = () => {
                   {/* Lista estruturada, texto ou campo simples, sem duplicação */}
                   {Array.isArray(norm.passageirosLista) && norm.passageirosLista.length > 0 ? (
                     <Box sx={{ mb: 1 }}>
-                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                        <thead>
-                          <tr>
-                            <th style={{ textAlign: 'left', padding: 6 }}>#</th>
-                            <th style={{ textAlign: 'left', padding: 6 }}>Nome</th>
-                            <th style={{ textAlign: 'left', padding: 6 }}>Documento</th>
-                            <th style={{ textAlign: 'left', padding: 6 }}>Idade</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {norm.passageirosLista.map((p, idx) => (
-                            <tr key={idx} style={{ borderTop: '1px solid #eee' }}>
-                              <td style={{ padding: 6 }}>{idx + 1}</td>
-                              <td style={{ padding: 6 }}>{p.nome ?? '—'}</td>
-                              <td style={{ padding: 6 }}>{p.documento ?? '—'}</td>
-                              <td style={{ padding: 6 }}>{p.idade ?? '—'}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                      <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
+                        <Table size="small">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>#</TableCell>
+                              <TableCell>Nome</TableCell>
+                              <TableCell>Documento</TableCell>
+                              <TableCell>Idade</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {norm.passageirosLista.map((p, idx) => (
+                              <TableRow key={idx}>
+                                <TableCell>{idx + 1}</TableCell>
+                                <TableCell>{p.nome ?? '—'}</TableCell>
+                                <TableCell>{p.documento ?? '—'}</TableCell>
+                                <TableCell>{p.idade ?? '—'}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
                     </Box>
                   ) : norm.passageirosTexto ? (
                     <Typography style={{ whiteSpace: "pre-line" }}>
