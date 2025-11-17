@@ -408,7 +408,7 @@
   }
 
   .header-logo-modern img {
-    height: 90px; /* Logo grande em telas pequenas - aumentado de 48px para 60px */
+    height: 85px; /* Logo grande em telas pequenas - aumentado de 48px para 60px */
     max-width: 100%;
   }
 
