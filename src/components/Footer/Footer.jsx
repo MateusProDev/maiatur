@@ -121,32 +121,37 @@ const FooterUltraModern = () => {
               <div className="social-icons-grid-ultra">
                 {footerData.social?.instagram?.link && (
                   <a href={footerData.social.instagram.link} target="_blank" rel="noopener noreferrer" 
-                     className="social-icon-ultra social-instagram-ultra" title="Instagram">
-                    <FaInstagram />
+                     className="social-icon-ultra social-instagram-ultra" title="Instagram"
+                     style={{background: 'linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)', borderColor: '#fd1d1d'}}>
+                    <FaInstagram style={{ color: '#fff', fontSize: '40px' }} />
                   </a>
                 )}
                 {footerData.social?.facebook?.link && (
                   <a href={footerData.social.facebook.link} target="_blank" rel="noopener noreferrer"
-                     className="social-icon-ultra social-facebook-ultra" title="Facebook">
-                    <FaFacebookF />
+                     className="social-icon-ultra social-facebook-ultra" title="Facebook"
+                     style={{background: '#1877f2', borderColor: '#1877f2'}}>
+                    <FaFacebookF style={{ color: '#fff', fontSize: '24px' }} />
                   </a>
                 )}
                 {footerData.social?.whatsapp?.link && (
                   <a href={footerData.social.whatsapp.link} target="_blank" rel="noopener noreferrer"
-                     className="social-icon-ultra social-whatsapp-ultra" title="WhatsApp">
-                    <FaWhatsapp />
+                     className="social-icon-ultra social-whatsapp-ultra" title="WhatsApp"
+                     style={{background: '#25d366', borderColor: '#25d366'}}>
+                    <FaWhatsapp style={{ color: '#fff', fontSize: '24px' }} />
                   </a>
                 )}
                 {footerData.social?.twitter?.link && (
                   <a href={footerData.social.twitter.link} target="_blank" rel="noopener noreferrer"
-                     className="social-icon-ultra social-twitter-ultra" title="Twitter">
-                    <FaTwitter />
+                     className="social-icon-ultra social-twitter-ultra" title="Twitter"
+                     style={{background: '#1da1f2', borderColor: '#1da1f2'}}>
+                    <FaTwitter style={{ color: '#fff', fontSize: '24px' }} />
                   </a>
                 )}
                 {footerData.social?.youtube?.link && (
                   <a href={footerData.social.youtube.link} target="_blank" rel="noopener noreferrer"
-                     className="social-icon-ultra social-youtube-ultra" title="YouTube">
-                    <FaYoutube />
+                     className="social-icon-ultra social-youtube-ultra" title="YouTube"
+                     style={{background: '#ff0000', borderColor: '#ff0000'}}>
+                    <FaYoutube style={{ color: '#fff', fontSize: '24px' }} />
                   </a>
                 )}
               </div>
