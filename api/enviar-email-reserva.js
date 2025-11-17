@@ -29,12 +29,14 @@ function gerarTextoPlano(reserva, reservaId, tipoLabel) {
   if (reserva.passeio) {
     if (reserva.passeio.nome === 'Eventos' || reserva.passeio.nome === 'Outros') {
       linhas.push(`Tipo de Reserva: ${reserva.passeio.nome}`);
+      linhas.push(`Observações/Descrição: ${reserva.observacoes || 'Nenhuma informação adicional fornecida.'}`);
+      linhas.push('Nossa equipe entrará em contato para detalhes específicos sobre o evento ou serviço solicitado.');
     } else {
       linhas.push(`Passeio: ${reserva.passeio.nome}`);
+      if (reserva.passeio.data) linhas.push(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`);
+      if (reserva.passeio.horario) linhas.push(`Horário: ${reserva.passeio.horario}`);
+      if (reserva.passeio.localEmbarque) linhas.push(`Local de embarque: ${reserva.passeio.localEmbarque}`);
     }
-    if (reserva.passeio.data) linhas.push(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`);
-    if (reserva.passeio.horario) linhas.push(`Horário: ${reserva.passeio.horario}`);
-    if (reserva.passeio.localEmbarque) linhas.push(`Local de embarque: ${reserva.passeio.localEmbarque}`);
   }
   if (reserva.detalhes) {
     if (reserva.detalhes.destinoTransfer) linhas.push(`Destino: ${reserva.detalhes.destinoTransfer}`);
@@ -266,6 +268,20 @@ async function gerarVoucherPDF(reserva, reservaId) {
         font: font,
       });
       yPos -= 18;
+      page.drawText(`Observações/Descrição: ${reserva.observacoes || 'Nenhuma informação adicional fornecida.'}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+      page.drawText('Nossa equipe entrará em contato para detalhes específicos sobre o evento ou serviço solicitado.', {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
     } else {
       page.drawText(`Passeio: ${reserva.passeio.nome}`, {
         x: 50,
@@ -274,33 +290,33 @@ async function gerarVoucherPDF(reserva, reservaId) {
         font: font,
       });
       yPos -= 18;
-    }
-    if (reserva.passeio.data) {
-      page.drawText(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`, {
-        x: 50,
-        y: yPos,
-        size: 10,
-        font: font,
-      });
-      yPos -= 18;
-    }
-    if (reserva.passeio.horario) {
-      page.drawText(`Horário: ${reserva.passeio.horario}`, {
-        x: 50,
-        y: yPos,
-        size: 10,
-        font: font,
-      });
-      yPos -= 18;
-    }
-    if (reserva.passeio.localEmbarque) {
-      page.drawText(`Local de Embarque: ${reserva.passeio.localEmbarque}`, {
-        x: 50,
-        y: yPos,
-        size: 10,
-        font: font,
-      });
-      yPos -= 18;
+      if (reserva.passeio.data) {
+        page.drawText(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`, {
+          x: 50,
+          y: yPos,
+          size: 10,
+          font: font,
+        });
+        yPos -= 18;
+      }
+      if (reserva.passeio.horario) {
+        page.drawText(`Horário: ${reserva.passeio.horario}`, {
+          x: 50,
+          y: yPos,
+          size: 10,
+          font: font,
+        });
+        yPos -= 18;
+      }
+      if (reserva.passeio.localEmbarque) {
+        page.drawText(`Local de Embarque: ${reserva.passeio.localEmbarque}`, {
+          x: 50,
+          y: yPos,
+          size: 10,
+          font: font,
+        });
+        yPos -= 18;
+      }
     }
   }
   
