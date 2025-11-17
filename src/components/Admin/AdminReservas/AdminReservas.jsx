@@ -363,22 +363,40 @@ const AdminReservas = () => {
                   <Typography variant="subtitle2" color="primary" gutterBottom>
                     PASSAGEIROS
                   </Typography>
-                  <Typography style={{ whiteSpace: "pre-line" }}>
-                    {reservaSelecionada.passageiros}
-                  </Typography>
+                  {/* Mostra lista estruturada se existir */}
+                  {Array.isArray(reservaSelecionada.passageirosLista) && reservaSelecionada.passageirosLista.length > 0 ? (
+                    <Box sx={{ mb: 1 }}>
+                      {reservaSelecionada.passageirosLista.map((p, idx) => (
+                        <Typography key={idx} style={{ whiteSpace: "pre-line" }}>
+                          {p.nome} {p.idade ? `- Idade: ${p.idade}` : ""}
+                        </Typography>
+                      ))}
+                    </Box>
+                  ) : null}
+                  {/* Mostra texto se existir */}
+                  {reservaSelecionada.passageirosTexto ? (
+                    <Typography style={{ whiteSpace: "pre-line" }}>
+                      {reservaSelecionada.passageirosTexto}
+                    </Typography>
+                  ) : reservaSelecionada.passageiros ? (
+                    <Typography style={{ whiteSpace: "pre-line" }}>
+                      {reservaSelecionada.passageiros}
+                    </Typography>
+                  ) : null}
                   <Typography><strong>Adultos:</strong> {reservaSelecionada.quantidades?.adultos}</Typography>
                   <Typography><strong>Crianças:</strong> {reservaSelecionada.quantidades?.criancas}</Typography>
                 </Grid>
 
-                {reservaSelecionada.passeio && (
+                {/* PASSEIO - Suporta campos alternativos */}
+                {(reservaSelecionada.passeio || reservaSelecionada.nomePasseio || reservaSelecionada.dataPasseio || reservaSelecionada.horaPasseio || reservaSelecionada.localSaida) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       PASSEIO
                     </Typography>
-                    <Typography><strong>Nome:</strong> {reservaSelecionada.passeio.nome}</Typography>
-                    <Typography><strong>Data:</strong> {new Date(reservaSelecionada.passeio.data).toLocaleDateString("pt-BR")}</Typography>
-                    <Typography><strong>Horário:</strong> {reservaSelecionada.passeio.horario}</Typography>
-                    <Typography><strong>Local Embarque:</strong> {reservaSelecionada.passeio.localEmbarque}</Typography>
+                    <Typography><strong>Nome:</strong> {reservaSelecionada.passeio?.nome || reservaSelecionada.nomePasseio}</Typography>
+                    <Typography><strong>Data:</strong> {reservaSelecionada.passeio?.data ? new Date(reservaSelecionada.passeio.data).toLocaleDateString("pt-BR") : reservaSelecionada.dataPasseio}</Typography>
+                    <Typography><strong>Horário:</strong> {reservaSelecionada.passeio?.horario || reservaSelecionada.horaPasseio || reservaSelecionada.horaSaida}</Typography>
+                    <Typography><strong>Local Embarque:</strong> {reservaSelecionada.passeio?.localEmbarque || reservaSelecionada.localSaida}</Typography>
                   </Grid>
                 )}
 
@@ -392,34 +410,37 @@ const AdminReservas = () => {
                   </Grid>
                 )}
 
-                {reservaSelecionada.veiculo && (
+                {/* VEÍCULO - Suporta campos alternativos */}
+                {(reservaSelecionada.veiculo || reservaSelecionada.tipoVeiculo) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       VEÍCULO
                     </Typography>
-                    <Typography><strong>Tipo:</strong> {reservaSelecionada.veiculo.tipo}</Typography>
-                    <Typography><strong>Modelo:</strong> {reservaSelecionada.veiculo.modelo}</Typography>
-                    <Typography><strong>Placa:</strong> {reservaSelecionada.veiculo.placa}</Typography>
+                    <Typography><strong>Tipo:</strong> {reservaSelecionada.veiculo?.tipo || reservaSelecionada.tipoVeiculo}</Typography>
+                    {reservaSelecionada.veiculo?.modelo && <Typography><strong>Modelo:</strong> {reservaSelecionada.veiculo.modelo}</Typography>}
+                    {reservaSelecionada.veiculo?.placa && <Typography><strong>Placa:</strong> {reservaSelecionada.veiculo.placa}</Typography>}
                   </Grid>
                 )}
 
-                {reservaSelecionada.horarios && (
+                {/* HORÁRIOS - Suporta campos alternativos */}
+                {(reservaSelecionada.horarios || reservaSelecionada.horaSaida || reservaSelecionada.horaRetorno) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       HORÁRIOS
                     </Typography>
-                    <Typography><strong>Saída:</strong> {reservaSelecionada.horarios.saida}</Typography>
-                    <Typography><strong>Chegada:</strong> {reservaSelecionada.horarios.chegada}</Typography>
+                    <Typography><strong>Saída:</strong> {reservaSelecionada.horarios?.saida || reservaSelecionada.horaSaida}</Typography>
+                    <Typography><strong>Retorno:</strong> {reservaSelecionada.horarios?.chegada || reservaSelecionada.horaRetorno}</Typography>
                   </Grid>
                 )}
 
-                {reservaSelecionada.local && (
+                {/* LOCAL - Suporta campos alternativos */}
+                {(reservaSelecionada.local || reservaSelecionada.localSaida) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       LOCAL
                     </Typography>
-                    <Typography><strong>Origem:</strong> {reservaSelecionada.local.origem}</Typography>
-                    <Typography><strong>Destino:</strong> {reservaSelecionada.local.destino}</Typography>
+                    <Typography><strong>Origem:</strong> {reservaSelecionada.local?.origem || reservaSelecionada.localSaida}</Typography>
+                    {reservaSelecionada.local?.destino && <Typography><strong>Destino:</strong> {reservaSelecionada.local.destino}</Typography>}
                   </Grid>
                 )}
 
