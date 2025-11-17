@@ -179,6 +179,8 @@ const PasseioPage = () => {
                   {p}
                 </option>
               ))}
+              <option value="Eventos">Eventos</option>
+              <option value="Outros">Outros</option>
             </select>
             {errors.passeioDesejado && (
               <span className="erro">{errors.passeioDesejado.message}</span>
