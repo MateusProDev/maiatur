@@ -221,9 +221,7 @@ const AdminReservas = () => {
     setModalAberto(true);
   };
 
-  // UI state for JSON viewers
-  const [showDetalhesJson, setShowDetalhesJson] = useState(false);
-  const [showRawJson, setShowRawJson] = useState(false);
+  // UI state (kept minimal) - no raw JSON shown by default
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -433,7 +431,7 @@ const AdminReservas = () => {
                   </Typography>
                   <Typography><strong>ID:</strong> {reservaSelecionada.id}</Typography>
                   <Typography><strong>Tipo:</strong> {reservaSelecionada.tipo || '-'}</Typography>
-                  <Typography><strong>Status:</strong> {reservaSelecionada.status || '-'}</Typography>
+                  <Typography><strong>Status:</strong> <Chip label={(reservaSelecionada.status || '-').toUpperCase()} color={statusColors[reservaSelecionada.status] || 'default'} size="small" sx={{ ml: 1 }} /></Typography>
                   {reservaSelecionada.criadaEm && (
                     <Typography><strong>Criada em:</strong> {formatMaybeDate(reservaSelecionada.criadaEm)?.toLocaleString('pt-BR') || '—'}</Typography>
                   )}
@@ -441,12 +439,7 @@ const AdminReservas = () => {
                     <Typography><strong>Atualizada em:</strong> {formatMaybeDate(reservaSelecionada.atualizadaEm)?.toLocaleString('pt-BR') || '—'}</Typography>
                   )}
                   <Box sx={{ mt: 1 }}>
-                    <Button size="small" onClick={() => setShowDetalhesJson(!showDetalhesJson)}>
-                      {showDetalhesJson ? 'Ocultar detalhes (JSON)' : 'Mostrar detalhes (JSON)'}
-                    </Button>
-                    <Button size="small" onClick={() => setShowRawJson(!showRawJson)} sx={{ ml: 1 }}>
-                      {showRawJson ? 'Ocultar documento (JSON)' : 'Mostrar documento (JSON)'}
-                    </Button>
+                    <Typography variant="body2" color="textSecondary">Visualização organizada dos campos (detalhes mostrados abaixo).</Typography>
                   </Box>
                 </Grid>
 
@@ -457,11 +450,26 @@ const AdminReservas = () => {
                   {/* Lista estruturada, texto ou campo simples, sem duplicação */}
                   {Array.isArray(norm.passageirosLista) && norm.passageirosLista.length > 0 ? (
                     <Box sx={{ mb: 1 }}>
-                      {norm.passageirosLista.map((p, idx) => (
-                        <Typography key={idx} style={{ whiteSpace: "pre-line" }}>
-                          {idx + 1}. {p.nome}{p.idade ? `, Idade: ${p.idade}` : ""}
-                        </Typography>
-                      ))}
+                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                          <tr>
+                            <th style={{ textAlign: 'left', padding: 6 }}>#</th>
+                            <th style={{ textAlign: 'left', padding: 6 }}>Nome</th>
+                            <th style={{ textAlign: 'left', padding: 6 }}>Documento</th>
+                            <th style={{ textAlign: 'left', padding: 6 }}>Idade</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {norm.passageirosLista.map((p, idx) => (
+                            <tr key={idx} style={{ borderTop: '1px solid #eee' }}>
+                              <td style={{ padding: 6 }}>{idx + 1}</td>
+                              <td style={{ padding: 6 }}>{p.nome ?? '—'}</td>
+                              <td style={{ padding: 6 }}>{p.documento ?? '—'}</td>
+                              <td style={{ padding: 6 }}>{p.idade ?? '—'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </Box>
                   ) : norm.passageirosTexto ? (
                     <Typography style={{ whiteSpace: "pre-line" }}>
@@ -588,26 +596,29 @@ const AdminReservas = () => {
                   </Grid>
                 )}
 
-                {/* Detalhes JSON (opcional) */}
-                {showDetalhesJson && (
+                {/* DETALHES: mostrar campos de detalhes de forma organizada */}
+                {norm.detalhes && Object.keys(norm.detalhes).length > 0 && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
-                      DETALHES (raw)
+                      DETALHES
                     </Typography>
-                    <pre style={{ background: '#f7f7f7', padding: 12, borderRadius: 6, overflowX: 'auto' }}>
-                      {JSON.stringify(reservaSelecionada.detalhes ?? {}, null, 2)}
-                    </pre>
-                  </Grid>
-                )}
-
-                {showRawJson && (
-                  <Grid item xs={12}>
-                    <Typography variant="subtitle2" color="primary" gutterBottom>
-                      DOCUMENTO RESERVA (JSON)
-                    </Typography>
-                    <pre style={{ background: '#fffaf0', padding: 12, borderRadius: 6, overflowX: 'auto' }}>
-                      {JSON.stringify(reservaSelecionada, null, 2)}
-                    </pre>
+                    <Grid container spacing={1}>
+                      {Object.entries(norm.detalhes).map(([k, v]) => {
+                        // formatar chaves mais legíveis
+                        const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+                        // formata data ISO (YYYY-MM-DD) para dd/mm/yyyy
+                        let display = v;
+                        if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)) {
+                          const d = new Date(v);
+                          if (!isNaN(d)) display = d.toLocaleDateString('pt-BR');
+                        }
+                        return (
+                          <Grid item xs={12} md={6} key={k}>
+                            <Typography><strong>{label}:</strong> {String(display ?? '—')}</Typography>
+                          </Grid>
+                        )
+                      })}
+                    </Grid>
                   </Grid>
                 )}
                 
@@ -623,7 +634,7 @@ const AdminReservas = () => {
                       onClick={() => atualizarStatus(reservaSelecionada.id, "pendente")}
                       disabled={atualizando}
                     >
-                      Pendente
+                      {"PENDENTE"}
                     </Button>
                     <Button
                       variant={reservaSelecionada.status === "confirmada" ? "contained" : "outlined"}
@@ -632,7 +643,7 @@ const AdminReservas = () => {
                       onClick={() => atualizarStatus(reservaSelecionada.id, "confirmada")}
                       disabled={atualizando}
                     >
-                      Confirmada
+                      {"CONFIRMADA"}
                     </Button>
                     <Button
                       variant={reservaSelecionada.status === "concluida" ? "contained" : "outlined"}
@@ -641,7 +652,7 @@ const AdminReservas = () => {
                       onClick={() => atualizarStatus(reservaSelecionada.id, "concluida")}
                       disabled={atualizando}
                     >
-                      Concluída
+                      {"CONCLUÍDA"}
                     </Button>
                     <Button
                       variant={reservaSelecionada.status === "cancelada" ? "contained" : "outlined"}
@@ -650,7 +661,7 @@ const AdminReservas = () => {
                       onClick={() => atualizarStatus(reservaSelecionada.id, "cancelada")}
                       disabled={atualizando}
                     >
-                      Cancelada
+                      {"CANCELADA"}
                     </Button>
                   </Box>
                 </Grid>
