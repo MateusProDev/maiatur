@@ -98,7 +98,8 @@ const AdminReservas = () => {
         .map(doc => ({
           id: doc.id,
           ...doc.data(),
-          criadaEm: doc.data().criadaEm?.toDate()
+          criadaEm: (doc.data().criadaEm && typeof doc.data().criadaEm.toDate === 'function') ? doc.data().criadaEm.toDate() : (doc.data().criadaEm ? new Date(doc.data().criadaEm) : null),
+          atualizadaEm: (doc.data().atualizadaEm && typeof doc.data().atualizadaEm.toDate === 'function') ? doc.data().atualizadaEm.toDate() : (doc.data().atualizadaEm ? new Date(doc.data().atualizadaEm) : null)
         }))
         .filter(r => r.id !== "_modelo" && !r._isModelo);
       
@@ -127,8 +128,8 @@ const AdminReservas = () => {
     const passageirosLista = d.passageirosLista || r.passageirosLista || [];
     const passageirosTexto = d.passageirosTexto || r.passageirosTexto || r.passageiros || '';
     const observacoes = r.observacoes || d.observacoes || '';
-    const pagamento = r.pagamento || {};
-    const quantidades = r.quantidades || {};
+    const pagamento = r.pagamento || d.pagamento || {};
+    const quantidades = r.quantidades || d.quantidades || {};
     const voo = r.voo || r.vooChegada || d.voo || d.vooChegada || null;
     return {
       passeioNome,
@@ -146,6 +147,20 @@ const AdminReservas = () => {
       voo,
       detalhes: d,
     };
+  };
+
+  const formatMaybeDate = (v) => {
+    if (!v) return null;
+    try {
+      if (typeof v === 'object' && typeof v.toDate === 'function') return v.toDate();
+      if (v instanceof Date) return v;
+      // number (timestamp ms) or ISO string
+      const maybe = new Date(v);
+      if (isNaN(maybe)) return null;
+      return maybe;
+    } catch (e) {
+      return null;
+    }
   };
 
   const showNotification = (type, message) => {
@@ -205,6 +220,10 @@ const AdminReservas = () => {
     setReservaSelecionada(reserva);
     setModalAberto(true);
   };
+
+  // UI state for JSON viewers
+  const [showDetalhesJson, setShowDetalhesJson] = useState(false);
+  const [showRawJson, setShowRawJson] = useState(false);
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -416,11 +435,19 @@ const AdminReservas = () => {
                   <Typography><strong>Tipo:</strong> {reservaSelecionada.tipo || '-'}</Typography>
                   <Typography><strong>Status:</strong> {reservaSelecionada.status || '-'}</Typography>
                   {reservaSelecionada.criadaEm && (
-                    <Typography><strong>Criada em:</strong> {new Date(reservaSelecionada.criadaEm).toLocaleString('pt-BR')}</Typography>
+                    <Typography><strong>Criada em:</strong> {formatMaybeDate(reservaSelecionada.criadaEm)?.toLocaleString('pt-BR') || '—'}</Typography>
                   )}
                   {reservaSelecionada.atualizadaEm && (
-                    <Typography><strong>Atualizada em:</strong> {new Date(reservaSelecionada.atualizadaEm).toLocaleString('pt-BR')}</Typography>
+                    <Typography><strong>Atualizada em:</strong> {formatMaybeDate(reservaSelecionada.atualizadaEm)?.toLocaleString('pt-BR') || '—'}</Typography>
                   )}
+                  <Box sx={{ mt: 1 }}>
+                    <Button size="small" onClick={() => setShowDetalhesJson(!showDetalhesJson)}>
+                      {showDetalhesJson ? 'Ocultar detalhes (JSON)' : 'Mostrar detalhes (JSON)'}
+                    </Button>
+                    <Button size="small" onClick={() => setShowRawJson(!showRawJson)} sx={{ ml: 1 }}>
+                      {showRawJson ? 'Ocultar documento (JSON)' : 'Mostrar documento (JSON)'}
+                    </Button>
+                  </Box>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -447,6 +474,9 @@ const AdminReservas = () => {
                   {typeof norm.quantidades?.criancas === 'number' && (
                     <Typography><strong>Crianças:</strong> {norm.quantidades.criancas}</Typography>
                   )}
+                  {typeof norm.quantidades?.malas === 'number' && (
+                    <Typography><strong>Malas:</strong> {norm.quantidades.malas}</Typography>
+                  )}
                 </Grid>
 
                 {/* PASSEIO - Suporta campos alternativos, sem duplicação */}
@@ -470,13 +500,15 @@ const AdminReservas = () => {
                   </Grid>
                 )}
 
-                {(reservaSelecionada.voo || reservaSelecionada.vooChegada) && (
+                {norm.voo && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       VOO
                     </Typography>
-                    <Typography><strong>Número:</strong> {(reservaSelecionada.voo || reservaSelecionada.vooChegada)?.numeroVoo}</Typography>
-                    <Typography><strong>Data:</strong> {new Date((reservaSelecionada.voo || reservaSelecionada.vooChegada)?.dataChegada || (reservaSelecionada.voo || reservaSelecionada.vooChegada)?.dataSaida).toLocaleDateString("pt-BR")}</Typography>
+                    <Typography><strong>Número:</strong> {norm.voo?.numeroVoo || norm.voo?.numero || '—'}</Typography>
+                    {formatMaybeDate(norm.voo?.dataChegada || norm.voo?.dataSaida) ? (
+                      <Typography><strong>Data:</strong> {formatMaybeDate(norm.voo?.dataChegada || norm.voo?.dataSaida).toLocaleDateString('pt-BR')}</Typography>
+                    ) : null}
                   </Grid>
                 )}
 
@@ -532,8 +564,18 @@ const AdminReservas = () => {
                   <Typography variant="subtitle2" color="primary" gutterBottom>
                     PAGAMENTO
                   </Typography>
-                  <Typography><strong>Forma:</strong> {reservaSelecionada.pagamento?.forma}</Typography>
-                  <Typography><strong>Valor Total:</strong> R$ {reservaSelecionada.pagamento?.valorTotal?.toFixed(2)}</Typography>
+                  {norm.pagamento && Object.keys(norm.pagamento).length > 0 ? (
+                    <Box>
+                      {Object.entries(norm.pagamento).map(([k, v]) => {
+                        if (k === 'valorTotal') {
+                          return <Typography key={k}><strong>Valor Total:</strong> R$ {Number(v || 0).toFixed(2)}</Typography>
+                        }
+                        return <Typography key={k}><strong>{k.replace(/([A-Z])/g, ' $1') + ':'}</strong> {String(v)}</Typography>
+                      })}
+                    </Box>
+                  ) : (
+                    <Typography>—</Typography>
+                  )}
                 </Grid>
                 
                 {/* OBSERVAÇÕES - Mostra se existir, sem duplicação */}
@@ -543,6 +585,29 @@ const AdminReservas = () => {
                       OBSERVAÇÕES
                     </Typography>
                     <Typography>{norm.observacoes}</Typography>
+                  </Grid>
+                )}
+
+                {/* Detalhes JSON (opcional) */}
+                {showDetalhesJson && (
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle2" color="primary" gutterBottom>
+                      DETALHES (raw)
+                    </Typography>
+                    <pre style={{ background: '#f7f7f7', padding: 12, borderRadius: 6, overflowX: 'auto' }}>
+                      {JSON.stringify(reservaSelecionada.detalhes ?? {}, null, 2)}
+                    </pre>
+                  </Grid>
+                )}
+
+                {showRawJson && (
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle2" color="primary" gutterBottom>
+                      DOCUMENTO RESERVA (JSON)
+                    </Typography>
+                    <pre style={{ background: '#fffaf0', padding: 12, borderRadius: 6, overflowX: 'auto' }}>
+                      {JSON.stringify(reservaSelecionada, null, 2)}
+                    </pre>
                   </Grid>
                 )}
                 
