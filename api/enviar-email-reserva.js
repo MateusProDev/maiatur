@@ -27,7 +27,11 @@ function gerarTextoPlano(reserva, reservaId, tipoLabel) {
   linhas.push(`Telefone: ${reserva.responsavel.ddi} ${reserva.responsavel.telefone}`);
   linhas.push("");
   if (reserva.passeio) {
-    linhas.push(`Passeio: ${reserva.passeio.nome}`);
+    if (reserva.passeio.nome === 'Eventos' || reserva.passeio.nome === 'Outros') {
+      linhas.push(`Tipo de Reserva: ${reserva.passeio.nome}`);
+    } else {
+      linhas.push(`Passeio: ${reserva.passeio.nome}`);
+    }
     if (reserva.passeio.data) linhas.push(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`);
     if (reserva.passeio.horario) linhas.push(`Horário: ${reserva.passeio.horario}`);
     if (reserva.passeio.localEmbarque) linhas.push(`Local de embarque: ${reserva.passeio.localEmbarque}`);
@@ -253,38 +257,51 @@ async function gerarVoucherPDF(reserva, reservaId) {
       font: fontBold,
       color: primaryColor,
     });
-    
     yPos -= 25;
-    page.drawText(`Passeio: ${reserva.passeio.nome}`, {
-      x: 50,
-      y: yPos,
-      size: 10,
-      font: font,
-    });
-    
-    yPos -= 18;
-    page.drawText(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`, {
-      x: 50,
-      y: yPos,
-      size: 10,
-      font: font,
-    });
-    
-    yPos -= 18;
-    page.drawText(`Horário: ${reserva.passeio.horario}`, {
-      x: 50,
-      y: yPos,
-      size: 10,
-      font: font,
-    });
-    
-    yPos -= 18;
-    page.drawText(`Local de Embarque: ${reserva.passeio.localEmbarque}`, {
-      x: 50,
-      y: yPos,
-      size: 10,
-      font: font,
-    });
+    if (reserva.passeio.nome === 'Eventos' || reserva.passeio.nome === 'Outros') {
+      page.drawText(`Tipo de Reserva: ${reserva.passeio.nome}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    } else {
+      page.drawText(`Passeio: ${reserva.passeio.nome}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    if (reserva.passeio.data) {
+      page.drawText(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    if (reserva.passeio.horario) {
+      page.drawText(`Horário: ${reserva.passeio.horario}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    if (reserva.passeio.localEmbarque) {
+      page.drawText(`Local de Embarque: ${reserva.passeio.localEmbarque}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
   }
   
   // Informações de Transfer
