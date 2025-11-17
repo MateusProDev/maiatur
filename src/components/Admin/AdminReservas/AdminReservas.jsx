@@ -190,6 +190,18 @@ const AdminReservas = () => {
   });
 
   const abrirDetalhes = (reserva) => {
+    // Log raw reserva for debugging
+    try {
+      console.log('[AdminReservas] abrirDetalhes - raw reserva:', reserva);
+      // If normalizeReserva exists, log normalized version too
+      if (typeof normalizeReserva === 'function') {
+        const norm = normalizeReserva(reserva);
+        console.log('[AdminReservas] abrirDetalhes - normalized reserva:', norm);
+      }
+    } catch (e) {
+      console.warn('[AdminReservas] abrirDetalhes - erro ao logar reserva:', e);
+    }
+
     setReservaSelecionada(reserva);
     setModalAberto(true);
   };
