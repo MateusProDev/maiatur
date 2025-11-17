@@ -217,11 +217,16 @@ const FooterUltraModern = () => {
             <p className="footer-copyright-ultra">
               &copy; {new Date().getFullYear()} <Link to="/" className="footer-company-link">{footerData.companyName || "Transfer Fortaleza Tur"}</Link>. Todos os direitos reservados.
             </p>
+            <nav className="footer-links-ultra">
+              <Link to="/destinos">Destinos</Link> |{' '}
+              <Link to="/pacotes">Pacotes</Link> |{' '}
+              <Link to="/politica">Política</Link> |{' '}
+              <Link to="/contato">Contato</Link>
+            </nav>
             <p className="footer-love-ultra">
               Feito com <FiHeart className="heart-icon-ultra" /> para quem ama viajar
             </p>
           </div>
-          
           {/* Crédito Turvia */}
           <div className="footer-credit-turvia">
             <a 
