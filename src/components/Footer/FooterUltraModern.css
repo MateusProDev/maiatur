@@ -1,3 +1,25 @@
+/* LINKS DO RODAPÉ */
+.footer-links-ultra {
+  margin: 12px 0 8px 0;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.footer-links-ultra a {
+  color: #F8C144;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0 8px;
+  transition: color 0.2s;
+  border-radius: 4px;
+}
+
+.footer-links-ultra a:hover,
+.footer-links-ultra a:focus {
+  color: #EE7C35;
+  background: rgba(255,255,255,0.08);
+  text-decoration: underline;
+}
 /* ========================================
    FOOTER ULTRA MODERNO - MAIATUR
    Design arrojado com paleta tropical
