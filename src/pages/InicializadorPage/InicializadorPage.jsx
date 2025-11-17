@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { collection, doc, setDoc, getDocs, updateDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import "./InicializadorPage.css";
 
@@ -10,6 +10,8 @@ const InicializadorPage = () => {
   const [resultado, setResultado] = useState("");
   const [resultadoMigracao, setResultadoMigracao] = useState("");
   const [resultadoServicos, setResultadoServicos] = useState("");
+  const [loadingCriarFaltantes, setLoadingCriarFaltantes] = useState(false);
+  const [resultadoCriarFaltantes, setResultadoCriarFaltantes] = useState("");
 
   const inicializarServicos = async () => {
     setLoadingServicos(true);
@@ -66,6 +68,170 @@ const InicializadorPage = () => {
       setResultadoServicos(`❌ Erro: ${error.message}`);
     } finally {
       setLoadingServicos(false);
+    }
+  };
+
+  const criarCamposFaltantes = async () => {
+    setLoadingCriarFaltantes(true);
+    setResultadoCriarFaltantes("");
+
+    try {
+      let resumoMensagens = [];
+
+      // listas: passeios, veiculos, hoteis, aeroportos
+      const listas = [
+        {
+          id: 'passeios',
+          items: [
+            "Beach Park",
+            "Cumbuco",
+            "Jericoacoara",
+            "Canoa Quebrada",
+            "Morro Branco e Praia das Fontes",
+            "Lagoinha",
+            "Flecheiras",
+            "Cumbuco com Passeio de Buggy",
+            "City Tour Fortaleza",
+            "Praia do Futuro"
+          ]
+        },
+        {
+          id: 'veiculos',
+          items: [
+            "Carro até 4 pessoas",
+            "Van até 10 pessoas",
+            "Micro-ônibus até 20 pessoas",
+            "Ônibus até 40 pessoas",
+            "Transfer Executivo",
+            "Transfer Premium",
+            "Buggy",
+            "4x4"
+          ]
+        },
+        {
+          id: 'hoteis',
+          items: [
+            "Hotel Praia Centro",
+            "Resort Beach Park",
+            "Hotel Beira Mar",
+            "Pousada Iracema",
+            "Hotel Sonata de Iracema",
+            "Vila Galé Fortaleza",
+            "Gran Marquise Hotel",
+            "Seara Praia Hotel",
+            "Outro (especificar no campo observações)"
+          ]
+        },
+        {
+          id: 'aeroportos',
+          items: [
+            "Aeroporto Internacional de Fortaleza (FOR)",
+            "Aeroporto de Jericoacoara (JJD)",
+            "Aeroporto Regional de Juazeiro do Norte (JDO)"
+          ]
+        }
+      ];
+
+      for (const list of listas) {
+        const ref = doc(db, 'listas', list.id);
+        const snap = await getDoc(ref);
+
+        if (!snap.exists()) {
+          await setDoc(ref, { items: list.items, atualizadoEm: new Date().toISOString() });
+          resumoMensagens.push(`✅ Lista '${list.id}' criada (não existia)`);
+        } else {
+          const dados = snap.data() || {};
+          const existentes = Array.isArray(dados.items) ? dados.items : [];
+          const faltantes = list.items.filter(i => !existentes.includes(i));
+
+          if (faltantes.length > 0) {
+            const novos = existentes.concat(faltantes);
+            await updateDoc(ref, { items: novos, atualizadoEm: new Date().toISOString() });
+            resumoMensagens.push(`⚠️ Lista '${list.id}' atualizada — adicionados ${faltantes.length} itens`);
+          } else {
+            resumoMensagens.push(`⏭️ Lista '${list.id}' já contém todos os itens`);
+          }
+        }
+      }
+
+      // reservas/_modelo: criar ou adicionar campos faltantes
+      const modeloRef = doc(db, 'reservas', '_modelo');
+      const modeloSnap = await getDoc(modeloRef);
+      const modeloPadrao = {
+        tipo: 'passeio',
+        status: 'pendente',
+        responsavel: { nome: '', email: '', ddi: '+55', telefone: '' },
+        quantidades: { adultos: 0, criancas: 0, malas: 0 },
+        passageiros: [],
+        pagamento: { forma: 'Pix', valorTotal: 0 },
+        observacoes: '',
+        detalhes: {},
+        criadoEm: new Date(),
+        _isModelo: true
+      };
+
+      if (!modeloSnap.exists()) {
+        await setDoc(modeloRef, modeloPadrao);
+        resumoMensagens.push("✅ Documento 'reservas/_modelo' criado (não existia)");
+      } else {
+        const atual = modeloSnap.data() || {};
+        const updates = {};
+
+        Object.keys(modeloPadrao).forEach(k => {
+          if (typeof atual[k] === 'undefined') updates[k] = modeloPadrao[k];
+        });
+
+        if (Object.keys(updates).length > 0) {
+          await updateDoc(modeloRef, updates);
+          resumoMensagens.push(`⚠️ 'reservas/_modelo' atualizado — adicionados campos: ${Object.keys(updates).join(', ')}`);
+        } else {
+          resumoMensagens.push("⏭️ 'reservas/_modelo' já possui todos os campos necessários");
+        }
+      }
+
+      // content/servicesSection: criar ou adicionar serviços faltantes (por id)
+      const servicesRef = doc(db, 'content', 'servicesSection');
+      const servicesSnap = await getDoc(servicesRef);
+      const servicesDefault = {
+        active: true,
+        badge: 'Experiências Personalizadas',
+        title: 'Nossos Serviços',
+        subtitle: 'Cada detalhe pensado para tornar sua viagem perfeita',
+        services: [
+          { id: 1731340800000, title: 'Transfers & Receptivo', description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade', image: '/aviaoservico.png', color: '#21A657', link: '/pacotes', linkText: 'Saiba mais' },
+          { id: 1731340800001, title: 'Passeios Privativos', description: 'Experiências exclusivas com roteiros personalizados para você', image: '/jericoaquaraservico.png', color: '#EE7C35', link: '/pacotes', linkText: 'Saiba mais' },
+          { id: 1731340800002, title: 'City Tours', description: 'Conheça as principais atrações e cultura local com nossos guias', image: '/fortalezacityservico.png', color: '#F8C144', link: '/pacotes', linkText: 'Saiba mais' }
+        ]
+      };
+
+      if (!servicesSnap.exists()) {
+        await setDoc(servicesRef, servicesDefault);
+        resumoMensagens.push("✅ 'content/servicesSection' criado (não existia)");
+      } else {
+        const atual = servicesSnap.data() || {};
+        const existentes = Array.isArray(atual.services) ? atual.services : [];
+        const existentesIds = existentes.map(s => s.id);
+        const faltantes = servicesDefault.services.filter(s => !existentesIds.includes(s.id));
+
+        if (faltantes.length > 0) {
+          const merged = existentes.concat(faltantes);
+          const updates = { services: merged };
+          if (!atual.title) updates.title = servicesDefault.title;
+          if (!atual.subtitle) updates.subtitle = servicesDefault.subtitle;
+          if (!atual.badge) updates.badge = servicesDefault.badge;
+          await updateDoc(servicesRef, updates);
+          resumoMensagens.push(`⚠️ 'content/servicesSection' atualizado — adicionados ${faltantes.length} serviços`);
+        } else {
+          resumoMensagens.push("⏭️ 'content/servicesSection' já possui os 3 serviços padrões");
+        }
+      }
+
+      setResultadoCriarFaltantes(resumoMensagens.join('\n'));
+    } catch (error) {
+      console.error('Erro ao criar campos faltantes:', error);
+      setResultadoCriarFaltantes(`❌ Erro: ${error.message}`);
+    } finally {
+      setLoadingCriarFaltantes(false);
     }
   };
 
@@ -257,6 +423,21 @@ const InicializadorPage = () => {
         {resultado && (
           <div className={`resultado ${resultado.includes("✅") ? "sucesso" : "erro"}`}>
             <pre>{resultado}</pre>
+          </div>
+        )}
+
+        <button
+          onClick={criarCamposFaltantes}
+          disabled={loadingCriarFaltantes}
+          className="btn-inicializar"
+          style={{ backgroundColor: "#f59e0b", marginLeft: 8 }}
+        >
+          {loadingCriarFaltantes ? "Executando..." : "Criar Campos Faltantes (não sobrescrever)"}
+        </button>
+
+        {resultadoCriarFaltantes && (
+          <div className={`resultado ${resultadoCriarFaltantes.includes("✅") ? "sucesso" : "erro"}`}>
+            <pre>{resultadoCriarFaltantes}</pre>
           </div>
         )}
 

@@ -410,6 +410,21 @@ const AdminReservas = () => {
 
                 <Grid item xs={12}>
                   <Typography variant="subtitle2" color="primary" gutterBottom>
+                    INFORMAÇÕES
+                  </Typography>
+                  <Typography><strong>ID:</strong> {reservaSelecionada.id}</Typography>
+                  <Typography><strong>Tipo:</strong> {reservaSelecionada.tipo || '-'}</Typography>
+                  <Typography><strong>Status:</strong> {reservaSelecionada.status || '-'}</Typography>
+                  {reservaSelecionada.criadaEm && (
+                    <Typography><strong>Criada em:</strong> {new Date(reservaSelecionada.criadaEm).toLocaleString('pt-BR')}</Typography>
+                  )}
+                  {reservaSelecionada.atualizadaEm && (
+                    <Typography><strong>Atualizada em:</strong> {new Date(reservaSelecionada.atualizadaEm).toLocaleString('pt-BR')}</Typography>
+                  )}
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Typography variant="subtitle2" color="primary" gutterBottom>
                     PASSAGEIROS
                   </Typography>
                   {/* Lista estruturada, texto ou campo simples, sem duplicação */}
