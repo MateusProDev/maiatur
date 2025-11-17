@@ -243,7 +243,7 @@ async function gerarVoucherPDF(reserva, reservaId) {
   yPos -= 35;
   
   // Informações Específicas
-  // Exibir corretamente o pacote, evento ou outros
+  // Exibir todos os campos relevantes do passeio/evento
   const nomePasseio = reserva.passeio?.nome || reserva.detalhes?.nomePasseio;
   if (nomePasseio) {
     page.drawText("DETALHES DO PASSEIO", {
@@ -254,63 +254,102 @@ async function gerarVoucherPDF(reserva, reservaId) {
       color: primaryColor,
     });
     yPos -= 25;
-    if (nomePasseio === 'Eventos' || nomePasseio === 'Outros') {
-      page.drawText(`Tipo de Reserva: ${nomePasseio}`, {
+    page.drawText(`Tipo de Reserva: ${nomePasseio}`, {
+      x: 50,
+      y: yPos,
+      size: 10,
+      font: font,
+    });
+    yPos -= 18;
+    if (reserva.detalhes?.dataPasseio) {
+      page.drawText(`Data do Passeio: ${reserva.detalhes.dataPasseio}`, {
         x: 50,
         y: yPos,
         size: 10,
         font: font,
       });
       yPos -= 18;
-      page.drawText(`Observações/Descrição: ${reserva.observacoes || 'Nenhuma informação adicional fornecida.'}`, {
+    }
+    if (reserva.detalhes?.horaPasseio) {
+      page.drawText(`Horário do Passeio: ${reserva.detalhes.horaPasseio}`, {
         x: 50,
         y: yPos,
         size: 10,
         font: font,
       });
       yPos -= 18;
-      page.drawText('Nossa equipe entrará em contato para detalhes específicos sobre o evento ou serviço solicitado.', {
+    }
+    if (reserva.detalhes?.horaSaida) {
+      page.drawText(`Horário de Saída: ${reserva.detalhes.horaSaida}`, {
         x: 50,
         y: yPos,
         size: 10,
         font: font,
       });
       yPos -= 18;
-    } else {
-      page.drawText(`Passeio: ${nomePasseio}`, {
+    }
+    if (reserva.detalhes?.horaRetorno) {
+      page.drawText(`Horário de Retorno: ${reserva.detalhes.horaRetorno}`, {
         x: 50,
         y: yPos,
         size: 10,
         font: font,
       });
       yPos -= 18;
-      if (reserva.passeio?.data) {
-        page.drawText(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`, {
-          x: 50,
+    }
+    if (reserva.detalhes?.localSaida) {
+      page.drawText(`Local de Saída: ${reserva.detalhes.localSaida}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    if (reserva.detalhes?.tipoVeiculo) {
+      page.drawText(`Tipo de Veículo: ${reserva.detalhes.tipoVeiculo}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    if (reserva.detalhes?.observacoes) {
+      page.drawText(`Observações: ${reserva.detalhes.observacoes || 'Nenhuma informação adicional fornecida.'}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
+    }
+    // Lista de passageiros
+    if (Array.isArray(reserva.detalhes?.passageirosLista) && reserva.detalhes.passageirosLista.length > 0) {
+      page.drawText('Passageiros:', {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: fontBold,
+      });
+      yPos -= 18;
+      reserva.detalhes.passageirosLista.forEach((p, idx) => {
+        page.drawText(`${idx + 1}. ${p.nome}${p.idade ? `, Idade: ${p.idade}` : ''}`, {
+          x: 60,
           y: yPos,
           size: 10,
           font: font,
         });
-        yPos -= 18;
-      }
-      if (reserva.passeio?.horario) {
-        page.drawText(`Horário: ${reserva.passeio.horario}`, {
-          x: 50,
-          y: yPos,
-          size: 10,
-          font: font,
-        });
-        yPos -= 18;
-      }
-      if (reserva.passeio?.localEmbarque) {
-        page.drawText(`Local de Embarque: ${reserva.passeio.localEmbarque}`, {
-          x: 50,
-          y: yPos,
-          size: 10,
-          font: font,
-        });
-        yPos -= 18;
-      }
+        yPos -= 16;
+      });
+    } else if (reserva.detalhes?.passageirosTexto) {
+      page.drawText(`Passageiros: ${reserva.detalhes.passageirosTexto}`, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        font: font,
+      });
+      yPos -= 18;
     }
   }
   
@@ -759,7 +798,19 @@ async function enviarEmail(reserva, reservaId, pdfBytes) {
               <h3>📋 Detalhes da Reserva</h3>
               <p><strong>Tipo:</strong> ${tipoMap[reserva.tipo]}</p>
               <p><strong>Responsável:</strong> ${reserva.responsavel.nome}</p>
-              <p><strong>Passageiros:</strong> ${reserva.quantidades.adultos} adulto(s)${reserva.quantidades.criancas > 0 ? ` + ${reserva.quantidades.criancas} criança(s)` : ''}</p>
+              <p><strong>Email:</strong> ${reserva.responsavel.email}</p>
+              <p><strong>Telefone:</strong> ${reserva.responsavel.ddi} ${reserva.responsavel.telefone}</p>
+              <p><strong>Data do Passeio:</strong> ${reserva.detalhes?.dataPasseio || '-'}</p>
+              <p><strong>Horário do Passeio:</strong> ${reserva.detalhes?.horaPasseio || '-'}</p>
+              <p><strong>Horário de Saída:</strong> ${reserva.detalhes?.horaSaida || '-'}</p>
+              <p><strong>Horário de Retorno:</strong> ${reserva.detalhes?.horaRetorno || '-'}</p>
+              <p><strong>Local de Saída:</strong> ${reserva.detalhes?.localSaida || '-'}</p>
+              <p><strong>Tipo de Veículo:</strong> ${reserva.detalhes?.tipoVeiculo || '-'}</p>
+              <p><strong>Observações:</strong> ${reserva.detalhes?.observacoes || '-'}</p>
+              <p><strong>Passageiros:</strong> ${Array.isArray(reserva.detalhes?.passageirosLista) && reserva.detalhes.passageirosLista.length > 0
+                ? reserva.detalhes.passageirosLista.map((p, idx) => `${idx + 1}. ${p.nome}${p.idade ? `, Idade: ${p.idade}` : ''}`).join('<br>')
+                : (reserva.detalhes?.passageirosTexto || '-')}
+              </p>
               <p><strong>Valor Total:</strong> <span style="color: #27ae60; font-weight: 600;">R$ ${reserva.pagamento.valorTotal.toFixed(2)}</span></p>
             </div>
             
