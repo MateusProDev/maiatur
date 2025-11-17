@@ -358,7 +358,7 @@ const AdminReservas = () => {
                   <Typography><strong>Email:</strong> {reservaSelecionada.responsavel?.email}</Typography>
                   <Typography><strong>Telefone:</strong> {reservaSelecionada.responsavel?.ddi} {reservaSelecionada.responsavel?.telefone}</Typography>
                 </Grid>
-                
+
                 <Grid item xs={12}>
                   <Typography variant="subtitle2" color="primary" gutterBottom>
                     PASSAGEIROS
@@ -366,8 +366,10 @@ const AdminReservas = () => {
                   <Typography style={{ whiteSpace: "pre-line" }}>
                     {reservaSelecionada.passageiros}
                   </Typography>
+                  <Typography><strong>Adultos:</strong> {reservaSelecionada.quantidades?.adultos}</Typography>
+                  <Typography><strong>Crianças:</strong> {reservaSelecionada.quantidades?.criancas}</Typography>
                 </Grid>
-                
+
                 {reservaSelecionada.passeio && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
@@ -379,7 +381,7 @@ const AdminReservas = () => {
                     <Typography><strong>Local Embarque:</strong> {reservaSelecionada.passeio.localEmbarque}</Typography>
                   </Grid>
                 )}
-                
+
                 {(reservaSelecionada.voo || reservaSelecionada.vooChegada) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
@@ -389,7 +391,38 @@ const AdminReservas = () => {
                     <Typography><strong>Data:</strong> {new Date((reservaSelecionada.voo || reservaSelecionada.vooChegada)?.dataChegada || (reservaSelecionada.voo || reservaSelecionada.vooChegada)?.dataSaida).toLocaleDateString("pt-BR")}</Typography>
                   </Grid>
                 )}
-                
+
+                {reservaSelecionada.veiculo && (
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle2" color="primary" gutterBottom>
+                      VEÍCULO
+                    </Typography>
+                    <Typography><strong>Tipo:</strong> {reservaSelecionada.veiculo.tipo}</Typography>
+                    <Typography><strong>Modelo:</strong> {reservaSelecionada.veiculo.modelo}</Typography>
+                    <Typography><strong>Placa:</strong> {reservaSelecionada.veiculo.placa}</Typography>
+                  </Grid>
+                )}
+
+                {reservaSelecionada.horarios && (
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle2" color="primary" gutterBottom>
+                      HORÁRIOS
+                    </Typography>
+                    <Typography><strong>Saída:</strong> {reservaSelecionada.horarios.saida}</Typography>
+                    <Typography><strong>Chegada:</strong> {reservaSelecionada.horarios.chegada}</Typography>
+                  </Grid>
+                )}
+
+                {reservaSelecionada.local && (
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle2" color="primary" gutterBottom>
+                      LOCAL
+                    </Typography>
+                    <Typography><strong>Origem:</strong> {reservaSelecionada.local.origem}</Typography>
+                    <Typography><strong>Destino:</strong> {reservaSelecionada.local.destino}</Typography>
+                  </Grid>
+                )}
+
                 <Grid item xs={12}>
                   <Typography variant="subtitle2" color="primary" gutterBottom>
                     PAGAMENTO
