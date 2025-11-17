@@ -113,6 +113,41 @@ const AdminReservas = () => {
 
   useEffect(() => { carregarReservas(); }, [carregarReservas]);
 
+  // Normaliza campos de reserva para suportar formatos antigos e novos
+  const normalizeReserva = (r) => {
+    if (!r) return {};
+    const d = r.detalhes || {};
+    const passeioNome = r.passeio?.nome || r.nomePasseio || d.nomePasseio || '';
+    const dataPasseio = r.passeio?.data || r.dataPasseio || d.dataPasseio || '';
+    const horaPasseio = r.passeio?.horario || r.horaPasseio || d.horaPasseio || '';
+    const horaSaida = d.horaSaida || r.horaSaida || r.horaSaida || '';
+    const horaRetorno = d.horaRetorno || r.horaRetorno || '';
+    const localSaida = r.passeio?.localEmbarque || r.localSaida || d.localSaida || '';
+    const tipoVeiculo = r.veiculo?.tipo || r.tipoVeiculo || d.tipoVeiculo || d.tipoTransferVeiculo || '';
+    const passageirosLista = d.passageirosLista || r.passageirosLista || [];
+    const passageirosTexto = d.passageirosTexto || r.passageirosTexto || r.passageiros || '';
+    const observacoes = r.observacoes || d.observacoes || '';
+    const pagamento = r.pagamento || {};
+    const quantidades = r.quantidades || {};
+    const voo = r.voo || r.vooChegada || d.voo || d.vooChegada || null;
+    return {
+      passeioNome,
+      dataPasseio,
+      horaPasseio,
+      horaSaida,
+      horaRetorno,
+      localSaida,
+      tipoVeiculo,
+      passageirosLista,
+      passageirosTexto,
+      observacoes,
+      pagamento,
+      quantidades,
+      voo,
+      detalhes: d,
+    };
+  };
+
   const showNotification = (type, message) => {
     setNotification({ show: true, type, message });
     setTimeout(() => setNotification({ show: false, type: "", message: "" }), 5000);
@@ -337,7 +372,9 @@ const AdminReservas = () => {
 
       {/* Modal de Detalhes */}
       <Dialog open={modalAberto} onClose={() => setModalAberto(false)} maxWidth="md" fullWidth>
-        {reservaSelecionada && (
+        {reservaSelecionada && (() => {
+          const norm = normalizeReserva(reservaSelecionada);
+          return (
           <>
             <DialogTitle>
               <Typography variant="h5" sx={{ fontWeight: 700 }}>
@@ -348,7 +385,7 @@ const AdminReservas = () => {
               </Typography>
             </DialogTitle>
             
-            <DialogContent dividers>
+            <DialogContent dividers sx={{ maxHeight: '65vh', overflowY: 'auto' }}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Typography variant="subtitle2" color="primary" gutterBottom>
@@ -364,28 +401,24 @@ const AdminReservas = () => {
                     PASSAGEIROS
                   </Typography>
                   {/* Lista estruturada, texto ou campo simples, sem duplicação */}
-                  {Array.isArray(reservaSelecionada.passageirosLista) && reservaSelecionada.passageirosLista.length > 0 ? (
+                  {Array.isArray(norm.passageirosLista) && norm.passageirosLista.length > 0 ? (
                     <Box sx={{ mb: 1 }}>
-                      {reservaSelecionada.passageirosLista.map((p, idx) => (
+                      {norm.passageirosLista.map((p, idx) => (
                         <Typography key={idx} style={{ whiteSpace: "pre-line" }}>
                           {idx + 1}. {p.nome}{p.idade ? `, Idade: ${p.idade}` : ""}
                         </Typography>
                       ))}
                     </Box>
-                  ) : reservaSelecionada.passageirosTexto ? (
+                  ) : norm.passageirosTexto ? (
                     <Typography style={{ whiteSpace: "pre-line" }}>
-                      {reservaSelecionada.passageirosTexto}
-                    </Typography>
-                  ) : reservaSelecionada.passageiros ? (
-                    <Typography style={{ whiteSpace: "pre-line" }}>
-                      {reservaSelecionada.passageiros}
+                      {norm.passageirosTexto}
                     </Typography>
                   ) : null}
-                  {typeof reservaSelecionada.quantidades?.adultos === 'number' && (
-                    <Typography><strong>Adultos:</strong> {reservaSelecionada.quantidades.adultos}</Typography>
+                  {typeof norm.quantidades?.adultos === 'number' && (
+                    <Typography><strong>Adultos:</strong> {norm.quantidades.adultos}</Typography>
                   )}
-                  {typeof reservaSelecionada.quantidades?.criancas === 'number' && (
-                    <Typography><strong>Crianças:</strong> {reservaSelecionada.quantidades.criancas}</Typography>
+                  {typeof norm.quantidades?.criancas === 'number' && (
+                    <Typography><strong>Crianças:</strong> {norm.quantidades.criancas}</Typography>
                   )}
                 </Grid>
 
@@ -395,17 +428,17 @@ const AdminReservas = () => {
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       PASSEIO
                     </Typography>
-                    {reservaSelecionada.passeio?.nome || reservaSelecionada.nomePasseio ? (
-                      <Typography><strong>Nome:</strong> {reservaSelecionada.passeio?.nome || reservaSelecionada.nomePasseio}</Typography>
+                    {norm.passeioNome ? (
+                      <Typography><strong>Nome:</strong> {norm.passeioNome}</Typography>
                     ) : null}
-                    {reservaSelecionada.passeio?.data || reservaSelecionada.dataPasseio ? (
-                      <Typography><strong>Data:</strong> {reservaSelecionada.passeio?.data ? new Date(reservaSelecionada.passeio.data).toLocaleDateString("pt-BR") : reservaSelecionada.dataPasseio}</Typography>
+                    {norm.dataPasseio ? (
+                      <Typography><strong>Data:</strong> {norm.dataPasseio}</Typography>
                     ) : null}
-                    {reservaSelecionada.passeio?.horario || reservaSelecionada.horaPasseio || reservaSelecionada.horaSaida ? (
-                      <Typography><strong>Horário:</strong> {reservaSelecionada.passeio?.horario || reservaSelecionada.horaPasseio || reservaSelecionada.horaSaida}</Typography>
+                    {norm.horaPasseio ? (
+                      <Typography><strong>Horário:</strong> {norm.horaPasseio}</Typography>
                     ) : null}
-                    {reservaSelecionada.passeio?.localEmbarque || reservaSelecionada.localSaida ? (
-                      <Typography><strong>Local Embarque:</strong> {reservaSelecionada.passeio?.localEmbarque || reservaSelecionada.localSaida}</Typography>
+                    {norm.localSaida ? (
+                      <Typography><strong>Local Embarque:</strong> {norm.localSaida}</Typography>
                     ) : null}
                   </Grid>
                 )}
@@ -426,8 +459,8 @@ const AdminReservas = () => {
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       VEÍCULO
                     </Typography>
-                    {reservaSelecionada.veiculo?.tipo || reservaSelecionada.tipoVeiculo ? (
-                      <Typography><strong>Tipo:</strong> {reservaSelecionada.veiculo?.tipo || reservaSelecionada.tipoVeiculo}</Typography>
+                    {norm.tipoVeiculo ? (
+                      <Typography><strong>Tipo:</strong> {norm.tipoVeiculo}</Typography>
                     ) : null}
                     {reservaSelecionada.veiculo?.modelo ? (
                       <Typography><strong>Modelo:</strong> {reservaSelecionada.veiculo.modelo}</Typography>
@@ -444,11 +477,11 @@ const AdminReservas = () => {
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       HORÁRIOS
                     </Typography>
-                    {reservaSelecionada.horarios?.saida || reservaSelecionada.horaSaida ? (
-                      <Typography><strong>Saída:</strong> {reservaSelecionada.horarios?.saida || reservaSelecionada.horaSaida}</Typography>
+                    {norm.horaSaida ? (
+                      <Typography><strong>Saída:</strong> {norm.horaSaida}</Typography>
                     ) : null}
-                    {reservaSelecionada.horarios?.chegada || reservaSelecionada.horaRetorno ? (
-                      <Typography><strong>Retorno:</strong> {reservaSelecionada.horarios?.chegada || reservaSelecionada.horaRetorno}</Typography>
+                    {norm.horaRetorno ? (
+                      <Typography><strong>Retorno:</strong> {norm.horaRetorno}</Typography>
                     ) : null}
                   </Grid>
                 )}
@@ -459,8 +492,8 @@ const AdminReservas = () => {
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       LOCAL
                     </Typography>
-                    {reservaSelecionada.local?.origem || reservaSelecionada.localSaida ? (
-                      <Typography><strong>Origem:</strong> {reservaSelecionada.local?.origem || reservaSelecionada.localSaida}</Typography>
+                    {norm.localSaida ? (
+                      <Typography><strong>Origem:</strong> {norm.localSaida}</Typography>
                     ) : null}
                     {reservaSelecionada.local?.destino ? (
                       <Typography><strong>Destino:</strong> {reservaSelecionada.local.destino}</Typography>
@@ -482,7 +515,7 @@ const AdminReservas = () => {
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       OBSERVAÇÕES
                     </Typography>
-                    <Typography>{reservaSelecionada.observacoes || reservaSelecionada.detalhes?.observacoes}</Typography>
+                    <Typography>{norm.observacoes}</Typography>
                   </Grid>
                 )}
                 
@@ -544,7 +577,8 @@ const AdminReservas = () => {
               </Button>
             </DialogActions>
           </>
-        )}
+          );
+        })()}
       </Dialog>
     </Container>
   );

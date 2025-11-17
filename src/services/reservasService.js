@@ -10,20 +10,41 @@ import { StatusReserva } from "../types/reservas";
 export const criarReserva = async (dados) => {
   try {
     // Preparar dados para salvar
+    // Normalizar/alinhar campos para garantir compatibilidade com email/voucher/admin
+    const normalizeBeforeSave = (d) => {
+      const detalhes = d.detalhes || {};
+      // mover campos planos para detalhes se não existirem
+      detalhes.nomePasseio = detalhes.nomePasseio || d.passeioDesejado || d.nomePasseio || detalhes.nomePasseio || '';
+      detalhes.dataPasseio = detalhes.dataPasseio || d.dataPasseio || '';
+      detalhes.horaPasseio = detalhes.horaPasseio || d.horaPasseio || '';
+      detalhes.horaSaida = detalhes.horaSaida || d.horaSaida || '';
+      detalhes.horaRetorno = detalhes.horaRetorno || d.horaRetorno || '';
+      detalhes.localSaida = detalhes.localSaida || d.localSaida || '';
+      detalhes.tipoVeiculo = detalhes.tipoVeiculo || d.tipoPasseioVeiculo || d.tipoTransferVeiculo || d.tipoVeiculo || '';
+      detalhes.destinoTransfer = detalhes.destinoTransfer || d.destinoTransfer || '';
+      detalhes.numeroVoo = detalhes.numeroVoo || d.numeroVoo || '';
+      detalhes.dataHoraChegada = detalhes.dataHoraChegada || d.dataHoraChegada || '';
+      detalhes.dataHoraSaida = detalhes.dataHoraSaida || d.dataHoraSaida || '';
+
+      return Object.assign({}, d, { detalhes });
+    };
+
+    const reservaReady = normalizeBeforeSave(dados);
+
     const reservaData = {
-      ...dados,
+      ...reservaReady,
       status: StatusReserva.PENDENTE,
       criadaEm: serverTimestamp(),
       atualizadaEm: serverTimestamp(),
       // Normalizar telefone
       responsavel: {
-        ...dados.responsavel,
-        telefone: normalizarTelefone(dados.responsavel.telefone)
+        ...reservaReady.responsavel,
+        telefone: normalizarTelefone(reservaReady.responsavel.telefone)
       },
       // Parsear lista de passageiros
-      passageirosLista: parsePassageiros(dados.passageiros),
+      passageirosLista: parsePassageiros(reservaReady.passageiros || reservaReady.passageirosTexto || ''),
       // Manter string original também
-      passageirosTexto: dados.passageiros
+      passageirosTexto: reservaReady.passageiros || reservaReady.passageirosTexto || ''
     };
 
     // Adicionar ao Firestore
