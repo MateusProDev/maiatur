@@ -26,16 +26,18 @@ function gerarTextoPlano(reserva, reservaId, tipoLabel) {
   linhas.push(`E-mail: ${reserva.responsavel.email}`);
   linhas.push(`Telefone: ${reserva.responsavel.ddi} ${reserva.responsavel.telefone}`);
   linhas.push("");
-  if (reserva.passeio) {
-    if (reserva.passeio.nome === 'Eventos' || reserva.passeio.nome === 'Outros') {
-      linhas.push(`Tipo de Reserva: ${reserva.passeio.nome}`);
+  // Exibir corretamente o pacote, evento ou outros
+  const nomePasseio = reserva.passeio?.nome || reserva.detalhes?.nomePasseio;
+  if (nomePasseio) {
+    if (nomePasseio === 'Eventos' || nomePasseio === 'Outros') {
+      linhas.push(`Tipo de Reserva: ${nomePasseio}`);
       linhas.push(`Observações/Descrição: ${reserva.observacoes || 'Nenhuma informação adicional fornecida.'}`);
       linhas.push('Nossa equipe entrará em contato para detalhes específicos sobre o evento ou serviço solicitado.');
     } else {
-      linhas.push(`Passeio: ${reserva.passeio.nome}`);
-      if (reserva.passeio.data) linhas.push(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`);
-      if (reserva.passeio.horario) linhas.push(`Horário: ${reserva.passeio.horario}`);
-      if (reserva.passeio.localEmbarque) linhas.push(`Local de embarque: ${reserva.passeio.localEmbarque}`);
+      linhas.push(`Passeio: ${nomePasseio}`);
+      if (reserva.passeio?.data) linhas.push(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`);
+      if (reserva.passeio?.horario) linhas.push(`Horário: ${reserva.passeio.horario}`);
+      if (reserva.passeio?.localEmbarque) linhas.push(`Local de embarque: ${reserva.passeio.localEmbarque}`);
     }
   }
   if (reserva.detalhes) {
@@ -58,7 +60,7 @@ function gerarTextoPlano(reserva, reservaId, tipoLabel) {
   linhas.push("");
   linhas.push("Voucher em anexo (PDF). Apresente no dia do serviço com documento com foto.");
   linhas.push("");
-  linhas.push(`Atendimento: ${process.env.AGENCY_PHONE || ''} • ${process.env.AGENCY_EMAIL || ''}`);
+  linhas.push(`Atendimento: +55 85 9674-8958 • ${process.env.AGENCY_EMAIL || ''}`);
   return linhas.join("\n");
 }
 
@@ -104,18 +106,8 @@ async function gerarVoucherPDF(reserva, reservaId) {
     font: fontBold,
     color: primaryColor,
   });
-  
   yPos -= 20;
-  // CNPJ removido temporariamente até obter o número correto
-  // page.drawText("CNPJ: " + (process.env.AGENCY_CNPJ || "00.000.000/0001-00"), {
-  //   x: 50,
-  //   y: yPos,
-  //   size: 10,
-  //   font: font,
-  // });
-  // yPos -= 15;
-  
-  page.drawText("Telefone: " + (process.env.AGENCY_PHONE || "+55 (85) 0000-0000"), {
+  page.drawText("Telefone: +55 85 9674-8958", {
     x: 50,
     y: yPos,
     size: 10,
@@ -251,7 +243,9 @@ async function gerarVoucherPDF(reserva, reservaId) {
   yPos -= 35;
   
   // Informações Específicas
-  if (reserva.passeio) {
+  // Exibir corretamente o pacote, evento ou outros
+  const nomePasseio = reserva.passeio?.nome || reserva.detalhes?.nomePasseio;
+  if (nomePasseio) {
     page.drawText("DETALHES DO PASSEIO", {
       x: 50,
       y: yPos,
@@ -260,8 +254,8 @@ async function gerarVoucherPDF(reserva, reservaId) {
       color: primaryColor,
     });
     yPos -= 25;
-    if (reserva.passeio.nome === 'Eventos' || reserva.passeio.nome === 'Outros') {
-      page.drawText(`Tipo de Reserva: ${reserva.passeio.nome}`, {
+    if (nomePasseio === 'Eventos' || nomePasseio === 'Outros') {
+      page.drawText(`Tipo de Reserva: ${nomePasseio}`, {
         x: 50,
         y: yPos,
         size: 10,
@@ -283,14 +277,14 @@ async function gerarVoucherPDF(reserva, reservaId) {
       });
       yPos -= 18;
     } else {
-      page.drawText(`Passeio: ${reserva.passeio.nome}`, {
+      page.drawText(`Passeio: ${nomePasseio}`, {
         x: 50,
         y: yPos,
         size: 10,
         font: font,
       });
       yPos -= 18;
-      if (reserva.passeio.data) {
+      if (reserva.passeio?.data) {
         page.drawText(`Data: ${new Date(reserva.passeio.data).toLocaleDateString('pt-BR')}`, {
           x: 50,
           y: yPos,
@@ -299,7 +293,7 @@ async function gerarVoucherPDF(reserva, reservaId) {
         });
         yPos -= 18;
       }
-      if (reserva.passeio.horario) {
+      if (reserva.passeio?.horario) {
         page.drawText(`Horário: ${reserva.passeio.horario}`, {
           x: 50,
           y: yPos,
@@ -308,7 +302,7 @@ async function gerarVoucherPDF(reserva, reservaId) {
         });
         yPos -= 18;
       }
-      if (reserva.passeio.localEmbarque) {
+      if (reserva.passeio?.localEmbarque) {
         page.drawText(`Local de Embarque: ${reserva.passeio.localEmbarque}`, {
           x: 50,
           y: yPos,
