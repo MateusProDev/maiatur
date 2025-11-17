@@ -363,18 +363,16 @@ const AdminReservas = () => {
                   <Typography variant="subtitle2" color="primary" gutterBottom>
                     PASSAGEIROS
                   </Typography>
-                  {/* Mostra lista estruturada se existir */}
+                  {/* Lista estruturada, texto ou campo simples, sem duplicação */}
                   {Array.isArray(reservaSelecionada.passageirosLista) && reservaSelecionada.passageirosLista.length > 0 ? (
                     <Box sx={{ mb: 1 }}>
                       {reservaSelecionada.passageirosLista.map((p, idx) => (
                         <Typography key={idx} style={{ whiteSpace: "pre-line" }}>
-                          {p.nome} {p.idade ? `- Idade: ${p.idade}` : ""}
+                          {idx + 1}. {p.nome}{p.idade ? `, Idade: ${p.idade}` : ""}
                         </Typography>
                       ))}
                     </Box>
-                  ) : null}
-                  {/* Mostra texto se existir */}
-                  {reservaSelecionada.passageirosTexto ? (
+                  ) : reservaSelecionada.passageirosTexto ? (
                     <Typography style={{ whiteSpace: "pre-line" }}>
                       {reservaSelecionada.passageirosTexto}
                     </Typography>
@@ -383,20 +381,32 @@ const AdminReservas = () => {
                       {reservaSelecionada.passageiros}
                     </Typography>
                   ) : null}
-                  <Typography><strong>Adultos:</strong> {reservaSelecionada.quantidades?.adultos}</Typography>
-                  <Typography><strong>Crianças:</strong> {reservaSelecionada.quantidades?.criancas}</Typography>
+                  {typeof reservaSelecionada.quantidades?.adultos === 'number' && (
+                    <Typography><strong>Adultos:</strong> {reservaSelecionada.quantidades.adultos}</Typography>
+                  )}
+                  {typeof reservaSelecionada.quantidades?.criancas === 'number' && (
+                    <Typography><strong>Crianças:</strong> {reservaSelecionada.quantidades.criancas}</Typography>
+                  )}
                 </Grid>
 
-                {/* PASSEIO - Suporta campos alternativos */}
+                {/* PASSEIO - Suporta campos alternativos, sem duplicação */}
                 {(reservaSelecionada.passeio || reservaSelecionada.nomePasseio || reservaSelecionada.dataPasseio || reservaSelecionada.horaPasseio || reservaSelecionada.localSaida) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       PASSEIO
                     </Typography>
-                    <Typography><strong>Nome:</strong> {reservaSelecionada.passeio?.nome || reservaSelecionada.nomePasseio}</Typography>
-                    <Typography><strong>Data:</strong> {reservaSelecionada.passeio?.data ? new Date(reservaSelecionada.passeio.data).toLocaleDateString("pt-BR") : reservaSelecionada.dataPasseio}</Typography>
-                    <Typography><strong>Horário:</strong> {reservaSelecionada.passeio?.horario || reservaSelecionada.horaPasseio || reservaSelecionada.horaSaida}</Typography>
-                    <Typography><strong>Local Embarque:</strong> {reservaSelecionada.passeio?.localEmbarque || reservaSelecionada.localSaida}</Typography>
+                    {reservaSelecionada.passeio?.nome || reservaSelecionada.nomePasseio ? (
+                      <Typography><strong>Nome:</strong> {reservaSelecionada.passeio?.nome || reservaSelecionada.nomePasseio}</Typography>
+                    ) : null}
+                    {reservaSelecionada.passeio?.data || reservaSelecionada.dataPasseio ? (
+                      <Typography><strong>Data:</strong> {reservaSelecionada.passeio?.data ? new Date(reservaSelecionada.passeio.data).toLocaleDateString("pt-BR") : reservaSelecionada.dataPasseio}</Typography>
+                    ) : null}
+                    {reservaSelecionada.passeio?.horario || reservaSelecionada.horaPasseio || reservaSelecionada.horaSaida ? (
+                      <Typography><strong>Horário:</strong> {reservaSelecionada.passeio?.horario || reservaSelecionada.horaPasseio || reservaSelecionada.horaSaida}</Typography>
+                    ) : null}
+                    {reservaSelecionada.passeio?.localEmbarque || reservaSelecionada.localSaida ? (
+                      <Typography><strong>Local Embarque:</strong> {reservaSelecionada.passeio?.localEmbarque || reservaSelecionada.localSaida}</Typography>
+                    ) : null}
                   </Grid>
                 )}
 
@@ -410,37 +420,51 @@ const AdminReservas = () => {
                   </Grid>
                 )}
 
-                {/* VEÍCULO - Suporta campos alternativos */}
+                {/* VEÍCULO - Suporta campos alternativos, sem duplicação */}
                 {(reservaSelecionada.veiculo || reservaSelecionada.tipoVeiculo) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       VEÍCULO
                     </Typography>
-                    <Typography><strong>Tipo:</strong> {reservaSelecionada.veiculo?.tipo || reservaSelecionada.tipoVeiculo}</Typography>
-                    {reservaSelecionada.veiculo?.modelo && <Typography><strong>Modelo:</strong> {reservaSelecionada.veiculo.modelo}</Typography>}
-                    {reservaSelecionada.veiculo?.placa && <Typography><strong>Placa:</strong> {reservaSelecionada.veiculo.placa}</Typography>}
+                    {reservaSelecionada.veiculo?.tipo || reservaSelecionada.tipoVeiculo ? (
+                      <Typography><strong>Tipo:</strong> {reservaSelecionada.veiculo?.tipo || reservaSelecionada.tipoVeiculo}</Typography>
+                    ) : null}
+                    {reservaSelecionada.veiculo?.modelo ? (
+                      <Typography><strong>Modelo:</strong> {reservaSelecionada.veiculo.modelo}</Typography>
+                    ) : null}
+                    {reservaSelecionada.veiculo?.placa ? (
+                      <Typography><strong>Placa:</strong> {reservaSelecionada.veiculo.placa}</Typography>
+                    ) : null}
                   </Grid>
                 )}
 
-                {/* HORÁRIOS - Suporta campos alternativos */}
+                {/* HORÁRIOS - Suporta campos alternativos, sem duplicação */}
                 {(reservaSelecionada.horarios || reservaSelecionada.horaSaida || reservaSelecionada.horaRetorno) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       HORÁRIOS
                     </Typography>
-                    <Typography><strong>Saída:</strong> {reservaSelecionada.horarios?.saida || reservaSelecionada.horaSaida}</Typography>
-                    <Typography><strong>Retorno:</strong> {reservaSelecionada.horarios?.chegada || reservaSelecionada.horaRetorno}</Typography>
+                    {reservaSelecionada.horarios?.saida || reservaSelecionada.horaSaida ? (
+                      <Typography><strong>Saída:</strong> {reservaSelecionada.horarios?.saida || reservaSelecionada.horaSaida}</Typography>
+                    ) : null}
+                    {reservaSelecionada.horarios?.chegada || reservaSelecionada.horaRetorno ? (
+                      <Typography><strong>Retorno:</strong> {reservaSelecionada.horarios?.chegada || reservaSelecionada.horaRetorno}</Typography>
+                    ) : null}
                   </Grid>
                 )}
 
-                {/* LOCAL - Suporta campos alternativos */}
+                {/* LOCAL - Suporta campos alternativos, sem duplicação */}
                 {(reservaSelecionada.local || reservaSelecionada.localSaida) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       LOCAL
                     </Typography>
-                    <Typography><strong>Origem:</strong> {reservaSelecionada.local?.origem || reservaSelecionada.localSaida}</Typography>
-                    {reservaSelecionada.local?.destino && <Typography><strong>Destino:</strong> {reservaSelecionada.local.destino}</Typography>}
+                    {reservaSelecionada.local?.origem || reservaSelecionada.localSaida ? (
+                      <Typography><strong>Origem:</strong> {reservaSelecionada.local?.origem || reservaSelecionada.localSaida}</Typography>
+                    ) : null}
+                    {reservaSelecionada.local?.destino ? (
+                      <Typography><strong>Destino:</strong> {reservaSelecionada.local.destino}</Typography>
+                    ) : null}
                   </Grid>
                 )}
 
@@ -452,12 +476,13 @@ const AdminReservas = () => {
                   <Typography><strong>Valor Total:</strong> R$ {reservaSelecionada.pagamento?.valorTotal?.toFixed(2)}</Typography>
                 </Grid>
                 
-                {reservaSelecionada.observacoes && (
+                {/* OBSERVAÇÕES - Mostra se existir, sem duplicação */}
+                {(reservaSelecionada.observacoes || reservaSelecionada.detalhes?.observacoes) && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="primary" gutterBottom>
                       OBSERVAÇÕES
                     </Typography>
-                    <Typography>{reservaSelecionada.observacoes}</Typography>
+                    <Typography>{reservaSelecionada.observacoes || reservaSelecionada.detalhes?.observacoes}</Typography>
                   </Grid>
                 )}
                 
