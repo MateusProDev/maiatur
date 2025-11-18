@@ -237,16 +237,14 @@ const HomeUltraModern = () => {
       <section className="destinos-section-ultra">
         <div className="container-ultra">
           <h1 className="section-title-ultra">
-            Descubra o
-            <span className="gradient-text"> Ceará</span>
+            Descubra o <span className="gradient-text">Ceará</span>
           </h1>
           <div className="section-header-ultra">
             <span className="section-badge">
               <FiMapPin /> Destinos em Destaque
             </span>
             <h2 className="section-title-ultra">
-              Escolha Sua Próxima
-              <span className="gradient-text"> Aventura</span>
+              Escolha Sua Próxima <span className="gradient-text">Aventura</span>
             </h2>
             <p className="section-description">
               Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única
