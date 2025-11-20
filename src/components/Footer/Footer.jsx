@@ -61,6 +61,9 @@ const FooterUltraModern = () => {
     { name: 'Pacotes', path: '/pacotes' },
     { name: 'Destinos', path: '/destinos' },
     { name: 'Sobre Nós', path: '/sobre' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Transfers', path: '/categoria/transfer' },
+    { name: 'Beach Park', path: '/categoria/beach-park' },
     { name: 'Contato', path: '/contato' }
   ];
 
@@ -225,6 +228,9 @@ const FooterUltraModern = () => {
             <nav className="footer-links-ultra">
               <Link to="/destinos">Destinos</Link> |{' '}
               <Link to="/pacotes">Pacotes</Link> |{' '}
+              <Link to="/blog">Blog</Link> |{' '}
+              <Link to="/categoria/transfer">Transfers</Link> |{' '}
+              <Link to="/categoria/beach-park">Beach Park</Link> |{' '}
               <Link to="/politica">Política</Link> |{' '}
               <Link to="/contato">Contato</Link>
             </nav>
