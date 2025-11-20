@@ -1,0 +1,537 @@
+{
+  "generatedAt": "2025-11-20T16:56:16.393Z",
+  "sitemap": "https://transferfortalezatur.com.br/sitemap.xml",
+  "entries": [
+    {
+      "url": "https://transferfortalezatur.com.br/",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/",
+            "finalUrl": "https://transferfortalezatur.com.br/",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "public, max-age=0, must-revalidate",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::l5pmb-1763657887321-7e4b6ff17c84",
+              "age": "3882",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/",
+            "finalUrl": "https://transferfortalezatur.com.br/",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "public, max-age=0, must-revalidate",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::5hlkw-1763657887582-b69c9be7246c",
+              "age": "3883",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/",
+            "finalUrl": "https://transferfortalezatur.com.br/",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "public, max-age=0, must-revalidate",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::zgwql-1763657887897-f0fa6ce0bca3",
+              "age": "3883",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/pacotes",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/pacotes",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/pacotes",
+            "finalUrl": "https://transferfortalezatur.com.br/pacotes",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::7fv4q-1763657888054-6977aea2b6ef",
+              "age": "3457",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/pacotes",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/pacotes",
+            "finalUrl": "https://transferfortalezatur.com.br/pacotes",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::lvvws-1763657888319-a28d9bb175c9",
+              "age": "3882",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/pacotes",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/pacotes",
+            "finalUrl": "https://transferfortalezatur.com.br/pacotes",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::f8fpb-1763657888642-1162fa6598f8",
+              "age": "3875",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/destinos",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/destinos",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/destinos",
+            "finalUrl": "https://transferfortalezatur.com.br/destinos",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::jhll6-1763657888803-f5ccae98b384",
+              "age": "3439",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/destinos",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/destinos",
+            "finalUrl": "https://transferfortalezatur.com.br/destinos",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::pd68l-1763657889054-b9caa49270c2",
+              "age": "3882",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/destinos",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/destinos",
+            "finalUrl": "https://transferfortalezatur.com.br/destinos",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::jmhwk-1763657889359-c81c1486b9a8",
+              "age": "3883",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/contato",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/contato",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/contato",
+            "finalUrl": "https://transferfortalezatur.com.br/contato",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::qpwh6-1763657889516-e34f8fce81c8",
+              "age": "3883",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/contato",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/contato",
+            "finalUrl": "https://transferfortalezatur.com.br/contato",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::5t4f5-1763657889773-b9fa5ae23d9f",
+              "age": "3883",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/contato",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/contato",
+            "finalUrl": "https://transferfortalezatur.com.br/contato",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::ldfpc-1763657890100-d4b285ef192a",
+              "age": "3884",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/blog",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/blog",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/blog",
+            "finalUrl": "https://transferfortalezatur.com.br/blog",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::275jr-1763657890263-6449a9860da9",
+              "age": "3884",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/blog",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/blog",
+            "finalUrl": "https://transferfortalezatur.com.br/blog",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::46h9h-1763657890539-e3aa48b8c18c",
+              "age": "2563",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/blog",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/blog",
+            "finalUrl": "https://transferfortalezatur.com.br/blog",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::vs87c-1763657890897-e895df8fb142",
+              "age": "3884",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/politica",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/politica",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/politica",
+            "finalUrl": "https://transferfortalezatur.com.br/politica",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::7fv4q-1763657891055-209796f750f3",
+              "age": "3457",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/politica",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/politica",
+            "finalUrl": "https://transferfortalezatur.com.br/politica",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::4smdw-1763657891302-e5e0f0e36bb0",
+              "age": "3885",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/politica",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/politica",
+            "finalUrl": "https://transferfortalezatur.com.br/politica",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::7687m-1763657891652-cdd1f1ef48fe",
+              "age": "3885",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/categoria/passeio",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/categoria/passeio",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/categoria/passeio",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/passeio",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::clb8m-1763657891808-d9302c5a49c6",
+              "age": "3885",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/categoria/passeio",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/categoria/passeio",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/passeio",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::2tdv6-1763657892117-71067f8e9eb2",
+              "age": "3886",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/categoria/passeio",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/categoria/passeio",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/passeio",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::zzgnc-1763657892430-2ab8df515da4",
+              "age": "3886",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/categoria/transfer",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/categoria/transfer",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/categoria/transfer",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/transfer",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::zxg52-1763657892582-aeb83a7d40b2",
+              "age": "3886",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/categoria/transfer",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/categoria/transfer",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/transfer",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::zzgnc-1763657892833-301d3e5d10d7",
+              "age": "3886",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/categoria/transfer",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/categoria/transfer",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/transfer",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::f8fpb-1763657893154-53d840e2e68d",
+              "age": "3875",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/categoria/beach-park",
+      "checks": [
+        {
+          "variant": "https://transferfortalezatur.com.br/categoria/beach-park",
+          "result": {
+            "requested": "https://transferfortalezatur.com.br/categoria/beach-park",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/beach-park",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::9g4tm-1763657893316-d6dd21767ca5",
+              "age": "3887",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "http://transferfortalezatur.com.br/categoria/beach-park",
+          "result": {
+            "requested": "http://transferfortalezatur.com.br/categoria/beach-park",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/beach-park",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::2tdv6-1763657893583-9b38c936b4d7",
+              "age": "3887",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        },
+        {
+          "variant": "https://www.transferfortalezatur.com.br/categoria/beach-park",
+          "result": {
+            "requested": "https://www.transferfortalezatur.com.br/categoria/beach-park",
+            "finalUrl": "https://transferfortalezatur.com.br/categoria/beach-park",
+            "status": 200,
+            "headers": {
+              "strict-transport-security": "max-age=63072000",
+              "cache-control": "s-maxage=0",
+              "content-type": "text/html; charset=utf-8",
+              "server": "Vercel",
+              "x-vercel-cache": "HIT",
+              "x-vercel-id": "gru1::9r4fx-1763657893914-ca3b90fe1792",
+              "age": "3438",
+              "etag": "W/\"b471b460e9964385c4a8b79cd2cacfef\""
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

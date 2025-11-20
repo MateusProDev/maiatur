@@ -1,13 +1,14 @@
 {
-  "generatedAt": "2025-11-20T15:28:55.385Z",
+  "generatedAt": "2025-11-20T16:00:38.524Z",
   "totalPages": 9,
   "pages": [
     {
       "url": "https://transferfortalezatur.com.br/",
-      "inboundCount": 7,
+      "inboundCount": 8,
       "inboundFrom": [
         "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",
@@ -29,10 +30,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/pacotes",
-      "inboundCount": 7,
+      "inboundCount": 8,
       "inboundFrom": [
         "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",
@@ -54,10 +56,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/destinos",
-      "inboundCount": 7,
+      "inboundCount": 8,
       "inboundFrom": [
         "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",
@@ -79,10 +82,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/contato",
-      "inboundCount": 7,
+      "inboundCount": 8,
       "inboundFrom": [
         "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",
@@ -104,9 +108,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/blog",
-      "inboundCount": 6,
+      "inboundCount": 8,
       "inboundFrom": [
+        "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",
@@ -128,9 +134,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/politica",
-      "inboundCount": 6,
+      "inboundCount": 8,
       "inboundFrom": [
+        "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",
@@ -152,10 +160,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/categoria/passeio",
-      "inboundCount": 2,
+      "inboundCount": 3,
       "inboundFrom": [
         "https://transferfortalezatur.com.br/destinos",
-        "https://transferfortalezatur.com.br/"
+        "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes"
       ],
       "hasXCard": true,
       "twitter": {
@@ -172,9 +181,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/categoria/transfer",
-      "inboundCount": 6,
+      "inboundCount": 8,
       "inboundFrom": [
+        "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",
@@ -196,9 +207,11 @@
     },
     {
       "url": "https://transferfortalezatur.com.br/categoria/beach-park",
-      "inboundCount": 6,
+      "inboundCount": 8,
       "inboundFrom": [
+        "https://transferfortalezatur.com.br/destinos",
         "https://transferfortalezatur.com.br/",
+        "https://transferfortalezatur.com.br/pacotes",
         "https://transferfortalezatur.com.br/blog",
         "https://transferfortalezatur.com.br/contato",
         "https://transferfortalezatur.com.br/categoria/beach-park",

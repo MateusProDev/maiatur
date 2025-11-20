@@ -1,0 +1,330 @@
+{
+  "generatedAt": "2025-11-20T16:56:10.856Z",
+  "sitemap": "https://transferfortalezatur.com.br/sitemap.xml",
+  "results": [
+    {
+      "url": "https://transferfortalezatur.com.br/",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/": [
+          {
+            "url": "http://transferfortalezatur.com.br/",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/pacotes",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/pacotes",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/pacotes": [
+          {
+            "url": "http://transferfortalezatur.com.br/pacotes",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/pacotes"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/pacotes",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/pacotes": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/pacotes",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/pacotes"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/pacotes",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/destinos",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/destinos",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/destinos": [
+          {
+            "url": "http://transferfortalezatur.com.br/destinos",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/destinos"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/destinos",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/destinos": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/destinos",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/destinos"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/destinos",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/contato",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/contato",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/contato": [
+          {
+            "url": "http://transferfortalezatur.com.br/contato",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/contato"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/contato",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/contato": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/contato",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/contato"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/contato",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/blog",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/blog",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/blog": [
+          {
+            "url": "http://transferfortalezatur.com.br/blog",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/blog"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/blog",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/blog": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/blog",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/blog"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/blog",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/politica",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/politica",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/politica": [
+          {
+            "url": "http://transferfortalezatur.com.br/politica",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/politica"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/politica",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/politica": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/politica",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/politica"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/politica",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/categoria/passeio",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/categoria/passeio",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/categoria/passeio": [
+          {
+            "url": "http://transferfortalezatur.com.br/categoria/passeio",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/categoria/passeio"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/categoria/passeio",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/categoria/passeio": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/categoria/passeio",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/categoria/passeio"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/categoria/passeio",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/categoria/transfer",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/categoria/transfer",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/categoria/transfer": [
+          {
+            "url": "http://transferfortalezatur.com.br/categoria/transfer",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/categoria/transfer"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/categoria/transfer",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/categoria/transfer": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/categoria/transfer",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/categoria/transfer"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/categoria/transfer",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://transferfortalezatur.com.br/categoria/beach-park",
+      "chain": [
+        {
+          "url": "https://transferfortalezatur.com.br/categoria/beach-park",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "variants": {
+        "http://transferfortalezatur.com.br/categoria/beach-park": [
+          {
+            "url": "http://transferfortalezatur.com.br/categoria/beach-park",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/categoria/beach-park"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/categoria/beach-park",
+            "status": 200,
+            "location": null
+          }
+        ],
+        "https://www.transferfortalezatur.com.br/categoria/beach-park": [
+          {
+            "url": "https://www.transferfortalezatur.com.br/categoria/beach-park",
+            "status": 308,
+            "location": "https://transferfortalezatur.com.br/categoria/beach-park"
+          },
+          {
+            "url": "https://transferfortalezatur.com.br/categoria/beach-park",
+            "status": 200,
+            "location": null
+          }
+        ]
+      }
+    }
+  ]
+}

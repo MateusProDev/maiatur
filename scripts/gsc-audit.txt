@@ -1,0 +1,81 @@
+GSC Audit Report - Transfer Fortaleza Tur
+Generated: 2025-11-20T16:56:27.224Z
+
+Summary:
+- Total URLs checked: 9
+- URLs with variant final != canonical: 0
+- URLs missing HSTS: 0
+
+Details per URL:
+
+URL: https://transferfortalezatur.com.br/
+  Final URL: https://transferfortalezatur.com.br/ (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/pacotes
+  Final URL: https://transferfortalezatur.com.br/pacotes (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/destinos
+  Final URL: https://transferfortalezatur.com.br/destinos (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/contato
+  Final URL: https://transferfortalezatur.com.br/contato (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/blog
+  Final URL: https://transferfortalezatur.com.br/blog (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/politica
+  Final URL: https://transferfortalezatur.com.br/politica (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/categoria/passeio
+  Final URL: https://transferfortalezatur.com.br/categoria/passeio (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/categoria/transfer
+  Final URL: https://transferfortalezatur.com.br/categoria/transfer (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8
+
+URL: https://transferfortalezatur.com.br/categoria/beach-park
+  Final URL: https://transferfortalezatur.com.br/categoria/beach-park (status 200)
+  Variant issues: none
+  HSTS: max-age=63072000
+  Cache-Control: s-maxage=0
+  X-Vercel-Cache: HIT
+  Content-Type: text/html; charset=utf-8

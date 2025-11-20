@@ -1,0 +1,10 @@
+url,finalUrl,finalStatus,variantIssues,hsts,cache,x-vercel-cache,content-type
+"https://transferfortalezatur.com.br/","https://transferfortalezatur.com.br/","200","","max-age=63072000","public, max-age=0, must-revalidate","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/pacotes","https://transferfortalezatur.com.br/pacotes","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/destinos","https://transferfortalezatur.com.br/destinos","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/contato","https://transferfortalezatur.com.br/contato","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/blog","https://transferfortalezatur.com.br/blog","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/politica","https://transferfortalezatur.com.br/politica","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/categoria/passeio","https://transferfortalezatur.com.br/categoria/passeio","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/categoria/transfer","https://transferfortalezatur.com.br/categoria/transfer","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
+"https://transferfortalezatur.com.br/categoria/beach-park","https://transferfortalezatur.com.br/categoria/beach-park","200","","max-age=63072000","s-maxage=0","HIT","text/html; charset=utf-8"
