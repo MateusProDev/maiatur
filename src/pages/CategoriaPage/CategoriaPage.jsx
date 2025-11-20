@@ -191,6 +191,25 @@ const CategoriaPage = () => {
 
   const seoInfo = getSEOData();
 
+  // Ensure document title and meta description are present even if Helmet doesn't update immediately
+  useEffect(() => {
+    try {
+      const title = seoInfo.title ? (seoInfo.title.includes('Transfer Fortaleza Tur') ? seoInfo.title : `${seoInfo.title} | Transfer Fortaleza Tur`) : 'Transfer Fortaleza Tur';
+      document.title = title;
+
+      const desc = seoInfo.description || '';
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', 'description');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', desc);
+    } catch (e) {
+      // noop
+    }
+  }, [seoInfo]);
+
   if (loading) {
     return (
       <>

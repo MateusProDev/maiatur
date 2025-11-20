@@ -189,6 +189,24 @@ const HomeUltraModern = () => {
     fetchData();
   }, []);
 
+  // Ensure document title and meta description for home (fallback if Helmet not applied fast enough)
+  useEffect(() => {
+    try {
+      const fullTitle = seoData.home.title ? (seoData.home.title.includes('Transfer Fortaleza Tur') ? seoData.home.title : `${seoData.home.title} | Transfer Fortaleza Tur`) : 'Transfer Fortaleza Tur';
+      document.title = fullTitle;
+      const desc = seoData.home.description || '';
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', 'description');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', desc);
+    } catch (e) {
+      // noop
+    }
+  }, []);
+
   // Auto-play testimonials
   useEffect(() => {
     if (avaliacoes.length > 0) {
