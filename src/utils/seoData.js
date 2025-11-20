@@ -6,7 +6,7 @@
 export const seoData = {
   home: {
     title: 'Home - Transfer Fortaleza Tur',
-    description: 'Transfers e passeios em Fortaleza: transfers do aeroporto, passeios turísticos e experiências inesquecíveis pelo Ceará. Conforto e segurança.',
+    description: 'Transfers e passeios em Fortaleza: transfers do aeroporto, passeios turísticos e pacotes para Beach Park, Jericoacoara e Cumbuco. Reserve online com segurança e conforto.',
     canonical: '/'
   },
   
@@ -60,7 +60,7 @@ export const seoData = {
   categorias: {
     passeio: {
       title: 'Passeios - Transfer Fortaleza Tur',
-      description: 'Seleção de passeios em Fortaleza e região: Beach Park, Jericoacoara, Cumbuco e outros. Pacotes com transfer incluso e suporte profissional.',
+      description: 'Pacotes de passeios em Fortaleza e região: roteiros privativos para Beach Park, Jericoacocha, Cumbuco, Paracuru e muito mais. Inclui transfer e guia local.',
       canonical: '/categoria/passeio'
     },
     transfer: {
@@ -70,7 +70,7 @@ export const seoData = {
     },
     'beach-park': {
       title: 'Beach Park - Transfer Fortaleza Tur',
-      description: 'Passeios para o Beach Park com transfer incluso. Aproveite o maior parque aquático da América Latina com comodidade.',
+      description: 'Passeios para o Beach Park (Porto das Dunas) com transfer incluso. Translado confortável e ingressos em pacotes práticos para famílias.',
       canonical: '/categoria/beach-park'
     }
   }
