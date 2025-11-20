@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { passeioSchema } from "../../schemas/reservasSchemas";
 import { DDI_OPTIONS } from "../../types/reservas";
 import {
@@ -141,11 +141,11 @@ const PasseioPage = () => {
 
   return (
     <div className="formulario-page">
-      <Helmet>
-        <meta name="robots" content="noindex, nofollow" />
-        <title>Reserva de Passeio - Transfer Fortaleza Tur</title>
-        <meta name="description" content="Reserve passeios turísticos exclusivos em Fortaleza e região. Escolha entre pacotes, eventos ou outros tipos de passeio." />
-      </Helmet>
+      <SEOHelmet
+        title="Reserva de Passeio - Transfer Fortaleza Tur"
+        description="Reserve passeios turísticos exclusivos em Fortaleza e região. Escolha entre pacotes, eventos ou outros tipos de passeio."
+        noindex={true}
+      />
       <div className="form-header">
         <div className="form-header-top">
           <button onClick={() => navigate("/reservas")} className="btn-voltar">

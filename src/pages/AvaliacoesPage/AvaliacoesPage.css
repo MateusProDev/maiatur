@@ -6,7 +6,8 @@
 .avaliacoespage-container-unique {
   min-height: 100vh;
   background: linear-gradient(135deg, #21A657 0%, #1a7d42 100%);
-  padding: 120px 20px 60px;
+  padding: 100px 0 60px;
+  overflow-x: hidden !important;
 }
 
 /* ========== HEADER ========== */
@@ -14,12 +15,13 @@
   text-align: center;
   margin-bottom: 60px;
   position: relative;
+  padding-top: 10px;
 }
 
 .avaliacoespage-btn-back-unique {
   position: absolute;
   left: 20px;
-  top: -40px;
+  top: 0;
   background: rgba(255, 255, 255, 0.2);
   border: 2px solid rgba(255, 255, 255, 0.3);
   color: white;
@@ -209,9 +211,13 @@
 .avaliacoespage-carousel-unique {
   position: relative;
   max-width: 900px;
+  width: 100%;
   margin: 0 auto 40px;
-  padding: 0 80px;
+  padding: 0 16px;
   height: 450px;
+  min-height: 320px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .avaliacoespage-carousel-btn-unique {
@@ -240,35 +246,51 @@
 }
 
 .avaliacoespage-carousel-prev-unique {
-  left: 0;
+  left: 12px !important;
 }
 
 .avaliacoespage-carousel-next-unique {
-  right: 0;
+  right: 12px !important;
 }
 
 .avaliacoespage-carousel-track-unique {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  overflow: visible;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-y;
+  padding: 0; /* ensure no extra horizontal space */
 }
 
 .avaliacoespage-carousel-card-unique {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  position: relative;
+  flex: 0 0 100%;
+  width: calc(100% - 32px); /* leave 16px padding each side from container */
+  max-width: 900px;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 25px;
-  padding: 50px 40px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 36px 20px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+  scroll-snap-align: center;
   pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
 }
+
+.avaliacoespage-carousel-card-unique.centered { display:flex; align-items:center; justify-content:center; }
 
 .avaliacoespage-carousel-active-unique {
   pointer-events: auto;
+  z-index: 5;
+  transform: scale(1.02);
 }
 
 .avaliacoespage-card-stars-unique {
@@ -340,6 +362,7 @@
   border: 2px solid rgba(255, 255, 255, 0.5);
   cursor: pointer;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .avaliacoespage-dot-unique:hover {
@@ -350,15 +373,31 @@
 .avaliacoespage-dot-active-unique {
   background: #FFD700;
   border-color: #FFD700;
-  width: 40px;
-  border-radius: 10px;
+  width: 24px;
+  border-radius: 12px;
+}
+
+.avaliacoespage-dot-unique:focus,
+.avaliacoespage-dot-active-unique:focus {
+  box-shadow: 0 0 0 4px rgba(255,215,0,0.18);
+}
+
+/* Avatar image helper */
+.avaliacoespage-avatar-img-unique {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ========== GRADE ========== */
 .avaliacoespage-grid-unique {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .avaliacoespage-grid-title-unique {
@@ -372,16 +411,42 @@
 
 .avaliacoespage-grid-container-unique {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  justify-items: center;
+  align-items: start;
 }
 
 .avaliacoespage-grid-card-unique {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
-  padding: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 520px;
+  box-sizing: border-box;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+}
+
+/* Ensure text wraps and cards don't overflow */
+.avaliacoespage-grid-card-unique,
+.avaliacoespage-grid-card-unique p,
+.avaliacoespage-grid-comment-unique {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+@media (max-width: 480px) {
+  .avaliacoespage-grid-container-unique {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .avaliacoespage-grid-card-unique {
+    max-width: 100%;
+    padding: 16px;
+  }
 }
 
 .avaliacoespage-grid-card-unique:hover {
@@ -411,6 +476,42 @@
   box-shadow: 0 6px 15px rgba(33, 166, 87, 0.3);
 }
 
+/* Header layout: avatar + info on the left, rating on the right */
+.avaliacoespage-grid-header-unique {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avaliacoespage-grid-info-unique {
+  margin-left: 6px;
+  flex: 1 1 auto;
+  min-width: 0; /* allow text to truncate properly inside flex */
+}
+
+.avaliacoespage-grid-info-unique h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.avaliacoespage-grid-info-unique p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.avaliacoespage-grid-rating-unique {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
 .avaliacoespage-grid-info-unique {
   flex: 1;
 }
@@ -433,12 +534,27 @@
 }
 
 .avaliacoespage-grid-comment-unique {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #555;
+  font-size: 1.03rem;
+  line-height: 1.6;
+  color: #444;
   font-style: italic;
 }
 
+
+/* Ensure card content uses column layout and spaced correctly */
+.avaliacoespage-grid-card-unique {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .avaliacoespage-grid-avatar-unique { width: 50px; height: 50px; font-size: 1.4rem; }
+  .avaliacoespage-grid-info-unique h4 { font-size: 1rem; }
+  .avaliacoespage-grid-info-unique p { font-size: 0.85rem; }
+  .avaliacoespage-grid-comment-unique { font-size: 1rem; }
+}
 /* ========== RESPONSIVO ========== */
 @media (max-width: 768px) {
   .avaliacoespage-container-unique {
@@ -478,8 +594,8 @@
   }
 
   .avaliacoespage-carousel-unique {
-    padding: 0 60px;
-    height: 550px;
+    padding: 0 30px;
+    height: auto;
   }
 
   .avaliacoespage-carousel-btn-unique {
@@ -523,17 +639,37 @@
   }
 
   .avaliacoespage-carousel-unique {
-    padding: 0 50px;
-    height: 600px;
+    padding: 0 20px;
+    height: auto;
   }
 
   .avaliacoespage-carousel-btn-unique {
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
   }
 
   .avaliacoespage-card-comment-unique {
-    font-size: 1rem;
+    font-size: 0.98rem;
+    min-height: 120px;
+  }
+
+  /* Ajustes adicionais para mobile */
+  .avaliacoespage-dot-unique {
+    width: 10px;
+    height: 10px;
+  }
+
+  .avaliacoespage-dot-active-unique {
+    width: 18px;
+  }
+
+  .avaliacoespage-grid-container-unique {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .avaliacoespage-grid-card-unique {
+    padding: 20px;
   }
 }

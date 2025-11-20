@@ -26,12 +26,7 @@
   </url>
   
   <!-- Sobre -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/sobre</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- Sobre (removido do sitemap — page marked noindex) -->
   
   <!-- Contato -->
   <url>
@@ -50,12 +45,7 @@
   </url>
   
   <!-- Avaliações -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/avaliacoes</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
+  <!-- Avaliações (removido do sitemap — page marked noindex) -->
   
   <!-- Política de Privacidade -->
   <url>

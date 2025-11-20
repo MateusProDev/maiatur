@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { transferChegadaSchema } from "../../schemas/reservasSchemas";
 import { DDI_OPTIONS } from "../../types/reservas";
 import {
@@ -177,11 +177,11 @@ const TransferChegadaPage = () => {
 
   return (
     <div className="formulario-page">
-      <Helmet>
-        <meta name="robots" content="noindex, nofollow" />
-        <title>Transfer de Chegada - Transfer Fortaleza Tur</title>
-        <meta name="description" content="Reserve seu transfer de chegada do aeroporto para o hotel em Fortaleza. Atendimento personalizado e seguro." />
-      </Helmet>
+      <SEOHelmet
+        title="Transfer de Chegada - Transfer Fortaleza Tur"
+        description="Reserve seu transfer de chegada do aeroporto para o hotel em Fortaleza. Atendimento personalizado e seguro."
+        noindex={true}
+      />
       <div className="form-header">
         <div className="form-header-top">
           <button onClick={() => navigate("/reservas")} className="btn-voltar">

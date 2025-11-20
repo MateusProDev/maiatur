@@ -17,9 +17,9 @@ Sitemap: https://transferfortalezatur.com.br/sitemap.xml
 Disallow: /admin/
 Disallow: /admin/*
 
-# Disallow reservation forms (noindex pages)
-Disallow: /reservas/
-Disallow: /reservas/*
+# Reservation forms: allow crawling so meta `noindex` can be seen by search engines.
+# We prefer allowing crawl and using `meta name="robots" content="noindex"` on pages.
+# (Removed Disallow to let Google fetch the page and honor the page-level `noindex`.)
 
 # Allow important pages
 Allow: /pacotes

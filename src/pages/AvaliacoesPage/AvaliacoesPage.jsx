@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { FiStar, FiChevronLeft, FiChevronRight, FiArrowLeft } from 'react-icons/fi';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
+import Footer from '../../components/Footer/Footer';
 import seoData from '../../utils/seoData';
 import './AvaliacoesPage.css';
 
@@ -13,6 +14,14 @@ const AvaliacoesPage = () => {
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [filtroNota, setFiltroNota] = useState('todas');
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const trackRef = useRef(null);
+
+  // Filtrar avaliações por nota (declarado cedo para evitar ReferenceError)
+  const avaliacoesFiltradas = filtroNota === 'todas'
+    ? avaliacoes
+    : avaliacoes.filter(av => av.nota === Number(filtroNota));
 
   useEffect(() => {
     loadAvaliacoes();
@@ -67,6 +76,17 @@ const AvaliacoesPage = () => {
     );
   };
 
+  // We'll use native horizontal scrolling for swipe; center active slide when currentSlide changes
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const active = track.children[currentSlide];
+    if (!active) return;
+    // Calculate offset to center the active card
+    const offset = active.offsetLeft - (track.clientWidth - active.clientWidth) / 2;
+    track.scrollTo({ left: offset, behavior: 'smooth' });
+  }, [currentSlide, avaliacoesFiltradas.length]);
+
   const calcularMedia = () => {
     if (avaliacoes.length === 0) return 0;
     const soma = avaliacoes.reduce((acc, av) => acc + (av.nota || 0), 0);
@@ -101,17 +121,15 @@ const AvaliacoesPage = () => {
     });
   };
 
-  // Filtrar avaliações por nota
-  const avaliacoesFiltradas = filtroNota === 'todas' 
-    ? avaliacoes 
-    : avaliacoes.filter(av => av.nota === Number(filtroNota));
 
   return (
+    <>
     <div className="avaliacoespage-container-unique">
       <SEOHelmet 
         title={seoData.avaliacoes.title}
         description={seoData.avaliacoes.description}
         canonical={seoData.avaliacoes.canonical}
+        noindex={true}
       />
       {/* Header com botão voltar */}
       <div className="avaliacoespage-header-unique">
@@ -196,18 +214,19 @@ const AvaliacoesPage = () => {
               <FiChevronLeft />
             </button>
 
-            <div className="avaliacoespage-carousel-track-unique">
-              {avaliacoesFiltradas.map((avaliacao, index) => (
-                <div
-                  key={avaliacao.id}
-                  className={`avaliacoespage-carousel-card-unique ${
-                    index === currentSlide ? 'avaliacoespage-carousel-active-unique' : ''
-                  }`}
-                  style={{
-                    transform: `translateX(${(index - currentSlide) * 105}%)`,
-                    opacity: index === currentSlide ? 1 : 0.3
-                  }}
-                >
+              <div
+                className="avaliacoespage-carousel-track-unique"
+                ref={trackRef}
+                role="region"
+                aria-label="Carrossel de avaliações"
+              >
+                {avaliacoesFiltradas.map((avaliacao, index) => (
+                  <div
+                    key={avaliacao.id}
+                    className={`avaliacoespage-carousel-card-unique ${
+                      index === currentSlide ? 'avaliacoespage-carousel-active-unique' : ''
+                    }`}
+                  >
                   <div className="avaliacoespage-card-stars-unique">
                     {[...Array(avaliacao.nota || 5)].map((_, i) => (
                       <FiStar key={i} className="avaliacoespage-star-filled-unique" />
@@ -221,7 +240,7 @@ const AvaliacoesPage = () => {
                   <div className="avaliacoespage-card-author-unique">
                     <div className="avaliacoespage-author-avatar-unique">
                       {avaliacao.avatarUsuario ? (
-                        <img src={avaliacao.avatarUsuario} alt={avaliacao.nomeUsuario} style={{width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover'}} />
+                        <img src={avaliacao.avatarUsuario} alt={avaliacao.nomeUsuario} className="avaliacoespage-avatar-img-unique" />
                       ) : (
                         (avaliacao.nomeUsuario || avaliacao.nomeCliente || 'C').charAt(0).toUpperCase()
                       )}
@@ -247,48 +266,22 @@ const AvaliacoesPage = () => {
             {avaliacoesFiltradas.map((_, index) => (
               <button
                 key={index}
+                aria-label={`Ir para avaliação ${index + 1}`}
                 className={`avaliacoespage-dot-unique ${
                   index === currentSlide ? 'avaliacoespage-dot-active-unique' : ''
                 }`}
                 onClick={() => setCurrentSlide(index)}
+                aria-pressed={index === currentSlide}
               />
             ))}
           </div>
 
-          {/* Grade de todas as avaliações */}
-          <div className="avaliacoespage-grid-unique">
-            <h2 className="avaliacoespage-grid-title-unique">Todas as Avaliações</h2>
-            <div className="avaliacoespage-grid-container-unique">
-              {avaliacoesFiltradas.map((avaliacao) => (
-                <div key={avaliacao.id} className="avaliacoespage-grid-card-unique">
-                  <div className="avaliacoespage-grid-header-unique">
-                    <div className="avaliacoespage-grid-avatar-unique">
-                      {avaliacao.avatarUsuario ? (
-                        <img src={avaliacao.avatarUsuario} alt={avaliacao.nomeUsuario} style={{width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover'}} />
-                      ) : (
-                        (avaliacao.nomeUsuario || avaliacao.nomeCliente || 'C').charAt(0).toUpperCase()
-                      )}
-                    </div>
-                    <div className="avaliacoespage-grid-info-unique">
-                      <h4>{avaliacao.nomeUsuario || avaliacao.nomeCliente || 'Cliente'}</h4>
-                      <p>{formatarData(avaliacao.createdAt)}</p>
-                    </div>
-                    <div className="avaliacoespage-grid-rating-unique">
-                      {[...Array(avaliacao.nota || 5)].map((_, i) => (
-                        <FiStar key={i} className="avaliacoespage-star-filled-unique" />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="avaliacoespage-grid-comment-unique">
-                    {avaliacao.comentario}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
         </>
       )}
+      
     </div>
+    <Footer />
+    </>
   );
 };
 

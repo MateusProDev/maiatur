@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
@@ -155,10 +154,6 @@ const PacotesListPage = () => {
 
   return (
     <div className="pacotes-page-modern">
-      <Helmet>
-        <title>Pacotes Turísticos em Fortaleza | Transfer Fortaleza Tur</title>
-        <meta name="description" content="Veja todos os pacotes turísticos disponíveis em Fortaleza e região. Compare preços, categorias e reserve online com a Transfer Fortaleza Tur." />
-      </Helmet>
       <SEOHelmet 
         title={seoData.pacotes.title}
         description={seoData.pacotes.description}

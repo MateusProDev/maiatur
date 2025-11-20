@@ -167,7 +167,6 @@ async function run() {
   }
 
   // Apply updates in batches
-  const db = admin.firestore();
   let batch = db.batch();
   let batchCount = 0;
   for (let i = 0; i < updates.length; i++) {

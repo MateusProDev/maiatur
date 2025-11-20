@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
@@ -128,15 +129,15 @@ const BlogPostPage = () => {
 
   return (
     <>
+      <SEOHelmet
+        title={post.seo?.metaTitle || post.title}
+        description={post.seo?.metaDescription || post.excerpt}
+        canonical={typeof window !== 'undefined' ? window.location.href : ''}
+        ogImage={post.seo?.ogImage || post.featuredImage}
+        ogType="article"
+      />
       <Helmet>
-        <title>{post.seo?.metaTitle || post.title} - Transfer Fortaleza Tur</title>
-        <meta name="description" content={post.seo?.metaDescription || post.excerpt} />
         <meta name="keywords" content={post.seo?.keywords || post.tags?.join(', ')} />
-        <meta property="og:title" content={post.seo?.metaTitle || post.title} />
-        <meta property="og:description" content={post.seo?.metaDescription || post.excerpt} />
-        <meta property="og:image" content={post.seo?.ogImage || post.featuredImage} />
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <Header />
