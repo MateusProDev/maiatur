@@ -16,6 +16,8 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { inicializarAvaliacoes } from '../../utils/avaliacoesInitializer';
 import { Box, Typography, Button } from '@mui/material';
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
+import { seoData } from '../../utils/seoData';
 import './Home.css';
 
 const Home = () => {
@@ -106,10 +108,11 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Helmet>
-        <title>Transfer Fortaleza Tur - Turismo, Passeios e Transfers em Fortaleza</title>
-        <meta name="description" content="Descubra os melhores passeios, transfers e experiências turísticas em Fortaleza e região. Reserve online com segurança e praticidade na Transfer Fortaleza Tur." />
-      </Helmet>
+      <SEOHelmet
+        title={seoData.home.title}
+        description={seoData.home.description}
+        canonical={seoData.home.canonical}
+      />
       <Header />
       <Banner />
       

@@ -1,14 +1,16 @@
 import React from "react";
-import { Helmet } from 'react-helmet-async';
 import "./PoliticaPage.css";
+import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
+import { seoData } from '../../utils/seoData';
 
 const PoliticaPage = () => {
   return (
     <>
-      <Helmet>
-        <title>Política de Reservas e Cancelamento | Transfer Fortaleza Tur</title>
-        <meta name="description" content="Confira as regras de reservas, cancelamento e pagamento dos serviços da Transfer Fortaleza Tur. Transparência e segurança para sua viagem." />
-      </Helmet>
+      <SEOHelmet
+        title={seoData.politica?.title || 'Política de Reservas e Cancelamento'}
+        description={seoData.politica?.description || 'Confira as regras de reservas, cancelamento e pagamento dos serviços da Transfer Fortaleza Tur.'}
+        canonical={seoData.politica?.canonical || '/politica'}
+      />
       <div className="politica-page">
         <div className="politica-container">
           <h1>Política de Reservas, Cancelamento e Pagamento</h1>

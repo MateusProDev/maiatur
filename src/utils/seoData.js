@@ -51,6 +51,11 @@ export const seoData = {
     description: 'Reserve seu transfer aeroporto ou passeio turístico em Fortaleza. Processo rápido, seguro e com confirmação imediata!',
     canonical: '/reservas'
   },
+  politica: {
+    title: 'Política de Reservas e Cancelamento - Transfer Fortaleza Tur',
+    description: 'Confira as regras de reservas, cancelamento e pagamento dos serviços da Transfer Fortaleza Tur. Transparência e segurança para sua viagem.',
+    canonical: '/politica'
+  },
   
   categorias: {
     passeio: {
