@@ -76,41 +76,4 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- Favicons -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/favicon.ico</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.1</priority>
-  </url>
-  
-  <url>
-    <loc>https://transferfortalezatur.com.br/favicon-32x32.png</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.1</priority>
-  </url>
-  
-  <url>
-    <loc>https://transferfortalezatur.com.br/android-icon-192x192.png</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.1</priority>
-  </url>
-  
-  <url>
-    <loc>https://transferfortalezatur.com.br/favicon-16x16.png</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.1</priority>
-  </url>
-  
-  <url>
-    <loc>https://transferfortalezatur.com.br/favicon-96x96.png</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.1</priority>
-  </url>
-  
 </urlset>
