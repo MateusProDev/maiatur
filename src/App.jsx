@@ -99,6 +99,11 @@ const App = () => {
     // Inicializa estruturas do Firestore automaticamente
     autoInitialize();
     
+    // Redireciona URLs com query params para limpar, para evitar problemas de indexação
+    if (window.location.search) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+    
     return () => clearTimeout(timer);
   }, []);
 
