@@ -70,11 +70,6 @@
       ],
       "destination": "https://transferfortalezatur.com.br/:path*",
       "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/$1",
-      "permanent": true
     }
   ],
   "rewrites": [
