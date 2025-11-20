@@ -280,6 +280,17 @@ const Home = () => {
       <Carousel />
       
       <WhatsAppButton />
+      {/* Veja Também - contextual link to categoria/passeio to improve inbound links */}
+      <section className="veja-tambem-section" style={{ padding: '2rem 0', background: '#fbfbfb' }}>
+        <div className="veja-tambem-container" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1rem' }}>
+          <h3 style={{ margin: 0, marginBottom: '.5rem', fontSize: '1.25rem' }}>Veja também</h3>
+          <div>
+            <Link to="/categoria/passeio" style={{ color: '#21A657', textDecoration: 'none', fontWeight: 600 }}>
+              Passeios em Fortaleza — Conheça nossos roteiros e pacotes
+            </Link>
+          </div>
+        </div>
+      </section>
       <Footer />
     </div>
   );

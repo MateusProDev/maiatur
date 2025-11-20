@@ -375,6 +375,18 @@ const PacotesListPage = () => {
         </div>
       </section>
 
+      {/* Veja Também - contextual link to categoria/passeio to improve inbound links */}
+      <section className="veja-tambem-section" style={{ padding: '1.5rem 0', background: '#fafafa' }}>
+        <div className="veja-tambem-container" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1rem' }}>
+          <h3 style={{ margin: 0, marginBottom: '.5rem', fontSize: '1.1rem' }}>Veja também</h3>
+          <div>
+            <Link to="/categoria/passeio" style={{ color: '#21A657', textDecoration: 'none', fontWeight: 600 }}>
+              Passeios em destaque — roteiros e pacotes
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
