@@ -71,6 +71,27 @@ const Contato = () => {
     fetchContactData();
   }, []);
 
+  // DOM fallback: ensure crawlers see title/description even if Helmet hasn't hydrated yet
+  useEffect(() => {
+    try {
+      const title = seoData.contato.title || '';
+      const description = seoData.contato.description || '';
+      if (title) document.title = title;
+      let meta = document.querySelector('meta[name="description"]');
+      if (description) {
+        if (meta) meta.setAttribute('content', description);
+        else {
+          meta = document.createElement('meta');
+          meta.name = 'description';
+          meta.content = description;
+          document.head.appendChild(meta);
+        }
+      }
+    } catch (e) {
+      // silent
+    }
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({

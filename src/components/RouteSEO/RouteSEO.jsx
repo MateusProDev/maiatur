@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { seoData } from '../../utils/seoData';
@@ -40,6 +40,28 @@ const RouteSEO = () => {
       canonical: pathname
     };
   }, [pathname]);
+
+  // Immediate DOM fallback: write title and meta description synchronously
+  useEffect(() => {
+    try {
+      const title = seoInfo.title || '';
+      const description = seoInfo.description || '';
+      if (title) {
+        const safeTitle = title.includes('Transfer Fortaleza Tur') ? title : `${title} | Transfer Fortaleza Tur`;
+        document.title = safeTitle;
+      }
+
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', 'description');
+        document.head.appendChild(meta);
+      }
+      if (description) meta.setAttribute('content', description);
+    } catch (e) {
+      // noop
+    }
+  }, [seoInfo]);
 
   // Ensure canonical is absolute when provided by seoData
   const canonical = seoInfo.canonical && seoInfo.canonical.startsWith('http')

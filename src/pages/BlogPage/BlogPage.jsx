@@ -22,6 +22,29 @@ const BlogPage = () => {
     loadData();
   }, []);
 
+  // DOM fallback: ensure crawlers see title/description even if Helmet hasn't hydrated yet
+  useEffect(() => {
+    if (!loading) {
+      try {
+        const title = seoData.blog.title || '';
+        const description = seoData.blog.description || '';
+        if (title) document.title = title;
+        let meta = document.querySelector('meta[name="description"]');
+        if (description) {
+          if (meta) meta.setAttribute('content', description);
+          else {
+            meta = document.createElement('meta');
+            meta.name = 'description';
+            meta.content = description;
+            document.head.appendChild(meta);
+          }
+        }
+      } catch (e) {
+        // silent
+      }
+    }
+  }, [loading]);
+
   const loadData = async () => {
     try {
       const [postsData, catsData] = await Promise.all([
