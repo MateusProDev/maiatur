@@ -27,7 +27,8 @@ import {
   FiShield,
   FiLink,
   FiMousePointer,
-  FiTarget
+  FiTarget,
+  FiX
 } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
 import {
@@ -68,6 +69,9 @@ const AdminDashboard = () => {
   const [seoData, setSeoData] = useState(null);
   const [seoLoading, setSeoLoading] = useState(false);
   const [gapiLoaded, setGapiLoaded] = useState(false);
+  
+  // Modal state
+  const [modalInfo, setModalInfo] = useState(null);
   
   // Google OAuth client
   const googleClientRef = useRef(null);
@@ -193,6 +197,41 @@ const AdminDashboard = () => {
   // Get peak hour
   const getPeakHour = () => {
     return 'N/A';
+  };
+
+  // Handle modal
+  const openModal = (metricType) => {
+    const metricInfo = {
+      clicks: {
+        title: 'Cliques Totais',
+        description: 'Número total de vezes que usuários clicaram nos seus resultados de pesquisa do Google. Cada clique representa um usuário interessado que visitou seu site.',
+        importance: 'Quanto mais cliques, melhor o engajamento dos usuários com seu conteúdo.',
+        tips: 'Otimize títulos e meta descriptions para aumentar a taxa de cliques.'
+      },
+      impressions: {
+        title: 'Impressões Totais',
+        description: 'Número total de vezes que suas páginas apareceram nos resultados de pesquisa do Google. Cada impressão representa uma oportunidade de clique.',
+        importance: 'Quanto mais impressões, maior a visibilidade do seu site nos resultados de busca.',
+        tips: 'Trabalhe SEO on-page e off-page para melhorar o posicionamento e aumentar impressões.'
+      },
+      ctr: {
+        title: 'CTR Médio (Click-Through Rate)',
+        description: 'Porcentagem de usuários que clicaram em seus resultados após vê-los. Calculado como: Cliques ÷ Impressões × 100.',
+        importance: 'Mede a atratividade dos seus títulos e descrições nos resultados de pesquisa.',
+        tips: 'Crie títulos atraentes e meta descriptions que incentivem cliques.'
+      },
+      position: {
+        title: 'Posição Média',
+        description: 'Posição média dos seus resultados nos resultados de pesquisa do Google. Números menores indicam melhores posições (ex: 1.0 = primeira posição).',
+        importance: 'Quanto menor o número, melhor o posicionamento orgânico do seu site.',
+        tips: 'Otimize conteúdo, melhore velocidade do site e construa backlinks de qualidade.'
+      }
+    };
+    setModalInfo(metricInfo[metricType]);
+  };
+
+  const closeModal = () => {
+    setModalInfo(null);
   };
 
   // Handle Google sign in for SEO
@@ -358,7 +397,12 @@ const AdminDashboard = () => {
                   <FiMousePointer />
                 </div>
                 <div className="seo-stat-info">
-                  <p className="seo-stat-label">Cliques Totais</p>
+                  <div className="seo-stat-header">
+                    <p className="seo-stat-label">Cliques Totais</p>
+                    <button className="info-btn" onClick={() => openModal('clicks')}>
+                      <FiInfo />
+                    </button>
+                  </div>
                   <h3 className="seo-stat-number">
                     {seoData.rows?.reduce((sum, row) => sum + row.clicks, 0)?.toLocaleString() || 0}
                   </h3>
@@ -371,7 +415,12 @@ const AdminDashboard = () => {
                   <FiEye />
                 </div>
                 <div className="seo-stat-info">
-                  <p className="seo-stat-label">Impressões Totais</p>
+                  <div className="seo-stat-header">
+                    <p className="seo-stat-label">Impressões Totais</p>
+                    <button className="info-btn" onClick={() => openModal('impressions')}>
+                      <FiInfo />
+                    </button>
+                  </div>
                   <h3 className="seo-stat-number">
                     {seoData.rows?.reduce((sum, row) => sum + row.impressions, 0)?.toLocaleString() || 0}
                   </h3>
@@ -384,7 +433,12 @@ const AdminDashboard = () => {
                   <FiTrendingUp />
                 </div>
                 <div className="seo-stat-info">
-                  <p className="seo-stat-label">CTR Médio</p>
+                  <div className="seo-stat-header">
+                    <p className="seo-stat-label">CTR Médio</p>
+                    <button className="info-btn" onClick={() => openModal('ctr')}>
+                      <FiInfo />
+                    </button>
+                  </div>
                   <h3 className="seo-stat-number">
                     {seoData.rows?.length > 0 
                       ? ((seoData.rows.reduce((sum, row) => sum + row.ctr, 0) / seoData.rows.length) * 100).toFixed(2) + '%'
@@ -400,7 +454,12 @@ const AdminDashboard = () => {
                   <FiTarget />
                 </div>
                 <div className="seo-stat-info">
-                  <p className="seo-stat-label">Posição Média</p>
+                  <div className="seo-stat-header">
+                    <p className="seo-stat-label">Posição Média</p>
+                    <button className="info-btn" onClick={() => openModal('position')}>
+                      <FiInfo />
+                    </button>
+                  </div>
                   <h3 className="seo-stat-number">
                     {seoData.rows?.length > 0 
                       ? (seoData.rows.reduce((sum, row) => sum + row.position, 0) / seoData.rows.length).toFixed(1)
@@ -457,6 +516,35 @@ const AdminDashboard = () => {
 
         </div>
       </main>
+
+      {/* Modal */}
+      {modalInfo && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>{modalInfo.title}</h3>
+              <button className="modal-close" onClick={closeModal}>
+                <FiX />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="modal-section">
+                <h4>📊 O que significa</h4>
+                <p>{modalInfo.description}</p>
+              </div>
+              <div className="modal-section">
+                <h4>🎯 Importância</h4>
+                <p>{modalInfo.importance}</p>
+              </div>
+              <div className="modal-section">
+                <h4>💡 Dicas para melhorar</h4>
+                <p>{modalInfo.tips}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
