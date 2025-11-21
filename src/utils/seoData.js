@@ -68,20 +68,17 @@ export const seoData = {
     passeio: {
       title: 'Passeios Turísticos Privativos em Fortaleza e Região - Transfer Fortaleza Tur',
       description: 'Pacotes de passeios em Fortaleza e região: roteiros privativos para Beach Park, Jericoacocha, Cumbuco, Paracuru e muito mais. Inclui transfer e guia local.',
-      canonical: '/categoria/passeio',
-      noindex: true
+      canonical: '/categoria/passeio'
     },
     transfer: {
       title: 'Transfers e Traslados Privativos em Fortaleza - Transfer Fortaleza Tur',
       description: 'Transfers e traslados em Fortaleza: serviços privados do aeroporto, translados para praias e passeios com conforto e pontualidade.',
-      canonical: '/categoria/transfer',
-      noindex: true
+      canonical: '/categoria/transfer'
     },
     'beach-park': {
       title: 'Passeios Completos para Beach Park com Transfer Incluso - Transfer Fortaleza Tur',
       description: 'Passeios para o Beach Park (Porto das Dunas) com transfer incluso. Translado confortável e ingressos em pacotes práticos para famílias.',
-      canonical: '/categoria/beach-park',
-      noindex: true
+      canonical: '/categoria/beach-park'
     }
   }
 };

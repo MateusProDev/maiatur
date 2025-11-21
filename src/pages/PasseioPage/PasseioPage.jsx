@@ -88,13 +88,13 @@ const PasseioPage = () => {
     },
   });
 
-  const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([
+  const veiculosDisponiveis = [
     "Carro até 6 pessoas",
     "Van até 15 pessoas",
     "Transfer executivo",
     "4x4",
     "Buggy"
-  ]);
+  ];
 
   useEffect(() => {
     // Carregar listas do Firestore

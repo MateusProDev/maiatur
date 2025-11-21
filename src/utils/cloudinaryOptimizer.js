@@ -148,9 +148,11 @@ export const autoOptimize = (url, context = 'default') => {
   });
 };
 
-export default {
+const cloudinaryUtils = {
   optimizeCloudinaryUrl,
   generateCloudinarySrcset,
   cloudinaryPresets,
   autoOptimize
 };
+
+export default cloudinaryUtils;

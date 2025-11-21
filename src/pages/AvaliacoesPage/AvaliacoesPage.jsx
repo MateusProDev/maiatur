@@ -14,8 +14,6 @@ const AvaliacoesPage = () => {
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [filtroNota, setFiltroNota] = useState('todas');
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
   const trackRef = useRef(null);
 
   // Filtrar avaliações por nota (declarado cedo para evitar ReferenceError)

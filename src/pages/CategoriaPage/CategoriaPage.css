@@ -119,6 +119,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+  overflow-x: hidden;
 }
 
 .filters-header {
@@ -130,7 +131,7 @@
 
 .search-box {
   flex: 1;
-  min-width: 300px;
+  min-width: 250px;
   position: relative;
 }
 
@@ -144,6 +145,7 @@
 
 .search-input {
   width: 100%;
+  max-width: 100%;
   padding: 1rem 1rem 1rem 3.5rem;
   border: 2px solid #e0e0e0;
   border-radius: 50px;
@@ -151,6 +153,7 @@
   transition: all 0.3s ease;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
 .search-input:focus {

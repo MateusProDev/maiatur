@@ -15,7 +15,6 @@ import {
 import {
   criarReserva,
   normalizarTelefone,
-  buscarLista,
 } from "../../services/reservasService";
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";
@@ -27,7 +26,6 @@ const TransferChegadaPage = () => {
   const [loading, setLoading] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [reservaId, setReservaId] = useState("");
-  const [veiculosDisponiveis, setVeiculosDisponiveis] = useState([]);
   const [pacotesTransfer, setPacotesTransfer] = useState([]);
   const [logoUrl, setLogoUrl] = useState("");
 
@@ -68,7 +66,6 @@ const TransferChegadaPage = () => {
         "Buggy"
       ];
       console.log("✅ [TransferChegada] Veículos carregados:", veiculos);
-      setVeiculosDisponiveis(veiculos);
 
       // Buscar pacotes de transfer_chegada E transfer_chegada_saida
       try {

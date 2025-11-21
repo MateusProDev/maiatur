@@ -27,7 +27,9 @@ import {
   FiPieChart,
   FiRefreshCw,
   FiShield,
-  FiLink
+  FiLink,
+  FiMousePointer,
+  FiTarget
 } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
 import {
@@ -74,12 +76,10 @@ const AdminDashboard = () => {
   const [hourlyData, setHourlyData] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(7);
 
-  // Animated counters
-  const animatedViews = useCountUp(totalViews, 2000, 100);
-  const animatedPages = useCountUp(uniquePages, 2000, 200);
-  const animatedMobile = useCountUp(deviceStats.mobile, 2000, 300);
-  const animatedDesktop = useCountUp(deviceStats.desktop, 2000, 400);
-  const animatedTablet = useCountUp(deviceStats.tablet, 2000, 500);
+  // SEO data
+  const [seoData, setSeoData] = useState(null);
+  const [seoLoading, setSeoLoading] = useState(false);
+  const [gapiLoaded, setGapiLoaded] = useState(false);
 
   // Load logo
   useEffect(() => {
@@ -94,6 +94,30 @@ const AdminDashboard = () => {
       }
     };
     loadLogo();
+  }, []);
+
+  // Load GAPI
+  useEffect(() => {
+    const loadGapi = () => {
+      if (window.gapi) {
+        window.gapi.load('client:auth2', () => {
+          window.gapi.client.init({
+            apiKey: process.env.REACT_APP_FIREBASE_API_KEY, // Use Firebase API key
+            clientId: '576395263228-sacs...apps.googleusercontent.com', // Need to get from Cloud Console
+            scope: 'https://www.googleapis.com/auth/webmasters.readonly',
+            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/searchconsole/v1/rest']
+          }).then(() => {
+            setGapiLoaded(true);
+          });
+        });
+      }
+    };
+
+    if (window.gapi) {
+      loadGapi();
+    } else {
+      window.addEventListener('load', loadGapi);
+    }
   }, []);
 
   // Load analytics data
@@ -189,6 +213,38 @@ const AdminDashboard = () => {
     setRefreshing(true);
     await loadAnalytics();
     setTimeout(() => setRefreshing(false), 1000);
+  };
+
+  // Handle Google sign in for SEO
+  const handleGoogleSignIn = async () => {
+    if (!gapiLoaded) return;
+
+    try {
+      await window.gapi.auth2.getAuthInstance().signIn();
+      await fetchSEOData();
+    } catch (error) {
+      console.error('Error signing in:', error);
+    }
+  };
+
+  // Fetch SEO data from Search Console
+  const fetchSEOData = async () => {
+    setSeoLoading(true);
+    try {
+      const response = await window.gapi.client.searchconsole.searchanalytics.query({
+        siteUrl: 'https://transferfortalezatur.com.br',
+        startDate: '30daysAgo',
+        endDate: 'today',
+        dimensions: ['query'],
+        rowLimit: 10
+      });
+
+      setSeoData(response.result);
+    } catch (error) {
+      console.error('Error fetching SEO data:', error);
+    } finally {
+      setSeoLoading(false);
+    }
   };
 
   // Chart data configurations
@@ -328,6 +384,13 @@ const AdminDashboard = () => {
 
   // Filter public pages only
   const publicPages = topPages.filter(page => isPublicRoute(page.page));
+
+  // Animated counters
+  const animatedViews = useCountUp(totalViews, 2000, 500);
+  const animatedPages = useCountUp(uniquePages, 2000, 700);
+  const animatedMobile = useCountUp(deviceStats.mobile, 2000, 900);
+  const animatedDesktop = useCountUp(deviceStats.desktop, 2000, 1100);
+  const animatedTablet = useCountUp(deviceStats.tablet, 2000, 1300);
 
   return (
     <div className="modern-admin-dashboard-simple">
@@ -532,6 +595,105 @@ const AdminDashboard = () => {
               <p className="device-percentage">{getDevicePercentage(deviceStats.tablet)}%</p>
             </div>
           </div>
+
+          {/* SEO Metrics Section */}
+          <div className="section-header">
+            <h2 className="section-title">
+              <FaGoogle />
+              Métricas SEO - Google Search Console
+            </h2>
+            {!seoData && (
+              <button 
+                className="google-signin-btn"
+                onClick={handleGoogleSignIn}
+                disabled={!gapiLoaded}
+              >
+                <FaGoogle />
+                Conectar Google
+              </button>
+            )}
+          </div>
+
+          {seoLoading ? (
+            <div className="seo-loading">
+              <div className="loading-spinner"></div>
+              <p>Carregando dados do Google Search Console...</p>
+            </div>
+          ) : seoData ? (
+            <div className="seo-metrics-grid">
+              <div className="seo-stat-card">
+                <div className="seo-stat-icon">
+                  <FiMousePointer />
+                </div>
+                <div className="seo-stat-info">
+                  <p className="seo-stat-label">Cliques Totais</p>
+                  <h3 className="seo-stat-number">
+                    {seoData.rows?.reduce((sum, row) => sum + row.clicks, 0)?.toLocaleString() || 0}
+                  </h3>
+                  <p className="seo-stat-change">Últimos 30 dias</p>
+                </div>
+              </div>
+
+              <div className="seo-stat-card">
+                <div className="seo-stat-icon">
+                  <FiEye />
+                </div>
+                <div className="seo-stat-info">
+                  <p className="seo-stat-label">Impressões Totais</p>
+                  <h3 className="seo-stat-number">
+                    {seoData.rows?.reduce((sum, row) => sum + row.impressions, 0)?.toLocaleString() || 0}
+                  </h3>
+                  <p className="seo-stat-change">Vezes que apareceu</p>
+                </div>
+              </div>
+
+              <div className="seo-stat-card">
+                <div className="seo-stat-icon">
+                  <FiTrendingUp />
+                </div>
+                <div className="seo-stat-info">
+                  <p className="seo-stat-label">CTR Médio</p>
+                  <h3 className="seo-stat-number">
+                    {seoData.rows?.length > 0 
+                      ? ((seoData.rows.reduce((sum, row) => sum + row.ctr, 0) / seoData.rows.length) * 100).toFixed(2) + '%'
+                      : '0%'
+                    }
+                  </h3>
+                  <p className="seo-stat-change">Taxa de cliques</p>
+                </div>
+              </div>
+
+              <div className="seo-stat-card">
+                <div className="seo-stat-icon">
+                  <FiTarget />
+                </div>
+                <div className="seo-stat-info">
+                  <p className="seo-stat-label">Posição Média</p>
+                  <h3 className="seo-stat-number">
+                    {seoData.rows?.length > 0 
+                      ? (seoData.rows.reduce((sum, row) => sum + row.position, 0) / seoData.rows.length).toFixed(1)
+                      : '0'
+                    }
+                  </h3>
+                  <p className="seo-stat-change">Ranking no Google</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="seo-connect-prompt">
+              <FaGoogle className="google-icon-large" />
+              <h3>Conecte sua conta Google</h3>
+              <p>Para visualizar métricas reais do Google Search Console como cliques, impressões e posições de ranking.</p>
+              <button 
+                className="google-signin-btn primary"
+                onClick={handleGoogleSignIn}
+                disabled={!gapiLoaded}
+              >
+                <FaGoogle />
+                Conectar Google Search Console
+              </button>
+            </div>
+          )}
 
           {/* Quick Actions */}
           <div className="section-header">

@@ -15,7 +15,6 @@ import {
 import {
   criarReserva,
   normalizarTelefone,
-  buscarLista,
 } from "../../services/reservasService";
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";

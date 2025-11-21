@@ -12,7 +12,7 @@
  * 8. No Search Console, adicione o email da Service Account como proprietário
  * 
  * USO:
- * node request-indexing.js
+ * node request-indexing.js [url1] [url2] ... (opcional - se não passar URLs, usa as padrão)
  */
 
 const { google } = require('googleapis');
@@ -20,7 +20,7 @@ const fs = require('fs');
 const path = require('path');
 
 // URLs para solicitar indexação (ordem de prioridade)
-const URLS_TO_INDEX = [
+let URLS_TO_INDEX = [
   'https://transferfortalezatur.com.br/',                    // Home - PRIORIDADE MÁXIMA
   'https://transferfortalezatur.com.br/contato',             // Estava aparecendo errado
   'https://transferfortalezatur.com.br/sobre',
@@ -32,6 +32,11 @@ const URLS_TO_INDEX = [
   'https://transferfortalezatur.com.br/categoria/transfer',
   'https://transferfortalezatur.com.br/categoria/beach-park'
 ];
+
+// Se argumentos forem passados na linha de comando, use eles
+if (process.argv.length > 2) {
+  URLS_TO_INDEX = process.argv.slice(2);
+}
 
 // Tipo de notificação
 const NOTIFICATION_TYPE = 'URL_UPDATED'; // ou 'URL_DELETED' para remover
@@ -71,7 +76,7 @@ async function requestIndexing() {
     const jwtClient = new google.auth.JWT({
       email: keyFile.client_email,
       key: keyFile.private_key,
-      scopes: ['https://www.googleapis.com/auth/indexing'],
+      scopes: ['https://www.googleapis.com/auth/indexing', 'https://www.googleapis.com/auth/webmasters'],
     });
 
     // 4. Autenticar
@@ -152,6 +157,20 @@ async function requestIndexing() {
     console.log('2. Verifique no Search Console: https://search.google.com/search-console');
     console.log('3. Em "URL Inspection", veja quando foi o último rastreamento');
     console.log('4. As mudanças aparecerão nos resultados em 2-7 dias\n');
+
+    // 7. Enviar sitemap para o Search Console
+    console.log('📤 Enviando sitemap para o Search Console...');
+    try {
+      const searchconsole = google.searchconsole({ version: 'v1', auth: jwtClient });
+      await searchconsole.sitemaps.submit({
+        siteUrl: 'https://transferfortalezatur.com.br',
+        feedpath: 'sitemap.xml'
+      });
+      console.log('✅ Sitemap enviado com sucesso!');
+    } catch (error) {
+      console.log('❌ Erro ao enviar sitemap:', error.message);
+      console.log('💡 Verifique se o projeto está associado no Search Console.');
+    }
 
     // 8. Salvar log
     const logFile = path.join(__dirname, 'indexing-log.json');
