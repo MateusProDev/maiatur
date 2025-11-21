@@ -11,7 +11,7 @@ export const seoData = {
   },
   
   sobre: {
-    title: 'Sobre Nós - Transfer Fortaleza Tur',
+    title: 'Sobre a Transfer Fortaleza Tur - Nossa História e Missão',
     description: 'Conheça a Transfer Fortaleza Tur: missão, valores e nossa história levando clientes aos melhores destinos do Ceará com segurança e conforto.',
     canonical: '/sobre'
     // REMOVIDO: noindex: true - página importante deve ser indexada
@@ -45,14 +45,14 @@ export const seoData = {
   },
   
   avaliacoes: {
-    title: 'Avaliações dos Clientes - Transfer Fortaleza Tur',
+    title: 'Depoimentos e Avaliações Reais dos Nossos Clientes - Transfer Fortaleza Tur',
     description: 'Confira avaliações e depoimentos de clientes sobre nossos transfers e passeios. Experiências reais que ajudam você a escolher com confiança.',
     canonical: '/avaliacoes'
     // REMOVIDO: noindex: true - avaliações são importantes para confiança
   },
   
   reservas: {
-    title: 'Reservas Online - Transfer Fortaleza Tur',
+    title: 'Faça Sua Reserva de Transfer ou Passeio Online - Transfer Fortaleza Tur',
     description: 'Reserve seu transfer ou passeio em Fortaleza. Processo simples, pagamento seguro e confirmação rápida para garantir sua viagem.',
     canonical: '/reservas',
     noindex: true
@@ -66,19 +66,19 @@ export const seoData = {
   
   categorias: {
     passeio: {
-      title: 'Passeios Turísticos - Transfer Fortaleza Tur',
+      title: 'Passeios Turísticos Privativos em Fortaleza e Região - Transfer Fortaleza Tur',
       description: 'Pacotes de passeios em Fortaleza e região: roteiros privativos para Beach Park, Jericoacocha, Cumbuco, Paracuru e muito mais. Inclui transfer e guia local.',
       canonical: '/categoria/passeio'
       // REMOVIDO: noindex: true - categorias são importantes para SEO
     },
     transfer: {
-      title: 'Serviços de Transfer - Transfer Fortaleza Tur',
+      title: 'Transfers e Traslados Privativos em Fortaleza - Transfer Fortaleza Tur',
       description: 'Transfers e traslados em Fortaleza: serviços privados do aeroporto, translados para praias e passeios com conforto e pontualidade.',
       canonical: '/categoria/transfer'
       // REMOVIDO: noindex: true - categorias são importantes para SEO
     },
     'beach-park': {
-      title: 'Passeios para Beach Park - Transfer Fortaleza Tur',
+      title: 'Passeios Completos para Beach Park com Transfer Incluso - Transfer Fortaleza Tur',
       description: 'Passeios para o Beach Park (Porto das Dunas) com transfer incluso. Translado confortável e ingressos em pacotes práticos para famílias.',
       canonical: '/categoria/beach-park'
       // REMOVIDO: noindex: true - categorias são importantes para SEO
