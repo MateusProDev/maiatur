@@ -14,9 +14,36 @@
   <!-- Destinos (removido do sitemap — page marked noindex) -->
   
   <!-- Sobre -->
-  <!-- Sobre (removido do sitemap — page marked noindex) -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/sobre</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   
-  <!-- Contato (removido do sitemap — page marked noindex) -->
+  <!-- Pacotes -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/pacotes</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Destinos -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/destinos</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Contato -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/contato</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <!-- Blog -->
   <url>
@@ -27,9 +54,32 @@
   </url>
   
   <!-- Avaliações -->
-  <!-- Avaliações (removido do sitemap — page marked noindex) -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/avaliacoes</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
   
-  <!-- Política de Privacidade (removido do sitemap — page marked noindex) -->
+  <!-- Categorias -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/categoria/passeio</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
   
-  <!-- Categorias (removidas do sitemap — pages marked noindex) -->
+  <url>
+    <loc>https://transferfortalezatur.com.br/categoria/transfer</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://transferfortalezatur.com.br/categoria/beach-park</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
