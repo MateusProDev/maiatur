@@ -1,11 +1,7 @@
 // src/components/Admin/BlogAdmin/BlogAdmin.jsx
 import React, { useState, useEffect } from 'react';
 import { FiPlus, FiEdit2, FiTrash2, FiEye, FiEyeOff, FiSearch, FiSave, FiX, FiImage } from 'react-icons/fi';
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Editor } from '@tinymce/tinymce-react';
 import axios from 'axios';
 import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
 import { createPost, updatePost, deletePost, getAllPostsAdmin, generateSlug } from '../../../services/blogService';
@@ -19,7 +15,7 @@ const BlogAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPublished, setFilterPublished] = useState('all');
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorContent, setEditorContent] = useState('');
 
   const [currentPost, setCurrentPost] = useState({
     title: '',
@@ -28,7 +24,7 @@ const BlogAdmin = () => {
     excerpt: '',
     featuredImage: '',
     instagramUrl: '',
-    author: 'Equipe Maiatur',
+    author: 'Transfer Fortaleza Tur',
     category: '',
     tags: [],
     published: false,
@@ -43,19 +39,20 @@ const BlogAdmin = () => {
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
   const [tagInput, setTagInput] = useState('');
 
-  // Configuração do editor Draft.js
-  const editorToolbar = {
-    options: ['inline', 'blockType', 'list', 'textAlign', 'colorPicker', 'link', 'image', 'history'],
-    inline: {
-      options: ['bold', 'italic', 'underline', 'strikethrough']
-    },
-    blockType: {
-      inDropdown: true,
-      options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
-    },
-    list: {
-      options: ['unordered', 'ordered']
-    }
+  // Configuração do editor TinyMCE
+  const tinymceConfig = {
+    height: 400,
+    menubar: false,
+    plugins: [
+      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+      'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | ' +
+      'bold italic backcolor | alignleft aligncenter ' +
+      'alignright alignjustify | bullist numlist outdent indent | ' +
+      'removeformat | help',
+    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
   };
 
   useEffect(() => {
@@ -113,7 +110,7 @@ const BlogAdmin = () => {
       excerpt: '',
       featuredImage: '',
       instagramUrl: '',
-      author: 'Equipe Maiatur',
+      author: 'Transfer Fortaleza Tur',
       category: '',
       tags: [],
       published: false,
@@ -124,7 +121,7 @@ const BlogAdmin = () => {
         ogImage: ''
       }
     });
-    setEditorState(EditorState.createEmpty());
+    setEditorContent('');
     setIsEditing(true);
   };
 
@@ -140,16 +137,8 @@ const BlogAdmin = () => {
       }
     });
     
-    // Converter HTML para EditorState
-    if (post.content) {
-      const contentBlock = htmlToDraft(post.content);
-      if (contentBlock) {
-        const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-        setEditorState(EditorState.createWithContent(contentState));
-      }
-    } else {
-      setEditorState(EditorState.createEmpty());
-    }
+    // Definir conteúdo HTML diretamente
+    setEditorContent(post.content || '');
     
     setIsEditing(true);
   };
@@ -227,8 +216,8 @@ const BlogAdmin = () => {
   };
 
   const handleSavePost = async () => {
-    // Converter EditorState para HTML
-    const htmlContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    // Usar conteúdo HTML diretamente
+    const htmlContent = editorContent;
     
     if (!currentPost.title || !htmlContent.trim()) {
       showNotification('Título e conteúdo são obrigatórios', 'error');
@@ -252,7 +241,7 @@ const BlogAdmin = () => {
       }
       
       setIsEditing(false);
-      setEditorState(EditorState.createEmpty());
+      setEditorContent('');
       loadPosts();
     } catch (error) {
       showNotification('Erro ao salvar post', 'error');
@@ -428,12 +417,10 @@ const BlogAdmin = () => {
                 <label>Conteúdo do Post *</label>
                 <div className="editor-wrapper">
                   <Editor
-                    editorState={editorState}
-                    onEditorStateChange={setEditorState}
-                    toolbar={editorToolbar}
-                    wrapperClassName="editor-wrapper-class"
-                    editorClassName="editor-main-class"
-                    toolbarClassName="editor-toolbar-class"
+                    apiKey="no-api-key" // TinyMCE permite uso gratuito sem API key para desenvolvimento
+                    value={editorContent}
+                    onEditorChange={(content) => setEditorContent(content)}
+                    init={tinymceConfig}
                   />
                 </div>
               </div>
