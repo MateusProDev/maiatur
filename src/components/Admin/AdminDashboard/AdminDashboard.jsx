@@ -3,8 +3,6 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import analyticsService from "../../../services/analyticsService";
-import useCountUp from "../../../hooks/useCountUp";
 import {
   FiLogOut,
   FiImage,
@@ -64,18 +62,8 @@ ChartJS.register(
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [logoUrl, setLogoUrl] = useState('');
   
-  // Analytics data
-  const [totalViews, setTotalViews] = useState(0);
-  const [uniquePages, setUniquePages] = useState(0);
-  const [topPages, setTopPages] = useState([]);
-  const [deviceStats, setDeviceStats] = useState({ mobile: 0, desktop: 0, tablet: 0 });
-  const [hourlyData, setHourlyData] = useState([]);
-  const [selectedPeriod, setSelectedPeriod] = useState(7);
-
   // SEO data
   const [seoData, setSeoData] = useState(null);
   const [seoLoading, setSeoLoading] = useState(false);
@@ -96,57 +84,45 @@ const AdminDashboard = () => {
     loadLogo();
   }, []);
 
-  // Load GAPI
+  // Load Google Identity Services
   useEffect(() => {
-    const loadGapi = () => {
-      if (window.gapi) {
-        window.gapi.load('client:auth2', () => {
-          window.gapi.client.init({
-            apiKey: process.env.REACT_APP_FIREBASE_API_KEY, // Use Firebase API key
-            clientId: '576395263228-sacs...apps.googleusercontent.com', // Need to get from Cloud Console
-            scope: 'https://www.googleapis.com/auth/webmasters.readonly',
-            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/searchconsole/v1/rest']
-          }).then(() => {
-            setGapiLoaded(true);
-          });
+    const loadGIS = () => {
+      if (window.google && window.google.accounts) {
+        window.google.accounts.oauth2.initCodeClient({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+          scope: 'https://www.googleapis.com/auth/webmasters.readonly',
+          ux_mode: 'popup',
+          callback: (response) => {
+            if (response.code) {
+              exchangeCodeForToken(response.code);
+            }
+          },
         });
+        setGapiLoaded(true);
+
+        // Check if user is already authenticated
+        const token = localStorage.getItem('google_access_token');
+        if (token) {
+          fetchSEOData(token);
+        }
       }
     };
 
-    if (window.gapi) {
-      loadGapi();
+    if (window.google && window.google.accounts) {
+      loadGIS();
     } else {
-      window.addEventListener('load', loadGapi);
+      // Load Google Identity Services script
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.onload = loadGIS;
+      document.head.appendChild(script);
     }
   }, []);
 
-  // Load analytics data
-  const loadAnalytics = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [views, pages, pageViews, devices, hourly] = await Promise.all([
-        analyticsService.getTotalViews(selectedPeriod),
-        analyticsService.getUniquePages(selectedPeriod),
-        analyticsService.getPageViewsByRoute(selectedPeriod),
-        analyticsService.getDeviceDistribution(selectedPeriod),
-        analyticsService.getHourlyDistribution(selectedPeriod)
-      ]);
-
-      setTotalViews(views);
-      setUniquePages(pages);
-      setTopPages(pageViews.slice(0, 10));
-      setDeviceStats(devices);
-      setHourlyData(hourly);
-    } catch (error) {
-      console.error("Error loading analytics:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedPeriod]);
-
+  // Load analytics data - Removed Firebase loading
   useEffect(() => {
-    loadAnalytics();
-  }, [loadAnalytics]);
+    // Removed Firebase analytics loading
+  }, []);
 
   const goTo = (path) => {
     navigate(path);
@@ -177,7 +153,7 @@ const AdminDashboard = () => {
     { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", gradient: "from-zinc-500 to-zinc-600" }
   ];
 
-  // Get page name from path
+  // Get page name from path - Removed Firebase functions
   const getPageName = (path) => {
     const pageNames = {
       '/': 'Página Inicial',
@@ -190,29 +166,14 @@ const AdminDashboard = () => {
     return pageNames[path] || path;
   };
 
-  // Filter only public site routes
+  // Filter only public site routes - Removed
   const isPublicRoute = (path) => {
     return !path.startsWith('/admin');
   };
 
-  // Calculate percentage
-  const getDevicePercentage = (count) => {
-    const total = deviceStats.mobile + deviceStats.desktop + deviceStats.tablet;
-    return total > 0 ? ((count / total) * 100).toFixed(1) : 0;
-  };
-
   // Get peak hour
   const getPeakHour = () => {
-    if (hourlyData.length === 0) return 'N/A';
-    const peak = hourlyData.reduce((max, curr) => curr.count > max.count ? curr : max, hourlyData[0]);
-    return peak.hour;
-  };
-
-  // Refresh data
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    await loadAnalytics();
-    setTimeout(() => setRefreshing(false), 1000);
+    return 'N/A';
   };
 
   // Handle Google sign in for SEO
@@ -220,26 +181,72 @@ const AdminDashboard = () => {
     if (!gapiLoaded) return;
 
     try {
-      await window.gapi.auth2.getAuthInstance().signIn();
-      await fetchSEOData();
+      const client = window.google.accounts.oauth2.initCodeClient({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/webmasters.readonly',
+        ux_mode: 'popup',
+        callback: (response) => {
+          if (response.code) {
+            exchangeCodeForToken(response.code);
+          }
+        },
+      });
+      client.requestCode();
     } catch (error) {
       console.error('Error signing in:', error);
     }
   };
 
-  // Fetch SEO data from Search Console
-  const fetchSEOData = async () => {
-    setSeoLoading(true);
+  // Exchange authorization code for access token
+  const exchangeCodeForToken = async (code) => {
     try {
-      const response = await window.gapi.client.searchconsole.searchanalytics.query({
-        siteUrl: 'https://transferfortalezatur.com.br',
-        startDate: '30daysAgo',
-        endDate: 'today',
-        dimensions: ['query'],
-        rowLimit: 10
+      const response = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+          client_secret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
+          code: code,
+          grant_type: 'authorization_code',
+          redirect_uri: window.location.origin,
+        }),
       });
 
-      setSeoData(response.result);
+      const data = await response.json();
+      if (data.access_token) {
+        localStorage.setItem('google_access_token', data.access_token);
+        await fetchSEOData(data.access_token);
+      }
+    } catch (error) {
+      console.error('Error exchanging code for token:', error);
+    }
+  };
+
+  // Fetch SEO data from Search Console
+  const fetchSEOData = async (accessToken) => {
+    setSeoLoading(true);
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent('sc-domain:transferfortalezatur.com.br')}/searchAnalytics/query`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken || localStorage.getItem('google_access_token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            startDate: '30daysAgo',
+            endDate: 'today',
+            dimensions: ['query'],
+            rowLimit: 10
+          }),
+        }
+      );
+
+      const data = await response.json();
+      setSeoData(data);
     } catch (error) {
       console.error('Error fetching SEO data:', error);
     } finally {
@@ -247,150 +254,9 @@ const AdminDashboard = () => {
     }
   };
 
-  // Chart data configurations
-  const lineChartData = useMemo(() => {
-    const last7Days = Array.from({ length: selectedPeriod }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (selectedPeriod - 1 - i));
-      return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-    });
+  // Chart data configurations - Removed Firebase charts
 
-    const viewsData = Array.from({ length: selectedPeriod }, (_, i) => {
-      return Math.floor(totalViews / selectedPeriod + Math.random() * 50);
-    });
-
-    return {
-      labels: last7Days,
-      datasets: [
-        {
-          label: 'Visualizações',
-          data: viewsData,
-          fill: true,
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-          borderColor: 'rgb(59, 130, 246)',
-          borderWidth: 3,
-          tension: 0.4,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          pointBackgroundColor: 'rgb(59, 130, 246)',
-          pointBorderColor: '#fff',
-          pointBorderWidth: 2,
-        }
-      ]
-    };
-  }, [totalViews, selectedPeriod]);
-
-  const doughnutChartData = useMemo(() => ({
-    labels: ['Mobile', 'Desktop', 'Tablet'],
-    datasets: [
-      {
-        data: [deviceStats.mobile, deviceStats.desktop, deviceStats.tablet],
-        backgroundColor: [
-          'rgba(34, 197, 94, 0.8)',
-          'rgba(251, 146, 60, 0.8)',
-          'rgba(168, 85, 247, 0.8)',
-        ],
-        borderColor: [
-          'rgb(34, 197, 94)',
-          'rgb(251, 146, 60)',
-          'rgb(168, 85, 247)',
-        ],
-        borderWidth: 2,
-      }
-    ]
-  }), [deviceStats]);
-
-  const barChartData = useMemo(() => {
-    const topPagesData = topPages.filter(page => !page.page.startsWith('/admin')).slice(0, 5);
-    const colors = [
-      { bg: 'rgba(59, 130, 246, 0.8)', border: 'rgb(59, 130, 246)' },
-      { bg: 'rgba(34, 197, 94, 0.8)', border: 'rgb(34, 197, 94)' },
-      { bg: 'rgba(251, 146, 60, 0.8)', border: 'rgb(251, 146, 60)' },
-      { bg: 'rgba(168, 85, 247, 0.8)', border: 'rgb(168, 85, 247)' },
-      { bg: 'rgba(236, 72, 153, 0.8)', border: 'rgb(236, 72, 153)' },
-    ];
-    
-    return {
-      labels: topPagesData.map(p => getPageName(p.page)),
-      datasets: [
-        {
-          label: 'Visualizações',
-          data: topPagesData.map(p => p.count),
-          backgroundColor: topPagesData.map((_, i) => colors[i]?.bg || colors[0].bg),
-          borderColor: topPagesData.map((_, i) => colors[i]?.border || colors[0].border),
-          borderWidth: 2,
-          borderRadius: 8,
-        }
-      ]
-    };
-  }, [topPages]);
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: 12,
-        borderRadius: 8,
-        titleFont: { size: 14, weight: 'bold' },
-        bodyFont: { size: 13 },
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        grid: {
-          color: 'rgba(0, 0, 0, 0.05)',
-        },
-        ticks: {
-          font: { size: 11 }
-        }
-      },
-      x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          font: { size: 11 }
-        }
-      }
-    }
-  };
-
-  const doughnutOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          padding: 15,
-          font: { size: 12, weight: '600' },
-          usePointStyle: true,
-          pointStyle: 'circle'
-        }
-      },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: 12,
-        borderRadius: 8,
-      }
-    }
-  };
-
-  // Filter public pages only
-  const publicPages = topPages.filter(page => isPublicRoute(page.page));
-
-  // Animated counters
-  const animatedViews = useCountUp(totalViews, 2000, 500);
-  const animatedPages = useCountUp(uniquePages, 2000, 700);
-  const animatedMobile = useCountUp(deviceStats.mobile, 2000, 900);
-  const animatedDesktop = useCountUp(deviceStats.desktop, 2000, 1100);
-  const animatedTablet = useCountUp(deviceStats.tablet, 2000, 1300);
+  // Filter public pages only - Removed Firebase filtering
 
   return (
     <div className="modern-admin-dashboard-simple">
@@ -415,13 +281,6 @@ const AdminDashboard = () => {
         </div>
 
         <div className="header-actions">
-          <button 
-            className={`refresh-btn ${refreshing ? 'spinning' : ''}`}
-            onClick={handleRefresh}
-            disabled={refreshing}
-          >
-            <FiRefreshCw />
-          </button>
           <button className="logout-btn" onClick={handleLogout}>
             <FiLogOut />
             <span>Sair</span>
@@ -433,169 +292,6 @@ const AdminDashboard = () => {
       <main className="dashboard-main-content">
         <div className="dashboard-container">
           
-          {/* Period Selector */}
-          <div className="period-selector-wrapper">
-            <div className="period-selector">
-              <button 
-                className={selectedPeriod === 7 ? 'active' : ''} 
-                onClick={() => setSelectedPeriod(7)}
-              >
-                7 dias
-              </button>
-              <button 
-                className={selectedPeriod === 30 ? 'active' : ''} 
-                onClick={() => setSelectedPeriod(30)}
-              >
-                30 dias
-              </button>
-              <button 
-                className={selectedPeriod === 90 ? 'active' : ''} 
-                onClick={() => setSelectedPeriod(90)}
-              >
-                90 dias
-              </button>
-            </div>
-          </div>
-
-          {/* Analytics Overview */}
-          <div className="analytics-overview">
-            {/* Total Views Card */}
-            <div className="stat-card">
-              <div className="stat-icon stat-icon-views">
-                <FiEye />
-              </div>
-              <div className="stat-info">
-                <p className="stat-label">Total de Visualizações</p>
-                <h2 className="stat-number">{loading ? '...' : animatedViews.toLocaleString()}</h2>
-                <p className="stat-change positive">Últimos {selectedPeriod} dias</p>
-              </div>
-            </div>
-
-            {/* Unique Pages Card */}
-            <div className="stat-card">
-              <div className="stat-icon stat-icon-pages">
-                <FiTrendingUp />
-              </div>
-              <div className="stat-info">
-                <p className="stat-label">Páginas Únicas</p>
-                <h2 className="stat-number">{loading ? '...' : animatedPages}</h2>
-                <p className="stat-change positive">Diferentes rotas</p>
-              </div>
-            </div>
-
-            {/* Peak Hour Card */}
-            <div className="stat-card">
-              <div className="stat-icon stat-icon-time">
-                <FiClock />
-              </div>
-              <div className="stat-info">
-                <p className="stat-label">Horário de Pico</p>
-                <h2 className="stat-number">{loading ? '...' : getPeakHour()}</h2>
-                <p className="stat-change">Maior tráfego</p>
-              </div>
-            </div>
-
-            {/* Total Activity Card */}
-            <div className="stat-card">
-              <div className="stat-icon stat-icon-activity">
-                <FiActivity />
-              </div>
-              <div className="stat-info">
-                <p className="stat-label">Atividade Total</p>
-                <h2 className="stat-number">{loading ? '...' : (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet).toLocaleString()}</h2>
-                <p className="stat-change positive">Todos dispositivos</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Charts Section */}
-          <div className="charts-container">
-            {/* Visualizações ao longo do tempo */}
-            <div className="chart-card">
-              <div className="chart-header">
-                <h3>
-                  <FiTrendingUp />
-                  Visualizações ao Longo do Tempo
-                </h3>
-              </div>
-              <div className="chart-body">
-                <Line data={lineChartData} options={chartOptions} />
-              </div>
-            </div>
-
-            {/* Dispositivos Chart */}
-            <div className="chart-card">
-              <div className="chart-header">
-                <h3>
-                  <FiPieChart />
-                  Dispositivos
-                </h3>
-              </div>
-              <div className="chart-body chart-doughnut">
-                <Doughnut data={doughnutChartData} options={doughnutOptions} />
-              </div>
-            </div>
-
-            {/* Top Páginas Chart */}
-            <div className="chart-card chart-card-wide">
-              <div className="chart-header">
-                <h3>
-                  <FiBarChart2 />
-                  Top 5 Páginas Mais Visitadas
-                </h3>
-              </div>
-              <div className="chart-body">
-                <Bar data={barChartData} options={chartOptions} />
-              </div>
-            </div>
-          </div>
-
-          {/* Device Distribution */}
-          <div className="section-header">
-            <h2 className="section-title">
-              <FiSmartphone />
-              Distribuição por Dispositivo
-            </h2>
-          </div>
-          
-          <div className="device-stats">
-            <div className="device-card">
-              <div className="device-icon mobile">
-                <FiSmartphone />
-              </div>
-              <h3>Mobile</h3>
-              <div className="device-count">{animatedMobile}</div>
-              <div className="device-bar">
-                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.mobile)}%`, background: 'linear-gradient(135deg, #64748b, #475569)' }}></div>
-              </div>
-              <p className="device-percentage">{getDevicePercentage(deviceStats.mobile)}%</p>
-            </div>
-
-            <div className="device-card">
-              <div className="device-icon desktop">
-                <FiMonitor />
-              </div>
-              <h3>Desktop</h3>
-              <div className="device-count">{animatedDesktop}</div>
-              <div className="device-bar">
-                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.desktop)}%`, background: 'linear-gradient(135deg, #78716c, #57534e)' }}></div>
-              </div>
-              <p className="device-percentage">{getDevicePercentage(deviceStats.desktop)}%</p>
-            </div>
-
-            <div className="device-card">
-              <div className="device-icon tablet">
-                <FiTablet />
-              </div>
-              <h3>Tablet</h3>
-              <div className="device-count">{animatedTablet}</div>
-              <div className="device-bar">
-                <div className="device-bar-fill" style={{ width: `${getDevicePercentage(deviceStats.tablet)}%`, background: 'linear-gradient(135deg, #71717a, #52525b)' }}></div>
-              </div>
-              <p className="device-percentage">{getDevicePercentage(deviceStats.tablet)}%</p>
-            </div>
-          </div>
-
           {/* SEO Metrics Section */}
           <div className="section-header">
             <h2 className="section-title">
