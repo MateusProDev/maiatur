@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "checkJs": false,
+    "allowJs": true,
+    "noImplicitAny": false,
+    "strict": false
+  },
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
+  "typeAcquisition": {
+    "enable": false
+  }
+}

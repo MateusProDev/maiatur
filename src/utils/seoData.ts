@@ -3,7 +3,31 @@
  * Centraliza títulos, descrições e canonical URLs
  */
 
-export const seoData = {
+interface SeoPageData {
+  title: string;
+  description: string;
+  canonical: string;
+  noindex?: boolean;
+}
+
+interface SeoData {
+  home: SeoPageData;
+  sobre: SeoPageData;
+  pacotes: SeoPageData;
+  destinos: SeoPageData;
+  contato: SeoPageData;
+  blog: SeoPageData;
+  avaliacoes: SeoPageData;
+  reservas: SeoPageData;
+  politica: SeoPageData;
+  categorias: {
+    passeio: SeoPageData;
+    transfer: SeoPageData;
+    'beach-park': SeoPageData;
+  };
+}
+
+export const seoData: SeoData = {
   home: {
     title: 'Home - Transfer Fortaleza Tur',
     description: 'Transfers e passeios em Fortaleza: transfers do aeroporto, passeios turísticos e pacotes para Beach Park, Jericoacoara e Cumbuco. Reserve online com segurança e conforto.',
@@ -13,29 +37,29 @@ export const seoData = {
   sobre: {
     title: 'Sobre a Transfer Fortaleza Tur - Nossa História e Missão',
     description: 'Conheça a Transfer Fortaleza Tur: missão, valores e nossa história levando clientes aos melhores destinos do Ceará com segurança e conforto.',
-    canonical: '/sobre'
-    // REMOVIDO: noindex: true - página importante deve ser indexada
+    canonical: '/sobre',
+    noindex: true
   },
   
   pacotes: {
     title: 'Nossos Pacotes - Transfer Fortaleza Tur',
     description: 'Descubra nossos pacotes de passeios e transfers em Fortaleza e região. Beach Park, Canoa Quebrada, Jericoacoara e muito mais!',
-    canonical: '/pacotes'
-    // REMOVIDO: noindex: true - página de vendas deve ser indexada
+    canonical: '/pacotes',
+    noindex: true
   },
   
   destinos: {
     title: 'Nossos Destinos - Transfer Fortaleza Tur',
     description: 'Explore os melhores destinos turísticos do Ceará: praias paradisíacas, dunas, lagoas e muito mais. Planeje sua viagem com a gente!',
-    canonical: '/destinos'
-    // REMOVIDO: noindex: true - página importante para SEO deve ser indexada
+    canonical: '/destinos',
+    noindex: true
   },
   
   contato: {
     title: 'Fale Conosco - Transfer Fortaleza Tur',
     description: 'Fale conosco via WhatsApp, telefone ou e‑mail. Tire dúvidas, solicite orçamentos e reserve transfers e passeios com atendimento rápido e personalizado.',
-    canonical: '/contato'
-    // REMOVIDO: noindex: true - página de contato deve ser indexada
+    canonical: '/contato',
+    noindex: true
   },
   
   blog: {
@@ -47,8 +71,8 @@ export const seoData = {
   avaliacoes: {
     title: 'Depoimentos e Avaliações Reais dos Nossos Clientes - Transfer Fortaleza Tur',
     description: 'Confira avaliações e depoimentos de clientes sobre nossos transfers e passeios. Experiências reais que ajudam você a escolher com confiança.',
-    canonical: '/avaliacoes'
-    // REMOVIDO: noindex: true - avaliações são importantes para confiança
+    canonical: '/avaliacoes',
+    noindex: true
   },
   
   reservas: {
@@ -68,20 +92,20 @@ export const seoData = {
     passeio: {
       title: 'Passeios Turísticos Privativos em Fortaleza e Região - Transfer Fortaleza Tur',
       description: 'Pacotes de passeios em Fortaleza e região: roteiros privativos para Beach Park, Jericoacocha, Cumbuco, Paracuru e muito mais. Inclui transfer e guia local.',
-      canonical: '/categoria/passeio'
-      // REMOVIDO: noindex: true - categorias são importantes para SEO
+      canonical: '/categoria/passeio',
+      noindex: true
     },
     transfer: {
       title: 'Transfers e Traslados Privativos em Fortaleza - Transfer Fortaleza Tur',
       description: 'Transfers e traslados em Fortaleza: serviços privados do aeroporto, translados para praias e passeios com conforto e pontualidade.',
-      canonical: '/categoria/transfer'
-      // REMOVIDO: noindex: true - categorias são importantes para SEO
+      canonical: '/categoria/transfer',
+      noindex: true
     },
     'beach-park': {
       title: 'Passeios Completos para Beach Park com Transfer Incluso - Transfer Fortaleza Tur',
       description: 'Passeios para o Beach Park (Porto das Dunas) com transfer incluso. Translado confortável e ingressos em pacotes práticos para famílias.',
-      canonical: '/categoria/beach-park'
-      // REMOVIDO: noindex: true - categorias são importantes para SEO
+      canonical: '/categoria/beach-park',
+      noindex: true
     }
   }
 };

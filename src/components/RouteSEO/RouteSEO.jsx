@@ -73,6 +73,7 @@ const RouteSEO = () => {
       title={seoInfo.title}
       description={seoInfo.description}
       canonical={canonical}
+      noindex={seoInfo.noindex}
     />
   );
 };
