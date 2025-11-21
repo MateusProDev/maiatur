@@ -41,18 +41,28 @@ const BlogAdmin = () => {
 
   // Configuração do editor TinyMCE
   const tinymceConfig = {
-    height: 400,
+    height: 500,
     menubar: false,
     plugins: [
-      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-      'insertdatetime', 'media', 'table', 'help', 'wordcount'
+      // Core editing features
+      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+      // Premium features (trial até 05/12/2025)
+      'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
     ],
-    toolbar: 'undo redo | blocks | ' +
-      'bold italic backcolor | alignleft aligncenter ' +
-      'alignright alignjustify | bullist numlist outdent indent | ' +
-      'removeformat | help',
-    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | exportpdf exportword importword | removeformat',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Equipe Maiatur',
+    mergetags_list: [
+      { value: 'First.Name', title: 'Primeiro Nome' },
+      { value: 'Email', title: 'Email' },
+      { value: 'Phone', title: 'Telefone' },
+      { value: 'Company', title: 'Empresa' },
+    ],
+    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('Configure AI Assistant nas configurações')),
+    content_style: 'body { font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; }',
+    branding: false,
+    promotion: false,
+    contextmenu: 'link image table configurepermanentpen'
   };
 
   useEffect(() => {
@@ -417,7 +427,7 @@ const BlogAdmin = () => {
                 <label>Conteúdo do Post *</label>
                 <div className="editor-wrapper">
                   <Editor
-                    apiKey="no-api-key" // TinyMCE permite uso gratuito sem API key para desenvolvimento
+                    apiKey={process.env.REACT_APP_TINYMCE_API_KEY || 'no-api-key'}
                     value={editorContent}
                     onEditorChange={(content) => setEditorContent(content)}
                     init={tinymceConfig}

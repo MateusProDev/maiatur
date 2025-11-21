@@ -62,6 +62,13 @@ MERCADO_PAGO_CLIENT_SECRET
 jvhLiA3XbYne5T4OrPSlVu7xEioXsbMB
 ```
 
+## 🖊️ TINYMCE EDITOR (1 variável) - ✅ CONFIGURAR AGORA
+
+```
+REACT_APP_TINYMCE_API_KEY
+13z6w5yrbpj28wwgt6u1y9rhpyawybbsb732sa7ce93ndx49
+```
+
 ---
 
 ## 📧 SMTP / E-MAIL (4 variáveis) - ❌ FALTAM CONFIGURAR
