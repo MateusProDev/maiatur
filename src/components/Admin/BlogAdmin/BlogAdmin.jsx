@@ -425,7 +425,7 @@ const BlogAdmin = () => {
                 <label>Conteúdo do Post *</label>
                 <div className="editor-wrapper">
                   <Editor
-                    apiKey="no-api-key"
+                    apiKey={process.env.REACT_APP_TINYMCE_API_KEY || 'no-api-key'}
                     value={editorContent}
                     onEditorChange={(content) => setEditorContent(content)}
                     init={tinymceConfig}
