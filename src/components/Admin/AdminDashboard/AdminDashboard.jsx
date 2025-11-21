@@ -1,5 +1,5 @@
 // Modern Admin Dashboard with Analytics and Quick Edit Links
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -68,6 +68,9 @@ const AdminDashboard = () => {
   const [seoData, setSeoData] = useState(null);
   const [seoLoading, setSeoLoading] = useState(false);
   const [gapiLoaded, setGapiLoaded] = useState(false);
+  
+  // Google OAuth client
+  const googleClientRef = useRef(null);
 
   // Load logo
   useEffect(() => {
@@ -87,34 +90,50 @@ const AdminDashboard = () => {
   // Load Google Identity Services
   useEffect(() => {
     const loadGIS = () => {
-      if (window.google && window.google.accounts) {
-        window.google.accounts.oauth2.initCodeClient({
+      console.log('🔄 Carregando Google Identity Services...');
+      if (window.google && window.google.accounts && !googleClientRef.current) {
+        console.log('✅ Google Identity Services disponível, inicializando...');
+        googleClientRef.current = window.google.accounts.oauth2.initCodeClient({
           client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           scope: 'https://www.googleapis.com/auth/webmasters.readonly',
           ux_mode: 'popup',
           callback: (response) => {
+            console.log('📨 Callback OAuth recebido:', response);
             if (response.code) {
               exchangeCodeForToken(response.code);
             }
           },
         });
         setGapiLoaded(true);
+        console.log('✅ Google Identity Services inicializado!');
 
         // Check if user is already authenticated
         const token = localStorage.getItem('google_access_token');
         if (token) {
+          console.log('🔄 Token encontrado, carregando dados SEO...');
           fetchSEOData(token);
+        } else {
+          console.log('❌ Nenhum token encontrado');
         }
+      } else {
+        console.log('❌ Google Identity Services não disponível ou já inicializado');
       }
     };
 
     if (window.google && window.google.accounts) {
       loadGIS();
     } else {
+      console.log('🔄 Carregando script GIS...');
       // Load Google Identity Services script
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
-      script.onload = loadGIS;
+      script.onload = () => {
+        console.log('✅ Script GIS carregado');
+        loadGIS();
+      };
+      script.onerror = () => {
+        console.error('❌ Erro ao carregar script GIS');
+      };
       document.head.appendChild(script);
     }
   }, []);
@@ -178,27 +197,23 @@ const AdminDashboard = () => {
 
   // Handle Google sign in for SEO
   const handleGoogleSignIn = async () => {
-    if (!gapiLoaded) return;
+    console.log('🔄 Iniciando login Google...');
+    if (!googleClientRef.current) {
+      console.error('❌ Cliente Google não inicializado');
+      return;
+    }
 
     try {
-      const client = window.google.accounts.oauth2.initCodeClient({
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        scope: 'https://www.googleapis.com/auth/webmasters.readonly',
-        ux_mode: 'popup',
-        callback: (response) => {
-          if (response.code) {
-            exchangeCodeForToken(response.code);
-          }
-        },
-      });
-      client.requestCode();
+      console.log('📤 Solicitando código de autorização...');
+      googleClientRef.current.requestCode();
     } catch (error) {
-      console.error('Error signing in:', error);
+      console.error('❌ Erro ao fazer login:', error);
     }
   };
 
   // Exchange authorization code for access token
   const exchangeCodeForToken = async (code) => {
+    console.log('🔄 Trocando código por token...');
     try {
       const response = await fetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
@@ -215,17 +230,23 @@ const AdminDashboard = () => {
       });
 
       const data = await response.json();
+      console.log('📨 Resposta do token:', data);
+      
       if (data.access_token) {
         localStorage.setItem('google_access_token', data.access_token);
+        console.log('✅ Token salvo, carregando dados SEO...');
         await fetchSEOData(data.access_token);
+      } else {
+        console.error('❌ Erro na resposta do token:', data);
       }
     } catch (error) {
-      console.error('Error exchanging code for token:', error);
+      console.error('❌ Erro ao trocar código por token:', error);
     }
   };
 
   // Fetch SEO data from Search Console
   const fetchSEOData = async (accessToken) => {
+    console.log('🔄 Buscando dados SEO...');
     setSeoLoading(true);
     try {
       const response = await fetch(
@@ -246,9 +267,16 @@ const AdminDashboard = () => {
       );
 
       const data = await response.json();
-      setSeoData(data);
+      console.log('📊 Dados SEO recebidos:', data);
+      
+      if (response.ok) {
+        setSeoData(data);
+        console.log('✅ Dados SEO carregados com sucesso!');
+      } else {
+        console.error('❌ Erro na API do Search Console:', data);
+      }
     } catch (error) {
-      console.error('Error fetching SEO data:', error);
+      console.error('❌ Erro ao buscar dados SEO:', error);
     } finally {
       setSeoLoading(false);
     }
