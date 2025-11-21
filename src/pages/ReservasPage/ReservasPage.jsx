@@ -58,7 +58,7 @@ const ReservasPage = () => {
         title={seoData.reservas.title}
         description={seoData.reservas.description}
         canonical={seoData.reservas.canonical}
-        noindex={true}
+        noindex={seoData.reservas.noindex}
       />
       <div className="reservas-header">
         <img 

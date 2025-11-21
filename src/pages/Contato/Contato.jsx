@@ -138,6 +138,7 @@ const Contato = () => {
         title={seoData.contato.title}
         description={seoData.contato.description}
         canonical={seoData.contato.canonical}
+        noindex={seoData.contato.noindex}
       />
       <Header />
       <main className="contato-main">

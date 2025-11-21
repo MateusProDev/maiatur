@@ -49,7 +49,7 @@ const AboutPage = () => {
         title={seoData.sobre.title}
         description={seoData.sobre.description}
         canonical={seoData.sobre.canonical}
-        noindex={true}
+        noindex={seoData.sobre.noindex}
       />
       
       <Header />

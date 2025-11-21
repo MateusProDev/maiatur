@@ -226,6 +226,7 @@ const CategoriaPage = () => {
         title={seoInfo.title}
         description={seoInfo.description}
         canonical={seoInfo.canonical}
+        noindex={seoInfo.noindex}
       />
       <Header />
       

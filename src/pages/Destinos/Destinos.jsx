@@ -14,6 +14,7 @@ const Destinos = () => {
         title={seoData.destinos.title}
         description={seoData.destinos.description}
         canonical={seoData.destinos.canonical}
+        noindex={seoData.destinos.noindex}
       />
       <Header />
       <main className="destinos-main">

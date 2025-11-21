@@ -158,6 +158,7 @@ const PacotesListPage = () => {
         title={seoData.pacotes.title}
         description={seoData.pacotes.description}
         canonical={seoData.pacotes.canonical}
+        noindex={seoData.pacotes.noindex}
       />
       <Header />
       

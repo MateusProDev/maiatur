@@ -129,7 +129,7 @@ const AvaliacoesPage = () => {
         title={seoData.avaliacoes.title}
         description={seoData.avaliacoes.description}
         canonical={seoData.avaliacoes.canonical}
-        noindex={true}
+        noindex={seoData.avaliacoes.noindex}
       />
       {/* Header com botão voltar */}
       <div className="avaliacoespage-header-unique">

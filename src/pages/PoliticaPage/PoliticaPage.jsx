@@ -10,6 +10,7 @@ const PoliticaPage = () => {
         title={seoData.politica?.title || 'Política de Reservas e Cancelamento'}
         description={seoData.politica?.description || 'Confira as regras de reservas, cancelamento e pagamento dos serviços da Transfer Fortaleza Tur.'}
         canonical={seoData.politica?.canonical || '/politica'}
+        noindex={seoData.politica?.noindex}
       />
       <div className="politica-page">
         <div className="politica-container">
