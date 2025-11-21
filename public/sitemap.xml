@@ -9,37 +9,19 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- Pacotes -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/pacotes</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
+  <!-- Pacotes (removido do sitemap — page marked noindex) -->
   
-  <!-- Destinos -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/destinos</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <!-- Destinos (removido do sitemap — page marked noindex) -->
   
   <!-- Sobre -->
   <!-- Sobre (removido do sitemap — page marked noindex) -->
   
-  <!-- Contato -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/contato</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- Contato (removido do sitemap — page marked noindex) -->
   
   <!-- Blog -->
   <url>
     <loc>https://transferfortalezatur.com.br/blog</loc>
-    <lastmod>2025-11-20</lastmod>
+    <lastmod>2025-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -47,33 +29,7 @@
   <!-- Avaliações -->
   <!-- Avaliações (removido do sitemap — page marked noindex) -->
   
-  <!-- Política de Privacidade -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/politica</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <!-- Política de Privacidade (removido do sitemap — page marked noindex) -->
   
-  <!-- Categorias -->
-  <url>
-    <loc>https://transferfortalezatur.com.br/categoria/passeio</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://transferfortalezatur.com.br/categoria/transfer</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://transferfortalezatur.com.br/categoria/beach-park</loc>
-    <lastmod>2025-11-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- Categorias (removidas do sitemap — pages marked noindex) -->
 </urlset>
