@@ -249,6 +249,14 @@ const AdminDashboard = () => {
     console.log('🔄 Buscando dados SEO...');
     setSeoLoading(true);
     try {
+      // Calculate actual dates
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(endDate.getDate() - 30);
+      
+      const startDateStr = startDate.toISOString().split('T')[0]; // YYYY-MM-DD
+      const endDateStr = endDate.toISOString().split('T')[0]; // YYYY-MM-DD
+      
       const response = await fetch(
         `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent('sc-domain:transferfortalezatur.com.br')}/searchAnalytics/query`,
         {
@@ -258,8 +266,8 @@ const AdminDashboard = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            startDate: '30daysAgo',
-            endDate: 'today',
+            startDate: startDateStr,
+            endDate: endDateStr,
             dimensions: ['query'],
             rowLimit: 10
           }),
@@ -446,34 +454,6 @@ const AdminDashboard = () => {
               </button>
             ))}
           </div>
-
-          {/* Top Pages */}
-          {publicPages.length > 0 && (
-            <>
-              <div className="section-header">
-                <h2 className="section-title">
-                  <FiTrendingUp />
-                  Páginas Mais Visitadas
-                </h2>
-              </div>
-              
-              <div className="top-pages-list">
-                {publicPages.map((page, index) => (
-                  <div key={index} className="top-page-item" style={{ animationDelay: `${index * 0.05}s` }}>
-                    <div className="page-rank">#{index + 1}</div>
-                    <div className="page-info">
-                      <h4>{getPageName(page.page)}</h4>
-                      <p>{page.page}</p>
-                    </div>
-                    <div className="page-views">
-                      <span className="views-number">{page.count}</span>
-                      <span className="views-label">visualizações</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
 
         </div>
       </main>
