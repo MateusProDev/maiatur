@@ -27,8 +27,8 @@ O erro no console mostrava:
 ### **Variáveis Necessárias na Vercel:**
 
 ```bash
-REACT_APP_GOOGLE_CLIENT_ID=576395263228-09nk9lbud070cohkd2ib5nnu4mfd241a.apps.googleusercontent.com
-REACT_APP_GOOGLE_CLIENT_SECRET=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
+REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id_here
+REACT_APP_GOOGLE_CLIENT_SECRET=your_google_client_secret_here
 ```
 
 ### **Compatibilidade:**
@@ -45,7 +45,7 @@ REACT_APP_GOOGLE_CLIENT_SECRET=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
 🔄 Carregando script GIS...
 ✅ Script GIS carregado
 🔄 Inicializando Google Identity Services...
-Client ID: 576395263228-09nk9lbud070cohkd2ib5nnu4mfd241a.apps.googleusercontent.com
+Client ID: [SEU_CLIENT_ID_AQUI]
 ✅ Google Identity Services inicializado com sucesso!
 ```
 
