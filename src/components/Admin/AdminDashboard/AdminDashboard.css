@@ -130,6 +130,32 @@ html, body {
   font-size: 1.25rem;
 }
 
+.google-disconnect-btn {
+  background: linear-gradient(135deg, #4285f4, #3367d6);
+  color: white;
+  border: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+  margin-right: 1rem;
+}
+
+.google-disconnect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+}
+
+.google-disconnect-btn svg {
+  font-size: 1.25rem;
+}
+
 /* Main Content */
 .dashboard-main-content {
   padding: 2.5rem;
@@ -405,6 +431,20 @@ html, body {
 .section-title svg {
   color: #64748b;
   font-size: 1.75rem;
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-header .section-title {
+  margin: 0;
 }
 
 /* Quick Edit Grid */
@@ -1358,8 +1398,50 @@ html, body {
   font-size: 1rem;
 }
 
+.refresh-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.refresh-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  cursor: wait;
+}
+
+.refresh-btn svg {
+  font-size: 1rem;
+}
+
 /* Responsive SEO Section */
 @media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .refresh-btn, .google-signin-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .seo-metrics-grid {
     grid-template-columns: 1fr;
     gap: 1rem;

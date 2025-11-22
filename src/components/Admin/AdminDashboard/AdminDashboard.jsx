@@ -112,13 +112,7 @@ const AdminDashboard = () => {
         console.log('✅ Google Identity Services inicializado!');
 
         // Check if user is already authenticated
-        const token = localStorage.getItem('google_access_token');
-        if (token) {
-          console.log('🔄 Token encontrado, carregando dados SEO...');
-          fetchSEOData(token);
-        } else {
-          console.log('❌ Nenhum token encontrado');
-        }
+        checkExistingToken();
       } else {
         console.log('❌ Google Identity Services não disponível ou já inicializado');
       }
@@ -199,39 +193,41 @@ const AdminDashboard = () => {
     return 'N/A';
   };
 
-  // Handle modal
-  const openModal = (metricType) => {
-    const metricInfo = {
-      clicks: {
-        title: 'Cliques Totais',
-        description: 'Número total de vezes que usuários clicaram nos seus resultados de pesquisa do Google. Cada clique representa um usuário interessado que visitou seu site.',
-        importance: 'Quanto mais cliques, melhor o engajamento dos usuários com seu conteúdo.',
-        tips: 'Otimize títulos e meta descriptions para aumentar a taxa de cliques.'
-      },
-      impressions: {
-        title: 'Impressões Totais',
-        description: 'Número total de vezes que suas páginas apareceram nos resultados de pesquisa do Google. Cada impressão representa uma oportunidade de clique.',
-        importance: 'Quanto mais impressões, maior a visibilidade do seu site nos resultados de busca.',
-        tips: 'Trabalhe SEO on-page e off-page para melhorar o posicionamento e aumentar impressões.'
-      },
-      ctr: {
-        title: 'CTR Médio (Click-Through Rate)',
-        description: 'Porcentagem de usuários que clicaram em seus resultados após vê-los. Calculado como: Cliques ÷ Impressões × 100.',
-        importance: 'Mede a atratividade dos seus títulos e descrições nos resultados de pesquisa.',
-        tips: 'Crie títulos atraentes e meta descriptions que incentivem cliques.'
-      },
-      position: {
-        title: 'Posição Média',
-        description: 'Posição média dos seus resultados nos resultados de pesquisa do Google. Números menores indicam melhores posições (ex: 1.0 = primeira posição).',
-        importance: 'Quanto menor o número, melhor o posicionamento orgânico do seu site.',
-        tips: 'Otimize conteúdo, melhore velocidade do site e construa backlinks de qualidade.'
-      }
-    };
-    setModalInfo(metricInfo[metricType]);
-  };
+  // Check existing token and validate it
+  const checkExistingToken = async () => {
+    const token = localStorage.getItem('google_access_token');
 
-  const closeModal = () => {
-    setModalInfo(null);
+    if (!token) {
+      console.log('❌ Nenhum token encontrado');
+      return;
+    }
+
+    console.log('🔄 Token encontrado, validando com Google...');
+
+    // Test token by making a small request (no expiration check)
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/webmasters/v3/sites/sc-domain:transferfortalezatur.com.br`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log('✅ Token válido, carregando dados SEO...');
+        await fetchSEOData(token);
+      } else {
+        console.log('❌ Token inválido, removendo...');
+        localStorage.removeItem('google_access_token');
+        localStorage.removeItem('google_token_timestamp');
+      }
+    } catch (error) {
+      console.error('❌ Erro ao validar token:', error);
+      localStorage.removeItem('google_access_token');
+      localStorage.removeItem('google_token_timestamp');
+    }
   };
 
   // Handle Google sign in for SEO
@@ -273,7 +269,8 @@ const AdminDashboard = () => {
       
       if (data.access_token) {
         localStorage.setItem('google_access_token', data.access_token);
-        console.log('✅ Token salvo, carregando dados SEO...');
+        localStorage.setItem('google_token_timestamp', Date.now().toString());
+        console.log('✅ Token salvo com timestamp, carregando dados SEO...');
         await fetchSEOData(data.access_token);
       } else {
         console.error('❌ Erro na resposta do token:', data);
@@ -283,12 +280,19 @@ const AdminDashboard = () => {
     }
   };
 
+  // Refresh SEO data
+  const refreshSEOData = async () => {
+    const token = localStorage.getItem('google_access_token');
+    if (token) {
+      await fetchSEOData(token);
+    }
+  };
+
   // Fetch SEO data from Search Console
   const fetchSEOData = async (accessToken) => {
     console.log('🔄 Buscando dados SEO...');
     setSeoLoading(true);
     try {
-      // Calculate actual dates
       const endDate = new Date();
       const startDate = new Date();
       startDate.setDate(endDate.getDate() - 30);
@@ -333,6 +337,49 @@ const AdminDashboard = () => {
 
   // Filter public pages only - Removed Firebase filtering
 
+  // Handle modal
+  const openModal = (metricType) => {
+    const metricInfo = {
+      clicks: {
+        title: 'Cliques Totais',
+        description: 'Número total de vezes que usuários clicaram nos seus resultados de pesquisa do Google. Cada clique representa um usuário interessado que visitou seu site.',
+        importance: 'Quanto mais cliques, melhor o engajamento dos usuários com seu conteúdo.',
+        tips: 'Otimize títulos e meta descriptions para aumentar a taxa de cliques.'
+      },
+      impressions: {
+        title: 'Impressões Totais',
+        description: 'Número total de vezes que suas páginas apareceram nos resultados de pesquisa do Google. Cada impressão representa uma oportunidade de clique.',
+        importance: 'Quanto mais impressões, maior a visibilidade do seu site nos resultados de busca.',
+        tips: 'Trabalhe SEO on-page e off-page para melhorar o posicionamento e aumentar impressões.'
+      },
+      ctr: {
+        title: 'CTR Médio (Click-Through Rate)',
+        description: 'Porcentagem de usuários que clicaram em seus resultados após vê-los. Calculado como: Cliques ÷ Impressões × 100.',
+        importance: 'Mede a atratividade dos seus títulos e descrições nos resultados de pesquisa.',
+        tips: 'Crie títulos atraentes e meta descriptions que incentivem cliques.'
+      },
+      position: {
+        title: 'Posição Média',
+        description: 'Posição média dos seus resultados nos resultados de pesquisa do Google. Números menores indicam melhores posições (ex: 1.0 = primeira posição).',
+        importance: 'Quanto menor o número, melhor o posicionamento orgânico do seu site.',
+        tips: 'Otimize conteúdo, melhore velocidade do site e construa backlinks de qualidade.'
+      }
+    };
+    setModalInfo(metricInfo[metricType]);
+  };
+
+  const closeModal = () => {
+    setModalInfo(null);
+  };
+
+  // Disconnect Google account
+  const disconnectGoogle = () => {
+    localStorage.removeItem('google_access_token');
+    localStorage.removeItem('google_token_timestamp');
+    setSeoData(null);
+    console.log('✅ Desconectado do Google Search Console');
+  };
+
   return (
     <div className="modern-admin-dashboard-simple">
       {/* Header Bar */}
@@ -356,6 +403,12 @@ const AdminDashboard = () => {
         </div>
 
         <div className="header-actions">
+          {seoData && (
+            <button className="google-disconnect-btn" onClick={disconnectGoogle} title="Desconectar Google Search Console">
+              <FaGoogle />
+              <span>Desconectar</span>
+            </button>
+          )}
           <button className="logout-btn" onClick={handleLogout}>
             <FiLogOut />
             <span>Sair</span>
@@ -373,6 +426,17 @@ const AdminDashboard = () => {
               <FaGoogle />
               Métricas SEO - Google Search Console
             </h2>
+            {seoData && (
+              <button 
+                className="refresh-btn"
+                onClick={refreshSEOData}
+                disabled={seoLoading}
+                title="Atualizar métricas"
+              >
+                <FiRefreshCw />
+                {seoLoading ? 'Atualizando...' : 'Atualizar'}
+              </button>
+            )}
             {!seoData && (
               <button 
                 className="google-signin-btn"
