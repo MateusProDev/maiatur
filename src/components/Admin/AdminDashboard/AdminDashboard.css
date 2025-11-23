@@ -1116,28 +1116,33 @@ html, body {
 }
 
 /* Refresh Button */
+
 .refresh-btn {
-  background: rgba(71, 85, 105, 0.1);
+  /* Allow text + icon on desktop while keeping compact fallback */
+  background: rgba(71, 85, 105, 0.06);
   border: none;
-  border-radius: 12px;
-  width: 45px;
-  height: 45px;
-  display: flex;
+  border-radius: 10px;
+  min-width: 48px;
+  height: 44px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-right: 1rem;
+  transition: all 0.22s ease;
+  margin-right: 0.5rem;
+  font-weight: 600;
 }
 
 .refresh-btn svg {
-  font-size: 1.3rem;
+  font-size: 1.05rem;
   color: #475569;
-  transition: transform 0.6s ease;
+  transition: transform 0.45s ease;
 }
 
 .refresh-btn:hover {
-  background: rgba(71, 85, 105, 0.2);
+  background: rgba(71, 85, 105, 0.12);
   transform: translateY(-2px);
 }
 
