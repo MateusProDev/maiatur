@@ -1331,6 +1331,121 @@ html, body {
   margin: 0;
 }
 
+/* ========== TOP QUERIES / PRINCIPAIS CONSULTAS ========== */
+.top-queries-section {
+  margin-top: 1.5rem;
+}
+
+.top-queries-section .section-header {
+  margin-bottom: 0.75rem;
+}
+
+.top-queries-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 0.75rem;
+}
+
+.query-item {
+  background: rgba(255,255,255,0.98);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  border-left: 4px solid rgba(99,102,241,0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.query-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(16,24,40,0.10);
+}
+
+.query-rank {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #0f172a;
+  background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(99,102,241,0.06));
+  flex-shrink: 0;
+}
+
+.query-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.query-text {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.query-metrics {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  align-items: center;
+}
+
+.query-metrics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.query-clicks {
+  background: rgba(16,185,129,0.07);
+  color: #059669;
+}
+
+.query-impressions {
+  background: rgba(66,133,244,0.07);
+  color: #2563eb;
+}
+
+.query-ctr {
+  background: rgba(245,158,11,0.07);
+  color: #b45309;
+}
+
+.query-position {
+  background: rgba(148,163,184,0.06);
+  color: #475569;
+}
+
+.query-item svg {
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+  .top-queries-list {
+    grid-template-columns: 1fr;
+  }
+
+  .query-text {
+    font-size: 0.95rem;
+  }
+}
+
+
 .seo-connect-prompt {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
