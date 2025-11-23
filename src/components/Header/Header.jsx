@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Header.css';
+import { createPortal } from 'react-dom';
+import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { db } from '../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -24,6 +25,16 @@ import {
   FaYoutube,
   FaLinkedinIn
 } from 'react-icons/fa';
+
+// Helper to map space-separated class names to CSS Module keys (falls back to raw class)
+const cx = (cls) => {
+  if (!cls) return '';
+  return String(cls)
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((c) => styles[c] || c)
+    .join(' ');
+};
 
 const Header = () => {
   const [logoUrl, setLogoUrl] = useState('');
@@ -146,9 +157,9 @@ const Header = () => {
   console.log('Header - showInstallButton:', showInstallButton);
 
   return (
-    <header className={`header-modern ${scrolled ? 'header-scrolled' : ''}`}>
-      <div className="header-container-modern">
-        <Link to="/" className="header-logo-modern">
+    <header className={cx(`header-modern ${scrolled ? 'header-scrolled' : ''}`)}>
+      <div className={cx('header-container-modern')}>
+        <Link to="/" className={cx('header-logo-modern')}>
           {logoUrl ? (
             <img 
               src={autoOptimize(logoUrl, 'logo')} 
@@ -158,82 +169,63 @@ const Header = () => {
               loading="eager"
             />
           ) : (
-            <div className="logo-placeholder-modern">
-              <span className="logo-text">TRANSFER FORTALEZA TUR</span>
-              <span className="logo-tagline">Viagens & Turismo</span>
+            <div className={cx('logo-placeholder-modern')}>
+              <span className={cx('logo-text')}>TRANSFER FORTALEZA TUR</span>
+              <span className={cx('logo-tagline')}>Viagens & Turismo</span>
             </div>
           )}
         </Link>
 
-        <div className="header-actions-modern">
-          {showInstallButton && (
-            <button 
-              className="header-install-btn-modern" 
-              onClick={handleInstallClick}
-              aria-label="Instalar aplicativo"
-              title="Instalar Transfer Fortaleza Tur como App"
-            >
-              <FiSmartphone />
-              <span className="install-text">App</span>
-            </button>
-          )}
-
-          <button 
-            className="header-menu-toggle-modern" 
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-          >
-            {menuOpen ? <FiX /> : <FiMenu />}
-          </button>
+        <div className={cx('header-actions-modern')}>
+          {/* Buttons rendered into body via portal to avoid stacking context issues */}
         </div>
-
-        <nav className={`header-nav-modern ${menuOpen ? 'nav-open' : ''}`}>
-          <ul className="header-nav-list-modern">
+        <nav className={cx(`header-nav-modern ${menuOpen ? 'nav-open' : ''}`)}>
+          <ul className={cx('header-nav-list-modern')}>
             <li>
-              <Link to="/" onClick={() => setMenuOpen(false)} className="nav-link-modern">
-                <FiHome className="nav-icon-modern" /> 
+              <Link to="/" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+                <FiHome className={cx('nav-icon-modern')} /> 
                 <span>Início</span>
               </Link>
             </li>
             <li>
-              <Link to="/pacotes" onClick={() => setMenuOpen(false)} className="nav-link-modern">
-                <FiPackage className="nav-icon-modern" /> 
+              <Link to="/pacotes" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+                <FiPackage className={cx('nav-icon-modern')} /> 
                 <span>Pacotes</span>
               </Link>
             </li>
             <li>
-              <Link to="/destinos" onClick={() => setMenuOpen(false)} className="nav-link-modern">
-                <FiMapPin className="nav-icon-modern" /> 
+              <Link to="/destinos" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+                <FiMapPin className={cx('nav-icon-modern')} /> 
                 <span>Destinos</span>
               </Link>
             </li>
             <li>
-              <Link to="/about" onClick={() => setMenuOpen(false)} className="nav-link-modern">
-                <FiInfo className="nav-icon-modern" /> 
+              <Link to="/about" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+                <FiInfo className={cx('nav-icon-modern')} /> 
                 <span>Sobre Nós</span>
               </Link>
             </li>
             <li>
-              <Link to="/contato" onClick={() => setMenuOpen(false)} className="nav-link-modern">
-                <FiPhone className="nav-icon-modern" /> 
+              <Link to="/contato" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+                <FiPhone className={cx('nav-icon-modern')} /> 
                 <span>Contato</span>
               </Link>
             </li>
           </ul>
 
           {/* Seção de Redes Sociais */}
-          <div className="header-nav-social">
-            <h4 className="nav-social-title">
-              <FiMessageCircle className="nav-social-icon-title" />
+          <div className={cx('header-nav-social')}>
+            <h4 className={cx('nav-social-title')}>
+              <FiMessageCircle className={cx('nav-social-icon-title')} />
               Conecte-se Conosco
             </h4>
-            <div className="nav-social-grid">
+            <div className={cx('nav-social-grid')}>
               {socialMedia.whatsapp?.link && (
                 <a 
                   href={socialMedia.whatsapp.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="nav-social-btn nav-social-whatsapp"
+                  className={cx('nav-social-btn nav-social-whatsapp')}
                   onClick={() => setMenuOpen(false)}
                   title="WhatsApp"
                 >
@@ -245,7 +237,7 @@ const Header = () => {
                   href={socialMedia.instagram.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="nav-social-btn nav-social-instagram"
+                  className={cx('nav-social-btn nav-social-instagram')}
                   onClick={() => setMenuOpen(false)}
                   title="Instagram"
                 >
@@ -257,7 +249,7 @@ const Header = () => {
                   href={socialMedia.facebook.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="nav-social-btn nav-social-facebook"
+                  className={cx('nav-social-btn nav-social-facebook')}
                   onClick={() => setMenuOpen(false)}
                   title="Facebook"
                 >
@@ -269,7 +261,7 @@ const Header = () => {
                   href={socialMedia.youtube.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="nav-social-btn nav-social-youtube"
+                  className={cx('nav-social-btn nav-social-youtube')}
                   onClick={() => setMenuOpen(false)}
                   title="YouTube"
                 >
@@ -281,7 +273,7 @@ const Header = () => {
                   href={socialMedia.twitter.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="nav-social-btn nav-social-twitter"
+                  className={cx('nav-social-btn nav-social-twitter')}
                   onClick={() => setMenuOpen(false)}
                   title="Twitter"
                 >
@@ -293,7 +285,7 @@ const Header = () => {
                   href={socialMedia.linkedin.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="nav-social-btn nav-social-linkedin"
+                  className={cx('nav-social-btn nav-social-linkedin')}
                   onClick={() => setMenuOpen(false)}
                   title="LinkedIn"
                 >
@@ -304,42 +296,68 @@ const Header = () => {
           </div>
 
           {/* Informações de Contato */}
-          <div className="header-nav-contact">
-            <a href={`tel:${whatsappNumber}`} className="nav-contact-item">
-              <FiPhone className="nav-contact-icon" />
+          <div className={cx('header-nav-contact')}>
+            <a href={`tel:${whatsappNumber}`} className={cx('nav-contact-item')}>
+              <FiPhone className={cx('nav-contact-icon')} />
               <span>Ligue para Nós</span>
             </a>
-            <a href="mailto:contato@transferfortalezatur.com.br" className="nav-contact-item">
-              <FiMail className="nav-contact-icon" />
+            <a href="mailto:contato@transferfortalezatur.com.br" className={cx('nav-contact-item')}>
+              <FiMail className={cx('nav-contact-icon')} />
               <span>Envie um E-mail</span>
             </a>
           </div>
         </nav>
       </div>
 
-      {/* Modal de Instalação do App */}
-      {showInstallModal && (
-        <div className="install-modal" onClick={() => setShowInstallModal(false)}>
-          <div className="modal-backdrop"></div>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <FiSmartphone className="modal-icon" />
-              <h3 className="modal-title">Instalar App Transfer Fortaleza Tur</h3>
+      {/* Render install + hamburger buttons into document.body to ensure they overlay the nav */}
+      {typeof document !== 'undefined' && createPortal(
+        <div>
+          {showInstallButton && (
+            <button 
+              className={cx('header-install-btn-modern')}
+              onClick={handleInstallClick}
+              aria-label="Instalar aplicativo"
+              title="Instalar Transfer Fortaleza Tur como App"
+            >
+              <FiSmartphone />
+              <span className={cx('install-text')}>App</span>
+            </button>
+          )}
+
+          <button 
+            className={cx('header-menu-toggle-modern')}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          >
+              {menuOpen ? <FiX /> : <FiMenu />}
+          </button>
+        </div>,
+        document.body
+      )}
+
+      {/* Modal de Instalação do App (portal para document.body) */}
+      {typeof document !== 'undefined' && showInstallModal && createPortal(
+        <div className={cx('install-modal')} onClick={() => setShowInstallModal(false)}>
+          <div className={cx('modal-backdrop')}></div>
+          <div className={cx('modal-card')} onClick={(e) => e.stopPropagation()}>
+            <div className={cx('modal-header')}>
+              <FiSmartphone className={cx('modal-icon')} />
+              <h3 className={cx('modal-title')}>Instalar App Transfer Fortaleza Tur</h3>
             </div>
-            <div className="modal-body">
-              <p className="modal-text">
+            <div className={cx('modal-body')}>
+              <p className={cx('modal-text')}>
                 📱 Instale o app Transfer Fortaleza Tur para acesso rápido e experiência melhorada!
               </p>
             </div>
-            <div className="modal-footer">
+            <div className={cx('modal-footer')}>
               <button 
-                className="modal-btn modal-btn-cancel"
+                className={cx('modal-btn modal-btn-cancel')}
                 onClick={() => setShowInstallModal(false)}
               >
                 Agora não
               </button>
               <button 
-                className="modal-btn modal-btn-install"
+                className={cx('modal-btn modal-btn-install')}
                 onClick={handleInstallNow}
                 disabled={!deferredPrompt}
                 style={{
@@ -353,7 +371,8 @@ const Header = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );

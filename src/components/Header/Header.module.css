@@ -1,0 +1,654 @@
+/* ========== HEADER MODERNO MAIATUR ========== */
+
+.header-modern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #128C7E;
+  backdrop-filter: blur(10px);
+    /* Logo maior e com flex-grow para ocupar espaço disponível */
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.header-scrolled {
+  background: #075E54;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.header-container-modern {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+}
+
+/* ========== LOGO ========== */
+.header-logo-modern {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  z-index: 1001;
+}
+
+.header-logo-modern img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.header-logo-modern:hover img {
+  transform: scale(1.05);
+}
+
+.logo-placeholder-modern {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 900;
+      height: 72px; /* Logo ajustado para telas pequenas */
+  letter-spacing: -0.02em;
+}
+
+.logo-tagline {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* ========== MENU TOGGLE E AÇÕES ========== */
+.header-actions-modern {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1002;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.header-install-btn-modern {
+  display: none !important;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  height: 38px;
+  z-index: 1001;
+  position: relative;
+}
+
+.header-install-btn-modern:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+
+.header-install-btn-modern svg {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Mostrar botão apenas em mobile */
+@media (max-width: 768px) {
+  .header-install-btn-modern {
+    display: flex !important;
+  }
+}
+
+.install-text {
+  display: inline;
+  font-size: 0.85rem;
+}
+
+.header-menu-toggle-modern {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  z-index: 1001;
+  position: relative;
+}
+
+.header-menu-toggle-modern:hover {
+  color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+
+/* ========== NAVEGAÇÃO ========== */
+.header-nav-modern {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  z-index: 1005; /* ensure nav appears above logo and header actions */
+}
+
+.header-nav-list-modern {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link-modern {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 72px; /* Logo ajustado para telas pequenas */
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.nav-link-modern:hover::before {
+  width: 100%;
+}
+
+.nav-link-modern:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.nav-link-modern.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.nav-icon-modern {
+  font-size: 1.2rem;
+}
+
+/* ========== BOTÃO WHATSAPP ========== */
+.whatsapp-btn-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  color: #075E54;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
+}
+
+.whatsapp-btn-nav:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: #f0f0f0;
+  color: #075E54;
+}
+
+.whatsapp-btn-nav .nav-icon-modern {
+  font-size: 1.3rem;
+}
+
+/* ========== RESPONSIVO - TABLET ========== */
+@media (max-width: 1024px) {
+  .header-container-modern {
+    padding: 0 1.5rem;
+  }
+
+  .header-nav-list-modern {
+    gap: 1.5rem;
+  }
+
+  .nav-link-modern {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .whatsapp-btn-nav {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* ========== RESPONSIVO - MOBILE ========== */
+@media (max-width: 768px) {
+  .header-container-modern {
+    padding: 0.75rem 1rem;
+    height: 90px;
+    gap: 1rem;
+  }
+
+  .header-actions-modern {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .install-text {
+    display: none;
+  }
+
+  .header-install-btn-modern {
+    display: flex !important;
+    padding: 0.5rem;
+    width: 38px;
+    min-width: 38px;
+    max-width: 38px;
+    height: 38px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+     /* fix install button so it sits left of the hamburger on mobile and stays above the nav
+       move it a bit lower to align vertically with the logo */
+     position: fixed;
+     top: 26px;
+     right: 64px; /* leaves space for hamburger at right:14px */
+     z-index: 99999;
+     pointer-events: auto;
+  }
+
+  .header-install-btn-modern svg {
+    font-size: 1.1rem;
+  }
+
+  /* Logo maior e com flex-grow para ocupar espaço disponível */
+  .header-logo-modern {
+    flex: 1;
+    max-width: calc(100% - 100px);
+  }
+
+  .header-logo-modern img {
+    height: 90px; /* Logo MUITO maior no mobile - aumentado de 55px para 70px */
+    max-width: 100%;
+  }
+
+  .logo-placeholder-modern {
+    font-size: 1.8rem; /* Texto maior - aumentado de 1.6rem */
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+  }
+
+  .logo-text {
+    display: block;
+    font-size: 1.8rem; /* Aumentado de 1.6rem */
+  }
+
+  .logo-tagline {
+    display: block;
+    font-size: 0.65rem;
+    opacity: 0.9;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Botão hambúrguer fixo na direita com tamanho definido */
+  .header-menu-toggle-modern {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    min-width: 38px;
+    max-width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+     /* Fixar no topo-direito e usar z-index alto para ficar sobre posts/menu
+       move it down to align with logo center */
+     position: fixed;
+     top: 26px;
+     right: 14px;
+     z-index: 99999;
+     pointer-events: auto;
+  }
+
+  .header-menu-toggle-modern svg {
+    font-size: 20px;
+  }
+
+  .header-nav-modern {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6rem 2rem 2rem;
+    gap: 0;
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.25);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    z-index: 1005; /* bring mobile nav above header/logo */
+  }
+
+  .header-nav-modern.nav-open {
+    right: 0;
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Export a standalone nav-open class so CSS Modules can apply it when used
+     as a separate token (styles['nav-open']) from JS. This ensures the
+     dynamic class name added via the cx helper actually maps to CSS. */
+  .nav-open {
+    right: 0 !important;
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .header-nav-list-modern {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0;
+    padding: 0;
+  }
+
+  .nav-link-modern {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-link-modern::before {
+    display: none;
+  }
+
+  .whatsapp-btn-nav {
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========== RESPONSIVO - MOBILE PEQUENO ========== */
+@media (max-width: 480px) {
+  .header-container-modern {
+    padding: 0 0.75rem;
+  }
+}
+
+/* ========== REDES SOCIAIS NO MENU ========== */
+.header-nav-social {
+  width: 100%;
+  padding: 1.5rem 0;
+  margin-top: 1.5rem;
+  border-top: 2px solid rgba(33, 166, 87, 0.1);
+}
+
+.nav-social-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff; /* force white text for social title */
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-social-icon-title {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.nav-social-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.nav-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  aspect-ratio: 1;
+}
+
+.nav-social-btn svg {
+  font-size: 1.5rem;
+  color: #ffffff; /* ensure icons are white */
+}
+
+.nav-social-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-social-whatsapp {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+}
+
+.nav-social-instagram {
+  background: linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%);
+  color: white;
+}
+
+.nav-social-facebook {
+  background: linear-gradient(135deg, #1877F2 0%, #0C63D4 100%);
+  color: white;
+}
+
+.nav-social-youtube {
+  background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+  color: white;
+}
+
+.nav-social-twitter {
+  background: linear-gradient(135deg, #1DA1F2 0%, #0C85D0 100%);
+  color: white;
+}
+
+.nav-social-linkedin {
+  background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+  color: white;
+}
+
+/* ========== INFORMAÇÕES DE CONTATO NO MENU ========== */
+.header-nav-contact {
+  width: 100%;
+  padding: 1.5rem 0;
+  margin-top: 1rem;
+  border-top: 2px solid rgba(33, 166, 87, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nav-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, var(--color-primary-alpha) 0%, rgba(33, 166, 87, 0.05) 100%);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #ffffff; /* force white text for contact items */
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.nav-contact-item:hover {
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, rgba(33, 166, 87, 0.15) 0%, rgba(33, 166, 87, 0.08) 100%);
+  transform: translateX(5px);
+}
+
+.nav-contact-icon {
+  font-size: 1.3rem;
+  color: #ffffff; /* icon color white to match text */
+  flex-shrink: 0;
+}
+
+/* ========== DESKTOP - ESCONDER REDES SOCIAIS E CONTATO ========== */
+@media (min-width: 769px) {
+  .header-nav-social,
+  .header-nav-contact {
+    display: none;
+  }
+}
+
+/* ========== INSTALL / PWA MODAL ========== */
+.install-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100001; /* above header buttons */
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.modal-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(480px, 94%);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 12px 40px rgba(6, 24, 44, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 100002;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
+  color: #fff;
+  font-size: 1.25rem;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #073b34;
+}
+
+.modal-body {
+  padding-top: 0.25rem;
+}
+
+.modal-text {
+  margin: 0;
+  color: #10433a;
+  line-height: 1.35;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+}
+
+.modal-btn {
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-btn-cancel {
+  background: transparent;
+  color: #075E54;
+}
+
+.modal-btn-install {
+  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 8px 20px rgba(238,124,53,0.18);
+}
+
+/* small screens adjustments */
+@media (max-width: 420px) {
+  .modal-card { padding: 0.9rem; }
+  .modal-title { font-size: 1rem; }
+  .modal-icon { width: 44px; height: 44px; }
+}
