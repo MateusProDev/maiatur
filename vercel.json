@@ -169,14 +169,7 @@
   ,
     {
       "source": "/",
-      "has": [
-        {
-          "type": "header",
-          "key": "user-agent",
-          "value": ".*Instagram.*"
-        }
-      ],
-      "destination": "/instagram-home"
+      "destination": "/api/instagram-edge"
     }
   ]
 }
