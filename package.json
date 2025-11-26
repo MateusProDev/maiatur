@@ -61,12 +61,13 @@
   "scripts": {
     "start": "craco start",
     "type-check": "tsc --noEmit -p tsconfig.json",
-    "prebuild": "npm run type-check",
+    "prebuild": "npm run generate-link-bio && npm run type-check",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "deploy": "npm run build && vercel --prod",
-    "preview": "npm run build && vercel"
+    "preview": "npm run build && vercel",
+    "generate-link-bio": "node scripts/generateLinkBio.js"
   },
   "eslintConfig": {
     "extends": [
