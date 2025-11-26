@@ -36,7 +36,9 @@ async function main(){
     if (argPath){
       const abs = path.resolve(argPath);
       if (!fs.existsSync(abs)) throw new Error('Service account file not found: ' + abs);
-      admin.initializeApp({ credential: admin.credential.cert(require(abs)) });
+      const parsed = require(abs);
+      const projectId = parsed.project_id || process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || process.env.GOOGLE_PROJECT_ID;
+      admin.initializeApp({ credential: admin.credential.cert(parsed), projectId });
     } else {
       // Support service account JSON provided via environment (useful on Vercel)
       const envNames = ['FIREBASE_SERVICE_ACCOUNT', 'FIREBASE_SERVICE_ACCOUNT_JSON', 'GOOGLE_SERVICE_ACCOUNT', 'GOOGLE_APPLICATION_CREDENTIALS_JSON'];
@@ -45,7 +47,9 @@ async function main(){
       if (saJson){
         try{
           const parsed = typeof saJson === 'string' ? JSON.parse(saJson) : saJson;
-          admin.initializeApp({ credential: admin.credential.cert(parsed) });
+          const projectId = parsed.project_id || process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || process.env.GOOGLE_PROJECT_ID;
+          admin.initializeApp({ credential: admin.credential.cert(parsed), projectId });
+          if (!projectId) console.warn('Aviso: projectId não detectado automaticamente. Recomendo definir GOOGLE_CLOUD_PROJECT nas variáveis de ambiente.');
         }catch(e){
           throw new Error('Falha ao parsear JSON do service account a partir da variável de ambiente.');
         }
