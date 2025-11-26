@@ -25,6 +25,12 @@ function usageAndExit(msg){
   process.exit(msg ? 1 : 0);
 }
 
+function gracefulExitWarn(msg){
+  if (msg) console.warn(msg);
+  console.log('Gerador link-bio: usando fallback estático (public/link-bio/index.html) e não falhando o build.');
+  process.exit(0);
+}
+
 async function main(){
   const argPath = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : null;
   const outArg = process.argv.find(a=>a.startsWith('--out='));
@@ -37,19 +43,27 @@ async function main(){
       const abs = path.resolve(argPath);
       if (!fs.existsSync(abs)) throw new Error('Service account file not found: ' + abs);
       const parsed = require(abs);
-      const projectId = parsed.project_id || process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || process.env.GOOGLE_PROJECT_ID;
+      const projectId = parsed.project_id || process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || process.env.GOOGLE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID;
       admin.initializeApp({ credential: admin.credential.cert(parsed), projectId });
     } else {
       // Support service account JSON provided via environment (useful on Vercel)
-      const envNames = ['FIREBASE_SERVICE_ACCOUNT', 'FIREBASE_SERVICE_ACCOUNT_JSON', 'GOOGLE_SERVICE_ACCOUNT', 'GOOGLE_APPLICATION_CREDENTIALS_JSON'];
+      const envNames = ['FIREBASE_SERVICE_ACCOUNT', 'FIREBASE_SERVICE_ACCOUNT_JSON', 'GOOGLE_SERVICE_ACCOUNT', 'GOOGLE_APPLICATION_CREDENTIALS_JSON', 'FIREBASE_SERVICE_ACCOUNT_B64'];
       let saJson = null;
       for (const n of envNames){ if (process.env[n]){ saJson = process.env[n]; break; } }
       if (saJson){
         try{
-          const parsed = typeof saJson === 'string' ? JSON.parse(saJson) : saJson;
-          const projectId = parsed.project_id || process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || process.env.GOOGLE_PROJECT_ID;
+          // saJson may be a raw JSON string or base64-encoded JSON
+          let candidate = saJson;
+          if (typeof candidate === 'string' && !candidate.trim().startsWith('{')){
+            try{
+              const decoded = Buffer.from(candidate, 'base64').toString('utf8');
+              if (decoded && decoded.trim().startsWith('{')) candidate = decoded;
+            }catch(_){ /* ignore, keep original */ }
+          }
+          const parsed = typeof candidate === 'string' ? JSON.parse(candidate) : candidate;
+          const projectId = parsed.project_id || process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || process.env.GOOGLE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID;
           admin.initializeApp({ credential: admin.credential.cert(parsed), projectId });
-          if (!projectId) console.warn('Aviso: projectId não detectado automaticamente. Recomendo definir GOOGLE_CLOUD_PROJECT nas variáveis de ambiente.');
+          if (!projectId) console.warn('Aviso: projectId não detectado automaticamente. Recomendo definir GOOGLE_CLOUD_PROJECT ou FIREBASE_PROJECT_ID nas variáveis de ambiente.');
         }catch(e){
           throw new Error('Falha ao parsear JSON do service account a partir da variável de ambiente.');
         }
@@ -60,7 +74,10 @@ async function main(){
     }
   }catch(err){
     console.error('Erro ao inicializar Firebase Admin:', err.message || err);
-    usageAndExit('Forneça um service account (arquivo) ou defina a variável de ambiente FIREBASE_SERVICE_ACCOUNT com o JSON.');
+    // If caller explicitly requests failure, propagate; otherwise keep fallback
+    const failOnError = (process.env.LINKBIO_FAIL_ON_ERROR === '1' || process.env.LINKBIO_FAIL_ON_ERROR === 'true');
+    if (failOnError) usageAndExit('Forneça um service account (arquivo) ou defina a variável de ambiente FIREBASE_SERVICE_ACCOUNT com o JSON.');
+    else gracefulExitWarn('Inicialização do Firebase falhou — mantendo fallback estático.');
   }
 
   const db = admin.firestore();
@@ -68,14 +85,23 @@ async function main(){
   // Try common doc locations
   const candidates = [ 'content/linkInBio', 'linkInBio' ];
   let doc = null; let data = null; let usedPath = null;
-  for (const p of candidates){
-    const d = await db.doc(p).get();
-    if (d.exists){ doc = d; data = d.data(); usedPath = p; break; }
+  try{
+    for (const p of candidates){
+      const d = await db.doc(p).get();
+      if (d.exists){ doc = d; data = d.data(); usedPath = p; break; }
+    }
+  }catch(err){
+    const failOnError = (process.env.LINKBIO_FAIL_ON_ERROR === '1' || process.env.LINKBIO_FAIL_ON_ERROR === 'true');
+    console.error('Erro ao acessar Firestore:', err && err.message ? err.message : err);
+    if (failOnError) usageAndExit('Falha ao acessar Firestore e LINKBIO_FAIL_ON_ERROR=true, abortando build.');
+    else gracefulExitWarn('Não foi possível acessar Firestore — mantendo fallback estático.');
   }
 
   if (!data){
+    const failOnError = (process.env.LINKBIO_FAIL_ON_ERROR === '1' || process.env.LINKBIO_FAIL_ON_ERROR === 'true');
     console.error('Documento linkInBio não encontrado em nenhuma das paths:', candidates.join(', '));
-    usageAndExit('Crie o documento Firestore `content/linkInBio` com um campo `links`.');
+    if (failOnError) usageAndExit('Crie o documento Firestore `content/linkInBio` com um campo `links`.');
+    else gracefulExitWarn('Documento linkInBio ausente — mantendo fallback estático.');
   }
 
   // Normalize links
