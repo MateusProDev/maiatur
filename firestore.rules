@@ -3,178 +3,107 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ===================================
-    // REGRAS PARA INICIALIZAÇÃO AUTOMÁTICA
-    // Permite criar documentos se não existem (para inicializador)
-    // ===================================
+    // Tenant members management
+    match /tenants/{tenantId}/members/{memberId} {
+      allow read: if request.auth != null && exists(/databases/$(database)/documents/tenants/$(tenantId)/members/$(request.auth.uid));
 
-    // Content: leitura pública, escrita autenticada
-    match /content/{documentId} {
-      allow read: if true;
-      allow create, update: if true; // permite inicialização e atualização
-      allow delete: if request.auth != null;
-    }
+      // owner of the tenant (existing owner) may create new members; users may create their own member doc
+      allow create: if request.auth != null && (
+        request.auth.uid == memberId ||
+        (exists(/databases/$(database)/documents/tenants/$(tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(tenantId)/members/$(request.auth.uid)).data.role == 'owner')
+      );
 
-    // Pacotes: leitura pública, escrita autenticada
-    match /pacotes/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+      // update/delete allowed by the member themselves or tenant owner
+      allow update, delete: if request.auth != null && (
+        request.auth.uid == memberId ||
+        (exists(/databases/$(database)/documents/tenants/$(tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(tenantId)/members/$(request.auth.uid)).data.role == 'owner')
+      );
     }
 
-    // Avaliações: leitura e criação pública, atualização/exclusão autenticada
-    match /avaliacoes/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite criação pública e inicialização
-      allow update, delete: if request.auth != null;
+    // Tenant settings (sensitive). Only owner/admin of tenant may read or write.
+    match /tenants/{tenantId}/settings/{docId} {
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/tenants/$(tenantId)/members/$(request.auth.uid)) && (
+        get(/databases/$(database)/documents/tenants/$(tenantId)/members/$(request.auth.uid)).data.role in ['owner', 'admin']
+      );
     }
 
-    // Reservas: criação pública (formulário de reservas), leitura/edição apenas admin
-    match /reservas/{documentId} {
-      allow read: if request.auth != null; // Apenas admin pode ler reservas
-      allow create: if true; // Público pode criar reservas via formulário
-      allow update, delete: if request.auth != null; // Apenas admin gerencia
-    }
-    
-    // Listas (passeios, veículos, hotéis, aeroportos): leitura pública, escrita autenticada
-    match /listas/{documentId} {
-      allow read: if true; // Público lê para preencher dropdowns dos formulários
-      allow write: if true; // Permite inicialização automática (depois restringir a admin apenas)
+    // Users: only the user themselves may read or write their document.
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
     }
 
-    // Usuários: leitura e escrita apenas para o próprio usuário
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      allow create: if true; // permite criação inicial de usuários demo
+    // Subscriptions: only server (Admin SDK) can write.
+    // Clients may read if they are the owner (ownerUid) OR if the subscription
+    // document's email matches the authenticated user's email.
+    match /subscriptions/{subId} {
+      allow create, update, delete: if false;
+      allow read: if request.auth != null && (
+        (resource.data.ownerUid == request.auth.uid) ||
+        (resource.data.email != null && request.auth.token != null && resource.data.email == request.auth.token.email)
+      );
     }
 
-    // Motoristas: leitura autenticada, criação permitida para inicialização
-    match /motoristas/{documentId} {
-      allow read: if request.auth != null;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+    // Invoices: server writes only. Clients read only if ownerUid matches.
+    match /invoices/{invoiceId} {
+      allow create, update, delete: if false;
+      allow read: if request.auth != null && (
+        (resource.data.ownerUid == request.auth.uid) ||
+        (resource.data.email != null && request.auth.token != null && resource.data.email == request.auth.token.email)
+      );
     }
 
-    // Settings: leitura pública, escrita autenticada
-    match /settings/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+    // Checkout sessions: server writes only. Clients read only if ownerUid matches.
+    match /checkout_sessions/{sessionId} {
+      allow create, update, delete: if false;
+      allow read: if request.auth != null && (
+        (resource.data.ownerUid == request.auth.uid) ||
+        (resource.data.email != null && request.auth.token != null && resource.data.email == request.auth.token.email)
+      );
     }
 
-    // Viagens: leitura pública, escrita autenticada
-    match /viagens/{documentId} {
+    // Public documents (small public area)
+    match /public/{docId} {
       allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+      allow write: if request.auth != null && request.auth.token.admin == true;
     }
 
-    // Produtos: leitura pública, escrita autenticada
-    match /produtos/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+    // Contacts: allow tenant or owner-based access
+    match /contacts/{contactId} {
+      allow create: if request.auth != null && (
+        // owner set in request.resource
+        request.resource.data.ownerUid == request.auth.uid ||
+        // or tenant membership admin/owner
+        (request.resource.data.tenantId != null && exists(/databases/$(database)/documents/tenants/$(request.resource.data.tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(request.resource.data.tenantId)/members/$(request.auth.uid)).data.role in ['owner','admin'])
+      );
+      allow read: if request.auth != null && (
+        (resource.data.ownerUid == request.auth.uid) ||
+        (resource.data.tenantId != null && exists(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)).data.role in ['owner','admin'])
+      );
+      allow update, delete: if request.auth != null && (
+        (resource.data.ownerUid == request.auth.uid) ||
+        (resource.data.tenantId != null && exists(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)).data.role in ['owner','admin'])
+      );
     }
 
-    // Banners Lojinha: leitura pública, escrita autenticada
-    match /bannersLojinha/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
+    // Campaigns: allow tenant or owner-based access
+    match /campaigns/{campaignId} {
+      allow create: if request.auth != null && (
+        request.resource.data.ownerUid == request.auth.uid ||
+        (request.resource.data.tenantId != null && exists(/databases/$(database)/documents/tenants/$(request.resource.data.tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(request.resource.data.tenantId)/members/$(request.auth.uid)).data.role in ['owner','admin'])
+      );
+      allow read: if request.auth != null && (
+        (resource.data.ownerUid == request.auth.uid) ||
+        (resource.data.tenantId != null && exists(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)).data.role in ['owner','admin'])
+      );
+      allow update, delete: if request.auth != null && (
+        (resource.data.ownerUid == request.auth.uid) ||
+        (resource.data.tenantId != null && exists(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)) && get(/databases/$(database)/documents/tenants/$(resource.data.tenantId)/members/$(request.auth.uid)).data.role in ['owner','admin'])
+      );
     }
 
-    // Banners Turismo: leitura pública, escrita autenticada
-    match /bannersTurismo/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // Banners: leitura pública, escrita autenticada (compatibilidade)
-    match /banners/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // Blog Posts: leitura pública, escrita autenticada
-    // Permite update de views sem autenticação (apenas campo views)
-    match /blogPosts/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow delete: if request.auth != null;
-      // Permite atualizar views sem autenticação, mas outros campos precisam de auth
-      allow update: if request.auth != null 
-                    || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views', 'updatedAt']));
-    }
-
-    // Images: leitura pública, escrita autenticada
-    match /images/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // WhatsApp Config: leitura pública, escrita autenticada
-    match /whatsappConfig/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização
-      allow update, delete: if request.auth != null;
-    }
-
-    // Analytics: leitura pública, escrita autenticada
-    match /analytics/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite registro de views
-      allow update, delete: if request.auth != null;
-    }
-
-    // Regra catch-all: permite leitura pública e criação para qualquer coleção nova
-    // (facilita inicialização, mas pode ser restringida depois)
-    match /{collection}/{documentId} {
-      allow read: if true;
-      allow create: if true; // permite inicialização de qualquer coleção
-      allow update, delete: if request.auth != null;
-    }
-  }
-}
-
-service firebase.storage {
-  match /b/{bucket}/o {
-    // Logos: leitura pública, escrita autenticada
-    match /logos/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    
-    // Imagens de pacotes: leitura pública, escrita autenticada
-    match /pacotes/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    
-    // Imagens de produtos: leitura pública, escrita autenticada
-    match /produtos/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    
-    // Banners: leitura pública, escrita autenticada
-    match /banners/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    
-    // Avatares de usuários: leitura pública, escrita autenticada
-    match /avatars/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    
-    // Regra geral: leitura pública, escrita autenticada
-    match /{allPaths=**} {
-      allow read: if true; // permite leitura de qualquer arquivo público
-      allow write: if request.auth != null; // escrita só para autenticados
+    // Fallback: deny everything else
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

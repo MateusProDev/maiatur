@@ -408,7 +408,7 @@ const AdminDashboard = () => {
             <img src={logoUrl} alt="Logo" className="dashboard-logo" />
           ) : (
             <div className="dashboard-logo-placeholder">
-              <span>Admin Panel</span>
+              <span>Admin Painel</span>
             </div>
           )}
           

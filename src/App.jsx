@@ -26,6 +26,7 @@ const AdminHelp = lazy(() => import("./components/Admin/AdminHelp/AdminHelp"));
 const AdminPacotes = lazy(() => import("./components/AdminPacotes/AdminPacotes"));
 const AdminReservas = lazy(() => import("./components/Admin/AdminReservas/AdminReservas"));
 const AdminBanners = lazy(() => import("./components/Admin/AdminBanners/AdminBanners"));
+const AdminCampaigns = lazy(() => import("./components/Admin/AdminCampaigns/AdminCampaigns"));
 const AdminEditPacote = lazy(() => import("./components/Admin/AdminEditPacote/AdminEditPacote"));
 const AdminLinkInBio = lazy(() => import("./components/Admin/AdminLinkInBio/AdminLinkInBio"));
 const AdminGoogleReviews = lazy(() => import("./components/Admin/AdminGoogleReviews/AdminGoogleReviews"));
@@ -160,6 +161,7 @@ const App = () => {
               <Route path="/admin/ajuda" element={<ProtectedRoute><AdminHelp /></ProtectedRoute>} />
               <Route path="/admin/inicializador" element={<ProtectedRoute><InicializadorPage /></ProtectedRoute>} />
               <Route path="/admin/pacotes" element={<ProtectedRoute><AdminPacotes /></ProtectedRoute>} />
+              <Route path="/admin/campaigns" element={<ProtectedRoute><AdminCampaigns /></ProtectedRoute>} />
               <Route path="/admin/pacotes/editar/:pacoteId" element={<ProtectedRoute><AdminEditPacote /></ProtectedRoute>} />
               <Route path="/admin/reservas" element={<ProtectedRoute><AdminReservas /></ProtectedRoute>} />
               <Route path="/admin/banners" element={<ProtectedRoute><AdminBanners /></ProtectedRoute>} />
