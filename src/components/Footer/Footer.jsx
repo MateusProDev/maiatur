@@ -248,17 +248,35 @@ const FooterUltraModern = () => {
               Feito com <FiHeart className={cx('heart-icon-ultra')} /> para quem ama viajar
             </p>
           </div>
-          {/* Crédito Turvia */}
-          <div className={cx('footer-credit-turvia')}>
-            <a 
-              href="https://turvia.com.br" 
-              target="_blank" 
+          {/* TripAdvisor - agora abaixo dos links */}
+          <div className={cx('footer-tripadvisor-ultra')}>
+            <a
+              href="https://www.tripadvisor.com.br/UserReviewEdit-g23379655-d34005292-Transfer_Fortaleza_Tur-Porto_Das_Dunas_Aquiraz_State_of_Ceara.html"
+              target="_blank"
               rel="noopener noreferrer"
-              className={cx('turvia-link')}
-              title="Desenvolvido por Turvia"
+              title="Veja nossas avaliações no TripAdvisor"
             >
-              Criado por Turvia
+              <img
+                src={require('../../assets/Tripadviser.jpg')}
+                alt="TripAdvisor"
+                className={cx('tripadvisor-img')}
+              />
             </a>
+          </div>
+          {/* Crédito Turvia e CNPJ */}
+          <div className={cx('footer-credit-turvia', 'footer-credit-turvia--responsive')}>
+            <div className={cx('footer-credit-content')}>
+              <a 
+                href="https://turvia.com.br" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={cx('turvia-link')}
+                title="Desenvolvido por Turvia"
+              >
+                Criado por Turvia
+              </a>
+              <span className={cx('footer-cnpj')}>CNPJ: 64.042.188/0001-13</span>
+            </div>
           </div>
         </div>
       </div>

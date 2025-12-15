@@ -1,3 +1,22 @@
+.footer-tripadvisor-ultra {
+  text-align: center;
+  margin: 18px 0 0 0;
+}
+/* TripAdvisor image sizing */
+.tripadvisor-img {
+  height: 32px;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, height 0.2s ease;
+}
+
+/* On larger screens, reduce TripAdvisor logo to keep layout balanced */
+@media (min-width: 1100px) {
+  .tripadvisor-img {
+    height: 28px; /* slightly smaller on very wide displays */
+  }
+}
 /* LINKS DO RODAPÉ */
 .footer-links-ultra {
   margin: 12px 0 8px 0;
@@ -521,6 +540,24 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+/* On larger screens we want the credit centered (user requested centralizado em telas maiores) */
+.footer-credit-turvia--responsive {
+  justify-content: center;
+}
+
+.footer-credit-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.footer-cnpj {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
 }
 
 .turvia-link {
