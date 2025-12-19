@@ -4,7 +4,7 @@
 }
 /* TripAdvisor image sizing */
 .tripadvisor-img {
-  height: 32px;
+  height: 50px;
   width: auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -14,9 +14,52 @@
 /* On larger screens, reduce TripAdvisor logo to keep layout balanced */
 @media (min-width: 1100px) {
   .tripadvisor-img {
-    height: 28px; /* slightly smaller on very wide displays */
+    height: 40px; /* slightly smaller on very wide displays */
   }
 }
+
+.cadastur-img {
+  height: 80px;
+  width: auto;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.tripadvisor-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.tripadvisor-link {
+  display: inline-block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.tripadvisor-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+.tripadvisor-link-text {
+  display: block;
+  font-size: 12px;
+  color: #78C8E5;
+  text-decoration: none;
+  margin-top: 5px;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+
+.tripadvisor-link-text:hover {
+  color: #F8C144;
+  text-decoration: underline;
+}
+
 /* LINKS DO RODAPÉ */
 .footer-links-ultra {
   margin: 12px 0 8px 0;
@@ -579,7 +622,7 @@
 }
 
 .footer-cnpj {
-  font-size: 12px;
+  font-size: 24px;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 500;
 }
