@@ -1,16 +1,4 @@
 import { z } from "zod";
-import { toZonedTime } from "date-fns-tz";
-import { addHours } from "date-fns";
-
-const TIMEZONE = "America/Fortaleza";
-
-// Validador de 24h de antecedência
-const validarAntecedencia24h = (dataReserva) => {
-  const agora = toZonedTime(new Date(), TIMEZONE);
-  const reserva = toZonedTime(new Date(dataReserva), TIMEZONE);
-  const limite = addHours(agora, 24);
-  return reserva >= limite;
-};
 
 // Schemas base reutilizáveis
 const responsavelSchema = z.object({
@@ -55,9 +43,7 @@ export const passeioSchema = z.object({
   // Campos planos do formulário
   passeioDesejado: z.string().min(3, "Selecione o passeio"),
   tipoPasseioVeiculo: z.string().min(1, "Selecione o tipo de veículo"),
-  dataPasseio: z.string().refine(validarAntecedencia24h, {
-    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-  }),
+  dataPasseio: z.string().min(1, "Informe a data do passeio"),
   horaPasseio: z.string().min(1, "Selecione o horário do passeio"),
   localSaida: z.string().min(3, "Informe o local de saída"),
   horaSaida: z.string().min(1, "Informe a hora de saída"),
@@ -80,9 +66,7 @@ export const transferChegadaSchema = z.object({
   }),
   passageiros: z.string().min(10, "Informe a relação completa dos passageiros"),
   // Campos de voo/chegada (usamos campos planos no formulário)
-  dataHoraChegada: z.string().refine(validarAntecedencia24h, {
-    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-  }),
+  dataHoraChegada: z.string().min(1, "Informe a data de chegada"),
   numeroVoo: z.string().min(3, "Número do voo inválido"),
   horarioChegada: z.string().min(1, "Informe o horário de chegada").optional(),
   aeroporto: z.string().min(3, "Informe o aeroporto de chegada").optional(),
@@ -106,15 +90,11 @@ export const transferChegadaSaidaSchema = z.object({
   }),
   passageiros: z.string().min(10, "Informe a relação completa dos passageiros"),
   // Chegada
-  dataHoraChegada: z.string().refine(validarAntecedencia24h, {
-    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-  }),
+  dataHoraChegada: z.string().min(1, "Informe a data de chegada"),
   numeroVooChegada: z.string().min(3, "Número do voo inválido"),
   hotelDestino: localSchema.optional(),
   // Saída
-  dataHoraSaida: z.string().refine(validarAntecedencia24h, {
-    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-  }),
+  dataHoraSaida: z.string().min(1, "Informe a data de saída"),
   numeroVooSaida: z.string().min(3, "Número do voo inválido"),
   localSaida: localSchema.optional(),
   pagamento: pagamentoSchema,
@@ -135,9 +115,7 @@ export const transferSaidaSchema = z.object({
   }),
   passageiros: z.string().min(10, "Informe a relação completa dos passageiros"),
   // Campos planos usados no formulário
-  dataHoraSaida: z.string().refine(validarAntecedencia24h, {
-    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-  }),
+  dataHoraSaida: z.string().min(1, "Informe a data de saída"),
   localSaida: localSchema.optional(),
   pagamento: pagamentoSchema,
   observacoes: z.string().optional(),
@@ -157,9 +135,7 @@ export const transferEntreHoteisSchema = z.object({
   }),
   passageiros: z.string().min(10, "Informe a relação completa dos passageiros"),
   // Campos planos usados no formulário
-  data: z.string().refine(validarAntecedencia24h, {
-    message: "A reserva deve ser feita com no mínimo 24h de antecedência"
-  }),
+  data: z.string().min(1, "Informe a data do transfer"),
   hora: z.string().min(1, "Informe o horário do transfer"),
   hotelPartida: localSchema.optional(),
   hotelDestino: localSchema.optional(),

@@ -19,7 +19,6 @@ const PoliticaPage = () => {
           <section>
             <h2>1. Reservas</h2>
             <ul>
-              <li>Todas as reservas devem ser feitas com no mínimo 24 horas de antecedência.</li>
               <li>A reserva será confirmada após o recebimento do voucher por e-mail.</li>
               <li>É necessário apresentar documento de identificação no dia do serviço.</li>
               <li>Crianças devem ser acompanhadas por adultos responsáveis.</li>
@@ -61,8 +60,8 @@ const PoliticaPage = () => {
             <h2>5. Informações de Contato</h2>
             <p>
               <strong>E-mail:</strong> contato@transferfortalezatur.com.br<br />
-              <strong>WhatsApp:</strong> +55 (85) 0000-0000<br />
-              <strong>CNPJ:</strong> 00.000.000/0001-00
+              <strong>WhatsApp / Celular:</strong> +55 (85) 99674-8958<br />
+              <strong>CNPJ:</strong> 64.042.488/0001-13
             </p>
           </section>
 

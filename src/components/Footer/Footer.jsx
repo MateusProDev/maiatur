@@ -272,7 +272,7 @@ const FooterUltraModern = () => {
           {/* Crédito Turvia e CNPJ */}
           <div className={cx('footer-credit-turvia', 'footer-credit-turvia--responsive')}>
             <div className={cx('footer-credit-content')}>
-              <span className={cx('footer-cnpj')}>CNPJ: 64.042.188/0001-13</span>
+              <span className={cx('footer-cnpj')}>CNPJ: 64.042.488/0001-13</span>
               <a 
                 href="https://turvia.com.br" 
                 target="_blank" 

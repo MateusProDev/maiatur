@@ -98,7 +98,6 @@ const ReservasPage = () => {
       <div className="info-box">
         <h3>📋 Importante</h3>
         <ul>
-          <li>Reservas devem ser feitas com no mínimo 24 horas de antecedência</li>
           <li>Após a confirmação, você receberá um voucher por e-mail</li>
           <li>Você também pode confirmar via WhatsApp</li>
           <li>Leia nossa política de cancelamento antes de reservar</li>
