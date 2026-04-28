@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
-import { FiImage, FiPlus, FiTrash, FiUpload, FiChevronDown, FiChevronUp, FiSettings } from 'react-icons/fi';
+import { FiImage, FiPlus, FiTrash, FiUpload, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
 import './EditImageCarousel.css';
 
