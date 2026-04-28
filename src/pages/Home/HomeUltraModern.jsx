@@ -9,6 +9,7 @@ import BannerCarousel from '../../components/BannerCarousel/BannerCarousel';
 import BlogPreview from '../../components/BlogPreview/BlogPreview';
 import PacotesCarousel from '../../components/PacotesCarousel/PacotesCarousel';
 import GoogleReviews from '../../components/GoogleReviews/GoogleReviews';
+import ImageCarousel from '../../components/ImageCarousel/ImageCarousel';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { seoData } from '../../utils/seoData';
 import { 
@@ -24,7 +25,8 @@ import {
   FiCreditCard,
   FiChevronLeft,
   FiChevronRight,
-  FiPackage
+  FiPackage,
+  FiCheckCircle
 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import './HomeUltraModern.css';
@@ -39,34 +41,43 @@ const HomeUltraModern = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [services, setServices] = useState([]);
+  const [differentials, setDifferentials] = useState([]);
+  const [differentialsSettings, setDifferentialsSettings] = useState({
+    active: true,
+    badge: 'Diferenciais',
+    title: 'Por que escolher a Transfer Fortaleza Tur?',
+    description: 'Mais de uma década transformando viagens em experiências memoráveis. Nossa dedicação é garantir que cada momento da sua jornada seja especial.'
+  });
+  const [carouselSettings, setCarouselSettings] = useState({
+    active: true,
+    speed: 50,
+    images: []
+  });
 
   const categorias = {
     'passeio': 'Passeios e Experiências',
     'transfers': 'Transfers e Traslados'
   };
 
-  const whyChooseUs = [
-    {
-      icon: <FiShield />,
-      title: 'Segurança Total',
-      description: 'Veículos vistoriados e motoristas experientes'
-    },
-    {
-      icon: <FiSmile />,
-      title: 'Atendimento Personalizado',
-      description: 'Equipe dedicada para ajudar no planejamento da sua viagem'
-    },
-    {
-      icon: <FiCreditCard />,
-      title: 'Melhor Custo-Benefício',
-      description: 'Preços justos sem taxas ocultas'
-    },
-    {
-      icon: <FiHeart />,
-      title: 'Paixão por Turismo',
-      description: 'Cada viagem é única e especial para nós'
-    }
-  ];
+  // Mapeamento de ícones react-icons/fi
+  const iconMap = {
+    'shield': <FiShield />,
+    'smile': <FiSmile />,
+    'credit-card': <FiCreditCard />,
+    'heart': <FiHeart />,
+    'star': <FiStar />,
+    'award': <FiAward />,
+    'sun': <FiSun />,
+    'camera': <FiCamera />,
+    'map-pin': <FiMapPin />,
+    'check-circle': <FiCheckCircle />,
+    'arrow-right': <FiArrowRight />,
+    'chevron-right': <FiChevronRight />
+  };
+
+  const getIconComponent = (iconName) => {
+    return iconMap[iconName] || <FiStar />;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,6 +116,95 @@ const HomeUltraModern = () => {
             }
           ]);
           console.log('⚠️ Usando serviços estáticos (Firestore não encontrado)');
+        }
+
+        // Buscar Diferenciais do Firestore
+        const differentialsDoc = await getDoc(doc(db, 'content', 'differentialsSection'));
+        if (differentialsDoc.exists()) {
+          const data = differentialsDoc.data();
+          setDifferentialsSettings({
+            active: data.active ?? true,
+            badge: data.badge || 'Diferenciais',
+            title: data.title || 'Por que escolher a Transfer Fortaleza Tur?',
+            description: data.description || 'Mais de uma década transformando viagens em experiências memoráveis.'
+          });
+          setDifferentials(data.differentials || []);
+          console.log('✅ Diferenciais carregados do Firestore:', data.differentials);
+        } else {
+          // Usar dados estáticos como fallback
+          setDifferentials([
+            {
+              icon: 'shield',
+              title: 'Segurança Total',
+              description: 'Veículos vistoriados e motoristas experientes',
+              image: ''
+            },
+            {
+              icon: 'smile',
+              title: 'Atendimento Personalizado',
+              description: 'Equipe dedicada para ajudar no planejamento da sua viagem',
+              image: ''
+            },
+            {
+              icon: 'credit-card',
+              title: 'Melhor Custo-Benefício',
+              description: 'Preços justos sem taxas ocultas',
+              image: ''
+            },
+            {
+              icon: 'heart',
+              title: 'Paixão por Turismo',
+              description: 'Cada viagem é única e especial para nós',
+              image: ''
+            }
+          ]);
+          console.log('⚠️ Usando diferenciais estáticos (Firestore não encontrado)');
+        }
+
+        // Buscar Carrossel de Imagens do Firestore
+        const carouselDoc = await getDoc(doc(db, 'content', 'imageCarouselSection'));
+        if (carouselDoc.exists()) {
+          const data = carouselDoc.data();
+          setCarouselSettings({
+            active: data.active ?? true,
+            speed: data.speed || 50,
+            images: data.images || []
+          });
+          console.log('✅ Carrossel carregado do Firestore:', data.images);
+        } else {
+          // Usar dados padrão como fallback
+          setCarouselSettings({
+            active: true,
+            speed: 50,
+            images: [
+              {
+                id: 1,
+                url: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=400&fit=crop',
+                alt: 'Praia paradisíaca'
+              },
+              {
+                id: 2,
+                url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop',
+                alt: 'Pôr do sol na praia'
+              },
+              {
+                id: 3,
+                url: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=600&h=400&fit=crop',
+                alt: 'Destino turístico'
+              },
+              {
+                id: 4,
+                url: 'https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=600&h=400&fit=crop',
+                alt: 'Viagem inesquecível'
+              },
+              {
+                id: 5,
+                url: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=400&fit=crop',
+                alt: 'Aventura'
+              }
+            ]
+          });
+          console.log('⚠️ Usando carrossel padrão (Firestore não encontrado)');
         }
 
         // Buscar Pacotes (todos, não apenas 6)
@@ -363,62 +463,75 @@ const HomeUltraModern = () => {
         </div>
       </section>
 
+      {/* ========== CARROSSEL DE IMAGENS ========== */}
+      {carouselSettings.active && carouselSettings.images.length > 0 && (
+        <ImageCarousel 
+          images={carouselSettings.images}
+          autoPlay={true}
+          speed={carouselSettings.speed}
+        />
+      )}
+
       {/* ========== POR QUE ESCOLHER ========== */}
-      <section className="why-choose-ultra">
-        <div className="container-ultra">
-          <div className="why-choose-content">
-            <div className="why-choose-left">
-              <span className="section-badge">
-                <FiAward /> Diferenciais
-              </span>
-              <h2 className="section-title-ultra">
-                Por que escolher a
-                <span className="gradient-text"> Transfer Fortaleza Tur?</span>
-              </h2>
-              <p className="section-text-large">
-                Mais de uma década transformando viagens em experiências memoráveis. 
-                Nossa dedicação é garantir que cada momento da sua jornada seja especial.
-              </p>
-              
-              <div className="features-list-ultra">
-                {whyChooseUs.map((feature, index) => (
-                  <div key={index} className="feature-item-ultra">
-                    <div className="feature-icon-circle">
-                      {feature.icon}
+      {differentialsSettings.active && (
+        <section className="why-choose-ultra">
+          <div className="container-ultra">
+            <div className="why-choose-content">
+              <div className="why-choose-left">
+                <span className="section-badge">
+                  <FiAward /> {differentialsSettings.badge}
+                </span>
+                <h2 className="section-title-ultra">
+                  {differentialsSettings.title}
+                </h2>
+                <p className="section-text-large">
+                  {differentialsSettings.description}
+                </p>
+                
+                <div className="features-list-ultra">
+                  {differentials.map((feature, index) => (
+                    <div key={feature.id || index} className="feature-item-ultra">
+                      <div className="feature-icon-circle">
+                        {feature.image ? (
+                          <img src={feature.image} alt={feature.title} />
+                        ) : (
+                          getIconComponent(feature.icon)
+                        )}
+                      </div>
+                      <div className="feature-text">
+                        <h4>{feature.title}</h4>
+                        <p>{feature.description}</p>
+                      </div>
                     </div>
-                    <div className="feature-text">
-                      <h4>{feature.title}</h4>
-                      <p>{feature.description}</p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+
+                <button 
+                  onClick={() => navigate('/pacotes')} 
+                  className="btn-cta-large"
+                >
+                  <FiPackage />
+                  Planejar Minha Viagem
+                </button>
               </div>
 
-              <button 
-                onClick={() => navigate('/pacotes')} 
-                className="btn-cta-large"
-              >
-                <FiPackage />
-                Planejar Minha Viagem
-              </button>
-            </div>
-
-            <div className="why-choose-right">
-              <div className="image-collage">
-                <div className="collage-item collage-1">
-                  <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop" alt="Destino" />
-                </div>
-                <div className="collage-item collage-2">
-                  <img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop" alt="Experiência" />
-                </div>
-                <div className="collage-item collage-3">
-                  <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop" alt="Aventura" />
+              <div className="why-choose-right">
+                <div className="image-collage">
+                  <div className="collage-item collage-1">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop" alt="Destino" />
+                  </div>
+                  <div className="collage-item collage-2">
+                    <img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop" alt="Experiência" />
+                  </div>
+                  <div className="collage-item collage-3">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop" alt="Aventura" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ========== DEPOIMENTOS ========== */}
       {avaliacoes.length > 0 && (

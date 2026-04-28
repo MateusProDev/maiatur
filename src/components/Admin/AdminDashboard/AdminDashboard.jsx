@@ -316,6 +316,8 @@ const AdminDashboard = () => {
     { icon: FiLink, title: "Link in Bio", description: "Configure links para Instagram", path: "/admin/link-bio", gradient: "from-purple-600 to-pink-600" },
     { icon: FaGoogle, title: "Google Reviews", description: "Gerenciar avaliações do Google", path: "/admin/google-reviews", gradient: "from-blue-500 to-blue-600" },
     { icon: FiSettings, title: "Serviços", description: "Gerenciar seção de serviços", path: "/admin/services", gradient: "from-green-500 to-green-600" },
+    { icon: FiAward, title: "Diferenciais", description: "Editar seção Por que escolher", path: "/admin/edit-differentials", gradient: "from-amber-500 to-orange-600" },
+    { icon: FiImage, title: "Carrossel Imagens", description: "Editar carrossel de 3 fileiras", path: "/admin/edit-image-carousel", gradient: "from-cyan-500 to-blue-600" },
     { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", gradient: "from-slate-500 to-slate-600" },
     { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", gradient: "from-gray-500 to-gray-600" },
     { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", gradient: "from-zinc-500 to-zinc-600" }

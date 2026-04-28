@@ -38,6 +38,8 @@ const EditHeader = lazy(() => import("./components/Admin/EditHeader/EditHeader")
 const EditBoxes = lazy(() => import("./components/Admin/EditBoxes/EditBoxes"));
 const EditAbout = lazy(() => import("./components/Admin/EditAbout/EditAbout"));
 const EditFooter = lazy(() => import("./components/Admin/EditFooter/EditFooter"));
+const EditDifferentials = lazy(() => import("./components/Admin/EditDifferentials/EditDifferentials"));
+const EditImageCarousel = lazy(() => import("./components/Admin/EditImageCarousel/EditImageCarousel"));
 const AdminWhatsAppConfig = lazy(() => import("./components/Admin/AdminWhatsAppConfig/AdminWhatsAppConfig"));
 const EditCarousel = lazy(() => import("./components/Admin/EditCarousel/EditCarousel"));
 const EditHours = lazy(() => import("./components/Admin/EditHours/EditHours"));
@@ -175,6 +177,8 @@ const App = () => {
               <Route path="/admin/edit-boxes" element={<ProtectedRoute><EditBoxes /></ProtectedRoute>} />
               <Route path="/admin/edit-about" element={<ProtectedRoute><EditAbout /></ProtectedRoute>} />
               <Route path="/admin/edit-footer" element={<ProtectedRoute><EditFooter /></ProtectedRoute>} />
+              <Route path="/admin/edit-differentials" element={<ProtectedRoute><EditDifferentials /></ProtectedRoute>} />
+              <Route path="/admin/edit-image-carousel" element={<ProtectedRoute><EditImageCarousel /></ProtectedRoute>} />
               <Route path="/admin/edit-whatsapp" element={<ProtectedRoute><AdminWhatsAppConfig /></ProtectedRoute>} />
               <Route path="/admin/edit-carousel" element={<ProtectedRoute><EditCarousel /></ProtectedRoute>} />
               <Route path="/admin/edit-hours" element={<ProtectedRoute><EditHours /></ProtectedRoute>} />
