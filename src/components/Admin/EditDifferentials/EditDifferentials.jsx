@@ -421,7 +421,7 @@ const EditDifferentials = () => {
                 </label>
                 {settings.collageImages?.image1 && (
                   <div className="image-preview">
-                    <img src={settings.collageImages.image1} alt="Collage Image 1" />
+                    <img src={settings.collageImages.image1} alt="Collage 1" />
                   </div>
                 )}
               </div>
@@ -446,7 +446,7 @@ const EditDifferentials = () => {
                 </label>
                 {settings.collageImages?.image2 && (
                   <div className="image-preview">
-                    <img src={settings.collageImages.image2} alt="Collage Image 2" />
+                    <img src={settings.collageImages.image2} alt="Collage 2" />
                   </div>
                 )}
               </div>
@@ -471,7 +471,7 @@ const EditDifferentials = () => {
                 </label>
                 {settings.collageImages?.image3 && (
                   <div className="image-preview">
-                    <img src={settings.collageImages.image3} alt="Collage Image 3" />
+                    <img src={settings.collageImages.image3} alt="Collage 3" />
                   </div>
                 )}
               </div>
