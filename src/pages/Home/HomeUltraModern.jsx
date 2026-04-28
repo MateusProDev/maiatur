@@ -46,7 +46,12 @@ const HomeUltraModern = () => {
     active: true,
     badge: 'Diferenciais',
     title: 'Por que escolher a Transfer Fortaleza Tur?',
-    description: 'Mais de uma década transformando viagens em experiências memoráveis. Nossa dedicação é garantir que cada momento da sua jornada seja especial.'
+    description: 'Mais de uma década transformando viagens em experiências memoráveis. Nossa dedicação é garantir que cada momento da sua jornada seja especial.',
+    collageImages: {
+      image1: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop',
+      image2: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop',
+      image3: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop'
+    }
   });
   const [carouselSettings, setCarouselSettings] = useState({
     active: true,
@@ -126,7 +131,12 @@ const HomeUltraModern = () => {
             active: data.active ?? true,
             badge: data.badge || 'Diferenciais',
             title: data.title || 'Por que escolher a Transfer Fortaleza Tur?',
-            description: data.description || 'Mais de uma década transformando viagens em experiências memoráveis.'
+            description: data.description || 'Mais de uma década transformando viagens em experiências memoráveis.',
+            collageImages: data.collageImages || {
+              image1: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop',
+              image2: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop',
+              image3: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop'
+            }
           });
           setDifferentials(data.differentials || []);
           console.log('✅ Diferenciais carregados do Firestore:', data.differentials);
@@ -518,13 +528,13 @@ const HomeUltraModern = () => {
               <div className="why-choose-right">
                 <div className="image-collage">
                   <div className="collage-item collage-1">
-                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop" alt="Destino" />
+                    <img src={differentialsSettings.collageImages?.image1 || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop'} alt="Destino" />
                   </div>
                   <div className="collage-item collage-2">
-                    <img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop" alt="Experiência" />
+                    <img src={differentialsSettings.collageImages?.image2 || 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop'} alt="Experiência" />
                   </div>
                   <div className="collage-item collage-3">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop" alt="Aventura" />
+                    <img src={differentialsSettings.collageImages?.image3 || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop'} alt="Aventura" />
                   </div>
                 </div>
               </div>

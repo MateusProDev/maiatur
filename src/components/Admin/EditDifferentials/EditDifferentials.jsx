@@ -11,7 +11,12 @@ const EditDifferentials = () => {
     badge: 'Diferenciais',
     title: 'Por que escolher a Transfer Fortaleza Tur?',
     description: 'Mais de uma década transformando viagens em experiências memoráveis. Nossa dedicação é garantir que cada momento da sua jornada seja especial.',
-    differentials: []
+    differentials: [],
+    collageImages: {
+      image1: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop',
+      image2: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop',
+      image3: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop'
+    }
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -19,7 +24,8 @@ const EditDifferentials = () => {
   const [uploadingImage, setUploadingImage] = useState({});
   const [expandedSections, setExpandedSections] = useState({
     general: true,
-    differentials: true
+    differentials: true,
+    collage: true
   });
 
   const loadSettings = useCallback(async () => {
@@ -66,7 +72,12 @@ const EditDifferentials = () => {
               description: 'Cada viagem é única e especial para nós',
               image: ''
             }
-          ]
+          ],
+          collageImages: {
+            image1: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop',
+            image2: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop',
+            image3: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop'
+          }
         };
         await setDoc(docRef, defaultSettings);
         setSettings(defaultSettings);
@@ -190,6 +201,58 @@ const EditDifferentials = () => {
       setMessage('❌ Erro ao fazer upload da imagem');
     } finally {
       setUploadingImage(prev => ({ ...prev, [differentialId]: false }));
+    }
+  };
+
+  const handleCollageImageUpload = async (imageKey, file) => {
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage('❌ A imagem deve ter no máximo 5MB');
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setMessage('❌ Apenas imagens são permitidas');
+      return;
+    }
+
+    try {
+      setUploadingImage(prev => ({ ...prev, [imageKey]: true }));
+      setMessage('📤 Fazendo upload da imagem...');
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+      formData.append('folder', 'collage');
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
+        {
+          method: 'POST',
+          body: formData
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erro ao fazer upload');
+      }
+
+      const data = await response.json();
+      setSettings(prev => ({
+        ...prev,
+        collageImages: {
+          ...prev.collageImages,
+          [imageKey]: data.secure_url
+        }
+      }));
+      setMessage('✅ Imagem enviada com sucesso!');
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      console.error('Erro ao fazer upload:', error);
+      setMessage('❌ Erro ao fazer upload da imagem');
+    } finally {
+      setUploadingImage(prev => ({ ...prev, [imageKey]: false }));
     }
   };
 
@@ -366,42 +429,124 @@ const EditDifferentials = () => {
 
                       <div className="form-group">
                         <label>Imagem (opcional - se preenchida, substitui o ícone)</label>
-                        <div className="image-upload-container">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleImageUpload(differential.id, e.target.files[0])}
-                            disabled={uploadingImage[differential.id]}
-                            id={`upload-${differential.id}`}
-                            style={{ display: 'none' }}
-                          />
-                          <label 
-                            htmlFor={`upload-${differential.id}`} 
-                            className="upload-btn"
-                            style={{ opacity: uploadingImage[differential.id] ? 0.6 : 1 }}
-                          >
-                            <FiUpload />
-                            {uploadingImage[differential.id] ? 'Enviando...' : 'Upload Cloudinary'}
-                          </label>
-                          <input
-                            type="url"
-                            value={differential.image}
-                            onChange={(e) => updateDifferential(differential.id, 'image', e.target.value)}
-                            placeholder="https://..."
-                            disabled={uploadingImage[differential.id]}
-                          />
-                        </div>
-                      </div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleImageUpload(differential.id, e.target.files[0])}
+                          disabled={uploadingImage[differential.id]}
+                          id={`upload-${differential.id}`}
+                          style={{ display: 'none' }}
+                        />
+                        <label 
+                          htmlFor={`upload-${differential.id}`} 
+                          className="upload-btn"
+                          style={{ opacity: uploadingImage[differential.id] ? 0.6 : 1 }}
+                        >
+                          <FiUpload />
+                          {uploadingImage[differential.id] ? 'Enviando...' : 'Upload Cloudinary'}
+                        </label>
 
-                      {differential.image && (
-                        <div className="image-preview">
-                          <img src={differential.image} alt={differential.title} />
-                        </div>
-                      )}
+                        {differential.image && (
+                          <div className="image-preview">
+                            <img src={differential.image} alt={differential.title} />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))
               )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Gerenciar Imagens da Collage */}
+      <div className="section">
+        <div className="section-header" onClick={() => toggleSection('collage')}>
+          <h2>🖼️ Imagens da Collage (Lado Direito)</h2>
+          {expandedSections.collage ? <FiChevronUp /> : <FiChevronDown />}
+        </div>
+        
+        {expandedSections.collage && (
+          <div className="section-content">
+            <p className="section-description">Edite as 3 imagens exibidas no lado direito da seção de diferenciais (apenas em telas maiores).</p>
+            
+            <div className="collage-images-grid">
+              <div className="collage-image-item">
+                <label>Imagem 1 (Grande - Esquerda)</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleCollageImageUpload('image1', e.target.files[0])}
+                  disabled={uploadingImage['image1']}
+                  id={`upload-collage-1`}
+                  style={{ display: 'none' }}
+                />
+                <label 
+                  htmlFor={`upload-collage-1`} 
+                  className="upload-btn"
+                  style={{ opacity: uploadingImage['image1'] ? 0.6 : 1 }}
+                >
+                  <FiUpload />
+                  {uploadingImage['image1'] ? 'Enviando...' : 'Upload Cloudinary'}
+                </label>
+                {settings.collageImages?.image1 && (
+                  <div className="image-preview">
+                    <img src={settings.collageImages.image1} alt="Collage Image 1" />
+                  </div>
+                )}
+              </div>
+
+              <div className="collage-image-item">
+                <label>Imagem 2 (Média - Centro)</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleCollageImageUpload('image2', e.target.files[0])}
+                  disabled={uploadingImage['image2']}
+                  id={`upload-collage-2`}
+                  style={{ display: 'none' }}
+                />
+                <label 
+                  htmlFor={`upload-collage-2`} 
+                  className="upload-btn"
+                  style={{ opacity: uploadingImage['image2'] ? 0.6 : 1 }}
+                >
+                  <FiUpload />
+                  {uploadingImage['image2'] ? 'Enviando...' : 'Upload Cloudinary'}
+                </label>
+                {settings.collageImages?.image2 && (
+                  <div className="image-preview">
+                    <img src={settings.collageImages.image2} alt="Collage Image 2" />
+                  </div>
+                )}
+              </div>
+
+              <div className="collage-image-item">
+                <label>Imagem 3 (Média - Direita)</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleCollageImageUpload('image3', e.target.files[0])}
+                  disabled={uploadingImage['image3']}
+                  id={`upload-collage-3`}
+                  style={{ display: 'none' }}
+                />
+                <label 
+                  htmlFor={`upload-collage-3`} 
+                  className="upload-btn"
+                  style={{ opacity: uploadingImage['image3'] ? 0.6 : 1 }}
+                >
+                  <FiUpload />
+                  {uploadingImage['image3'] ? 'Enviando...' : 'Upload Cloudinary'}
+                </label>
+                {settings.collageImages?.image3 && (
+                  <div className="image-preview">
+                    <img src={settings.collageImages.image3} alt="Collage Image 3" />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
