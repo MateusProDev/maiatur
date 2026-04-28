@@ -1,7 +1,7 @@
 .image-carousel-section {
   padding: 3rem 0;
   overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f0f0f0;
   position: relative;
 }
 
@@ -20,15 +20,15 @@
 }
 
 .track-1 {
-  animation-direction: normal;
+  animation-name: scroll;
 }
 
 .track-2 {
-  animation-direction: reverse;
+  animation-name: scroll-reverse;
 }
 
 .track-3 {
-  animation-direction: normal;
+  animation-name: scroll;
 }
 
 @keyframes scroll {
@@ -36,7 +36,16 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-33.33%);
+  }
+}
+
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(-33.33%);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
@@ -54,7 +63,7 @@
 
 .carousel-image-wrapper img {
   width: 300px;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
   display: block;
 }
@@ -75,18 +84,22 @@
   }
 
   .carousel-track {
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .carousel-image-wrapper img {
     width: 200px;
-    height: 150px;
+    height: 200px;
   }
 }
 
 @media (max-width: 480px) {
+  .carousel-track {
+    gap: 1rem;
+  }
+
   .carousel-image-wrapper img {
-    width: 150px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
   }
 }
