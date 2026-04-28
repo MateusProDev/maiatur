@@ -16,7 +16,7 @@ import {
   FiZap,
   FiHelpCircle,
   FiChevronRight,
-  
+  FiAward,
   FiRefreshCw,
   FiShield,
   FiLink,
