@@ -502,11 +502,7 @@ const HomeUltraModern = () => {
                   {differentials.map((feature, index) => (
                     <div key={feature.id || index} className="feature-item-ultra">
                       <div className="feature-icon-circle">
-                        {feature.image ? (
-                          <img src={feature.image} alt={feature.title} />
-                        ) : (
-                          getIconComponent(feature.icon)
-                        )}
+                        {getIconComponent(feature.icon)}
                       </div>
                       <div className="feature-text">
                         <h4>{feature.title}</h4>

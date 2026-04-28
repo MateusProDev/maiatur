@@ -158,52 +158,6 @@ const EditDifferentials = () => {
     setSettings(prev => ({ ...prev, differentials: newDifferentials }));
   };
 
-  const handleImageUpload = async (differentialId, file) => {
-    if (!file) return;
-
-    if (file.size > 5 * 1024 * 1024) {
-      setMessage('❌ A imagem deve ter no máximo 5MB');
-      return;
-    }
-
-    if (!file.type.startsWith('image/')) {
-      setMessage('❌ Apenas imagens são permitidas');
-      return;
-    }
-
-    try {
-      setUploadingImage(prev => ({ ...prev, [differentialId]: true }));
-      setMessage('📤 Fazendo upload da imagem...');
-
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-      formData.append('folder', 'differentials');
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
-        {
-          method: 'POST',
-          body: formData
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Erro ao fazer upload');
-      }
-
-      const data = await response.json();
-      updateDifferential(differentialId, 'image', data.secure_url);
-      setMessage('✅ Imagem enviada com sucesso!');
-      setTimeout(() => setMessage(''), 3000);
-    } catch (error) {
-      console.error('Erro ao fazer upload:', error);
-      setMessage('❌ Erro ao fazer upload da imagem');
-    } finally {
-      setUploadingImage(prev => ({ ...prev, [differentialId]: false }));
-    }
-  };
-
   const handleCollageImageUpload = async (imageKey, file) => {
     if (!file) return;
 
@@ -425,32 +379,6 @@ const EditDifferentials = () => {
                           placeholder="Descreva o diferencial..."
                           rows={2}
                         />
-                      </div>
-
-                      <div className="form-group">
-                        <label>Imagem (opcional - se preenchida, substitui o ícone)</label>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleImageUpload(differential.id, e.target.files[0])}
-                          disabled={uploadingImage[differential.id]}
-                          id={`upload-${differential.id}`}
-                          style={{ display: 'none' }}
-                        />
-                        <label 
-                          htmlFor={`upload-${differential.id}`} 
-                          className="upload-btn"
-                          style={{ opacity: uploadingImage[differential.id] ? 0.6 : 1 }}
-                        >
-                          <FiUpload />
-                          {uploadingImage[differential.id] ? 'Enviando...' : 'Upload Cloudinary'}
-                        </label>
-
-                        {differential.image && (
-                          <div className="image-preview">
-                            <img src={differential.image} alt={differential.title} />
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
