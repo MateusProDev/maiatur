@@ -61,7 +61,7 @@ const PoliticaPage = () => {
             <p>
               <strong>E-mail:</strong> contato@transferfortalezatur.com.br<br />
               <strong>WhatsApp / Celular:</strong> +55 (85) 99674-8958<br />
-              <strong>CNPJ:</strong> 64.042.488/0001-13
+              <strong>CNPJ:</strong> 64.042.188/0001-13
             </p>
           </section>
 

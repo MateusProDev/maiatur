@@ -112,11 +112,14 @@
 .box-image-container {
   position: relative;
   width: 100%;
-  height: 200px;
+  padding-top: 100%;
   overflow: hidden;
 }
 
 .box-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -217,10 +220,6 @@
 @media (max-width: 1200px) {
   .boxes-grid {
     gap: 1.5rem;
-  }
-  
-  .box-image-container {
-    height: 180px;
   }
 }
 

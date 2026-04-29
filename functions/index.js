@@ -22,7 +22,7 @@ const AGENCY_INFO = {
   brand: process.env.AGENCY_BRAND || "Maiatur",
   email: process.env.AGENCY_EMAIL || "contato@transferfortalezatur.com.br",
   phone: "+55 85 9674-8958",
-  cnpj: process.env.AGENCY_CNPJ || "64.042.488/0001-13",
+  cnpj: process.env.AGENCY_CNPJ || "64.042.188/0001-13",
 };
 
 // ==========================================
