@@ -523,12 +523,15 @@
 .pacote-image-wrapper {
   position: relative;
   width: 100%;
-  height: 280px;
+  padding-top: 100%;
   overflow: hidden;
   background: linear-gradient(135deg, #f5f7fa 0%, #e3e7f0 100%);
 }
 
 .pacote-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -782,7 +785,7 @@
 /* Image Wrapper */
 .servico-image-wrapper {
   width: 100%;
-  height: 140px;
+  padding-top: 100%;
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
@@ -790,6 +793,9 @@
 }
 
 .servico-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -999,24 +1005,24 @@
 }
 
 .collage-1 {
-  width: 60%;
-  height: 65%;
+  width: 70%;
+  height: 75%;
   top: 0;
   left: 0;
   border-radius: 30% 70% 70% 30% / 40% 40% 60% 60%;
 }
 
 .collage-2 {
-  width: 45%;
-  height: 50%;
+  width: 55%;
+  height: 60%;
   bottom: 0;
   left: 10%;
   border-radius: 60% 40% 40% 60% / 60% 30% 70% 40%;
 }
 
 .collage-3 {
-  width: 50%;
-  height: 55%;
+  width: 60%;
+  height: 65%;
   top: 20%;
   right: 0;
   border-radius: 40% 60% 60% 40% / 50% 60% 40% 50%;

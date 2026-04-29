@@ -316,11 +316,15 @@
 
 .package-image-wrapper {
   position: relative;
-  height: 240px;
+  width: 100%;
+  padding-top: 100%;
   overflow: hidden;
 }
 
 .package-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
