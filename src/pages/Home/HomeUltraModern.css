@@ -439,7 +439,21 @@
 
 /* ==================== PACOTES GRID / CARROSSÉIS ==================== */
 .destinos-section-ultra {
-  background: linear-gradient(180deg, var(--white) 0%, var(--light-bg) 100%);
+  background: linear-gradient(180deg, #0d4f5c 0%, #0a3d47 100%);
+}
+
+.destinos-section-ultra .section-title-ultra {
+  color: #ffffff;
+}
+
+.destinos-section-ultra .section-description {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.destinos-section-ultra .section-badge {
+  background: rgba(238, 124, 53, 0.15);
+  border-color: rgba(238, 124, 53, 0.4);
+  color: #F8C144;
 }
 
 .carousels-section {

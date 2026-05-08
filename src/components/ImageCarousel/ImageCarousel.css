@@ -84,7 +84,7 @@
   }
 
   .carousel-track {
-    gap: 1.5rem;
+    gap: 1.5rem !important;
   }
 
   .carousel-image-wrapper img {
@@ -95,7 +95,7 @@
 
 @media (max-width: 480px) {
   .carousel-track {
-    gap: 3rem;
+    gap: 1.5rem !important;
   }
 
   .carousel-image-wrapper img {

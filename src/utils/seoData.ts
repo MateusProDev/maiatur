@@ -29,37 +29,33 @@ interface SeoData {
 
 export const seoData: SeoData = {
   home: {
-    title: 'Home - Transfer Fortaleza Tur',
-    description: 'Transfers e passeios em Fortaleza: transfers do aeroporto, passeios turísticos e pacotes para Beach Park, Jericoacoara e Cumbuco. Reserve online com segurança e conforto.',
+    title: 'Transfer Fortaleza Tur | Transfers Aeroporto, Passeios e Pacotes em Fortaleza',
+    description: 'Agência de turismo em Fortaleza especializada em transfers do aeroporto, passeios privativos para Beach Park, Jericoacoara, Cumbuco e Canoa Quebrada. Reserve online com segurança, conforto e melhor preço.',
     canonical: '/'
   },
   
   sobre: {
-    title: 'Sobre a Transfer Fortaleza Tur - Nossa História e Missão',
-    description: 'Conheça a Transfer Fortaleza Tur: missão, valores e nossa história levando clientes aos melhores destinos do Ceará com segurança e conforto.',
-    canonical: '/sobre',
-    noindex: true
+    title: 'Sobre Nós - Transfer Fortaleza Tur | Agência de Turismo em Fortaleza',
+    description: 'Conheça a Transfer Fortaleza Tur: mais de uma década de experiência levando turistas aos melhores destinos do Ceará com segurança, conforto e atendimento personalizado.',
+    canonical: '/sobre'
   },
   
   pacotes: {
-    title: 'Nossos Pacotes - Transfer Fortaleza Tur',
-    description: 'Descubra nossos pacotes de passeios e transfers em Fortaleza e região. Beach Park, Canoa Quebrada, Jericoacoara e muito mais!',
-    canonical: '/pacotes',
-    noindex: true
+    title: 'Pacotes de Passeios e Transfers em Fortaleza | Transfer Fortaleza Tur',
+    description: 'Pacotes completos de passeios e transfers em Fortaleza e litoral cearense. Beach Park, Canoa Quebrada, Jericoacoara, Cumbuco e mais. Preços a partir de R$89. Reserve online!',
+    canonical: '/pacotes'
   },
   
   destinos: {
-    title: 'Nossos Destinos - Transfer Fortaleza Tur',
-    description: 'Explore os melhores destinos turísticos do Ceará: praias paradisíacas, dunas, lagoas e muito mais. Planeje sua viagem com a gente!',
-    canonical: '/destinos',
-    noindex: true
+    title: 'Destinos Turísticos no Ceará | Praias, Dunas e Aventuras - Transfer Fortaleza Tur',
+    description: 'Explore os melhores destinos turísticos do Ceará: praias paradisíacas, dunas, lagoas cristalinas e aventuras inesquecíveis. Roteiros com transfer incluso.',
+    canonical: '/destinos'
   },
   
   contato: {
-    title: 'Fale Conosco - Transfer Fortaleza Tur',
-    description: 'Fale conosco via WhatsApp, telefone ou e‑mail. Tire dúvidas, solicite orçamentos e reserve transfers e passeios com atendimento rápido e personalizado.',
-    canonical: '/contato',
-    noindex: true
+    title: 'Contato e Orçamento | Transfer Fortaleza Tur - WhatsApp e Telefone',
+    description: 'Fale conosco via WhatsApp (85) 98877-6655. Tire dúvidas, solicite orçamentos gratuitos e reserve transfers e passeios em Fortaleza com atendimento rápido.',
+    canonical: '/contato'
   },
   
   blog: {
@@ -69,10 +65,9 @@ export const seoData: SeoData = {
   },
   
   avaliacoes: {
-    title: 'Depoimentos e Avaliações Reais dos Nossos Clientes - Transfer Fortaleza Tur',
-    description: 'Confira avaliações e depoimentos de clientes sobre nossos transfers e passeios. Experiências reais que ajudam você a escolher com confiança.',
-    canonical: '/avaliacoes',
-    noindex: true
+    title: 'Avaliações e Depoimentos de Clientes | Transfer Fortaleza Tur',
+    description: 'Veja avaliações reais de clientes sobre nossos transfers e passeios em Fortaleza. Nota 5.0 no Google. Experiências que comprovam nossa qualidade.',
+    canonical: '/avaliacoes'
   },
   
   reservas: {
@@ -90,22 +85,19 @@ export const seoData: SeoData = {
   
   categorias: {
     passeio: {
-      title: 'Passeios Turísticos Privativos em Fortaleza e Região - Transfer Fortaleza Tur',
-      description: 'Pacotes de passeios em Fortaleza e região: roteiros privativos para Beach Park, Jericoacocha, Cumbuco, Paracuru e muito mais. Inclui transfer e guia local.',
-      canonical: '/categoria/passeio',
-      noindex: true
+      title: 'Passeios Turísticos Privativos em Fortaleza e Região | Transfer Fortaleza Tur',
+      description: 'Passeios privativos em Fortaleza: roteiros para Beach Park, Jericoacoara, Cumbuco, Canoa Quebrada e Paracuru. Transfer incluso, guia local e preços acessíveis.',
+      canonical: '/categoria/passeio'
     },
     transfer: {
-      title: 'Transfers e Traslados Privativos em Fortaleza - Transfer Fortaleza Tur',
-      description: 'Transfers e traslados em Fortaleza: serviços privados do aeroporto, translados para praias e passeios com conforto e pontualidade.',
-      canonical: '/categoria/transfer',
-      noindex: true
+      title: 'Transfer Aeroporto Fortaleza | Traslado Privativo Hotel - Transfer Fortaleza Tur',
+      description: 'Transfer privativo do aeroporto de Fortaleza para hotéis e praias. Motorista profissional, veículo confortável, pontualidade garantida. Reserve online agora!',
+      canonical: '/categoria/transfer'
     },
     'beach-park': {
-      title: 'Passeios Completos para Beach Park com Transfer Incluso - Transfer Fortaleza Tur',
-      description: 'Passeios para o Beach Park (Porto das Dunas) com transfer incluso. Translado confortável e ingressos em pacotes práticos para famílias.',
-      canonical: '/categoria/beach-park',
-      noindex: true
+      title: 'Passeio Beach Park com Transfer Incluso | Porto das Dunas - Transfer Fortaleza Tur',
+      description: 'Pacote completo para Beach Park com transfer ida e volta incluso. Translado confortável saindo de Fortaleza. Ideal para famílias. Reserve com antecedência!',
+      canonical: '/categoria/beach-park'
     }
   }
 };
