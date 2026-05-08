@@ -11,6 +11,8 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
   const [startX, setStartX] = useState(0);
   const intervalRef = useRef(null);
   const carouselRef = useRef(null);
+  const scrollTimeoutRef = useRef(null);
+  const isScrollingRef = useRef(false);
 
   const itemsPerView = {
     desktop: 3,
@@ -53,6 +55,37 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, isPlaying, pacotes.length, itemsToShow]);
+
+  // Scroll to card on mobile (scroll-snap approach)
+  useEffect(() => {
+    if (itemsToShow === 1 && carouselRef.current) {
+      isScrollingRef.current = true;
+      const container = carouselRef.current;
+      const cardWidth = container.offsetWidth;
+      container.scrollTo({
+        left: currentIndex * cardWidth,
+        behavior: 'smooth'
+      });
+      // Reset flag after scroll animation
+      setTimeout(() => { isScrollingRef.current = false; }, 600);
+    }
+  }, [currentIndex, itemsToShow]);
+
+  // Sync currentIndex from scroll position on mobile (debounced)
+  const handleMobileScroll = () => {
+    if (itemsToShow !== 1 || !carouselRef.current || isScrollingRef.current) return;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      if (!carouselRef.current) return;
+      const container = carouselRef.current;
+      const cardWidth = container.offsetWidth;
+      if (cardWidth === 0) return;
+      const newIndex = Math.round(container.scrollLeft / cardWidth);
+      if (newIndex !== currentIndex && newIndex >= 0 && newIndex < pacotes.length) {
+        setCurrentIndex(newIndex);
+      }
+    }, 150);
+  };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
@@ -153,23 +186,22 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
 
       <div 
         ref={carouselRef}
-        className="carousel-container"
+        className={`carousel-container ${itemsToShow === 1 ? 'carousel-container-mobile' : ''}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseUpOrLeave}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUpOrLeave}
-        onTouchStart={handleTouchStartDrag}
-        onTouchMove={handleTouchMoveDrag}
-        onTouchEnd={handleTouchEndDrag}
-        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        onMouseDown={itemsToShow === 1 ? undefined : handleMouseDown}
+        onMouseMove={itemsToShow === 1 ? undefined : handleMouseMove}
+        onMouseUp={itemsToShow === 1 ? undefined : handleMouseUpOrLeave}
+        onTouchStart={itemsToShow === 1 ? undefined : handleTouchStartDrag}
+        onTouchMove={itemsToShow === 1 ? undefined : handleTouchMoveDrag}
+        onTouchEnd={itemsToShow === 1 ? undefined : handleTouchEndDrag}
+        onScroll={itemsToShow === 1 ? handleMobileScroll : undefined}
+        style={{ cursor: itemsToShow === 1 ? 'default' : (isDragging ? 'grabbing' : 'grab') }}
       >
         <div 
           className="carousel-track"
-          style={{
-            transform: itemsToShow === 1 
-              ? `translateX(-${currentIndex * 100}%)`
-              : `translateX(calc(-${currentIndex * (100 / itemsToShow)}% - ${currentIndex * (1.5 / itemsToShow)}rem))`,
+          style={itemsToShow === 1 ? {} : {
+            transform: `translateX(calc(-${currentIndex * (100 / itemsToShow)}% - ${currentIndex * (1.5 / itemsToShow)}rem))`,
             transition: 'transform 0.5s ease-in-out'
           }}
         >

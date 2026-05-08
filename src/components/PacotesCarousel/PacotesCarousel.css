@@ -430,6 +430,38 @@
   .carousel-price-current {
     font-size: 1.2rem !important;
   }
+
+  /* Mobile scroll-snap carousel */
+  .carousel-container-mobile {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    border-radius: 0 !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  .carousel-container-mobile::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .carousel-container-mobile .carousel-track {
+    display: flex !important;
+    gap: 0 !important;
+    transform: none !important;
+    transition: none !important;
+    width: auto !important;
+  }
+
+  .carousel-container-mobile .carousel-card {
+    scroll-snap-align: center !important;
+    flex-shrink: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -449,7 +481,15 @@
     font-size: 0.85rem !important;
   }
   
-  .carousel-track {
+  .carousel-container-mobile .carousel-track {
     gap: 0 !important;
+    transform: none !important;
+  }
+
+  .carousel-container-mobile .carousel-card {
+    scroll-snap-align: center !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
   }
 }
