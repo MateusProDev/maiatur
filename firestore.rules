@@ -3,112 +3,181 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ==================== CONTEÚDO DO SITE (público para leitura) ====================
-    
-    // Conteúdo gerenciável (serviços, diferenciais, boxes, carrossel, etc.)
-    match /content/{docId} {
+    // ===================================
+    // CONTEÚDO DO SITE (leitura pública, escrita admin)
+    // ===================================
+
+    match /content/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // Configurações do site (header, footer, whatsapp, etc.)
-    match /settings/{docId} {
+    match /settings/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // Pacotes de viagem
-    match /pacotes/{docId} {
+    match /pacotes/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // Blog posts
-    match /blog/{docId} {
+    match /blogPosts/{documentId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow delete: if request.auth != null;
+      // Permite atualizar apenas views sem autenticação
+      allow update: if request.auth != null 
+                    || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views', 'updatedAt']));
+    }
+
+    match /categorias/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // Categorias
-    match /categorias/{docId} {
+    match /banners/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // Banners
-    match /banners/{docId} {
+    match /bannersLojinha/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // Google Reviews
-    match /googleReviews/{docId} {
+    match /bannersTurismo/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // Link in Bio
-    match /linkInBio/{docId} {
+    match /linkInBio/{documentId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
 
-    // ==================== RESERVAS E PAGAMENTOS ====================
+    match /images/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
 
-    // Reservas - leitura para usuários autenticados, escrita via webhook ou admin
-    match /reservas/{docId} {
+    match /whatsappConfig/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // ===================================
+    // FORMULÁRIOS PÚBLICOS (create público, gestão admin)
+    // ===================================
+
+    match /avaliacoes/{documentId} {
       allow read: if true;
       allow create: if true;
       allow update, delete: if request.auth != null;
     }
 
-    // ==================== USUÁRIOS ====================
-
-    // Users: qualquer autenticado pode ler, só o próprio pode escrever
-    match /users/{uid} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == uid;
+    match /listas/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
     }
 
-    // Admin users list
-    match /adminUsers/{uid} {
+    match /reservas/{documentId} {
+      allow read: if request.auth != null;
+      allow create: if true;
+      allow update, delete: if request.auth != null;
+    }
+
+    match /newsletter/{documentId} {
+      allow read: if request.auth != null;
+      allow create: if true;
+      allow update, delete: if request.auth != null;
+    }
+
+    match /contatos/{documentId} {
+      allow read: if request.auth != null;
+      allow create: if true;
+      allow update, delete: if request.auth != null;
+    }
+
+    // ===================================
+    // DADOS SENSÍVEIS (requer autenticação)
+    // ===================================
+
+    match /viagens/{documentId} {
       allow read: if request.auth != null;
       allow write: if request.auth != null;
     }
 
-    // ==================== MOTORISTAS ====================
+    match /produtos/{documentId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
 
-    match /motoristas/{docId} {
+    match /campaigns/{documentId} {
       allow read: if request.auth != null;
       allow write: if request.auth != null;
     }
 
-    // ==================== ANALYTICS ====================
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
 
-    match /analytics/{docId} {
+    match /adminUsers/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+
+    match /motoristas/{documentId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+
+    match /analytics/{documentId} {
       allow read: if request.auth != null;
       allow write: if true;
     }
 
-    // ==================== NEWSLETTER ====================
+    // ===================================
+    // FALLBACK: nega tudo não especificado
+    // ===================================
 
-    match /newsletter/{docId} {
-      allow read: if request.auth != null;
-      allow create: if true;
-      allow update, delete: if request.auth != null;
-    }
-
-    // ==================== CONTATO ====================
-
-    match /contatos/{docId} {
-      allow read: if request.auth != null;
-      allow create: if true;
-      allow update, delete: if request.auth != null;
-    }
-
-    // Fallback: deny everything else
-    match /{document=**} {
+    match /{collection}/{documentId} {
       allow read, write: if false;
+    }
+  }
+}
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /logos/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    match /pacotes/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    match /produtos/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    match /banners/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    match /avatars/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
     }
   }
 }

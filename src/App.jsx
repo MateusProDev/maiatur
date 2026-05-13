@@ -44,6 +44,7 @@ const AdminWhatsAppConfig = lazy(() => import("./components/Admin/AdminWhatsAppC
 const EditCarousel = lazy(() => import("./components/Admin/EditCarousel/EditCarousel"));
 const EditHours = lazy(() => import("./components/Admin/EditHours/EditHours"));
 const BannerAdmin = lazy(() => import("./components/Admin/BannerAdmin/BannerAdmin"));
+const AddAdmin = lazy(() => import("./pages/Admin/AddAdmin/AddAdmin"));
 const LinkInBio = lazy(() => import("./components/LinkInBio/LinkInBio"));
 const GoogleHub = lazy(() => import("./pages/GoogleHub/GoogleHub"));
 // Páginas do Sistema de Reservas
@@ -184,6 +185,7 @@ const App = () => {
               <Route path="/admin/edit-hours" element={<ProtectedRoute><EditHours /></ProtectedRoute>} />
               <Route path="/admin/banner-admin" element={<ProtectedRoute><BannerAdmin /></ProtectedRoute>} />
               <Route path="/admin/view-users" element={<ProtectedRoute><ViewUsers /></ProtectedRoute>} />
+              <Route path="/admin/add-admin" element={<ProtectedRoute><AddAdmin /></ProtectedRoute>} />
               
               {/* Páginas Públicas */}
               <Route path="/link-bio" element={<LinkInBio />} />

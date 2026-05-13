@@ -1,0 +1,88 @@
+.add-admin-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.add-admin-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  max-width: 500px;
+  width: 100%;
+}
+
+.add-admin-container h1 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.add-admin-container p {
+  margin: 0 0 1.5rem 0;
+  color: #666;
+}
+
+.add-admin-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  background: #f0f0f0;
+}
+
+.add-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.add-admin-form input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.add-admin-form button {
+  padding: 0.75rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-admin-form button:hover {
+  background: #5568d3;
+}
+
+.add-admin-form button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.add-admin-info {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.add-admin-info h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.add-admin-info ol {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #666;
+}
+
+.add-admin-info li {
+  margin-bottom: 0.5rem;
+}
