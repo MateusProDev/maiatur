@@ -63,6 +63,7 @@
     "type-check": "tsc --noEmit -p tsconfig.json",
     "prebuild": "npm run generate-link-bio && npm run type-check",
     "build": "craco build",
+    "postbuild": "node scripts/migrate-existing-packages.js",
     "test": "craco test",
     "eject": "react-scripts eject",
     "deploy": "npm run build && vercel --prod",

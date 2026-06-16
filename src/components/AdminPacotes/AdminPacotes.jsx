@@ -4,6 +4,7 @@ import { db } from '../../firebase/firebase';
 import axios from "axios";
 import RichTextEditorV2 from '../RichTextEditorV2/RichTextEditorV2';
 import { CLOUDINARY_CONFIG } from '../../config/cloudinary';
+import { useSEOIndexing } from '../../hooks/useSEOIndexing';
 
 import { 
   Box,
@@ -46,6 +47,9 @@ const AdminPacotes = () => {
     upload: false,
     saving: false
   });
+  
+  // Hook para indexação automática de SEO
+  const { indexPacoteCreated, indexPacoteUpdated, indexPacoteDeleted } = useSEOIndexing();
   const [currentPacote, setCurrentPacote] = useState({
     titulo: "",
     descricao: "",
@@ -148,9 +152,20 @@ const AdminPacotes = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Tem certeza que deseja excluir este pacote?')) {
       try {
+        // Buscar slug antes de deletar para notificar Google
+        const pacoteToDelete = pacotes.find(p => p.id === id);
+        const slugToDelete = pacoteToDelete?.slug;
+        
         await deleteDoc(doc(db, 'pacotes', id));
         setPacotes(pacotes.filter(pacote => pacote.id !== id));
         showNotification("success", "Pacote excluído com sucesso!");
+        
+        // Solicitar indexação de remoção (não bloqueia se falhar)
+        if (slugToDelete) {
+          indexPacoteDeleted(slugToDelete).catch(err => {
+            console.warn('Falha na indexação de remoção (não crítico):', err);
+          });
+        }
       } catch (err) {
         showNotification("error", "Erro ao excluir pacote");
         console.error("Erro ao excluir pacote:", err);
@@ -207,11 +222,21 @@ const AdminPacotes = () => {
         // Atualizar existente
         await setDoc(doc(db, "pacotes", currentPacote.id), pacoteData);
         showNotification("success", "Pacote atualizado com sucesso!");
+        
+        // Solicitar indexação de atualização (não bloqueia se falhar)
+        indexPacoteUpdated(slug).catch(err => {
+          console.warn('Falha na indexação de atualização (não crítico):', err);
+        });
       } else {
         // Criar novo
         const newDocRef = doc(collection(db, "pacotes"));
         await setDoc(newDocRef, { ...pacoteData, id: newDocRef.id });
         showNotification("success", "Pacote criado com sucesso!");
+        
+        // Solicitar indexação de criação (não bloqueia se falhar)
+        indexPacoteCreated(slug).catch(err => {
+          console.warn('Falha na indexação de criação (não crítico):', err);
+        });
       }
 
       // Recarregar lista
