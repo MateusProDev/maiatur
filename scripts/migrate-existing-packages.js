@@ -61,6 +61,16 @@ async function migratePackages() {
   console.log('='.repeat(80));
   console.log('');
 
+  // Verificar se tem credenciais configuradas
+  if (!serviceAccountKey && !process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    console.log('⚠️  FIREBASE_SERVICE_ACCOUNT_KEY não configurada no ambiente.');
+    console.log('⚠️  Migração desabilitada. Configure a variável no Vercel para habilitar.');
+    console.log('⚠️  Veja: CONFIGURACAO_VERCEL_INDEXACAO.md');
+    console.log('');
+    console.log('✅ Build continuando sem migração (não fatal)');
+    process.exit(0);
+  }
+
   try {
     // Inicializar Firebase Admin
     console.log('📡 Conectando ao Firebase Admin...');
@@ -75,7 +85,6 @@ async function migratePackages() {
       console.log('✅ Autenticado com Service Account');
     } else {
       // Em desenvolvimento: usa credenciais padrão do ambiente
-      // Tenta usar GOOGLE_APPLICATION_CREDENTIALS se disponível
       const credsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
       if (credsPath && require('fs').existsSync(credsPath)) {
         admin.initializeApp({
@@ -84,9 +93,9 @@ async function migratePackages() {
         });
         console.log('✅ Autenticado com Application Default Credentials');
       } else {
-        // Fallback: inicializa sem credenciais (pode não ter permissão de escrita)
-        admin.initializeApp(firebaseConfig);
-        console.log('⚠️  Inicializado sem credenciais explícitas (modo leitura)');
+        console.log('❌ Não foi possível encontrar credenciais válidas');
+        console.log('⚠️  Migração desabilitada');
+        process.exit(0);
       }
     }
     
