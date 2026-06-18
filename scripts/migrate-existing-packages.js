@@ -17,9 +17,20 @@ const seoIndexingService = require('../src/services/seoIndexingService');
 
 // Configuração do Firebase Admin SDK
 // Usa variáveis de ambiente do Vercel em produção
-const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY 
-  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY)
-  : null;
+let serviceAccountKey = null;
+if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+  try {
+    serviceAccountKey = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+  } catch (error) {
+    console.error('❌ Erro ao parsear FIREBASE_SERVICE_ACCOUNT_KEY:');
+    console.error('   O valor deve ser um JSON válido');
+    console.error('   Verifique se você colou o conteúdo completo do arquivo JSON');
+    console.error('   Erro:', error.message);
+    console.log('');
+    console.log('⚠️  Migração desabilitada devido a erro nas credenciais');
+    process.exit(0);
+  }
+}
 
 // Configuração do projeto
 const firebaseConfig = {
