@@ -144,7 +144,6 @@ const PasseioPage = () => {
       <SEOHelmet
         title="Reserva de Passeio - Transfer Fortaleza Tur"
         description="Reserve passeios turísticos exclusivos em Fortaleza e região. Escolha entre pacotes, eventos ou outros tipos de passeio."
-        noindex={true}
       />
       <div className="form-header">
         <div className="form-header-top">

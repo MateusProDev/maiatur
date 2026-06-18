@@ -153,7 +153,6 @@ const TransferEntreHoteisPage = () => {
       <SEOHelmet
         title="Transfer entre Hotéis - Transfer Fortaleza Tur"
         description="Reserve transfer entre hotéis em Fortaleza com praticidade, conforto e agilidade."
-        noindex={true}
       />
       <div className="form-header">
         <div className="form-header-top">

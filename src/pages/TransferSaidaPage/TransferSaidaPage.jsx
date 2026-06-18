@@ -179,7 +179,6 @@ const TransferSaidaPage = () => {
       <SEOHelmet
         title="Transfer de Saída - Transfer Fortaleza Tur"
         description="Reserve seu transfer de saída do aeroporto para o hotel em Fortaleza com segurança e pontualidade."
-        noindex={true}
       />
       <div className="form-header">
         <div className="form-header-top">

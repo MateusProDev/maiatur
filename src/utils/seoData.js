@@ -49,14 +49,12 @@ export const seoData = {
   reservas: {
     title: 'Faça Sua Reserva de Transfer ou Passeio Online - Transfer Fortaleza Tur',
     description: 'Reserve seu transfer ou passeio em Fortaleza. Processo simples, pagamento seguro e confirmação rápida para garantir sua viagem.',
-    canonical: '/reservas',
-    noindex: true
+    canonical: '/reservas'
   },
   politica: {
     title: 'Política de Reservas - Transfer Fortaleza Tur',
     description: 'Regras de reservas, cancelamento e pagamento da Transfer Fortaleza Tur. Transparência e informações claras para sua viagem.',
-    canonical: '/politica',
-    noindex: true
+    canonical: '/politica'
   },
   
   categorias: {

@@ -177,7 +177,6 @@ const TransferChegadaPage = () => {
       <SEOHelmet
         title="Transfer de Chegada - Transfer Fortaleza Tur"
         description="Reserve seu transfer de chegada do aeroporto para o hotel em Fortaleza. Atendimento personalizado e seguro."
-        noindex={true}
       />
       <div className="form-header">
         <div className="form-header-top">
