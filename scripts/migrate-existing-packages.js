@@ -172,28 +172,41 @@ async function migratePackages() {
     
     console.log(`📋 ${slugsParaIndexar.length} slugs preparados para indexação\n`);
 
-    // Confirmar antes de indexar
-    console.log('⚠️  ATENÇÃO:');
-    console.log('  • Google Indexing API tem limite de 200 URLs/dia');
-    console.log(`  • Você está prestes a solicitar indexação de ${slugsParaIndexar.length} URLs`);
-    console.log('  • Isso pode levar alguns minutos devido ao rate limit');
-    console.log('');
-    
-    // Perguntar se deseja continuar
-    const readline = require('readline');
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
+    // Verificar se está em ambiente CI/CD (Vercel, GitHub Actions, etc.)
+    const isCI = process.env.CI === 'true' || 
+                 process.env.VERCEL === '1' || 
+                 process.env.GITHUB_ACTIONS === 'true' ||
+                 process.env.NODE_ENV === 'production';
 
-    const answer = await new Promise(resolve => {
-      rl.question('Deseja continuar? (s/n): ', resolve);
-    });
-    rl.close();
+    // Confirmar antes de indexar (apenas em ambiente local)
+    if (!isCI) {
+      console.log('⚠️  ATENÇÃO:');
+      console.log('  • Google Indexing API tem limite de 200 URLs/dia');
+      console.log(`  • Você está prestes a solicitar indexação de ${slugsParaIndexar.length} URLs`);
+      console.log('  • Isso pode levar alguns minutos devido ao rate limit');
+      console.log('');
+      
+      // Perguntar se deseja continuar
+      const readline = require('readline');
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
 
-    if (answer.toLowerCase() !== 's' && answer.toLowerCase() !== 'sim') {
-      console.log('\n❌ Migração cancelada pelo usuário.');
-      process.exit(0);
+      const answer = await new Promise(resolve => {
+        rl.question('Deseja continuar? (s/n): ', resolve);
+      });
+      rl.close();
+
+      if (answer.toLowerCase() !== 's' && answer.toLowerCase() !== 'sim') {
+        console.log('\n❌ Migração cancelada pelo usuário.');
+        process.exit(0);
+      }
+    } else {
+      // Em CI/CD, continua automaticamente
+      console.log('🤖 Ambiente CI/CD detectado - continuando automaticamente');
+      console.log(`📋 Indexando ${slugsParaIndexar.length} URLs...`);
+      console.log('');
     }
 
     console.log('\n🚀 Iniciando indexação em lote...');
