@@ -37,13 +37,28 @@ Para que o script de migração rode automaticamente no deploy, você precisa co
 }
 ```
 
-### 2. Firebase Project ID
+### 2. Google Indexing API Credentials (Obrigatório para indexação)
+
+**Variável:** `GOOGLE_INDEXING_CREDENTIALS`
+
+**Como obter:**
+Se você já seguiu o `SETUP_INDEXING_API.md`, você tem um arquivo `credentials.json` na raiz do projeto.
+
+1. Abra o arquivo `credentials.json` na raiz do projeto
+2. Copie todo o conteúdo JSON
+3. No Vercel: Settings → Environment Variables
+4. Adicione a variável `GOOGLE_INDEXING_CREDENTIALS`
+5. Cole o conteúdo JSON completo como valor
+
+**Importante:** Esta variável é necessária para que a indexação automática funcione. Sem ela, o script vai conectar ao Firebase mas não vai solicitar indexação ao Google.
+
+### 3. Firebase Project ID
 
 **Variável:** `FIREBASE_PROJECT_ID`
 
 **Valor:** `maiatur`
 
-### 3. Variáveis do Firebase (já devem existir)
+### 4. Variáveis do Firebase (já devem existir)
 
 Se você já tem estas variáveis configuradas, não precisa alterar:
 - `FIREBASE_API_KEY`
@@ -68,7 +83,8 @@ Adicione as seguintes variáveis:
 
 | Nome | Valor | Ambiente |
 |------|-------|-----------|
-| `FIREBASE_SERVICE_ACCOUNT_KEY` | (JSON completo da service account) | Production, Preview, Development |
+| `FIREBASE_SERVICE_ACCOUNT_KEY` | (JSON completo da service account do Firebase) | Production, Preview, Development |
+| `GOOGLE_INDEXING_CREDENTIALS` | (JSON completo da service account da Google Indexing API) | Production, Preview, Development |
 | `FIREBASE_PROJECT_ID` | `maiatur` | Production, Preview, Development |
 
 ### Passo 3: Salvar e Deploy
@@ -132,6 +148,16 @@ FIREBASE_SERVICE_ACCOUNT_KEY='{"type":"service_account",...}' node scripts/migra
 ---
 
 ## Solução de Problemas
+
+### Erro: "credentials.json não encontrado" ou "Não foi possível autenticar"
+
+**Causa:** Variável `GOOGLE_INDEXING_CREDENTIALS` não configurada no Vercel
+
+**Solução:**
+1. Verifique se a variável `GOOGLE_INDEXING_CREDENTIALS` foi adicionada no Vercel
+2. Verifique se está selecionada para "Production"
+3. Verifique se o JSON está completo e válido
+4. Faça um novo deploy
 
 ### Erro: "FIREBASE_SERVICE_ACCOUNT_KEY not found"
 
@@ -233,6 +259,7 @@ Configure alertas no Vercel para:
 
 ✅ **Configuração:**
 - Adicionar `FIREBASE_SERVICE_ACCOUNT_KEY` no Vercel
+- Adicionar `GOOGLE_INDEXING_CREDENTIALS` no Vercel
 - Adicionar `FIREBASE_PROJECT_ID` no Vercel
 - Script já configurado como `postbuild` no package.json
 
