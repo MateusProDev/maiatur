@@ -15,8 +15,20 @@ const SITE_URL = 'https://transferfortalezatur.com.br';
 
 /**
  * Carrega credenciais do Google Indexing API
+ * Prioriza variável de ambiente (Vercel) sobre arquivo local
  */
 function loadCredentials() {
+  // Em produção (Vercel): usa variável de ambiente
+  if (process.env.GOOGLE_INDEXING_CREDENTIALS) {
+    try {
+      return JSON.parse(process.env.GOOGLE_INDEXING_CREDENTIALS);
+    } catch (error) {
+      console.error('[SEO Indexing] Erro ao parsear GOOGLE_INDEXING_CREDENTIALS:', error.message);
+      return null;
+    }
+  }
+  
+  // Em desenvolvimento: usa arquivo local
   const credentialsPath = path.join(process.cwd(), 'credentials.json');
   
   if (!fs.existsSync(credentialsPath)) {
