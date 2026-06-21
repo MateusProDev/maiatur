@@ -457,7 +457,7 @@
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  z-index: 1004;
+  z-index: 1003;
   animation: fadeIn 0.3s ease;
 }
 
