@@ -10,6 +10,12 @@
   overflow-x: hidden !important;
 }
 
+@media (max-width: 768px) {
+  .avaliacoespage-container-unique {
+    padding: 90px 15px 40px;
+  }
+}
+
 /* ========== HEADER ========== */
 .avaliacoespage-header-unique {
   text-align: center;

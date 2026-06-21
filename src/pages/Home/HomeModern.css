@@ -6,6 +6,12 @@
   padding-top: 80px;
 }
 
+@media (max-width: 768px) {
+  .home-modern {
+    padding-top: 90px;
+  }
+}
+
 .container-modern {
   max-width: 1400px;
   margin: 0 auto;

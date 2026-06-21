@@ -1,6 +1,12 @@
 /* Blog Post Page - SEO Optimized */
 .blog-post-page { min-height: 100vh; background: #f9fafb; padding-top: 80px; }
 
+@media (max-width: 768px) {
+  .blog-post-page {
+    padding-top: 90px;
+  }
+}
+
 .blog-post-header { position: relative; }
 
 .back-button {

@@ -15,6 +15,12 @@
   margin-top: 80px;
 }
 
+@media (max-width: 768px) {
+  .categoria-hero {
+    margin-top: 90px;
+  }
+}
+
 .categoria-hero-overlay {
   position: absolute;
   top: 0;

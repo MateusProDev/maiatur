@@ -63,6 +63,12 @@
   padding-top: 80px;
 }
 
+@media (max-width: 768px) {
+  .hero-ultra {
+    padding-top: 90px;
+  }
+}
+
 .hero-gradient-overlay {
   position: absolute;
   top: 0;

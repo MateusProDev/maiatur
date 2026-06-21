@@ -9,6 +9,12 @@
   padding-top: 80px;
 }
 
+@media (max-width: 768px) {
+  .pacotes-list-page {
+    padding-top: 90px;
+  }
+}
+
 /* ========================================
    HERO SECTION
    ======================================== */

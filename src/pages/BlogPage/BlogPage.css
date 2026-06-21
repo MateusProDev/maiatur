@@ -1,6 +1,12 @@
 /* Blog Page Styles - Compacto e Moderno */
 .blog-page { min-height: 100vh; background: #f9fafb; padding-top: 80px; }
 
+@media (max-width: 768px) {
+  .blog-page {
+    padding-top: 90px;
+  }
+}
+
 .blog-hero {
   background: linear-gradient(135deg, #21A657 0%, #78C8E5 100%);
   padding: 6rem 2rem 4rem;

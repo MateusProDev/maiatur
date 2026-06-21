@@ -13,6 +13,12 @@
   animation: fadeIn 0.5s ease-out;
 }
 
+@media (max-width: 768px) {
+  .passeio-page {
+    padding-top: calc(90px + clamp(1.5rem, 3vw, 3rem));
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

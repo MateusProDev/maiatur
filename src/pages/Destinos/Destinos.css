@@ -10,6 +10,13 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #fff5f0 100%);
 }
 
+@media (max-width: 768px) {
+  .destinos-main {
+    padding: 2rem 1rem;
+    padding-top: calc(90px + 2rem);
+  }
+}
+
 .destinos-container {
   max-width: 1200px;
   margin: 0 auto;
