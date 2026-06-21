@@ -319,15 +319,6 @@ const Header = () => {
         </nav>
       </div>
 
-      {/* Backdrop/Overlay quando menu está aberto */}
-      {typeof document !== 'undefined' && menuOpen && createPortal(
-        <div 
-          className={cx('nav-backdrop')}
-          onClick={() => setMenuOpen(false)}
-          aria-hidden="true"
-        />,
-        document.body
-      )}
 
       {/* Render install + hamburger buttons into document.body to ensure they overlay the nav */}
       {typeof document !== 'undefined' && createPortal(

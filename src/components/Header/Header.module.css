@@ -450,25 +450,6 @@
   }
 }
 
-/* ========== BACKDROP/OVERLAY DO MENU ========== */
-.nav-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 1003;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
 /* ========== REDES SOCIAIS NO MENU ========== */
 .header-nav-social {
@@ -611,8 +592,7 @@
 /* ========== DESKTOP - ESCONDER REDES SOCIAIS E CONTATO ========== */
 @media (min-width: 769px) {
   .header-nav-social,
-  .header-nav-contact,
-  .nav-backdrop {
+  .header-nav-contact {
     display: none;
   }
 }
