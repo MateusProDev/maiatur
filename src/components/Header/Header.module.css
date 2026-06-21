@@ -351,22 +351,23 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 320px;
+    width: 85%;
+    max-width: 400px;
     height: 100vh;
-    background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+    background: linear-gradient(180deg, #128C7E 0%, #075E54 100%);
     flex-direction: column;
     align-items: flex-start;
-    padding: 6rem 2rem 2rem;
+    padding: 5rem 1.5rem 2rem;
     gap: 0;
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.25);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.3);
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
-    z-index: 1005; /* bring mobile nav above header/logo */
+    z-index: 1005;
   }
 
   .header-nav-modern.nav-open {
     right: 0;
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
   }
 
   /* Export a standalone nav-open class so CSS Modules can apply it when used
@@ -374,22 +375,31 @@
      dynamic class name added via the cx helper actually maps to CSS. */
   .nav-open {
     right: 0 !important;
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
   }
 
   .header-nav-list-modern {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    gap: 0;
+    gap: 0.5rem;
     padding: 0;
   }
 
   .nav-link-modern {
     width: 100%;
-    padding: 1rem 1.25rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
+    padding: 1.1rem 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-link-modern:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(4px);
   }
 
   .nav-link-modern::before {
@@ -418,6 +428,46 @@
   .header-container-modern {
     padding: 0 0.75rem;
   }
+
+  .header-nav-modern {
+    width: 90%;
+    padding: 5rem 1.25rem 2rem;
+  }
+
+  .nav-link-modern {
+    padding: 1rem 1.1rem;
+    font-size: 0.95rem;
+  }
+
+  .nav-social-btn {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.85rem;
+  }
+
+  .nav-contact-item {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ========== BACKDROP/OVERLAY DO MENU ========== */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1004;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ========== REDES SOCIAIS NO MENU ========== */
@@ -425,84 +475,83 @@
   width: 100%;
   padding: 1.5rem 0;
   margin-top: 1.5rem;
-  border-top: 2px solid rgba(33, 166, 87, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-social-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: #ffffff; /* force white text for social title */
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .nav-social-icon-title {
-  color: var(--color-primary);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1.1rem;
 }
 
 .nav-social-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
 }
 
 .nav-social-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
   border-radius: 12px;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  aspect-ratio: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
 }
 
 .nav-social-btn svg {
-  font-size: 1.5rem;
-  color: #ffffff; /* ensure icons are white */
+  font-size: 1.3rem;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.nav-social-btn span {
+  flex: 1;
 }
 
 .nav-social-btn:hover {
-  transform: translateY(-2px);
+  transform: translateX(4px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .nav-social-whatsapp {
   background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-  color: white;
 }
 
 .nav-social-instagram {
   background: linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%);
-  color: white;
 }
 
 .nav-social-facebook {
   background: linear-gradient(135deg, #1877F2 0%, #0C63D4 100%);
-  color: white;
 }
 
 .nav-social-youtube {
   background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
-  color: white;
 }
 
 .nav-social-twitter {
   background: linear-gradient(135deg, #1DA1F2 0%, #0C85D0 100%);
-  color: white;
 }
 
 .nav-social-linkedin {
   background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
-  color: white;
 }
 
 /* ========== INFORMAÇÕES DE CONTATO NO MENU ========== */
@@ -510,10 +559,27 @@
   width: 100%;
   padding: 1.5rem 0;
   margin-top: 1rem;
-  border-top: 2px solid rgba(33, 166, 87, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.nav-contact-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-contact-icon-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
 }
 
 .nav-contact-item {
@@ -521,31 +587,32 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 1.25rem;
-  background: linear-gradient(135deg, var(--color-primary-alpha) 0%, rgba(33, 166, 87, 0.05) 100%);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   text-decoration: none;
-  color: #ffffff; /* force white text for contact items */
+  color: #ffffff;
   font-weight: 600;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-contact-item:hover {
-  border-color: var(--color-primary);
-  background: linear-gradient(135deg, rgba(33, 166, 87, 0.15) 0%, rgba(33, 166, 87, 0.08) 100%);
-  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
 }
 
 .nav-contact-icon {
   font-size: 1.3rem;
-  color: #ffffff; /* icon color white to match text */
+  color: rgba(255, 255, 255, 0.8);
   flex-shrink: 0;
 }
 
 /* ========== DESKTOP - ESCONDER REDES SOCIAIS E CONTATO ========== */
 @media (min-width: 769px) {
   .header-nav-social,
-  .header-nav-contact {
+  .header-nav-contact,
+  .nav-backdrop {
     display: none;
   }
 }

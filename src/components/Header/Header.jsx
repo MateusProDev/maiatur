@@ -217,7 +217,7 @@ const Header = () => {
           <div className={cx('header-nav-social')}>
             <h4 className={cx('nav-social-title')}>
               <FiMessageCircle className={cx('nav-social-icon-title')} />
-              Conecte-se Conosco
+              Redes Sociais
             </h4>
             <div className={cx('nav-social-grid')}>
               {socialMedia.whatsapp?.link && (
@@ -230,6 +230,7 @@ const Header = () => {
                   title="WhatsApp"
                 >
                   <FaWhatsapp />
+                  <span>WhatsApp</span>
                 </a>
               )}
               {socialMedia.instagram?.link && (
@@ -242,6 +243,7 @@ const Header = () => {
                   title="Instagram"
                 >
                   <FaInstagram />
+                  <span>Instagram</span>
                 </a>
               )}
               {socialMedia.facebook?.link && (
@@ -254,6 +256,7 @@ const Header = () => {
                   title="Facebook"
                 >
                   <FaFacebookF />
+                  <span>Facebook</span>
                 </a>
               )}
               {socialMedia.youtube?.link && (
@@ -266,6 +269,7 @@ const Header = () => {
                   title="YouTube"
                 >
                   <FaYoutube />
+                  <span>YouTube</span>
                 </a>
               )}
               {socialMedia.twitter?.link && (
@@ -278,6 +282,7 @@ const Header = () => {
                   title="Twitter"
                 >
                   <FaTwitter />
+                  <span>Twitter</span>
                 </a>
               )}
               {socialMedia.linkedin?.link && (
@@ -290,6 +295,7 @@ const Header = () => {
                   title="LinkedIn"
                 >
                   <FaLinkedinIn />
+                  <span>LinkedIn</span>
                 </a>
               )}
             </div>
@@ -297,6 +303,10 @@ const Header = () => {
 
           {/* Informações de Contato */}
           <div className={cx('header-nav-contact')}>
+            <h4 className={cx('nav-contact-title')}>
+              <FiPhone className={cx('nav-contact-icon-title')} />
+              Contato
+            </h4>
             <a href={`tel:${whatsappNumber}`} className={cx('nav-contact-item')}>
               <FiPhone className={cx('nav-contact-icon')} />
               <span>Ligue para Nós</span>
@@ -308,6 +318,16 @@ const Header = () => {
           </div>
         </nav>
       </div>
+
+      {/* Backdrop/Overlay quando menu está aberto */}
+      {typeof document !== 'undefined' && menuOpen && createPortal(
+        <div 
+          className={cx('nav-backdrop')}
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />,
+        document.body
+      )}
 
       {/* Render install + hamburger buttons into document.body to ensure they overlay the nav */}
       {typeof document !== 'undefined' && createPortal(
