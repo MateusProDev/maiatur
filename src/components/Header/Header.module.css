@@ -6,9 +6,6 @@
   left: 0;
   width: 100%;
   background: #128C7E;
-  backdrop-filter: blur(10px);
-    /* Logo maior e com flex-grow para ocupar espaço disponível */
-  -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
