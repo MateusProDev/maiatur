@@ -46,29 +46,39 @@ const PacoteDetailPage = () => {
         setLoading(true);
         setError(null);
         
+        // Otimização: Verificar cache primeiro
+        const cacheKey = `pacote_${pacoteSlug}`;
+        const cachedData = localStorage.getItem(cacheKey);
+        const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+        
+        // Usar cache se tiver menos de 5 minutos
+        if (cachedData && cacheTime) {
+          const cacheAge = Date.now() - parseInt(cacheTime);
+          if (cacheAge < 5 * 60 * 1000) {
+            console.log('📦 Usando cache do pacote');
+            setPacote(JSON.parse(cachedData));
+            setLoading(false);
+            return;
+          }
+        }
+        
+        // Buscar do Firestore
         const pacotesRef = collection(db, 'pacotes');
         const q = query(pacotesRef, where("slug", "==", pacoteSlug));
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
           const doc = querySnapshot.docs[0];
-          setPacote(formatPacoteData(doc));
+          const pacoteData = formatPacoteData(doc);
+          setPacote(pacoteData);
+          
+          // Salvar no cache
+          localStorage.setItem(cacheKey, JSON.stringify(pacoteData));
+          localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
           return;
         }
         
-        try {
-          const docRef = doc(db, 'pacotes', pacoteSlug);
-          const docSnap = await getDoc(docRef);
-          
-          if (docSnap.exists()) {
-            setPacote(formatPacoteData(docSnap));
-          } else {
-            setError("Pacote não encontrado");
-          }
-        } catch (err) {
-          console.error("Erro ao buscar pacote por ID:", err);
-          setError("Pacote não encontrado");
-        }
+        setError("Pacote não encontrado");
       } catch (err) {
         console.error("Erro ao buscar pacote:", err);
         setError("Erro ao carregar pacote. Tente novamente mais tarde.");

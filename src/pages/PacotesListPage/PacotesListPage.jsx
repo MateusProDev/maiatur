@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -26,13 +26,36 @@ const PacotesListPage = () => {
       try {
         console.log('🔄 Iniciando busca de pacotes...');
         
-        const querySnapshot = await getDocs(collection(db, 'pacotes'));
+        // Otimização: Verificar cache primeiro
+        const cacheKey = 'pacotes_list';
+        const cachedData = localStorage.getItem(cacheKey);
+        const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+        
+        // Usar cache se tiver menos de 10 minutos
+        if (cachedData && cacheTime) {
+          const cacheAge = Date.now() - parseInt(cacheTime);
+          if (cacheAge < 10 * 60 * 1000) {
+            console.log('📦 Usando cache da lista de pacotes');
+            setAllPacotes(JSON.parse(cachedData));
+            setLoading(false);
+            return;
+          }
+        }
+        
+        // Otimização: Query com ordenação no servidor e limite
+        const pacotesRef = collection(db, 'pacotes');
+        const q = query(
+          pacotesRef,
+          orderBy('createdAt', 'desc'),
+          limit(100) // Limite para evitar carregar muitos pacotes
+        );
+        
+        const querySnapshot = await getDocs(q);
         
         console.log(`📊 Documentos retornados do Firestore: ${querySnapshot.size}`);
         
         const pacotesData = querySnapshot.docs.map(doc => {
           const data = doc.data();
-          console.log(`📦 Pacote: ${data.titulo} | Destaque: ${data.destaque}`);
           
           return {
             id: doc.id,
@@ -42,18 +65,12 @@ const PacotesListPage = () => {
           };
         });
 
-        // Ordena por createdAt
-        pacotesData.sort((a, b) => {
-          if (a.createdAt && b.createdAt) {
-            const aTime = a.createdAt.seconds || a.createdAt;
-            const bTime = b.createdAt.seconds || b.createdAt;
-            return bTime - aTime;
-          }
-          return 0;
-        });
-
         console.log(`✅ Total de pacotes carregados: ${pacotesData.length}`);
         setAllPacotes(pacotesData);
+        
+        // Salvar no cache
+        localStorage.setItem(cacheKey, JSON.stringify(pacotesData));
+        localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
       } catch (err) {
         console.error("❌ Erro ao buscar pacotes:", err);
       } finally {
