@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { FiArrowLeft, FiCheck, FiClock, FiMapPin, FiCalendar, FiUsers, FiStar, FiShare2, FiHeart } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
