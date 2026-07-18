@@ -9,7 +9,7 @@
  */
 
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs } = require('firebase/firestore');
+const { getFirestore, collection, getDocs, query, where, orderBy } = require('firebase/firestore');
 
 // Configuração do Firebase (usando variáveis de ambiente)
 const firebaseConfig = {
@@ -166,10 +166,10 @@ export default async function handler(req, res) {
     
     // Buscar todos os pacotes do Firestore
     const pacotesRef = collection(db, 'pacotes');
-    const snapshot = await getDocs(pacotesRef);
+    const pacotesSnapshot = await getDocs(pacotesRef);
     
     const pacotes = [];
-    snapshot.forEach((doc) => {
+    pacotesSnapshot.forEach((doc) => {
       const data = doc.data();
       pacotes.push({
         id: doc.id,
@@ -178,6 +178,26 @@ export default async function handler(req, res) {
     });
     
     console.log(`[Sitemap] ${pacotes.length} pacotes encontrados`);
+    
+    // Buscar todos os posts de blog publicados do Firestore
+    const blogPostsRef = collection(db, 'blogPosts');
+    const blogQuery = query(
+      blogPostsRef,
+      where('published', '==', true),
+      orderBy('publishedAt', 'desc')
+    );
+    const blogSnapshot = await getDocs(blogQuery);
+    
+    const blogPosts = [];
+    blogSnapshot.forEach((doc) => {
+      const data = doc.data();
+      blogPosts.push({
+        id: doc.id,
+        ...data
+      });
+    });
+    
+    console.log(`[Sitemap] ${blogPosts.length} posts de blog encontrados`);
     
     // Gerar XML do sitemap
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -220,6 +240,20 @@ export default async function handler(req, res) {
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
+  </url>
+`;
+    });
+    
+    // Adicionar posts de blog individuais
+    blogPosts.forEach(post => {
+      const slug = post.slug;
+      const lastmod = formatDate(post.updatedAt || post.publishedAt || post.createdAt);
+      
+      xml += `  <url>
+    <loc>${SITE_URL}/blog/${slug}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 `;
     });
