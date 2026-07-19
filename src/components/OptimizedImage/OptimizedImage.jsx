@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { optimizeCloudinaryUrl, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 import './OptimizedImage.css';
 
 const OptimizedImage = ({ 
@@ -18,50 +19,16 @@ const OptimizedImage = ({
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef(null);
 
-  // Otimizar URL do Cloudinary para WebP/AVIF
-  const optimizeCloudinaryUrl = (url) => {
-    if (!url || typeof url !== 'string') return url;
-    
-    // Se for Cloudinary, adicionar transformações
-    if (url.includes('res.cloudinary.com')) {
-      // Extrair partes da URL
-      const parts = url.split('/upload/');
-      if (parts.length === 2) {
-        // Adicionar transformações: formato auto (WebP/AVIF), qualidade auto, compressão
-        const transforms = 'f_auto,q_auto:good,c_limit';
-        
-        // Se width e height foram fornecidos, adicionar resize
-        if (width && height) {
-          return `${parts[0]}/upload/${transforms},w_${width},h_${height}/${parts[1]}`;
-        }
-        
-        return `${parts[0]}/upload/${transforms}/${parts[1]}`;
-      }
-    }
-    
-    return url;
-  };
+  // Usar o otimizador centralizado do Cloudinary
+  const optimizedSrc = optimizeCloudinaryUrl(src, {
+    width,
+    height,
+    quality: 'auto:eco', // Maior compressão para performance
+    format: 'auto', // WebP/AVIF automático
+    crop: width && height ? 'fill' : 'limit'
+  });
 
-  // Gerar srcset para imagens responsivas
-  const generateSrcSet = (url) => {
-    if (!url || typeof url !== 'string' || !url.includes('res.cloudinary.com')) {
-      return null;
-    }
-
-    const parts = url.split('/upload/');
-    if (parts.length !== 2) return null;
-
-    const widths = [320, 640, 768, 1024, 1280, 1920];
-    const srcset = widths.map(w => {
-      const optimizedUrl = `${parts[0]}/upload/f_auto,q_auto:good,w_${w},c_limit/${parts[1]}`;
-      return `${optimizedUrl} ${w}w`;
-    }).join(', ');
-
-    return srcset;
-  };
-
-  const optimizedSrc = optimizeCloudinaryUrl(src);
-  const srcSet = generateSrcSet(src);
+  const srcSet = generateCloudinarySrcset(src, [320, 640, 768, 1024, 1280, 1920]);
 
   useEffect(() => {
     // Se for priority, carregar imediatamente

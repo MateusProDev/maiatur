@@ -10,6 +10,7 @@ import Header from '../../components/Header/Header';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
+import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import './PacoteDetailPage.css';
 
 const PacoteDetailPage = () => {
@@ -194,10 +195,12 @@ const PacoteDetailPage = () => {
               <>
                 <div className="pdp-main-image">
                   <img 
-                    src={pacote.imagens[currentImageIndex]} 
+                    src={autoOptimize(pacote.imagens[currentImageIndex], 'banner')} 
                     alt={pacote.titulo}
+                    loading="eager"
+                    decoding="async"
                     onError={(e) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80';
+                      e.target.src = autoOptimize('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80', 'banner');
                     }}
                   />
                   
@@ -227,7 +230,12 @@ const PacoteDetailPage = () => {
                         className={`pdp-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
                         onClick={() => setCurrentImageIndex(index)}
                       >
-                        <img src={img} alt={`${pacote.titulo} ${index + 1}`} />
+                        <img 
+                          src={autoOptimize(img, 'packageCard')} 
+                          alt={`${pacote.titulo} ${index + 1}`}
+                          loading="lazy"
+                          decoding="async"
+                        />
                       </div>
                     ))}
                   </div>

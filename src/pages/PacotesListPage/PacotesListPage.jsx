@@ -8,6 +8,7 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { FiSearch, FiX, FiFilter, FiMapPin, FiStar, FiPackage } from 'react-icons/fi';
 import seoData from '../../utils/seoData';
+import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import './PacotesListPage.css';
 
 const PacotesListPage = () => {
@@ -321,10 +322,12 @@ const PacotesListPage = () => {
                   <Link to={`/pacote/${pacote.slug || pacote.id}`} className="pacote-card-link-area">
                     <div className="pacote-card-image">
                       <img 
-                        src={pacote.imagens?.[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800'} 
+                        src={autoOptimize(pacote.imagens?.[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800', 'packageCard')} 
                         alt={pacote.titulo}
+                        loading="lazy"
+                        decoding="async"
                         onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800';
+                          e.target.src = autoOptimize('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800', 'packageCard');
                         }}
                       />
                       {pacote.destaque && (
