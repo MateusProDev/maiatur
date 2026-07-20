@@ -87,6 +87,23 @@ const HomeUltraModern = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Otimização: Verificar cache primeiro para pacotes
+        const cacheKey = 'home_pacotes_data';
+        const cachedData = localStorage.getItem(cacheKey);
+        const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+        
+        // Usar cache se tiver menos de 5 minutos
+        if (cachedData && cacheTime) {
+          const cacheAge = Date.now() - parseInt(cacheTime);
+          if (cacheAge < 5 * 60 * 1000) {
+            console.log('📦 Usando cache de pacotes da Home');
+            const parsed = JSON.parse(cachedData);
+            setPacotesPorCategoria(parsed.pacotesPorCategoria);
+            setAvaliacoes(parsed.avaliacoes);
+            setLoading(false);
+          }
+        }
+        
         // Buscar WhatsApp
         const whatsappDoc = await getDoc(doc(db, 'settings', 'whatsapp'));
         if (whatsappDoc.exists()) {
@@ -288,6 +305,13 @@ const HomeUltraModern = () => {
           ...doc.data()
         }));
         setAvaliacoes(avaliacoesData);
+        
+        // Salvar no cache
+        localStorage.setItem(cacheKey, JSON.stringify({
+          pacotesPorCategoria: grouped,
+          avaliacoes: avaliacoesData
+        }));
+        localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
 
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
@@ -524,13 +548,28 @@ const HomeUltraModern = () => {
               <div className="why-choose-right">
                 <div className="image-collage">
                   <div className="collage-item collage-1">
-                    <img src={differentialsSettings.collageImages?.image1 || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop'} alt="Destino" />
+                    <img 
+                      src={autoOptimize(differentialsSettings.collageImages?.image1 || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop', 'banner')} 
+                      alt="Destino" 
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div className="collage-item collage-2">
-                    <img src={differentialsSettings.collageImages?.image2 || 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop'} alt="Experiência" />
+                    <img 
+                      src={autoOptimize(differentialsSettings.collageImages?.image2 || 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop', 'banner')} 
+                      alt="Experiência" 
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div className="collage-item collage-3">
-                    <img src={differentialsSettings.collageImages?.image3 || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop'} alt="Aventura" />
+                    <img 
+                      src={autoOptimize(differentialsSettings.collageImages?.image3 || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop', 'banner')} 
+                      alt="Aventura" 
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                 </div>
               </div>
