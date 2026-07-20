@@ -97,12 +97,13 @@ export const cloudinaryPresets = {
     format: 'auto'
   }),
 
-  // Banner hero (full width, ~1920px)
+  // Banner hero (full width, ~1920px) - OTIMIZAÇÃO AGRESSIVA
   banner: (url) => optimizeCloudinaryUrl(url, {
     width: 1920,
     height: 800,
-    quality: 'auto:eco', // Mudado para eco - maior compressão
-    crop: 'fill'
+    quality: 'auto:eco', // Compressão máxima
+    crop: 'fill',
+    format: 'auto' // WebP/AVIF automático
   }),
 
   // Card de serviço (mobile ~402px, desktop ~665px)

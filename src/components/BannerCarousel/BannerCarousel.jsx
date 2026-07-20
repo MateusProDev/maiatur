@@ -4,7 +4,7 @@ import { db } from '../../firebase/firebase';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import { autoOptimize } from '../../utils/cloudinaryOptimizer';
+import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 import './BannerCarousel.css';
 
 const BannerCarousel = () => {
@@ -103,12 +103,15 @@ const BannerCarousel = () => {
             <div className="banner-image-wrapper">
               <img 
                 src={autoOptimize(banner.imagem, 'banner')} 
+                srcSet={generateCloudinarySrcset(banner.imagem, [640, 960, 1280, 1920])}
+                sizes="(max-width: 640px) 640px, (max-width: 960px) 960px, (max-width: 1280px) 1280px, 1920px"
                 alt={banner.titulo}
                 className="banner-image"
                 width="1920"
                 height="800"
                 loading={index === 0 ? 'eager' : 'lazy'}
                 fetchpriority={index === 0 ? 'high' : undefined}
+                decoding="async"
               />
               <div className="banner-overlay"></div>
             </div>
