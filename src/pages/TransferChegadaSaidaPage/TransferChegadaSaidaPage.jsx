@@ -65,16 +65,18 @@ const TransferChegadaSaidaPage = () => {
       }
       
       // Buscar logo
+      let currentLogoUrl = '/icons/android-chrome-512x512.png';
       try {
-        setLogoUrl('/icons/android-chrome-512x512.png');
+        setLogoUrl(currentLogoUrl);
         const headerRef = doc(db, 'content', 'header');
         const headerDoc = await getDoc(headerRef);
         if (headerDoc.exists() && headerDoc.data().logoUrl) {
-          setLogoUrl(headerDoc.data().logoUrl);
+          currentLogoUrl = headerDoc.data().logoUrl;
+          setLogoUrl(currentLogoUrl);
         }
       } catch (error) {
         console.error('Erro ao buscar logo:', error);
-        setLogoUrl('/icons/android-chrome-512x512.png');
+        setLogoUrl(currentLogoUrl);
       }
       
       // Lista de veículos disponíveis
@@ -105,7 +107,7 @@ const TransferChegadaSaidaPage = () => {
         
         // Salvar no cache
         localStorage.setItem(cacheKey, JSON.stringify({
-          logoUrl: logoUrl || '/icons/android-chrome-512x512.png',
+          logoUrl: currentLogoUrl,
           pacotes: pacotes,
           veiculos: veiculos
         }));
