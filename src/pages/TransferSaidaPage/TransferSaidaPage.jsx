@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +21,7 @@ import {
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { autoOptimize } from "../../utils/cloudinaryOptimizer";
 import "../PasseioPage/PasseioPage.css";
 
 const TransferSaidaPage = () => {
@@ -44,6 +47,24 @@ const TransferSaidaPage = () => {
   useEffect(() => {
     const carregarListas = async () => {
       console.log("🔄 [TransferSaida] Carregando dados...");
+      
+      // Otimização: Verificar cache primeiro
+      const cacheKey = 'transfer_saida_data';
+      const cachedData = localStorage.getItem(cacheKey);
+      const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+      
+      // Usar cache se tiver menos de 10 minutos
+      if (cachedData && cacheTime) {
+        const cacheAge = Date.now() - parseInt(cacheTime);
+        if (cacheAge < 10 * 60 * 1000) {
+          console.log('📦 Usando cache de transfer saida');
+          const parsed = JSON.parse(cachedData);
+          setLogoUrl(parsed.logoUrl);
+          setPacotesTransfer(parsed.pacotes);
+          setVeiculosDisponiveis(parsed.veiculos);
+          return;
+        }
+      }
       
       // Buscar logo
       try {
@@ -101,6 +122,14 @@ const TransferSaidaPage = () => {
         console.log("✅ [TransferSaida] Pacotes transfer_chegada_saida:", pacotes2.length);
         console.log("📊 [TransferSaida] Total de pacotes:", todosPacotes.length);
         setPacotesTransfer(todosPacotes);
+        
+        // Salvar no cache
+        localStorage.setItem(cacheKey, JSON.stringify({
+          logoUrl: logoUrl || '/icons/android-chrome-512x512.png',
+          pacotes: todosPacotes,
+          veiculos: veiculos
+        }));
+        localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
         
         if (todosPacotes.length === 0) {
           console.warn("⚠️ [TransferSaida] Nenhum pacote encontrado");
@@ -187,7 +216,12 @@ const TransferSaidaPage = () => {
           </button>
           {logoUrl && (
             <div className="form-logo">
-              <img src={logoUrl} alt="Transfer Fortaleza Tur Logo" />
+              <img 
+                src={autoOptimize(logoUrl, 'logo')} 
+                alt="Transfer Fortaleza Tur Logo" 
+                loading="eager"
+                decoding="async"
+              />
             </div>
           )}
         </div>

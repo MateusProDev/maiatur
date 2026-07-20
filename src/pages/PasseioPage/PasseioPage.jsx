@@ -21,6 +21,7 @@ import {
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { autoOptimize } from "../../utils/cloudinaryOptimizer";
 import "./PasseioPage.css";
 
 const PasseioPage = () => {
@@ -97,9 +98,26 @@ const PasseioPage = () => {
   ];
 
   useEffect(() => {
-    // Carregar listas do Firestore
+    // Carregar listas do Firestore com cache
     const carregarListas = async () => {
       console.log("🔄 Carregando dados do Firestore...");
+      
+      // Otimização: Verificar cache primeiro
+      const cacheKey = 'passeios_data';
+      const cachedData = localStorage.getItem(cacheKey);
+      const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+      
+      // Usar cache se tiver menos de 10 minutos
+      if (cachedData && cacheTime) {
+        const cacheAge = Date.now() - parseInt(cacheTime);
+        if (cacheAge < 10 * 60 * 1000) {
+          console.log('📦 Usando cache de passeios');
+          const parsed = JSON.parse(cachedData);
+          setLogoUrl(parsed.logoUrl);
+          setPasseiosDisponiveis(parsed.passeios);
+          return;
+        }
+      }
       
       // Buscar logo da agência
       try {
@@ -131,6 +149,13 @@ const PasseioPage = () => {
       console.log("📋 Títulos dos pacotes:", titulosPacotes);
       
       setPasseiosDisponiveis(titulosPacotes);
+      
+      // Salvar no cache
+      localStorage.setItem(cacheKey, JSON.stringify({
+        logoUrl: logoUrl || '/icons/android-chrome-512x512.png',
+        passeios: titulosPacotes
+      }));
+      localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
     };
     carregarListas();
   }, []);
@@ -152,7 +177,12 @@ const PasseioPage = () => {
           </button>
           {logoUrl && (
             <div className="form-logo">
-              <img src={logoUrl} alt="Transfer Fortaleza Tur Logo" />
+              <img 
+                src={autoOptimize(logoUrl, 'logo')} 
+                alt="Transfer Fortaleza Tur Logo" 
+                loading="eager"
+                decoding="async"
+              />
             </div>
           )}
         </div>

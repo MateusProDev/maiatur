@@ -19,6 +19,7 @@ import {
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { autoOptimize } from "../../utils/cloudinaryOptimizer";
 import "../PasseioPage/PasseioPage.css";
 
 const TransferChegadaPage = () => {
@@ -43,6 +44,23 @@ const TransferChegadaPage = () => {
   useEffect(() => {
     const carregarListas = async () => {
       console.log("🔄 [TransferChegada] Carregando dados...");
+      
+      // Otimização: Verificar cache primeiro
+      const cacheKey = 'transfer_chegada_data';
+      const cachedData = localStorage.getItem(cacheKey);
+      const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+      
+      // Usar cache se tiver menos de 10 minutos
+      if (cachedData && cacheTime) {
+        const cacheAge = Date.now() - parseInt(cacheTime);
+        if (cacheAge < 10 * 60 * 1000) {
+          console.log('📦 Usando cache de transfer chegada');
+          const parsed = JSON.parse(cachedData);
+          setLogoUrl(parsed.logoUrl);
+          setPacotesTransfer(parsed.pacotes);
+          return;
+        }
+      }
       
       // Buscar logo da agência
       try {
@@ -98,7 +116,15 @@ const TransferChegadaPage = () => {
         console.log("✅ [TransferChegada] Pacotes transfer_chegada:", pacotes1.length);
         console.log("✅ [TransferChegada] Pacotes transfer_chegada_saida:", pacotes2.length);
         console.log("📊 [TransferChegada] Total de pacotes:", todosPacotes.length);
+        
         setPacotesTransfer(todosPacotes);
+        
+        // Salvar no cache
+        localStorage.setItem(cacheKey, JSON.stringify({
+          logoUrl: logoUrl || '/icons/android-chrome-512x512.png',
+          pacotes: todosPacotes
+        }));
+        localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
         
         if (todosPacotes.length === 0) {
           console.warn("⚠️ [TransferChegada] Nenhum pacote encontrado");
@@ -185,7 +211,12 @@ const TransferChegadaPage = () => {
           </button>
           {logoUrl && (
             <div className="form-logo">
-              <img src={logoUrl} alt="Transfer Fortaleza Tur Logo" />
+              <img 
+                src={autoOptimize(logoUrl, 'logo')} 
+                alt="Transfer Fortaleza Tur Logo" 
+                loading="eager"
+                decoding="async"
+              />
             </div>
           )}
         </div>

@@ -19,6 +19,7 @@ import {
 import ModalSucessoReserva from "../../components/Reservas/ModalSucessoReserva";
 import { db } from "../../firebase/firebase";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { autoOptimize } from "../../utils/cloudinaryOptimizer";
 import "../PasseioPage/PasseioPage.css";
 
 const TransferEntreHoteisPage = () => {
@@ -44,6 +45,24 @@ const TransferEntreHoteisPage = () => {
   useEffect(() => {
     const carregarListas = async () => {
       console.log("🔄 [TransferEntreHoteis] Carregando dados...");
+      
+      // Otimização: Verificar cache primeiro
+      const cacheKey = 'transfer_entre_hoteis_data';
+      const cachedData = localStorage.getItem(cacheKey);
+      const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+      
+      // Usar cache se tiver menos de 10 minutos
+      if (cachedData && cacheTime) {
+        const cacheAge = Date.now() - parseInt(cacheTime);
+        if (cacheAge < 10 * 60 * 1000) {
+          console.log('📦 Usando cache de transfer entre hoteis');
+          const parsed = JSON.parse(cachedData);
+          setLogoUrl(parsed.logoUrl);
+          setPacotesTransfer(parsed.pacotes);
+          setVeiculosDisponiveis(parsed.veiculos);
+          return;
+        }
+      }
       
       // Buscar logo
       try {
@@ -83,6 +102,14 @@ const TransferEntreHoteisPage = () => {
         console.log("✅ [TransferEntreHoteis] Pacotes transfer carregados:", pacotes);
         console.log("📊 [TransferEntreHoteis] Total de pacotes:", pacotes.length);
         setPacotesTransfer(pacotes);
+        
+        // Salvar no cache
+        localStorage.setItem(cacheKey, JSON.stringify({
+          logoUrl: logoUrl || '/icons/android-chrome-512x512.png',
+          pacotes: pacotes,
+          veiculos: veiculos
+        }));
+        localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
         
         if (pacotes.length === 0) {
           console.warn("⚠️ [TransferEntreHoteis] Nenhum pacote encontrado com categoria 'transfer_entre_hoteis'");
@@ -161,7 +188,12 @@ const TransferEntreHoteisPage = () => {
           </button>
           {logoUrl && (
             <div className="form-logo">
-              <img src={logoUrl} alt="Transfer Fortaleza Tur Logo" />
+              <img 
+                src={autoOptimize(logoUrl, 'logo')} 
+                alt="Transfer Fortaleza Tur Logo" 
+                loading="eager"
+                decoding="async"
+              />
             </div>
           )}
         </div>

@@ -4,6 +4,7 @@ import { FaRoute, FaPlane, FaExchangeAlt, FaPlaneDeparture, FaHotel } from "reac
 import Footer from "../../components/Footer/Footer";
 import SEOHelmet from "../../components/SEOHelmet/SEOHelmet";
 import seoData from "../../utils/seoData";
+import { autoOptimize } from "../../utils/cloudinaryOptimizer";
 import "./ReservasPage.css";
 
 const ReservasPage = () => {
@@ -62,9 +63,11 @@ const ReservasPage = () => {
       />
       <div className="reservas-header">
         <img 
-          src="/android-chrome-512x512.png" 
+          src={autoOptimize("/android-chrome-512x512.png", 'logo')} 
           alt="Transfer Fortaleza Tur Logo" 
           className="reservas-logo"
+          loading="eager"
+          decoding="async"
         />
         <h1>Reservas Online</h1>
         <p>Escolha o tipo de serviço que deseja reservar</p>
