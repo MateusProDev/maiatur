@@ -11,6 +11,7 @@ import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import { autoOptimize } from '../../utils/cloudinaryOptimizer';
+import TransferDetailContent from './TransferDetailContent';
 import './PacoteDetailPage.css';
 
 const PacoteDetailPage = () => {
@@ -36,8 +37,21 @@ const PacoteDetailPage = () => {
       imagens: Array.isArray(data.imagens) ? data.imagens : [],
       slug: data.slug || pacoteSlug,
       destaque: data.destaque || false,
+      tipo: data.tipo || 'passeio', // Default to 'passeio' for backward compatibility
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt
+      updatedAt: data.updatedAt,
+      // Campos específicos para transfer
+      destino: data.destino || null,
+      tempoPercurso: data.tempoPercurso || null,
+      distancia: data.distancia || null,
+      precoPorVeiculo: data.precoPorVeiculo || false,
+      veiculos: Array.isArray(data.veiculos) ? data.veiculos : [],
+      locaisAtendidos: Array.isArray(data.locaisAtendidos) ? data.locaisAtendidos : [],
+      comodidades: Array.isArray(data.comodidades) ? data.comodidades : [],
+      vantagens: Array.isArray(data.vantagens) ? data.vantagens : [],
+      passosReserva: Array.isArray(data.passosReserva) ? data.passosReserva : [],
+      faq: Array.isArray(data.faq) ? data.faq : [],
+      localizacao: data.localizacao || null
     };
   }, [pacoteSlug]);
 
@@ -105,9 +119,9 @@ const PacoteDetailPage = () => {
 
   // Removed unused handleAccordionChange
 
-  const handleReserveWhatsApp = () => {
+  const handleReserveWhatsApp = (customMessage = null) => {
     if (whatsappLoading) return;
-    const message = `Olá! Tenho interesse no pacote de viagem "${pacote.titulo}". Poderia me passar mais informações?`;
+    const message = customMessage || `Olá! Tenho interesse no pacote de viagem "${pacote.titulo}". Poderia me passar mais informações?`;
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -131,45 +145,21 @@ const PacoteDetailPage = () => {
     // Aqui você pode adicionar lógica para salvar no localStorage ou backend
   };
 
-  if (loading || whatsappLoading) {
+  // Renderização condicional baseada no tipo de pacote
+  const renderContent = () => {
+    if (pacote.tipo === 'transfer') {
+      return (
+        <TransferDetailContent
+          pacote={pacote}
+          onWhatsApp={handleReserveWhatsApp}
+          whatsappLoading={whatsappLoading}
+        />
+      );
+    }
+    
+    // Layout original para passeios
     return (
       <>
-        <Header />
-        <LoadingSpinner size="large" text="Carregando detalhes do pacote..." fullScreen={true} />
-        <Footer />
-      </>
-    );
-  }
-
-  if (error || !pacote) {
-    return (
-      <>
-        <Header />
-        <div className="pdp-error-container">
-          <div className="pdp-error-content">
-            <h1>😕 Ops! Pacote não encontrado</h1>
-            <p>{error || 'O pacote que você está procurando não existe ou foi removido.'}</p>
-            <button onClick={() => navigate('/pacotes')} className="pdp-btn-back-home">
-              <FiArrowLeft /> Voltar para Pacotes
-            </button>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <SEOHelmet 
-        title={`${pacote.titulo} - Pacotes e Passeios`}
-        description={pacote.descricaoCurta || pacote.descricao?.substring(0, 160)}
-        canonical={`/pacotes/${pacoteSlug}`}
-        ogImage={pacote.imagemPrincipal || pacote.imagens?.[0]}
-        ogType="product"
-      />
-      <Header />
-      <div className="pdp-modern-container">
         {/* Hero Section com Imagem Principal */}
         <div className="pdp-hero-section">
           <button onClick={() => navigate(-1)} className="pdp-back-button">
@@ -181,8 +171,8 @@ const PacoteDetailPage = () => {
             <button onClick={handleShare} className="pdp-action-btn" title="Compartilhar">
               <FiShare2 />
             </button>
-            <button 
-              onClick={toggleFavorite} 
+            <button
+              onClick={toggleFavorite}
               className={`pdp-action-btn ${isFavorite ? 'active' : ''}`}
               title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
             >
@@ -194,8 +184,8 @@ const PacoteDetailPage = () => {
             {pacote.imagens && pacote.imagens.length > 0 ? (
               <>
                 <div className="pdp-main-image">
-                  <img 
-                    src={autoOptimize(pacote.imagens[currentImageIndex], 'banner')} 
+                  <img
+                    src={autoOptimize(pacote.imagens[currentImageIndex], 'banner')}
                     alt={pacote.titulo}
                     loading="eager"
                     decoding="async"
@@ -203,7 +193,7 @@ const PacoteDetailPage = () => {
                       e.target.src = autoOptimize('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80', 'banner');
                     }}
                   />
-                  
+
                   {pacote.imagens.length > 1 && (
                     <>
                       <button className="pdp-nav-btn pdp-prev" onClick={prevImage}>
@@ -230,8 +220,8 @@ const PacoteDetailPage = () => {
                         className={`pdp-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
                         onClick={() => setCurrentImageIndex(index)}
                       >
-                        <img 
-                          src={autoOptimize(img, 'packageCard')} 
+                        <img
+                          src={autoOptimize(img, 'packageCard')}
                           alt={`${pacote.titulo} ${index + 1}`}
                           loading="lazy"
                           decoding="async"
@@ -316,7 +306,7 @@ const PacoteDetailPage = () => {
                 </div>
               )}
 
-              <button 
+              <button
                 className="pdp-cta-button pdp-cta-whatsapp"
                 onClick={handleReserveWhatsApp}
                 disabled={whatsappLoading}
@@ -325,7 +315,7 @@ const PacoteDetailPage = () => {
                 <span>Solicitar Cotação</span>
               </button>
 
-              <button 
+              <button
                 className="pdp-cta-button pdp-cta-secondary"
                 onClick={handleReserveWhatsApp}
               >
@@ -361,6 +351,51 @@ const PacoteDetailPage = () => {
             </div>
           </aside>
         </div>
+      </>
+    );
+  };
+
+  if (loading || whatsappLoading) {
+    return (
+      <>
+        <Header />
+        <LoadingSpinner size="large" text="Carregando detalhes do pacote..." fullScreen={true} />
+        <Footer />
+      </>
+    );
+  }
+
+  if (error || !pacote) {
+    return (
+      <>
+        <Header />
+        <div className="pdp-error-container">
+          <div className="pdp-error-content">
+            <h1>😕 Ops! Pacote não encontrado</h1>
+            <p>{error || 'O pacote que você está procurando não existe ou foi removido.'}</p>
+            <button onClick={() => navigate('/pacotes')} className="pdp-btn-back-home">
+              <FiArrowLeft /> Voltar para Pacotes
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <SEOHelmet
+        title={`${pacote.titulo} - ${pacote.tipo === 'transfer' ? 'Transfers' : 'Pacotes e Passeios'}`}
+        description={pacote.descricaoCurta || pacote.descricao?.substring(0, 160)}
+        canonical={`/pacotes/${pacoteSlug}`}
+        ogImage={pacote.imagemPrincipal || pacote.imagens?.[0]}
+        ogType={pacote.tipo === 'transfer' ? 'service' : 'product'}
+        pacote={pacote}
+      />
+      <Header />
+      <div className="pdp-modern-container">
+        {renderContent()}
       </div>
       <Footer />
     </>

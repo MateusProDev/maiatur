@@ -1,0 +1,55 @@
+.amenities-list {
+  margin: 2rem 0;
+}
+
+.amenities-list-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.amenity-item:hover {
+  border-color: #21A657;
+  box-shadow: 0 2px 8px rgba(33, 166, 87, 0.1);
+}
+
+.amenity-icon {
+  color: #21A657;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.amenity-text {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .amenities-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .amenities-list-title {
+    font-size: 1.5rem;
+  }
+}

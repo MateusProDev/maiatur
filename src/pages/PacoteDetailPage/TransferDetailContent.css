@@ -1,0 +1,330 @@
+.transfer-detail {
+  width: 100%;
+}
+
+/* Hero Section */
+.transfer-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.transfer-hero-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.transfer-hero-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.transfer-hero-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.transfer-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.transfer-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.transfer-info-icon {
+  color: #21A657;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.transfer-info-item > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.transfer-info-label {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.transfer-info-value {
+  font-size: 1rem;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.transfer-hero-price {
+  margin-top: auto;
+}
+
+.transfer-price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.transfer-price-badge {
+  background: #21A657;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.transfer-price-original {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.transfer-price-current {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.transfer-price-currency {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #21A657;
+}
+
+.transfer-price-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #21A657;
+}
+
+.transfer-price-discount {
+  font-size: 0.85rem;
+  color: #21A657;
+  font-weight: 600;
+}
+
+.transfer-hero-image {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.transfer-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sections */
+.transfer-section {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.transfer-section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+}
+
+.transfer-description {
+  color: #333;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* CTA Section */
+.transfer-cta-section {
+  margin: 3rem 0;
+}
+
+.transfer-cta-card {
+  background: linear-gradient(135deg, #21A657 0%, #1a8a4a 100%);
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(33, 166, 87, 0.3);
+}
+
+.transfer-cta-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.transfer-cta-text {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.transfer-cta-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.transfer-cta-price-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.transfer-cta-price-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.transfer-cta-price-badge {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  font-weight: 600;
+}
+
+.transfer-cta-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+  padding: 1rem 2rem;
+  background: white;
+  color: #21A657;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.transfer-cta-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.transfer-cta-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.transfer-cta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.transfer-cta-info-item {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .transfer-hero {
+    grid-template-columns: 1fr;
+  }
+  
+  .transfer-hero-image {
+    min-height: 300px;
+    order: -1;
+  }
+  
+  .transfer-hero-content {
+    padding: 1.5rem;
+  }
+  
+  .transfer-hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .transfer-price-value {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .transfer-hero-content {
+    padding: 1.25rem;
+  }
+  
+  .transfer-hero-title {
+    font-size: 1.5rem;
+  }
+  
+  .transfer-hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .transfer-price-value {
+    font-size: 1.75rem;
+  }
+  
+  .transfer-price-currency {
+    font-size: 1rem;
+  }
+  
+  .transfer-section {
+    padding: 1.5rem;
+  }
+  
+  .transfer-section-title {
+    font-size: 1.5rem;
+  }
+  
+  .transfer-cta-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .transfer-cta-title {
+    font-size: 1.5rem;
+  }
+  
+  .transfer-cta-text {
+    font-size: 1rem;
+  }
+  
+  .transfer-cta-price-value {
+    font-size: 2rem;
+  }
+  
+  .transfer-cta-button {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+}
