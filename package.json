@@ -28,7 +28,7 @@
     "dompurify": "^3.2.6",
     "dotenv": "^17.2.3",
     "firebase": "^11.10.0",
-    "firebase-admin": "^13.6.0",
+    "firebase-admin": "^13.10.0",
     "googleapis": "^166.0.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
@@ -90,11 +90,11 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.0.0",
     "@types/node": "^24.9.2",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "depcheck": "^1.4.7",
-    "@craco/craco": "^7.0.0",
     "fork-ts-checker-webpack-plugin": "^6.5.3",
     "typescript": "^5.2.0"
   },

@@ -1,6 +1,6 @@
 import React from 'react';
-import { FiClock, FiMapPin, FiDollarSign, FaWhatsapp } from 'react-icons/fi';
-import { FaWhatsapp as FaWhatsappIcon } from 'react-icons/fa';
+import { FiClock, FiMapPin } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import VehicleGallery from '../../components/VehicleGallery/VehicleGallery';
 import FAQSection from '../../components/FAQSection/FAQSection';

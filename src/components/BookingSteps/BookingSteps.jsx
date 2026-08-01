@@ -1,5 +1,4 @@
 import React from 'react';
-import { FiCheckCircle } from 'react-icons/fi';
 import './BookingSteps.css';
 
 /**
