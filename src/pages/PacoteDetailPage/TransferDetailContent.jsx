@@ -210,7 +210,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
             onClick={() => onWhatsApp ? onWhatsApp(generateWhatsAppMessage()) : null}
             disabled={whatsappLoading}
           >
-            <FaWhatsappIcon />
+            <FaWhatsapp />
             <span>Solicitar Reserva via WhatsApp</span>
           </button>
 
