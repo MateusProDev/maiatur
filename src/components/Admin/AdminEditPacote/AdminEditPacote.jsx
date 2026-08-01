@@ -11,6 +11,7 @@ import {
 import { db, storage } from '../../../firebase/firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import RichTextEditorV2 from '../../RichTextEditorV2/RichTextEditorV2';
+import { FaPlus, FaTrash, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import './AdminEditPacote.css';
 
 const AdminEditPacote = () => {
@@ -25,6 +26,22 @@ const AdminEditPacote = () => {
     preco: 0,
     precoOriginal: 0,
     imagens: [],
+    tipo: 'passeio', // Default to passeio
+    destino: '',
+    tempoPercurso: '',
+    distancia: '',
+    precoPorVeiculo: false,
+    veiculos: [],
+    locaisAtendidos: [],
+    comodidades: [],
+    vantagens: [],
+    passosReserva: [],
+    faq: [],
+    localizacao: {
+      descricao: '',
+      imagemMapa: '',
+      coordenadas: ''
+    },
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp()
   });
@@ -47,12 +64,91 @@ const AdminEditPacote = () => {
   }, [pacoteId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setPacote(prev => ({ 
       ...prev, 
-      [name]: name === 'preco' || name === 'precoOriginal' ? 
-        parseFloat(value) || 0 : 
-        value 
+      [name]: type === 'checkbox' ? checked : 
+              name === 'preco' || name === 'precoOriginal' ? 
+                parseFloat(value) || 0 : 
+                value 
+    }));
+  };
+
+  const handleNestedChange = (field, subField, value) => {
+    setPacote(prev => ({
+      ...prev,
+      [field]: {
+        ...prev[field],
+        [subField]: value
+      }
+    }));
+  };
+
+  // Funções para gerenciar arrays
+  const addArrayItem = (field, defaultItem = '') => {
+    setPacote(prev => ({
+      ...prev,
+      [field]: [...(prev[field] || []), defaultItem]
+    }));
+  };
+
+  const removeArrayItem = (field, index) => {
+    setPacote(prev => ({
+      ...prev,
+      [field]: prev[field].filter((_, i) => i !== index)
+    }));
+  };
+
+  const updateArrayItem = (field, index, value) => {
+    setPacote(prev => ({
+      ...prev,
+      [field]: prev[field].map((item, i) => i === index ? value : item)
+    }));
+  };
+
+  const moveArrayItem = (field, fromIndex, toIndex) => {
+    setPacote(prev => {
+      const newArray = [...prev[field]];
+      const [movedItem] = newArray.splice(fromIndex, 1);
+      newArray.splice(toIndex, 0, movedItem);
+      return {
+        ...prev,
+        [field]: newArray
+      };
+    });
+  };
+
+  // Funções específicas para veículos
+  const addVeiculo = () => {
+    addArrayItem('veiculos', {
+      tipo: '',
+      capacidade: '',
+      bagagem: '',
+      imagem: '',
+      legenda: ''
+    });
+  };
+
+  const updateVeiculo = (index, field, value) => {
+    setPacote(prev => ({
+      ...prev,
+      veiculos: prev.veiculos.map((v, i) => 
+        i === index ? { ...v, [field]: value } : v
+      )
+    }));
+  };
+
+  // Funções específicas para FAQ
+  const addFAQ = () => {
+    addArrayItem('faq', { pergunta: '', resposta: '' });
+  };
+
+  const updateFAQ = (index, field, value) => {
+    setPacote(prev => ({
+      ...prev,
+      faq: prev.faq.map((item, i) => 
+        i === index ? { ...item, [field]: value } : item
+      )
     }));
   };
 
@@ -172,6 +268,19 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <label>Tipo de Pacote *</label>
+          <select
+            name="tipo"
+            value={pacote.tipo}
+            onChange={handleChange}
+            required
+          >
+            <option value="passeio">Passeio</option>
+            <option value="transfer">Transfer</option>
+          </select>
+        </div>
+
+        <div className="form-group">
           <label>Título *</label>
           <input
             type="text"
@@ -192,6 +301,371 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
             required
           />
         </div>
+
+        {/* Campos específicos para Transfer */}
+        {pacote.tipo === 'transfer' && (
+          <>
+            <div className="form-section">
+              <h3>🚗 Informações do Transfer</h3>
+              
+              <div className="form-group">
+                <label>Destino *</label>
+                <input
+                  type="text"
+                  name="destino"
+                  value={pacote.destino}
+                  onChange={handleChange}
+                  placeholder="Ex: Canoa Quebrada, Jericoacoara"
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Tempo de Percurso</label>
+                  <input
+                    type="text"
+                    name="tempoPercurso"
+                    value={pacote.tempoPercurso}
+                    onChange={handleChange}
+                    placeholder="Ex: 1h30, 3h"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Distância</label>
+                  <input
+                    type="text"
+                    name="distancia"
+                    value={pacote.distancia}
+                    onChange={handleChange}
+                    placeholder="Ex: 75 km, 300 km"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="precoPorVeiculo"
+                    checked={pacote.precoPorVeiculo}
+                    onChange={handleChange}
+                  />
+                  {' '}Preço por veículo (não por pessoa)
+                </label>
+              </div>
+            </div>
+
+            {/* Veículos */}
+            <div className="form-section">
+              <h3>🚐 Veículos Disponíveis</h3>
+              {pacote.veiculos.map((veiculo, index) => (
+                <div key={index} className="array-item vehicle-item">
+                  <div className="array-item-header">
+                    <span>Veículo {index + 1}</span>
+                    <div className="array-item-actions">
+                      <button
+                        type="button"
+                        onClick={() => moveArrayItem('veiculos', index, index - 1)}
+                        disabled={index === 0}
+                        title="Mover para cima"
+                      >
+                        <FaArrowUp />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveArrayItem('veiculos', index, index + 1)}
+                        disabled={index === pacote.veiculos.length - 1}
+                        title="Mover para baixo"
+                      >
+                        <FaArrowDown />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('veiculos', index)}
+                        title="Remover"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Tipo de Veículo</label>
+                      <input
+                        type="text"
+                        value={veiculo.tipo}
+                        onChange={(e) => updateVeiculo(index, 'tipo', e.target.value)}
+                        placeholder="Ex: Van Privativa, Carro Sedan"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Capacidade</label>
+                      <input
+                        type="text"
+                        value={veiculo.capacidade}
+                        onChange={(e) => updateVeiculo(index, 'capacidade', e.target.value)}
+                        placeholder="Ex: até 16 passageiros"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Bagagem</label>
+                      <input
+                        type="text"
+                        value={veiculo.bagagem}
+                        onChange={(e) => updateVeiculo(index, 'bagagem', e.target.value)}
+                        placeholder="Ex: 16 malas"
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>URL da Imagem</label>
+                      <input
+                        type="text"
+                        value={veiculo.imagem}
+                        onChange={(e) => updateVeiculo(index, 'imagem', e.target.value)}
+                        placeholder="URL da imagem do veículo"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Legenda/Descrição</label>
+                    <input
+                      type="text"
+                      value={veiculo.legenda}
+                      onChange={(e) => updateVeiculo(index, 'legenda', e.target.value)}
+                      placeholder="Descrição do veículo"
+                    />
+                  </div>
+                </div>
+              ))}
+              
+              <button
+                type="button"
+                onClick={addVeiculo}
+                className="btn-add-array"
+              >
+                <FaPlus /> Adicionar Veículo
+              </button>
+            </div>
+
+            {/* Locais Atendidos */}
+            <div className="form-section">
+              <h3>📍 Locais Atendidos</h3>
+              {pacote.locaisAtendidos.map((local, index) => (
+                <div key={index} className="array-item">
+                  <div className="array-item-header">
+                    <input
+                      type="text"
+                      value={local}
+                      onChange={(e) => updateArrayItem('locaisAtendidos', index, e.target.value)}
+                      placeholder="Ex: Aeroporto, Hotéis, Pousadas"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('locaisAtendidos', index)}
+                      title="Remover"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              
+              <button
+                type="button"
+                onClick={() => addArrayItem('locaisAtendidos')}
+                className="btn-add-array"
+              >
+                <FaPlus /> Adicionar Local
+              </button>
+            </div>
+
+            {/* Comodidades */}
+            <div className="form-section">
+              <h3>✨ Comodidades</h3>
+              {pacote.comodidades.map((comodidade, index) => (
+                <div key={index} className="array-item">
+                  <div className="array-item-header">
+                    <input
+                      type="text"
+                      value={comodidade}
+                      onChange={(e) => updateArrayItem('comodidades', index, e.target.value)}
+                      placeholder="Ex: Ar-condicionado, Água, Wi-Fi"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('comodidades', index)}
+                      title="Remover"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              
+              <button
+                type="button"
+                onClick={() => addArrayItem('comodidades')}
+                className="btn-add-array"
+              >
+                <FaPlus /> Adicionar Comodidade
+              </button>
+            </div>
+
+            {/* Vantagens */}
+            <div className="form-section">
+              <h3>🌟 Vantagens</h3>
+              {pacote.vantagens.map((vantagem, index) => (
+                <div key={index} className="array-item">
+                  <div className="array-item-header">
+                    <input
+                      type="text"
+                      value={vantagem}
+                      onChange={(e) => updateArrayItem('vantagens', index, e.target.value)}
+                      placeholder="Ex: EXCLUSIVIDADE, FLEXIBILIDADE"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('vantagens', index)}
+                      title="Remover"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              
+              <button
+                type="button"
+                onClick={() => addArrayItem('vantagens')}
+                className="btn-add-array"
+              >
+                <FaPlus /> Adicionar Vantagem
+              </button>
+            </div>
+
+            {/* Passos de Reserva */}
+            <div className="form-section">
+              <h3>📋 Passos para Reserva</h3>
+              {pacote.passosReserva.map((passo, index) => (
+                <div key={index} className="array-item">
+                  <div className="array-item-header">
+                    <input
+                      type="text"
+                      value={passo}
+                      onChange={(e) => updateArrayItem('passosReserva', index, e.target.value)}
+                      placeholder="Ex: Entre em contato pelo WhatsApp"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('passosReserva', index)}
+                      title="Remover"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              
+              <button
+                type="button"
+                onClick={() => addArrayItem('passosReserva')}
+                className="btn-add-array"
+              >
+                <FaPlus /> Adicionar Passo
+              </button>
+            </div>
+
+            {/* FAQ */}
+            <div className="form-section">
+              <h3>❓ Perguntas Frequentes (FAQ)</h3>
+              {pacote.faq.map((item, index) => (
+                <div key={index} className="array-item faq-item">
+                  <div className="array-item-header">
+                    <span>FAQ {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('faq', index)}
+                      title="Remover"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Pergunta</label>
+                    <input
+                      type="text"
+                      value={item.pergunta}
+                      onChange={(e) => updateFAQ(index, 'pergunta', e.target.value)}
+                      placeholder="Digite a pergunta"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Resposta</label>
+                    <textarea
+                      value={item.resposta}
+                      onChange={(e) => updateFAQ(index, 'resposta', e.target.value)}
+                      placeholder="Digite a resposta"
+                      rows="3"
+                    />
+                  </div>
+                </div>
+              ))}
+              
+              <button
+                type="button"
+                onClick={addFAQ}
+                className="btn-add-array"
+              >
+                <FaPlus /> Adicionar Pergunta
+              </button>
+            </div>
+
+            {/* Localização */}
+            <div className="form-section">
+              <h3>🗺️ Localização do Destino</h3>
+              
+              <div className="form-group">
+                <label>Descrição do Destino</label>
+                <textarea
+                  value={pacote.localizacao?.descricao || ''}
+                  onChange={(e) => handleNestedChange('localizacao', 'descricao', e.target.value)}
+                  placeholder="Descreva o destino e suas características"
+                  rows="3"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>URL da Imagem do Mapa</label>
+                <input
+                  type="text"
+                  value={pacote.localizacao?.imagemMapa || ''}
+                  onChange={(e) => handleNestedChange('localizacao', 'imagemMapa', e.target.value)}
+                  placeholder="URL da imagem do mapa"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Coordenadas (Google Maps)</label>
+                <input
+                  type="text"
+                  value={pacote.localizacao?.coordenadas || ''}
+                  onChange={(e) => handleNestedChange('localizacao', 'coordenadas', e.target.value)}
+                  placeholder="Ex: -4.1778, -38.1312"
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="form-group">
           <div className="description-header">
