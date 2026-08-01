@@ -139,51 +139,107 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
       </div>
 
       {/* Vantagens */}
-      {vantagens && vantagens.length > 0 && (
+      {vantagens && vantagens.length > 0 ? (
         <div className="transfer-section">
           <AdvantagesList vantagens={vantagens} />
+        </div>
+      ) : (
+        <div className="transfer-section transfer-empty-section">
+          <h2 className="transfer-section-title">Vantagens</h2>
+          <div className="transfer-empty-state">
+            <div className="transfer-empty-state-icon">🌟</div>
+            <p className="transfer-empty-state-text">As vantagens deste transfer serão adicionadas em breve.</p>
+          </div>
         </div>
       )}
 
       {/* Veículos */}
-      {veiculos && veiculos.length > 0 && (
+      {veiculos && veiculos.length > 0 ? (
         <div className="transfer-section">
           <VehicleGallery veiculos={veiculos} />
+        </div>
+      ) : (
+        <div className="transfer-section transfer-empty-section">
+          <h2 className="transfer-section-title">Veículos Disponíveis</h2>
+          <div className="transfer-empty-state">
+            <div className="transfer-empty-state-icon">🚐</div>
+            <p className="transfer-empty-state-text">Informações sobre os veículos serão adicionadas em breve.</p>
+          </div>
         </div>
       )}
 
       {/* Locais Atendidos */}
-      {locaisAtendidos && locaisAtendidos.length > 0 && (
+      {locaisAtendidos && locaisAtendidos.length > 0 ? (
         <div className="transfer-section">
           <ServiceAreas locais={locaisAtendidos} />
+        </div>
+      ) : (
+        <div className="transfer-section transfer-empty-section">
+          <h2 className="transfer-section-title">Locais Atendidos</h2>
+          <div className="transfer-empty-state">
+            <div className="transfer-empty-state-icon">📍</div>
+            <p className="transfer-empty-state-text">A lista de locais atendidos será adicionada em breve.</p>
+          </div>
         </div>
       )}
 
       {/* Comodidades */}
-      {comodidades && comodidades.length > 0 && (
+      {comodidades && comodidades.length > 0 ? (
         <div className="transfer-section">
           <AmenitiesList comodidades={comodidades} />
+        </div>
+      ) : (
+        <div className="transfer-section transfer-empty-section">
+          <h2 className="transfer-section-title">Comodidades</h2>
+          <div className="transfer-empty-state">
+            <div className="transfer-empty-state-icon">✨</div>
+            <p className="transfer-empty-state-text">As comodidades disponíveis serão listadas em breve.</p>
+          </div>
         </div>
       )}
 
       {/* Como Funciona a Reserva */}
-      {passosReserva && passosReserva.length > 0 && (
+      {passosReserva && passosReserva.length > 0 ? (
         <div className="transfer-section">
           <BookingSteps passos={passosReserva} />
+        </div>
+      ) : (
+        <div className="transfer-section transfer-empty-section">
+          <h2 className="transfer-section-title">Como Funciona a Reserva</h2>
+          <div className="transfer-empty-state">
+            <div className="transfer-empty-state-icon">📋</div>
+            <p className="transfer-empty-state-text">O processo de reserva será detalhado em breve.</p>
+          </div>
         </div>
       )}
 
       {/* Localização */}
-      {localizacao && (
+      {localizacao && (localizacao.descricao || localizacao.imagemMapa || localizacao.coordenadas) ? (
         <div className="transfer-section">
           <LocationMap localizacao={localizacao} />
+        </div>
+      ) : (
+        <div className="transfer-section transfer-empty-section">
+          <h2 className="transfer-section-title">Localização do Destino</h2>
+          <div className="transfer-empty-state">
+            <div className="transfer-empty-state-icon">🗺️</div>
+            <p className="transfer-empty-state-text">Informações sobre a localização serão adicionadas em breve.</p>
+          </div>
         </div>
       )}
 
       {/* FAQ */}
-      {faq && faq.length > 0 && (
+      {faq && faq.length > 0 ? (
         <div className="transfer-section">
           <FAQSection faq={faq} />
+        </div>
+      ) : (
+        <div className="transfer-section transfer-empty-section">
+          <h2 className="transfer-section-title">Perguntas Frequentes</h2>
+          <div className="transfer-empty-state">
+            <div className="transfer-empty-state-icon">❓</div>
+            <p className="transfer-empty-state-text">As perguntas frequentes serão adicionadas em breve.</p>
+          </div>
         </div>
       )}
 

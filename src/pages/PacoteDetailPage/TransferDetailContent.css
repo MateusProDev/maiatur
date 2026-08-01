@@ -1,5 +1,8 @@
 .transfer-detail {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* Hero Section */
@@ -7,52 +10,81 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .transfer-hero-content {
-  padding: 2rem;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .transfer-hero-title {
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 800;
   color: #1a1a1a;
   margin-bottom: 0.75rem;
   line-height: 1.2;
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .transfer-hero-subtitle {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: #666;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
+  margin-bottom: 1.75rem;
+  line-height: 1.6;
 }
 
 .transfer-hero-info {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
 }
 
 .transfer-info-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f8fafb 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.transfer-info-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .transfer-info-icon {
   color: #21A657;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   flex-shrink: 0;
+  background: white;
+  padding: 0.75rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .transfer-info-item > div {
@@ -64,42 +96,47 @@
   font-size: 0.75rem;
   color: #888;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
+  letter-spacing: 0.75px;
+  font-weight: 700;
 }
 
 .transfer-info-value {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #1a1a1a;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .transfer-hero-price {
   margin-top: auto;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-radius: 16px;
+  border: 2px solid #86efac;
 }
 
 .transfer-price-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .transfer-price-badge {
-  background: #21A657;
+  background: linear-gradient(135deg, #21A657 0%, #16a34a 100%);
   color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
+  font-size: 0.8rem;
+  font-weight: 700;
   display: inline-block;
   align-self: flex-start;
-  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 12px rgba(33, 166, 87, 0.3);
 }
 
 .transfer-price-original {
-  font-size: 0.9rem;
-  color: #999;
+  font-size: 0.95rem;
+  color: #9ca3af;
   text-decoration: line-through;
+  font-weight: 500;
 }
 
 .transfer-price-current {
@@ -109,83 +146,231 @@
 }
 
 .transfer-price-currency {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #21A657;
-}
-
-.transfer-price-value {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: #21A657;
 }
 
-.transfer-price-discount {
-  font-size: 0.85rem;
+.transfer-price-value {
+  font-size: 3rem;
+  font-weight: 900;
   color: #21A657;
-  font-weight: 600;
+  line-height: 1;
+}
+
+.transfer-price-discount {
+  font-size: 0.9rem;
+  color: #21A657;
+  font-weight: 700;
+  background: #dcfce7;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
 }
 
 .transfer-hero-image {
   width: 100%;
   height: 100%;
-  min-height: 400px;
+  min-height: 450px;
   overflow: hidden;
+  position: relative;
+}
+
+.transfer-hero-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(33, 166, 87, 0.1) 0%, rgba(26, 138, 74, 0.05) 100%);
+  z-index: 1;
 }
 
 .transfer-hero-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.transfer-hero-image:hover img {
+  transform: scale(1.05);
 }
 
 /* Sections */
 .transfer-section {
-  margin: 2rem 0;
-  padding: 2rem;
+  margin: 2.5rem 0;
+  padding: 2.5rem;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.transfer-section:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.transfer-section:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.transfer-section:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.transfer-section:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.transfer-section:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+.transfer-section:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
 .transfer-section-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.85rem;
+  font-weight: 800;
   color: #1a1a1a;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #21A657;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.transfer-section-title::before {
+  content: '';
+  width: 8px;
+  height: 32px;
+  background: linear-gradient(135deg, #21A657 0%, #16a34a 100%);
+  border-radius: 4px;
 }
 
 .transfer-description {
-  color: #333;
-  line-height: 1.8;
+  color: #374151;
+  line-height: 1.9;
+  font-size: 1.05rem;
+}
+
+.transfer-description p {
+  margin-bottom: 1rem;
+}
+
+.transfer-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* Empty State */
+.transfer-empty-section {
+  opacity: 0.7;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: #e5e7eb;
+  background: #fafafa;
+}
+
+.transfer-empty-section .transfer-section-title {
+  color: #9ca3af;
+  border-bottom-color: #e5e7eb;
+}
+
+.transfer-empty-section .transfer-section-title::before {
+  background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+}
+
+.transfer-empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #9ca3af;
+}
+
+.transfer-empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.transfer-empty-state-text {
   font-size: 1rem;
+  font-weight: 500;
+  font-style: italic;
 }
 
 /* CTA Section */
 .transfer-cta-section {
-  margin: 3rem 0;
+  margin: 4rem 0;
+  animation: fadeInUp 0.6s ease-out 0.6s;
+  animation-fill-mode: both;
 }
 
 .transfer-cta-card {
-  background: linear-gradient(135deg, #21A657 0%, #1a8a4a 100%);
-  border-radius: 16px;
-  padding: 2.5rem;
+  background: linear-gradient(135deg, #21A657 0%, #16a34a 50%, #15803d 100%);
+  border-radius: 24px;
+  padding: 3rem;
   text-align: center;
   color: white;
-  box-shadow: 0 8px 24px rgba(33, 166, 87, 0.3);
+  box-shadow: 0 12px 40px rgba(33, 166, 87, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.transfer-cta-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.3;
+  }
 }
 
 .transfer-cta-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .transfer-cta-text {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   opacity: 0.95;
   margin-bottom: 2rem;
-  line-height: 1.6;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
 }
 
 .transfer-cta-price {
@@ -194,22 +379,29 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .transfer-cta-price-label {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   opacity: 0.9;
+  font-weight: 600;
 }
 
 .transfer-cta-price-value {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: 3rem;
+  font-weight: 900;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .transfer-cta-price-badge {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   opacity: 0.9;
-  font-weight: 600;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
 }
 
 .transfer-cta-button {
@@ -218,23 +410,29 @@
   justify-content: center;
   gap: 0.75rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   margin: 0 auto 2rem;
-  padding: 1rem 2rem;
+  padding: 1.25rem 2.5rem;
   background: white;
   color: #21A657;
   border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 700;
+  border-radius: 16px;
+  font-size: 1.15rem;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 .transfer-cta-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.transfer-cta-button:active:not(:disabled) {
+  transform: translateY(-1px);
 }
 
 .transfer-cta-button:disabled {
@@ -245,42 +443,66 @@
 .transfer-cta-info {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 0.75rem;
+  font-size: 0.95rem;
   opacity: 0.9;
+  position: relative;
+  z-index: 1;
 }
 
 .transfer-cta-info-item {
   margin: 0;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: inline-block;
 }
 
 /* Responsive */
 @media (max-width: 1024px) {
   .transfer-hero {
     grid-template-columns: 1fr;
+    margin: 1.5rem 0;
   }
   
   .transfer-hero-image {
-    min-height: 300px;
+    min-height: 350px;
     order: -1;
   }
   
   .transfer-hero-content {
-    padding: 1.5rem;
+    padding: 2rem;
   }
   
   .transfer-hero-title {
-    font-size: 1.75rem;
+    font-size: 1.85rem;
   }
   
   .transfer-price-value {
-    font-size: 2rem;
+    font-size: 2.25rem;
+  }
+  
+  .transfer-section {
+    padding: 2rem;
+  }
+  
+  .transfer-cta-card {
+    padding: 2.5rem;
   }
 }
 
 @media (max-width: 768px) {
+  .transfer-detail {
+    padding: 0 0.75rem;
+  }
+  
+  .transfer-hero {
+    margin: 1rem 0;
+    border-radius: 16px;
+  }
+  
   .transfer-hero-content {
-    padding: 1.25rem;
+    padding: 1.5rem;
   }
   
   .transfer-hero-title {
@@ -291,16 +513,35 @@
     font-size: 1rem;
   }
   
+  .transfer-hero-info {
+    gap: 1rem;
+  }
+  
+  .transfer-info-item {
+    padding: 0.875rem;
+  }
+  
+  .transfer-info-icon {
+    font-size: 1.25rem;
+    padding: 0.625rem;
+  }
+  
+  .transfer-hero-price {
+    padding: 1.25rem;
+  }
+  
   .transfer-price-value {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   
   .transfer-price-currency {
-    font-size: 1rem;
+    font-size: 1.25rem;
   }
   
   .transfer-section {
     padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 12px;
   }
   
   .transfer-section-title {
@@ -309,6 +550,7 @@
   
   .transfer-cta-card {
     padding: 2rem 1.5rem;
+    border-radius: 20px;
   }
   
   .transfer-cta-title {
@@ -320,11 +562,53 @@
   }
   
   .transfer-cta-price-value {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
   
   .transfer-cta-button {
     font-size: 1rem;
-    padding: 0.875rem 1.5rem;
+    padding: 1rem 1.5rem;
+    max-width: 100%;
+  }
+  
+  .transfer-cta-info-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .transfer-hero-title {
+    font-size: 1.35rem;
+  }
+  
+  .transfer-hero-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  .transfer-info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .transfer-info-icon {
+    align-self: flex-start;
+  }
+  
+  .transfer-price-value {
+    font-size: 1.75rem;
+  }
+  
+  .transfer-section-title {
+    font-size: 1.35rem;
+  }
+  
+  .transfer-cta-title {
+    font-size: 1.35rem;
+  }
+  
+  .transfer-cta-price-value {
+    font-size: 2rem;
   }
 }
