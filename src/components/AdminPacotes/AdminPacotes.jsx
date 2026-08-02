@@ -361,7 +361,9 @@ const AdminPacotes = () => {
   };
 
   const editPacote = (pacote) => {
-    setCurrentPacote({
+    console.log('📦 Editando pacote:', pacote);
+    console.log('📦 Tipo do pacote:', pacote.tipo);
+    const updatedPacote = {
       ...pacote,
       categorias: pacote.categorias || [], // Carregar categorias múltiplas
       preco: Number(pacote.preco) || 0,
@@ -387,7 +389,10 @@ const AdminPacotes = () => {
         imagemMapa: '',
         coordenadas: ''
       }
-    });
+    };
+    console.log('📦 Pacote atualizado:', updatedPacote);
+    console.log('📦 Tipo após atualização:', updatedPacote.tipo);
+    setCurrentPacote(updatedPacote);
     setShowForm(true); // Abrir formulário ao editar
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
