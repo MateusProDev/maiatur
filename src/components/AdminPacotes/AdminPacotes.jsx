@@ -65,7 +65,24 @@ const AdminPacotes = () => {
     isIdaEVolta: false,
     precoIda: 0,
     precoVolta: 0,
-    precoIdaVolta: 0
+    precoIdaVolta: 0,
+    // Campos específicos para transfer
+    tipo: "passeio",
+    destino: "",
+    tempoPercurso: "",
+    distancia: "",
+    precoPorVeiculo: false,
+    veiculos: [],
+    locaisAtendidos: [],
+    comodidades: [],
+    vantagens: [],
+    passosReserva: [],
+    faq: [],
+    localizacao: {
+      descricao: "",
+      imagemMapa: "",
+      coordenadas: ""
+    }
   });
   const [notification, setNotification] = useState({
     show: false,
@@ -214,6 +231,23 @@ const AdminPacotes = () => {
         precoIda: currentPacote.isIdaEVolta ? Number(currentPacote.precoIda) || 0 : 0,
         precoVolta: currentPacote.isIdaEVolta ? Number(currentPacote.precoVolta) || 0 : 0,
         precoIdaVolta: currentPacote.isIdaEVolta ? Number(currentPacote.precoIdaVolta) || 0 : 0,
+        // Campos específicos para transfer
+        tipo: currentPacote.tipo || 'passeio',
+        destino: currentPacote.destino || '',
+        tempoPercurso: currentPacote.tempoPercurso || '',
+        distancia: currentPacote.distancia || '',
+        precoPorVeiculo: currentPacote.precoPorVeiculo || false,
+        veiculos: currentPacote.veiculos || [],
+        locaisAtendidos: currentPacote.locaisAtendidos || [],
+        comodidades: currentPacote.comodidades || [],
+        vantagens: currentPacote.vantagens || [],
+        passosReserva: currentPacote.passosReserva || [],
+        faq: currentPacote.faq || [],
+        localizacao: currentPacote.localizacao || {
+          descricao: '',
+          imagemMapa: '',
+          coordenadas: ''
+        },
         createdAt: currentPacote.createdAt || serverTimestamp(),
         updatedAt: serverTimestamp()
       };
@@ -258,7 +292,24 @@ const AdminPacotes = () => {
         isIdaEVolta: false,
         precoIda: 0,
         precoVolta: 0,
-        precoIdaVolta: 0
+        precoIdaVolta: 0,
+        // Campos específicos para transfer
+        tipo: "passeio",
+        destino: "",
+        tempoPercurso: "",
+        distancia: "",
+        precoPorVeiculo: false,
+        veiculos: [],
+        locaisAtendidos: [],
+        comodidades: [],
+        vantagens: [],
+        passosReserva: [],
+        faq: [],
+        localizacao: {
+          descricao: "",
+          imagemMapa: "",
+          coordenadas: ""
+        }
       });
       
       // Fechar formulário após salvar
@@ -318,7 +369,24 @@ const AdminPacotes = () => {
       isIdaEVolta: pacote.isIdaEVolta || false,
       precoIda: Number(pacote.precoIda) || 0,
       precoVolta: Number(pacote.precoVolta) || 0,
-      precoIdaVolta: Number(pacote.precoIdaVolta) || 0
+      precoIdaVolta: Number(pacote.precoIdaVolta) || 0,
+      // Campos específicos para transfer
+      tipo: pacote.tipo || 'passeio',
+      destino: pacote.destino || '',
+      tempoPercurso: pacote.tempoPercurso || '',
+      distancia: pacote.distancia || '',
+      precoPorVeiculo: pacote.precoPorVeiculo || false,
+      veiculos: pacote.veiculos || [],
+      locaisAtendidos: pacote.locaisAtendidos || [],
+      comodidades: pacote.comodidades || [],
+      vantagens: pacote.vantagens || [],
+      passosReserva: pacote.passosReserva || [],
+      faq: pacote.faq || [],
+      localizacao: pacote.localizacao || {
+        descricao: '',
+        imagemMapa: '',
+        coordenadas: ''
+      }
     });
     setShowForm(true); // Abrir formulário ao editar
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -362,7 +430,24 @@ const AdminPacotes = () => {
                 valorSegundaViagem: 0,
                 valorSinalCalculado: 0,
                 valorParaMotorista: 0,
-                porcentagemSinalPadrao: 40
+                porcentagemSinalPadrao: 40,
+                // Campos específicos para transfer
+                tipo: "passeio",
+                destino: "",
+                tempoPercurso: "",
+                distancia: "",
+                precoPorVeiculo: false,
+                veiculos: [],
+                locaisAtendidos: [],
+                comodidades: [],
+                vantagens: [],
+                passosReserva: [],
+                faq: [],
+                localizacao: {
+                  descricao: "",
+                  imagemMapa: "",
+                  coordenadas: ""
+                }
               });
             } else {
               setShowForm(true);
@@ -386,7 +471,24 @@ const AdminPacotes = () => {
                 valorSegundaViagem: 0,
                 valorSinalCalculado: 0,
                 valorParaMotorista: 0,
-                porcentagemSinalPadrao: 40
+                porcentagemSinalPadrao: 40,
+                // Campos específicos para transfer
+                tipo: "passeio",
+                destino: "",
+                tempoPercurso: "",
+                distancia: "",
+                precoPorVeiculo: false,
+                veiculos: [],
+                locaisAtendidos: [],
+                comodidades: [],
+                vantagens: [],
+                passosReserva: [],
+                faq: [],
+                localizacao: {
+                  descricao: "",
+                  imagemMapa: "",
+                  coordenadas: ""
+                }
               });
             }
           }}
@@ -484,6 +586,26 @@ const AdminPacotes = () => {
                 required
                 margin="normal"
               />
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                select
+                label="Tipo de Pacote"
+                name="tipo"
+                value={currentPacote.tipo || "passeio"}
+                onChange={handleChange}
+                required
+                margin="normal"
+                SelectProps={{
+                  native: true,
+                }}
+                helperText="Define o layout da página de detalhes"
+              >
+                <option value="passeio">Passeio</option>
+                <option value="transfer">Transfer</option>
+              </TextField>
             </Grid>
             
             <Grid item xs={12} md={6}>
@@ -718,6 +840,67 @@ const AdminPacotes = () => {
                 label="Este pacote oferece opção de ida e volta"
               />
             </Grid>
+            
+            {/* Campos específicos para Transfer */}
+            {currentPacote.tipo === 'transfer' && (
+              <>
+                <Grid item xs={12}>
+                  <Typography variant="h6" gutterBottom sx={{ mt: 3, mb: 2, color: '#667eea' }}>
+                    🚗 Informações do Transfer
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Destino"
+                    name="destino"
+                    value={currentPacote.destino}
+                    onChange={handleChange}
+                    margin="normal"
+                    helperText="Ex: Canoa Quebrada, Jericoacoara, etc."
+                  />
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Tempo de Percurso"
+                    name="tempoPercurso"
+                    value={currentPacote.tempoPercurso}
+                    onChange={handleChange}
+                    margin="normal"
+                    helperText="Ex: 2h 30min"
+                  />
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Distância"
+                    name="distancia"
+                    value={currentPacote.distancia}
+                    onChange={handleChange}
+                    margin="normal"
+                    helperText="Ex: 156 km"
+                  />
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="precoPorVeiculo"
+                        checked={currentPacote.precoPorVeiculo}
+                        onChange={handleChange}
+                      />
+                    }
+                    label="Preço por veículo (não por pessoa)"
+                    style={{ marginTop: '24px' }}
+                  />
+                </Grid>
+              </>
+            )}
             
             <Grid item xs={12}>
               <Box sx={{ 
