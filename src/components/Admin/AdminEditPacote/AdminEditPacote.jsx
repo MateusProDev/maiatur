@@ -53,7 +53,15 @@ const AdminEditPacote = () => {
           const docRef = doc(db, 'pacotes', pacoteId);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            setPacote(docSnap.data());
+            const data = docSnap.data();
+            console.log('📦 Pacote carregado no admin:', data);
+            console.log('📦 Tipo do pacote:', data.tipo);
+            console.log('📦 Tem campos de transfer:', {
+              destino: data.destino,
+              veiculos: data.veiculos?.length,
+              vantagens: data.vantagens?.length
+            });
+            setPacote(data);
           }
         } catch (error) {
           console.error("Erro ao buscar pacote:", error);

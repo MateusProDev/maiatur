@@ -61,23 +61,13 @@ const PacoteDetailPage = () => {
         setLoading(true);
         setError(null);
         
-        // Otimização: Verificar cache primeiro
+        // DEBUG: Limpar cache temporariamente para forçar busca fresca
         const cacheKey = `pacote_${pacoteSlug}`;
-        const cachedData = localStorage.getItem(cacheKey);
-        const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+        localStorage.removeItem(cacheKey);
+        localStorage.removeItem(`${cacheKey}_time`);
+        console.log('�️ Cache limpo para debug');
         
-        // Usar cache se tiver menos de 5 minutos
-        if (cachedData && cacheTime) {
-          const cacheAge = Date.now() - parseInt(cacheTime);
-          if (cacheAge < 5 * 60 * 1000) {
-            console.log('📦 Usando cache do pacote');
-            setPacote(JSON.parse(cachedData));
-            setLoading(false);
-            return;
-          }
-        }
-        
-        // Buscar do Firestore
+        // Buscar do Firestore (sem cache por enquanto)
         const pacotesRef = collection(db, 'pacotes');
         const q = query(pacotesRef, where("slug", "==", pacoteSlug));
         const querySnapshot = await getDocs(q);
@@ -85,6 +75,13 @@ const PacoteDetailPage = () => {
         if (!querySnapshot.empty) {
           const doc = querySnapshot.docs[0];
           const pacoteData = formatPacoteData(doc);
+          console.log('📦 Pacote carregado:', pacoteData);
+          console.log('📦 Tipo do pacote:', pacoteData.tipo);
+          console.log('📦 Tem campos de transfer:', {
+            destino: pacoteData.destino,
+            veiculos: pacoteData.veiculos?.length,
+            vantagens: pacoteData.vantagens?.length
+          });
           setPacote(pacoteData);
           
           // Salvar no cache
