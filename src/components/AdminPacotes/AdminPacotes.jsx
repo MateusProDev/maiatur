@@ -920,16 +920,17 @@ const AdminPacotes = () => {
                 label="Este pacote oferece opção de ida e volta"
               />
             </Grid>
-            
-            {/* Campos específicos para Transfer */}
+
+            {/* Informações Adicionais (para todos os tipos) */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 3, mb: 2, color: '#667eea' }}>
+                📋 Informações Adicionais
+              </Typography>
+            </Grid>
+
+            {/* Campos específicos para Transfer (destino, tempo, distância) */}
             {currentPacote.tipo === 'transfer' && (
               <>
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 3, mb: 2, color: '#667eea' }}>
-                    🚗 Informações do Transfer
-                  </Typography>
-                </Grid>
-                
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
@@ -941,7 +942,7 @@ const AdminPacotes = () => {
                     helperText="Ex: Canoa Quebrada, Jericoacoara, etc."
                   />
                 </Grid>
-                
+
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
@@ -953,7 +954,7 @@ const AdminPacotes = () => {
                     helperText="Ex: 2h 30min"
                   />
                 </Grid>
-                
+
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
@@ -965,7 +966,7 @@ const AdminPacotes = () => {
                     helperText="Ex: 156 km"
                   />
                 </Grid>
-                
+
                 <Grid item xs={12} md={6}>
                   <FormControlLabel
                     control={
@@ -979,283 +980,283 @@ const AdminPacotes = () => {
                     style={{ marginTop: '24px' }}
                   />
                 </Grid>
+              </>
+            )}
 
-                {/* Veículos */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
-                    🚐 Veículos Disponíveis
-                  </Typography>
-                  {currentPacote.veiculos && currentPacote.veiculos.map((veiculo, index) => (
-                    <Paper key={index} sx={{ p: 2, mb: 2, border: '1px solid #e2e8f0' }}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} md={4}>
-                          <TextField
-                            fullWidth
-                            label="Nome do Veículo"
-                            value={veiculo.nome}
-                            onChange={(e) => updateVeiculo(index, 'nome', e.target.value)}
-                            size="small"
-                          />
-                        </Grid>
-                        <Grid item xs={6} md={4}>
-                          <TextField
-                            fullWidth
-                            label="Capacidade"
-                            value={veiculo.capacidade}
-                            onChange={(e) => updateVeiculo(index, 'capacidade', e.target.value)}
-                            size="small"
-                            helperText="Ex: Até 6 passageiros"
-                          />
-                        </Grid>
-                        <Grid item xs={6} md={3}>
-                          <TextField
-                            fullWidth
-                            label="Malas"
-                            value={veiculo.malas}
-                            onChange={(e) => updateVeiculo(index, 'malas', e.target.value)}
-                            size="small"
-                            helperText="Ex: Até 4 malas"
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={1}>
-                          <IconButton
-                            color="error"
-                            onClick={() => removeVeiculo(index)}
-                            sx={{ mt: 0.5 }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  ))}
-                  <Button
-                    startIcon={<AddIcon />}
-                    onClick={addVeiculo}
-                    variant="outlined"
-                    size="small"
-                  >
-                    Adicionar Veículo
-                  </Button>
-                </Grid>
-
-                {/* Locais Atendidos */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
-                    📍 Locais Atendidos
-                  </Typography>
-                  {currentPacote.locaisAtendidos && currentPacote.locaisAtendidos.map((local, index) => (
-                    <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+            {/* Veículos */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                🚐 Veículos Disponíveis
+              </Typography>
+              {currentPacote.veiculos && currentPacote.veiculos.map((veiculo, index) => (
+                <Paper key={index} sx={{ p: 2, mb: 2, border: '1px solid #e2e8f0' }}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={4}>
                       <TextField
                         fullWidth
-                        value={local}
-                        onChange={(e) => updateArrayItem('locaisAtendidos', index, e.target.value)}
+                        label="Nome do Veículo"
+                        value={veiculo.nome}
+                        onChange={(e) => updateVeiculo(index, 'nome', e.target.value)}
                         size="small"
-                        placeholder="Ex: Pousada Canoa Quebrada"
                       />
+                    </Grid>
+                    <Grid item xs={6} md={4}>
+                      <TextField
+                        fullWidth
+                        label="Capacidade"
+                        value={veiculo.capacidade}
+                        onChange={(e) => updateVeiculo(index, 'capacidade', e.target.value)}
+                        size="small"
+                        helperText="Ex: Até X passageiros"
+                      />
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                      <TextField
+                        fullWidth
+                        label="Malas"
+                        value={veiculo.malas}
+                        onChange={(e) => updateVeiculo(index, 'malas', e.target.value)}
+                        size="small"
+                        helperText="Ex: Até X malas"
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={1}>
                       <IconButton
                         color="error"
-                        onClick={() => removeArrayItem('locaisAtendidos', index)}
+                        onClick={() => removeVeiculo(index)}
+                        sx={{ mt: 0.5 }}
                       >
                         <DeleteIcon />
                       </IconButton>
-                    </Box>
-                  ))}
-                  <Button
-                    startIcon={<AddIcon />}
-                    onClick={() => addArrayItem('locaisAtendidos')}
-                    variant="outlined"
-                    size="small"
-                  >
-                    Adicionar Local
-                  </Button>
-                </Grid>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              ))}
+              <Button
+                startIcon={<AddIcon />}
+                onClick={addVeiculo}
+                variant="outlined"
+                size="small"
+              >
+                Adicionar Veículo
+              </Button>
+            </Grid>
 
-                {/* Comodidades */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
-                    ✨ Comodidades
-                  </Typography>
-                  {currentPacote.comodidades && currentPacote.comodidades.map((comodidade, index) => (
-                    <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
-                      <TextField
-                        fullWidth
-                        value={comodidade}
-                        onChange={(e) => updateArrayItem('comodidades', index, e.target.value)}
-                        size="small"
-                        placeholder="Ex: Ar-condicionado"
-                      />
-                      <IconButton
-                        color="error"
-                        onClick={() => removeArrayItem('comodidades', index)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                  ))}
-                  <Button
-                    startIcon={<AddIcon />}
-                    onClick={() => addArrayItem('comodidades')}
-                    variant="outlined"
+            {/* Locais Atendidos */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                📍 Locais Atendidos
+              </Typography>
+              {currentPacote.locaisAtendidos && currentPacote.locaisAtendidos.map((local, index) => (
+                <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    value={local}
+                    onChange={(e) => updateArrayItem('locaisAtendidos', index, e.target.value)}
                     size="small"
+                    placeholder="Ex: Pousada Canoa Quebrada"
+                  />
+                  <IconButton
+                    color="error"
+                    onClick={() => removeArrayItem('locaisAtendidos', index)}
                   >
-                    Adicionar Comodidade
-                  </Button>
-                </Grid>
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+              <Button
+                startIcon={<AddIcon />}
+                onClick={() => addArrayItem('locaisAtendidos')}
+                variant="outlined"
+                size="small"
+              >
+                Adicionar Local
+              </Button>
+            </Grid>
 
-                {/* Vantagens */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
-                    🌟 Vantagens
-                  </Typography>
-                  {currentPacote.vantagens && currentPacote.vantagens.map((vantagem, index) => (
-                    <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
-                      <TextField
-                        fullWidth
-                        value={vantagem}
-                        onChange={(e) => updateArrayItem('vantagens', index, e.target.value)}
-                        size="small"
-                        placeholder="Ex: Motorista profissional"
-                      />
-                      <IconButton
-                        color="error"
-                        onClick={() => removeArrayItem('vantagens', index)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                  ))}
-                  <Button
-                    startIcon={<AddIcon />}
-                    onClick={() => addArrayItem('vantagens')}
-                    variant="outlined"
+            {/* Comodidades */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                ✨ Comodidades
+              </Typography>
+              {currentPacote.comodidades && currentPacote.comodidades.map((comodidade, index) => (
+                <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    value={comodidade}
+                    onChange={(e) => updateArrayItem('comodidades', index, e.target.value)}
                     size="small"
+                    placeholder="Ex: Ar-condicionado"
+                  />
+                  <IconButton
+                    color="error"
+                    onClick={() => removeArrayItem('comodidades', index)}
                   >
-                    Adicionar Vantagem
-                  </Button>
-                </Grid>
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+              <Button
+                startIcon={<AddIcon />}
+                onClick={() => addArrayItem('comodidades')}
+                variant="outlined"
+                size="small"
+              >
+                Adicionar Comodidade
+              </Button>
+            </Grid>
 
-                {/* Passos de Reserva */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
-                    📋 Passos para Reserva
-                  </Typography>
-                  {currentPacote.passosReserva && currentPacote.passosReserva.map((passo, index) => (
-                    <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
-                      <TextField
-                        fullWidth
-                        value={passo}
-                        onChange={(e) => updateArrayItem('passosReserva', index, e.target.value)}
-                        size="small"
-                        placeholder="Ex: Entre em contato pelo WhatsApp"
-                      />
-                      <IconButton
-                        color="error"
-                        onClick={() => removeArrayItem('passosReserva', index)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                  ))}
-                  <Button
-                    startIcon={<AddIcon />}
-                    onClick={() => addArrayItem('passosReserva')}
-                    variant="outlined"
+            {/* Vantagens */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                🌟 Vantagens
+              </Typography>
+              {currentPacote.vantagens && currentPacote.vantagens.map((vantagem, index) => (
+                <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    value={vantagem}
+                    onChange={(e) => updateArrayItem('vantagens', index, e.target.value)}
                     size="small"
+                    placeholder="Ex: Motorista profissional"
+                  />
+                  <IconButton
+                    color="error"
+                    onClick={() => removeArrayItem('vantagens', index)}
                   >
-                    Adicionar Passo
-                  </Button>
-                </Grid>
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+              <Button
+                startIcon={<AddIcon />}
+                onClick={() => addArrayItem('vantagens')}
+                variant="outlined"
+                size="small"
+              >
+                Adicionar Vantagem
+              </Button>
+            </Grid>
 
-                {/* FAQ */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
-                    ❓ Perguntas Frequentes (FAQ)
-                  </Typography>
-                  {currentPacote.faq && currentPacote.faq.map((item, index) => (
-                    <Paper key={index} sx={{ p: 2, mb: 2, border: '1px solid #e2e8f0' }}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            label="Pergunta"
-                            value={item.pergunta}
-                            onChange={(e) => updateFAQ(index, 'pergunta', e.target.value)}
-                            size="small"
-                          />
-                        </Grid>
-                        <Grid item xs={11}>
-                          <TextField
-                            fullWidth
-                            label="Resposta"
-                            value={item.resposta}
-                            onChange={(e) => updateFAQ(index, 'resposta', e.target.value)}
-                            size="small"
-                            multiline
-                            rows={2}
-                          />
-                        </Grid>
-                        <Grid item xs={1}>
-                          <IconButton
-                            color="error"
-                            onClick={() => removeFAQ(index)}
-                            sx={{ mt: 1 }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  ))}
-                  <Button
-                    startIcon={<AddIcon />}
-                    onClick={addFAQ}
-                    variant="outlined"
+            {/* Passos de Reserva */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                📋 Passos para Reserva
+              </Typography>
+              {currentPacote.passosReserva && currentPacote.passosReserva.map((passo, index) => (
+                <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    value={passo}
+                    onChange={(e) => updateArrayItem('passosReserva', index, e.target.value)}
                     size="small"
+                    placeholder="Ex: Entre em contato pelo WhatsApp"
+                  />
+                  <IconButton
+                    color="error"
+                    onClick={() => removeArrayItem('passosReserva', index)}
                   >
-                    Adicionar Pergunta
-                  </Button>
-                </Grid>
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+              <Button
+                startIcon={<AddIcon />}
+                onClick={() => addArrayItem('passosReserva')}
+                variant="outlined"
+                size="small"
+              >
+                Adicionar Passo
+              </Button>
+            </Grid>
 
-                {/* Localização */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
-                    🗺️ Localização
-                  </Typography>
+            {/* FAQ */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                ❓ Perguntas Frequentes (FAQ)
+              </Typography>
+              {currentPacote.faq && currentPacote.faq.map((item, index) => (
+                <Paper key={index} sx={{ p: 2, mb: 2, border: '1px solid #e2e8f0' }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <TextField
                         fullWidth
-                        label="Descrição da Localização"
-                        value={currentPacote.localizacao?.descricao || ''}
-                        onChange={(e) => handleNestedChange('localizacao', 'descricao', e.target.value)}
+                        label="Pergunta"
+                        value={item.pergunta}
+                        onChange={(e) => updateFAQ(index, 'pergunta', e.target.value)}
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={11}>
+                      <TextField
+                        fullWidth
+                        label="Resposta"
+                        value={item.resposta}
+                        onChange={(e) => updateFAQ(index, 'resposta', e.target.value)}
+                        size="small"
                         multiline
                         rows={2}
-                        helperText="Ex: Localizado no litoral leste do Ceará"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                      <TextField
-                        fullWidth
-                        label="URL do Mapa (Imagem)"
-                        value={currentPacote.localizacao?.imagemMapa || ''}
-                        onChange={(e) => handleNestedChange('localizacao', 'imagemMapa', e.target.value)}
-                        helperText="URL da imagem do mapa"
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <TextField
-                        fullWidth
-                        label="Coordenadas"
-                        value={currentPacote.localizacao?.coordenadas || ''}
-                        onChange={(e) => handleNestedChange('localizacao', 'coordenadas', e.target.value)}
-                        helperText="Ex: -3.7319, -38.5267"
-                      />
+                    <Grid item xs={1}>
+                      <IconButton
+                        color="error"
+                        onClick={() => removeFAQ(index)}
+                        sx={{ mt: 1 }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </Grid>
                   </Grid>
+                </Paper>
+              ))}
+              <Button
+                startIcon={<AddIcon />}
+                onClick={addFAQ}
+                variant="outlined"
+                size="small"
+              >
+                Adicionar Pergunta
+              </Button>
+            </Grid>
+
+            {/* Localização */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                🗺️ Localização
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Descrição da Localização"
+                    value={currentPacote.localizacao?.descricao || ''}
+                    onChange={(e) => handleNestedChange('localizacao', 'descricao', e.target.value)}
+                    multiline
+                    rows={2}
+                    helperText="Ex: Localizado no litoral leste do Ceará"
+                  />
                 </Grid>
-              </>
-            )}
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="URL do Mapa (Imagem)"
+                    value={currentPacote.localizacao?.imagemMapa || ''}
+                    onChange={(e) => handleNestedChange('localizacao', 'imagemMapa', e.target.value)}
+                    helperText="URL da imagem do mapa"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Coordenadas"
+                    value={currentPacote.localizacao?.coordenadas || ''}
+                    onChange={(e) => handleNestedChange('localizacao', 'coordenadas', e.target.value)}
+                    helperText="Ex: -3.7319, -38.5267"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
 
             <Grid item xs={12}>
               <Box sx={{ 
