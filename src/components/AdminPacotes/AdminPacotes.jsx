@@ -1350,10 +1350,10 @@ const AdminPacotes = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
-                    label="Coordenadas"
+                    label="Coordenadas ou Link do Google Maps"
                     value={currentPacote.localizacao?.coordenadas || ''}
                     onChange={(e) => handleNestedChange('localizacao', 'coordenadas', e.target.value)}
-                    helperText="Ex: -3.7319, -38.5267"
+                    helperText="Ex: -3.7319, -38.5267 ou link do Google Maps"
                   />
                 </Grid>
               </Grid>
