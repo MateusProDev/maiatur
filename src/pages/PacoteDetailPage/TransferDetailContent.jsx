@@ -357,9 +357,6 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
 
           <div className="transfer-cta-info">
             <p className="transfer-cta-info-item">
-              <strong>Pagamento:</strong> 30% de entrada via Pix, 70% no serviço
-            </p>
-            <p className="transfer-cta-info-item">
               <strong>Cancelamento:</strong> Gratuito até 24 horas antes
             </p>
           </div>
