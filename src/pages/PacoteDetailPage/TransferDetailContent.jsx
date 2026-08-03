@@ -1,5 +1,5 @@
-import React from 'react';
-import { FiClock, FiMapPin } from 'react-icons/fi';
+import React, { useState } from 'react';
+import { FiClock, FiMapPin, FiArrowLeft, FiShare2, FiHeart, FiStar } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import VehicleGallery from '../../components/VehicleGallery/VehicleGallery';
@@ -14,10 +14,12 @@ import './TransferDetailContent.css';
 
 /**
  * Componente TransferDetailContent
- * Renderiza o conteúdo detalhado de um pacote do tipo 'transfer'
- * Inclui hero, descrição, veículos, locais atendidos, comodidades, vantagens, passos de reserva, FAQ e localização
+ * Renderiza o conteúdo detalhado de um pacote (usado para todos os tipos)
+ * Inclui hero com carrossel, descrição, veículos, locais atendidos, comodidades, vantagens, passos de reserva, FAQ e localização
  */
-const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
+const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, onShare, onFavorite, isFavorite }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const {
     titulo,
     descricao,
@@ -26,6 +28,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
     precoOriginal,
     mostrarPreco,
     imagens,
+    destaque,
     destino,
     tempoPercurso,
     distancia,
@@ -39,6 +42,14 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
     localizacao
   } = pacote;
 
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % imagens.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + imagens.length) % imagens.length);
+  };
+
   const formatPrice = (value) => {
     return Number(value).toFixed(2).replace('.', ',');
   };
@@ -49,14 +60,92 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
 
   return (
     <div className="transfer-detail">
-      {/* Hero Section */}
-      <div className="transfer-hero">
-        <div className="transfer-hero-content">
+      {/* Hero Section com Carrossel */}
+      <div className="transfer-hero-section">
+        <button onClick={onBack} className="transfer-back-button">
+          <FiArrowLeft />
+          <span>Voltar</span>
+        </button>
+
+        <div className="transfer-hero-actions">
+          <button onClick={onShare} className="transfer-action-btn" title="Compartilhar">
+            <FiShare2 />
+          </button>
+          <button
+            onClick={onFavorite}
+            className={`transfer-action-btn ${isFavorite ? 'active' : ''}`}
+            title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+          >
+            <FiHeart />
+          </button>
+        </div>
+
+        <div className="transfer-hero-gallery">
+          {imagens && imagens.length > 0 ? (
+            <>
+              <div className="transfer-main-image">
+                <img
+                  src={autoOptimize(imagens[currentImageIndex], 'banner')}
+                  alt={titulo}
+                  loading="eager"
+                  decoding="async"
+                  onError={(e) => {
+                    e.target.src = autoOptimize('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1200&q=80', 'banner');
+                  }}
+                />
+
+                {imagens.length > 1 && (
+                  <>
+                    <button className="transfer-nav-btn transfer-prev" onClick={prevImage}>
+                      ‹
+                    </button>
+                    <button className="transfer-nav-btn transfer-next" onClick={nextImage}>
+                      ›
+                    </button>
+                  </>
+                )}
+
+                {destaque && (
+                  <div className="transfer-hero-badge">
+                    <FiStar /> Destaque
+                  </div>
+                )}
+              </div>
+
+              {imagens.length > 1 && (
+                <div className="transfer-thumbnails">
+                  {imagens.map((img, index) => (
+                    <div
+                      key={index}
+                      className={`transfer-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                      onClick={() => setCurrentImageIndex(index)}
+                    >
+                      <img
+                        src={autoOptimize(img, 'packageCard')}
+                        alt={`${titulo} ${index + 1}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="transfer-no-image">
+              <FiMapPin />
+              <p>Imagem não disponível</p>
+            </div>
+          )}
+        </div>
+
+        {/* Info Card - Título e Informações */}
+        <div className="transfer-info-card">
           <h1 className="transfer-hero-title">{titulo}</h1>
           {descricaoCurta && (
             <p className="transfer-hero-subtitle">{descricaoCurta}</p>
           )}
-          
+
           {/* Informações Rápidas */}
           <div className="transfer-hero-info">
             {destino && (
@@ -113,21 +202,6 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
             </div>
           )}
         </div>
-
-        {/* Imagem Principal */}
-        {imagens && imagens.length > 0 && (
-          <div className="transfer-hero-image">
-            <img
-              src={autoOptimize(imagens[0], 'banner')}
-              alt={titulo}
-              loading="eager"
-              decoding="async"
-              onError={(e) => {
-                e.target.src = autoOptimize('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1200&q=80', 'banner');
-              }}
-            />
-          </div>
-        )}
       </div>
 
       {/* Sobre o Transfer */}
@@ -162,7 +236,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading }) => {
         <div className="transfer-section transfer-empty-section">
           <h2 className="transfer-section-title">Veículos Disponíveis</h2>
           <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">🚐</div>
+            <div className="transfer-]],empty-state-icon">🚐</div>
             <p className="transfer-empty-state-text">Informações sobre os veículos serão adicionadas em breve.</p>
           </div>
         </div>
