@@ -39,7 +39,9 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
     vantagens,
     passosReserva,
     faq,
-    localizacao
+    localizacao,
+    tipo,
+    destaques
   } = pacote;
 
   const nextImage = () => {
@@ -55,7 +57,10 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
   };
 
   const generateWhatsAppMessage = () => {
-    return `Olá! Tenho interesse no transfer "${titulo}" para ${destino}. Poderia me passar mais informações sobre disponibilidade e veículos?`;
+    if (tipo === 'transfer') {
+      return `Olá! Tenho interesse no transfer "${titulo}" para ${destino}. Poderia me passar mais informações sobre disponibilidade e veículos?`;
+    }
+    return `Olá! Tenho interesse no pacote de viagem "${titulo}". Poderia me passar mais informações?`;
   };
 
   return (
@@ -204,87 +209,107 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
         </div>
       </div>
 
-      {/* Sobre o Transfer */}
+      {/* Sobre o Pacote/Transfer */}
       <div className="transfer-section">
-        <h2 className="transfer-section-title">Sobre este Transfer</h2>
+        <h2 className="transfer-section-title">{tipo === 'transfer' ? 'Sobre este Transfer' : 'Sobre este Pacote'}</h2>
         <div className="transfer-description">
           <MarkdownRenderer content={descricao} />
         </div>
       </div>
 
-      {/* Vantagens */}
-      {vantagens && vantagens.length > 0 ? (
+      {/* Vantagens / Destaques */}
+      {(vantagens && vantagens.length > 0) || (destaques && destaques.length > 0) ? (
         <div className="transfer-section">
-          <AdvantagesList vantagens={vantagens} />
+          <AdvantagesList vantagens={vantagens || destaques} />
         </div>
       ) : (
         <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Vantagens</h2>
+          <h2 className="transfer-section-title">{tipo === 'transfer' ? 'Vantagens' : 'O que está incluído'}</h2>
           <div className="transfer-empty-state">
             <div className="transfer-empty-state-icon">🌟</div>
-            <p className="transfer-empty-state-text">As vantagens deste transfer serão adicionadas em breve.</p>
+            <p className="transfer-empty-state-text">
+              {tipo === 'transfer' 
+                ? 'As vantagens deste transfer serão adicionadas em breve.' 
+                : 'Os destaques deste pacote serão adicionados em breve.'}
+            </p>
           </div>
         </div>
       )}
 
-      {/* Veículos */}
-      {veiculos && veiculos.length > 0 ? (
-        <div className="transfer-section">
-          <VehicleGallery veiculos={veiculos} />
-        </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Veículos Disponíveis</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-]],empty-state-icon">🚐</div>
-            <p className="transfer-empty-state-text">Informações sobre os veículos serão adicionadas em breve.</p>
-          </div>
-        </div>
+      {/* Veículos - apenas para transfers */}
+      {tipo === 'transfer' && (
+        <>
+          {veiculos && veiculos.length > 0 ? (
+            <div className="transfer-section">
+              <VehicleGallery veiculos={veiculos} />
+            </div>
+          ) : (
+            <div className="transfer-section transfer-empty-section">
+              <h2 className="transfer-section-title">Veículos Disponíveis</h2>
+              <div className="transfer-empty-state">
+                <div className="transfer-empty-state-icon">🚐</div>
+                <p className="transfer-empty-state-text">Informações sobre os veículos serão adicionadas em breve.</p>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Locais Atendidos */}
-      {locaisAtendidos && locaisAtendidos.length > 0 ? (
-        <div className="transfer-section">
-          <ServiceAreas locais={locaisAtendidos} />
-        </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Locais Atendidos</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">📍</div>
-            <p className="transfer-empty-state-text">A lista de locais atendidos será adicionada em breve.</p>
-          </div>
-        </div>
+      {/* Locais Atendidos - apenas para transfers */}
+      {tipo === 'transfer' && (
+        <>
+          {locaisAtendidos && locaisAtendidos.length > 0 ? (
+            <div className="transfer-section">
+              <ServiceAreas locais={locaisAtendidos} />
+            </div>
+          ) : (
+            <div className="transfer-section transfer-empty-section">
+              <h2 className="transfer-section-title">Locais Atendidos</h2>
+              <div className="transfer-empty-state">
+                <div className="transfer-empty-state-icon">📍</div>
+                <p className="transfer-empty-state-text">A lista de locais atendidos será adicionada em breve.</p>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Comodidades */}
-      {comodidades && comodidades.length > 0 ? (
-        <div className="transfer-section">
-          <AmenitiesList comodidades={comodidades} />
-        </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Comodidades</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">✨</div>
-            <p className="transfer-empty-state-text">As comodidades disponíveis serão listadas em breve.</p>
-          </div>
-        </div>
+      {/* Comodidades - apenas para transfers */}
+      {tipo === 'transfer' && (
+        <>
+          {comodidades && comodidades.length > 0 ? (
+            <div className="transfer-section">
+              <AmenitiesList comodidades={comodidades} />
+            </div>
+          ) : (
+            <div className="transfer-section transfer-empty-section">
+              <h2 className="transfer-section-title">Comodidades</h2>
+              <div className="transfer-empty-state">
+                <div className="transfer-empty-state-icon">✨</div>
+                <p className="transfer-empty-state-text">As comodidades disponíveis serão listadas em breve.</p>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Como Funciona a Reserva */}
-      {passosReserva && passosReserva.length > 0 ? (
-        <div className="transfer-section">
-          <BookingSteps passos={passosReserva} />
-        </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Como Funciona a Reserva</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">📋</div>
-            <p className="transfer-empty-state-text">O processo de reserva será detalhado em breve.</p>
-          </div>
-        </div>
+      {/* Como Funciona a Reserva - apenas para transfers */}
+      {tipo === 'transfer' && (
+        <>
+          {passosReserva && passosReserva.length > 0 ? (
+            <div className="transfer-section">
+              <BookingSteps passos={passosReserva} />
+            </div>
+          ) : (
+            <div className="transfer-section transfer-empty-section">
+              <h2 className="transfer-section-title">Como Funciona a Reserva</h2>
+              <div className="transfer-empty-state">
+                <div className="transfer-empty-state-icon">📋</div>
+                <p className="transfer-empty-state-text">O processo de reserva será detalhado em breve.</p>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Localização */}
@@ -320,7 +345,9 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {/* CTA Final */}
       <div className="transfer-cta-section">
         <div className="transfer-cta-card">
-          <h3 className="transfer-cta-title">Pronto para reservar seu transfer?</h3>
+          <h3 className="transfer-cta-title">
+            {tipo === 'transfer' ? 'Pronto para reservar seu transfer?' : 'Pronto para reservar seu passeio?'}
+          </h3>
           <p className="transfer-cta-text">
             Entre em contato conosco pelo WhatsApp para verificar disponibilidade e finalizar sua reserva.
           </p>

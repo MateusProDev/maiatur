@@ -51,7 +51,9 @@ const PacoteDetailPage = () => {
       vantagens: Array.isArray(data.vantagens) ? data.vantagens : [],
       passosReserva: Array.isArray(data.passosReserva) ? data.passosReserva : [],
       faq: Array.isArray(data.faq) ? data.faq : [],
-      localizacao: data.localizacao || null
+      localizacao: data.localizacao || null,
+      // Campo para passeios
+      destaques: Array.isArray(data.destaques) ? data.destaques : []
     };
   }, [pacoteSlug]);
 
@@ -142,213 +144,18 @@ const PacoteDetailPage = () => {
     // Aqui você pode adicionar lógica para salvar no localStorage ou backend
   };
 
-  // Renderização condicional baseada no tipo de pacote
+  // Renderização unificada para ambos os tipos
   const renderContent = () => {
-    if (pacote.tipo === 'transfer') {
-      return (
-        <TransferDetailContent
-          pacote={pacote}
-          onWhatsApp={handleReserveWhatsApp}
-          whatsappLoading={whatsappLoading}
-        />
-      );
-    }
-    
-    // Layout original para passeios
     return (
-      <>
-        {/* Hero Section com Imagem Principal */}
-        <div className="pdp-hero-section">
-          <button onClick={() => navigate(-1)} className="pdp-back-button">
-            <FiArrowLeft />
-            <span>Voltar</span>
-          </button>
-
-          <div className="pdp-hero-actions">
-            <button onClick={handleShare} className="pdp-action-btn" title="Compartilhar">
-              <FiShare2 />
-            </button>
-            <button
-              onClick={toggleFavorite}
-              className={`pdp-action-btn ${isFavorite ? 'active' : ''}`}
-              title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-            >
-              <FiHeart />
-            </button>
-          </div>
-
-          <div className="pdp-hero-image-gallery">
-            {pacote.imagens && pacote.imagens.length > 0 ? (
-              <>
-                <div className="pdp-main-image">
-                  <img
-                    src={autoOptimize(pacote.imagens[currentImageIndex], 'banner')}
-                    alt={pacote.titulo}
-                    loading="eager"
-                    decoding="async"
-                    onError={(e) => {
-                      e.target.src = autoOptimize('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80', 'banner');
-                    }}
-                  />
-
-                  {pacote.imagens.length > 1 && (
-                    <>
-                      <button className="pdp-nav-btn pdp-prev" onClick={prevImage}>
-                        ‹
-                      </button>
-                      <button className="pdp-nav-btn pdp-next" onClick={nextImage}>
-                        ›
-                      </button>
-                    </>
-                  )}
-
-                  {pacote.destaque && (
-                    <div className="pdp-hero-badge">
-                      <FiStar /> Destaque
-                    </div>
-                  )}
-                </div>
-
-                {pacote.imagens.length > 1 && (
-                  <div className="pdp-thumbnails">
-                    {pacote.imagens.map((img, index) => (
-                      <div
-                        key={index}
-                        className={`pdp-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
-                        onClick={() => setCurrentImageIndex(index)}
-                      >
-                        <img
-                          src={autoOptimize(img, 'packageCard')}
-                          alt={`${pacote.titulo} ${index + 1}`}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="pdp-no-image">
-                <FiMapPin />
-                <p>Imagem não disponível</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Content Section */}
-        <div className="pdp-content-wrapper">
-          <div className="pdp-main-content">
-            {/* Título e Descrição Curta */}
-            <div className="pdp-header-info">
-              <h1 className="pdp-title">{pacote.titulo}</h1>
-              {pacote.descricaoCurta && (
-                <p className="pdp-subtitle">{pacote.descricaoCurta}</p>
-              )}
-            </div>
-
-            {/* Descrição Completa */}
-            <div className="pdp-description-card">
-              <h2 className="pdp-section-title">
-                <span className="pdp-title-icon">📋</span>
-                Sobre este Pacote
-              </h2>
-              <div className="pdp-description-content">
-                <MarkdownRenderer content={pacote.descricao} />
-              </div>
-            </div>
-
-            {/* Características/Destaques */}
-            {pacote.destaques && pacote.destaques.length > 0 && (
-              <div className="pdp-features-card">
-                <h2 className="pdp-section-title">
-                  <span className="pdp-title-icon">✨</span>
-                  O que está incluído
-                </h2>
-                <div className="pdp-features-grid">
-                  {pacote.destaques.map((destaque, index) => (
-                    <div key={index} className="pdp-feature-item">
-                      <FiCheck className="pdp-feature-icon" />
-                      <span>{destaque}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Sidebar com Preço e CTA */}
-          <aside className="pdp-sidebar">
-            <div className="pdp-price-card">
-              {pacote.mostrarPreco === true && pacote.preco && pacote.preco > 0 && (
-                <div className="pdp-price-section">
-                  <span className="pdp-price-label">A partir de</span>
-                  {pacote.precoOriginal && (
-                    <span className="pdp-price-original">
-                      R$ {Number(pacote.precoOriginal).toFixed(2).replace('.', ',')}
-                    </span>
-                  )}
-                  <div className="pdp-price-current">
-                    <span className="pdp-price-currency">R$</span>
-                    <span className="pdp-price-value">
-                      {Number(pacote.preco).toFixed(2).replace('.', ',')}
-                    </span>
-                  </div>
-                  {pacote.precoOriginal && (
-                    <span className="pdp-price-discount">
-                      Economize R$ {(pacote.precoOriginal - pacote.preco).toFixed(2).replace('.', ',')}
-                    </span>
-                  )}
-                </div>
-              )}
-
-              <button
-                className="pdp-cta-button pdp-cta-whatsapp"
-                onClick={handleReserveWhatsApp}
-                disabled={whatsappLoading}
-              >
-                <FaWhatsapp />
-                <span>Solicitar Cotação</span>
-              </button>
-
-              <button
-                className="pdp-cta-button pdp-cta-secondary"
-                onClick={handleReserveWhatsApp}
-              >
-                <FiCalendar />
-                <span>Consultar Disponibilidade</span>
-              </button>
-
-              {/* Info Adicional */}
-              <div className="pdp-info-list">
-                <div className="pdp-info-item">
-                  <FiClock />
-                  <span>Resposta rápida via WhatsApp</span>
-                </div>
-                <div className="pdp-info-item">
-                  <FiUsers />
-                  <span>Atendimento personalizado</span>
-                </div>
-                <div className="pdp-info-item">
-                  <FiCheck />
-                  <span>Melhor preço garantido</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Banner de Confiança */}
-            <div className="pdp-trust-banner">
-              <h3>🛡️ Viaje com Segurança</h3>
-              <ul>
-                <li>✅ Pacotes verificados</li>
-                <li>✅ Atendimento dedicado</li>
-                <li>✅ Pagamento seguro</li>
-              </ul>
-            </div>
-          </aside>
-        </div>
-      </>
+      <TransferDetailContent
+        pacote={pacote}
+        onWhatsApp={handleReserveWhatsApp}
+        whatsappLoading={whatsappLoading}
+        onBack={() => navigate(-1)}
+        onShare={handleShare}
+        onFavorite={toggleFavorite}
+        isFavorite={isFavorite}
+      />
     );
   };
 
