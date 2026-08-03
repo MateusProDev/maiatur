@@ -2,15 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
-import { FiArrowLeft, FiCheck, FiClock, FiMapPin, FiCalendar, FiUsers, FiStar, FiShare2, FiHeart } from 'react-icons/fi';
-import { FaWhatsapp } from 'react-icons/fa';
+import { FiArrowLeft } from 'react-icons/fi';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
-import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
-import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import TransferDetailContent from './TransferDetailContent';
 import './PacoteDetailPage.css';
 
@@ -19,7 +16,6 @@ const PacoteDetailPage = () => {
   const [pacote, setPacote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const { phoneNumber: whatsappNumber, loading: whatsappLoading } = useWhatsAppNumber();
   const navigate = useNavigate();
@@ -103,18 +99,6 @@ const PacoteDetailPage = () => {
     
     fetchPacote();
   }, [pacoteSlug, formatPacoteData]);
-
-  const nextImage = () => {
-    setCurrentImageIndex(prev => 
-      prev === pacote.imagens.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex(prev => 
-      prev === 0 ? pacote.imagens.length - 1 : prev - 1
-    );
-  };
 
   // Removed unused handleAccordionChange
 
