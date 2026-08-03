@@ -928,60 +928,56 @@ const AdminPacotes = () => {
               </Typography>
             </Grid>
 
-            {/* Campos específicos para Transfer (destino, tempo, distância) */}
-            {currentPacote.tipo === 'transfer' && (
-              <>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Destino"
-                    name="destino"
-                    value={currentPacote.destino}
-                    onChange={handleChange}
-                    margin="normal"
-                    helperText="Ex: Canoa Quebrada, Jericoacoara, etc."
-                  />
-                </Grid>
+            {/* Campos de Destino e Percurso (para todos os tipos) */}
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Destino"
+                name="destino"
+                value={currentPacote.destino}
+                onChange={handleChange}
+                margin="normal"
+                helperText="Ex: Canoa Quebrada, Jericoacoara, etc."
+              />
+            </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Tempo de Percurso"
-                    name="tempoPercurso"
-                    value={currentPacote.tempoPercurso}
-                    onChange={handleChange}
-                    margin="normal"
-                    helperText="Ex: 2h 30min"
-                  />
-                </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Tempo de Percurso"
+                name="tempoPercurso"
+                value={currentPacote.tempoPercurso}
+                onChange={handleChange}
+                margin="normal"
+                helperText="Ex: 2h 30min"
+              />
+            </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Distância"
-                    name="distancia"
-                    value={currentPacote.distancia}
-                    onChange={handleChange}
-                    margin="normal"
-                    helperText="Ex: 156 km"
-                  />
-                </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Distância"
+                name="distancia"
+                value={currentPacote.distancia}
+                onChange={handleChange}
+                margin="normal"
+                helperText="Ex: 156 km"
+              />
+            </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="precoPorVeiculo"
-                        checked={currentPacote.precoPorVeiculo}
-                        onChange={handleChange}
-                      />
-                    }
-                    label="Preço por veículo (não por pessoa)"
-                    style={{ marginTop: '24px' }}
+            <Grid item xs={12} md={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="precoPorVeiculo"
+                    checked={currentPacote.precoPorVeiculo}
+                    onChange={handleChange}
                   />
-                </Grid>
-              </>
-            )}
+                }
+                label="Preço por veículo (não por pessoa)"
+                style={{ marginTop: '24px' }}
+              />
+            </Grid>
 
             {/* Veículos */}
             <Grid item xs={12}>
