@@ -20,18 +20,52 @@ const LocationMap = ({ localizacao = {} }) => {
     }
   };
 
+  // Gerar URL do iframe do Google Maps usando coordenadas
+  const getMapEmbedUrl = () => {
+    if (!coordenadas) return null;
+    // Usar o embed do Google Maps com as coordenadas
+    return `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${coordenadas}`;
+  };
+
+  // Fallback: usar OpenStreetMap (não precisa de API key)
+  const getOpenStreetMapUrl = () => {
+    if (!coordenadas) return null;
+    const [lat, lng] = coordenadas.split(',').map(c => c.trim());
+    return `https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.01}%2C${lat-0.01}%2C${lng+0.01}%2C${lat+0.01}&layer=mapnik&marker=${lat}%2C${lng}`;
+  };
+
   return (
     <div className="location-map-section">
       <h2 className="location-map-title">
         <FiMapPin className="location-map-title-icon" />
-        Sobre o Destino
+        Localização do Destino
       </h2>
       
       {descricao && (
         <p className="location-map-description">{descricao}</p>
       )}
       
-      {imagemMapa && (
+      {/* Prioridade: iframe com coordenadas, depois imagem estática */}
+      {coordenadas ? (
+        <div className="location-map-container">
+          <iframe
+            src={getOpenStreetMapUrl()}
+            title="Mapa do destino"
+            className="location-map-iframe"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+          <button 
+            className="location-map-button"
+            onClick={openGoogleMaps}
+            aria-label="Abrir no Google Maps"
+          >
+            <FiMapPin />
+            <span>Abrir no Google Maps</span>
+          </button>
+        </div>
+      ) : imagemMapa ? (
         <div className="location-map-container">
           <img
             src={autoOptimize(imagemMapa, 'banner')}
@@ -39,24 +73,12 @@ const LocationMap = ({ localizacao = {} }) => {
             className="location-map-image"
             loading="lazy"
             decoding="async"
-            onClick={openGoogleMaps}
-            style={{ cursor: coordenadas ? 'pointer' : 'default' }}
             onError={(e) => {
               e.target.style.display = 'none';
             }}
           />
-          {coordenadas && (
-            <button 
-              className="location-map-button"
-              onClick={openGoogleMaps}
-              aria-label="Abrir no Google Maps"
-            >
-              <FiMapPin />
-              <span>Abrir no Google Maps</span>
-            </button>
-          )}
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
