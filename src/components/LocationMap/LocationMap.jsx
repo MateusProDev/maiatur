@@ -20,13 +20,6 @@ const LocationMap = ({ localizacao = {} }) => {
     }
   };
 
-  // Gerar URL do iframe do Google Maps usando coordenadas
-  const getMapEmbedUrl = () => {
-    if (!coordenadas) return null;
-    // Usar o embed do Google Maps com as coordenadas
-    return `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${coordenadas}`;
-  };
-
   // Fallback: usar OpenStreetMap (não precisa de API key)
   const getOpenStreetMapUrl = () => {
     if (!coordenadas) return null;
