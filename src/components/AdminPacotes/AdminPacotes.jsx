@@ -367,7 +367,7 @@ const AdminPacotes = () => {
   const addVeiculo = () => {
     setCurrentPacote(prev => ({
       ...prev,
-      veiculos: [...(prev.veiculos || []), { nome: '', capacidade: '', malas: '' }]
+      veiculos: [...(prev.veiculos || []), { nome: '', capacidade: '', malas: '', imagem: '' }]
     }));
   };
 
@@ -375,6 +375,52 @@ const AdminPacotes = () => {
     setCurrentPacote(prev => ({
       ...prev,
       veiculos: prev.veiculos.map((v, i) => i === index ? { ...v, [field]: value } : v)
+    }));
+  };
+
+  const handleVeiculoImageUpload = async (file, veiculoIndex) => {
+    if (!file) return;
+    
+    if (!file.type.match("image.*")) {
+      showNotification("error", "Por favor, selecione um arquivo de imagem");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      showNotification("error", "A imagem deve ter no máximo 5MB");
+      return;
+    }
+
+    setLoading({ ...loading, upload: true });
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+
+    try {
+      const response = await axios.post(
+        CLOUDINARY_CONFIG.apiUrl,
+        formData
+      );
+      
+      setCurrentPacote(prev => ({ 
+        ...prev, 
+        veiculos: prev.veiculos.map((v, i) => i === veiculoIndex ? { ...v, imagem: response.data.secure_url } : v)
+      }));
+      
+      showNotification("success", "Imagem do veículo enviada com sucesso!");
+    } catch (error) {
+      showNotification("error", "Erro ao enviar imagem do veículo");
+      console.error("Erro no upload:", error);
+    } finally {
+      setLoading({ ...loading, upload: false });
+    }
+  };
+
+  const removeVeiculoImage = (veiculoIndex) => {
+    setCurrentPacote(prev => ({
+      ...prev,
+      veiculos: prev.veiculos.map((v, i) => i === veiculoIndex ? { ...v, imagem: '' } : v)
     }));
   };
 
@@ -1024,6 +1070,65 @@ const AdminPacotes = () => {
                       >
                         <DeleteIcon />
                       </IconButton>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box sx={{ mt: 1, mb: 1 }}>
+                        <Typography variant="body2" sx={{ mb: 1, fontWeight: 500, color: '#64748b' }}>
+                          Foto do Veículo
+                        </Typography>
+                        {veiculo.imagem ? (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Box
+                              sx={{
+                                width: 100,
+                                height: 70,
+                                borderRadius: '8px',
+                                overflow: 'hidden',
+                                border: '1px solid #e2e8f0'
+                              }}
+                            >
+                              <img
+                                src={veiculo.imagem}
+                                alt={veiculo.nome}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              />
+                            </Box>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              color="error"
+                              onClick={() => removeVeiculoImage(index)}
+                              startIcon={<DeleteIcon />}
+                            >
+                              Remover Foto
+                            </Button>
+                          </Box>
+                        ) : (
+                          <Box>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) handleVeiculoImageUpload(file, index);
+                              }}
+                              style={{ display: 'none' }}
+                              id={`veiculo-image-${index}`}
+                            />
+                            <label htmlFor={`veiculo-image-${index}`}>
+                              <Button
+                                variant="outlined"
+                                component="span"
+                                size="small"
+                                startIcon={<ImageIcon />}
+                                disabled={loading.upload}
+                              >
+                                {loading.upload ? 'Enviando...' : 'Adicionar Foto'}
+                              </Button>
+                            </label>
+                          </Box>
+                        )}
+                      </Box>
                     </Grid>
                   </Grid>
                 </Paper>

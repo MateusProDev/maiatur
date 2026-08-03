@@ -3,6 +3,8 @@
 .markdown-content {
   line-height: 1.6;
   color: inherit;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 .markdown-content h1,
@@ -32,6 +34,8 @@
 .markdown-content ol {
   margin: 1rem 0;
   padding-left: 2rem;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .markdown-content li {
@@ -54,6 +58,8 @@
   border-radius: 4px;
   font-family: 'Courier New', monospace;
   font-size: 0.9em;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .markdown-content pre {
@@ -62,6 +68,7 @@
   border-radius: 8px;
   overflow-x: auto;
   margin: 1rem 0;
+  max-width: 100%;
 }
 
 .markdown-content pre code {

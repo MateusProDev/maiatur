@@ -19,19 +19,25 @@ const VehicleGallery = ({ veiculos = [] }) => {
       <div className="vehicle-gallery-grid">
         {veiculos.map((veiculo, index) => (
           <div key={index} className="vehicle-card">
-            <div className="vehicle-card-image">
-              <img
-                src={autoOptimize(veiculo.imagem, 'serviceCard')}
-                alt={veiculo.tipo}
-                loading="lazy"
-                decoding="async"
-                onError={(e) => {
-                  e.target.src = autoOptimize('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80', 'serviceCard');
-                }}
-              />
-            </div>
+            {veiculo.imagem ? (
+              <div className="vehicle-card-image">
+                <img
+                  src={autoOptimize(veiculo.imagem, 'serviceCard')}
+                  alt={veiculo.nome || 'Veículo'}
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    e.target.src = autoOptimize('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80', 'serviceCard');
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="vehicle-card-image vehicle-no-image">
+                <span>🚐</span>
+              </div>
+            )}
             <div className="vehicle-card-content">
-              <h3 className="vehicle-card-title">{veiculo.tipo}</h3>
+              <h3 className="vehicle-card-title">{veiculo.nome || veiculo.tipo || 'Veículo'}</h3>
               {veiculo.legenda && (
                 <p className="vehicle-card-caption">{veiculo.legenda}</p>
               )}
@@ -42,10 +48,10 @@ const VehicleGallery = ({ veiculos = [] }) => {
                     <span>{veiculo.capacidade}</span>
                   </div>
                 )}
-                {veiculo.bagagem && (
+                {(veiculo.malas || veiculo.bagagem) && (
                   <div className="vehicle-spec">
                     <FiBriefcase className="vehicle-spec-icon" />
-                    <span>{veiculo.bagagem}</span>
+                    <span>{veiculo.malas || veiculo.bagagem}</span>
                   </div>
                 )}
               </div>

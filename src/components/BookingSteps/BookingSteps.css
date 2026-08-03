@@ -1,5 +1,6 @@
 .booking-steps {
   margin: 2rem 0;
+  overflow-x: hidden;
 }
 
 .booking-steps-title {
@@ -14,6 +15,7 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 1rem 0;
+  overflow-x: hidden;
 }
 
 .step-item {
@@ -69,12 +71,14 @@
   .booking-steps-container {
     flex-direction: row;
     align-items: flex-start;
+    flex-wrap: wrap;
   }
   
   .step-item {
     flex-direction: column;
     text-align: center;
     flex: 1;
+    min-width: 200px;
   }
   
   .step-number {
