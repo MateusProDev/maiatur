@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiMapPin } from 'react-icons/fi';
 import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import './LocationMap.css';
@@ -8,11 +8,50 @@ import './LocationMap.css';
  * Exibe mapa e descrição do destino do transfer
  */
 const LocationMap = ({ localizacao = {} }) => {
-  if (!localizacao || (!localizacao.descricao && !localizacao.imagemMapa)) {
-    return null;
-  }
+  const [resolvedCoords, setResolvedCoords] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { descricao, imagemMapa, coordenadas } = localizacao;
+
+  // Resolver links curtos do Google Maps para obter coordenadas
+  useEffect(() => {
+    const resolveShortLink = async () => {
+      if (!coordenadas) return;
+      
+      // Se já for coordenadas diretas, não precisa resolver
+      if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(coordenadas.trim())) {
+        setResolvedCoords(coordenadas.trim());
+        return;
+      }
+
+      // Se for um link curto do Google Maps, precisa resolver
+      if (coordenadas.includes('maps.app.goo.gl') || coordenadas.includes('goo.gl')) {
+        setLoading(true);
+        try {
+          // Usar um serviço de redirecionamento ou fazer fetch direto
+          // Como não podemos fazer fetch direto por CORS, vamos tentar extrair de outras formas
+          const extracted = extractCoordinatesFromLink(coordenadas);
+          if (extracted) {
+            setResolvedCoords(extracted);
+          } else {
+            // Se não conseguir extrair, usa o valor original
+            setResolvedCoords(coordenadas);
+          }
+        } catch (error) {
+          console.error('Erro ao resolver link curto:', error);
+          setResolvedCoords(coordenadas);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        // Se não for link curto, tenta extrair coordenadas normalmente
+        const extracted = extractCoordinatesFromLink(coordenadas);
+        setResolvedCoords(extracted || coordenadas);
+      }
+    };
+
+    resolveShortLink();
+  }, [coordenadas]);
 
   // Verifica se é um link de mapa (Google Maps, Bing Maps, etc.)
   const isMapLink = (value) => {
@@ -20,6 +59,7 @@ const LocationMap = ({ localizacao = {} }) => {
       value.includes('maps.google.com') || 
       value.includes('goo.gl') || 
       value.includes('google.com/maps') ||
+      value.includes('maps.app.goo.gl') ||
       value.includes('bing.com/maps')
     );
   };
@@ -63,13 +103,18 @@ const LocationMap = ({ localizacao = {} }) => {
   const getValidCoordinates = () => {
     if (!coordenadas) return null;
     
+    // Se já for coordenadas diretas, retorna como está
+    if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(coordenadas.trim())) {
+      return coordenadas.trim();
+    }
+    
     // Se for um link, tenta extrair as coordenadas
-    if (isGoogleMapsLink(coordenadas)) {
+    if (isMapLink(coordenadas)) {
       return extractCoordinatesFromLink(coordenadas);
     }
     
-    // Se já for coordenadas, retorna como está
-    return coordenadas;
+    // Se não for coordenadas nem link, retorna null
+    return null;
   };
 
   const validCoords = getValidCoordinates();
@@ -100,9 +145,11 @@ const LocationMap = ({ localizacao = {} }) => {
 
   // Usar Google Maps Static API para mostrar mapa com marcador (sem API key)
   const getGoogleMapsStaticUrl = () => {
-    if (!validCoords) return null;
+    // Usar resolvedCoords se disponível, senão validCoords
+    const coordsToUse = resolvedCoords || validCoords;
+    if (!coordsToUse) return null;
     
-    const [lat, lng] = validCoords.split(',').map(c => c.trim());
+    const [lat, lng] = coordsToUse.split(',').map(c => c.trim());
     if (!lat || !lng || isNaN(lat) || isNaN(lng)) return null;
     
     // Usar Google Maps Static com marker (não precisa de API key para uso básico)
@@ -111,21 +158,62 @@ const LocationMap = ({ localizacao = {} }) => {
 
   // Converter link do Google Maps para formato embed
   const getGoogleMapsEmbedUrl = () => {
-    if (!coordenadas || !isMapLink(coordenadas)) return null;
+    if (!coordenadas) return null;
     
-    // Apenas Google Maps suporta embed API
-    if (!coordenadas.includes('google.com') && !coordenadas.includes('maps.google.com')) return null;
-    
-    // Tenta converter link normal para embed
-    if (coordenadas.includes('/maps/place/')) {
-      return coordenadas.replace('/maps/place/', '/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw');
+    // Se for coordenadas diretas, usa Google Maps embed
+    if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(coordenadas.trim())) {
+      const [lat, lng] = coordenadas.trim().split(',').map(c => c.trim());
+      return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&center=${lat},${lng}&zoom=15&maptype=roadmap`;
     }
     
-    // Se tiver coordenadas no link, usa embed com coordenadas
-    const coords = extractCoordinatesFromLink(coordenadas);
-    if (coords) {
-      const [lat, lng] = coords.split(',').map(c => c.trim());
-      return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&center=${lat},${lng}&zoom=15`;
+    // Se for link do Google Maps, tenta converter para embed
+    if (isMapLink(coordenadas) && (coordenadas.includes('google.com') || coordenadas.includes('maps.google.com'))) {
+      // Tenta converter link normal para embed
+      if (coordenadas.includes('/maps/place/')) {
+        return coordenadas.replace('/maps/place/', '/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw');
+      }
+      
+      // Se tiver coordenadas no link, usa embed com coordenadas
+      const coords = extractCoordinatesFromLink(coordenadas);
+      if (coords) {
+        const [lat, lng] = coords.split(',').map(c => c.trim());
+        return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&center=${lat},${lng}&zoom=15`;
+      }
+    }
+    
+    return null;
+  };
+
+  // Para links que não podem ser convertidos para embed, usar iframe direto
+  const getDirectEmbedUrl = () => {
+    if (!coordenadas || !isMapLink(coordenadas)) return null;
+    
+    // Se for link do Google Maps, tenta usar o formato embed
+    if (coordenadas.includes('google.com') || coordenadas.includes('maps.google.com')) {
+      // Converter link normal para embed
+      if (coordenadas.includes('/maps/place/')) {
+        const placeId = coordenadas.match(/\/maps\/place\/([^\/]+)/);
+        if (placeId) {
+          return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&q=${encodeURIComponent(placeId[1])}`;
+        }
+      }
+      
+      // Se tiver coordenadas
+      const coords = extractCoordinatesFromLink(coordenadas);
+      if (coords) {
+        const [lat, lng] = coords.split(',').map(c => c.trim());
+        return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&center=${lat},${lng}&zoom=15`;
+      }
+      
+      // Para links curtos, não é possível converter, retorna null
+      if (coordenadas.includes('maps.app.goo.gl') || coordenadas.includes('goo.gl')) {
+        return null;
+      }
+    }
+    
+    // Se for link do Bing Maps, não é possível usar embed
+    if (coordenadas.includes('bing.com/maps')) {
+      return null;
     }
     
     return null;
@@ -142,7 +230,7 @@ const LocationMap = ({ localizacao = {} }) => {
         <p className="location-map-description">{descricao}</p>
       )}
       
-      {/* Prioridade: 1. Google Maps embed (se for link do Google), 2. Google Maps Static com marcador (se houver coordenadas), 3. OpenStreetMap, 4. Imagem estática */}
+      {/* Prioridade: 1. Google Maps embed (se for coordenadas ou link do Google), 2. Google Maps Static com marcador, 3. OpenStreetMap, 4. Imagem estática, 5. Botão para abrir link */}
       {getGoogleMapsEmbedUrl() ? (
         <div className="location-map-container">
           <iframe
@@ -220,6 +308,33 @@ const LocationMap = ({ localizacao = {} }) => {
               e.target.style.display = 'none';
             }}
           />
+        </div>
+      ) : coordenadas ? (
+        // Se houver coordenadas/link mas não foi possível gerar mapa, mostra botão para abrir
+        <div className="location-map-container" style={{ 
+          minHeight: '300px', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #f8fafb 0%, #f1f5f9 100%)'
+        }}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <FiMapPin style={{ fontSize: '3rem', color: '#21A657', marginBottom: '1rem' }} />
+            <p style={{ color: '#64748b', marginBottom: '1.5rem' }}>
+              {coordenadas.includes('maps.app.goo.gl') || coordenadas.includes('goo.gl') 
+                ? 'Links curtos do Google Maps não podem ser exibidos diretamente. Clique abaixo para abrir no Google Maps.'
+                : 'Não foi possível gerar o mapa embutido. Clique abaixo para abrir no Google Maps.'}
+            </p>
+            <button 
+              className="location-map-button"
+              onClick={openGoogleMaps}
+              style={{ display: 'inline-flex' }}
+              aria-label="Abrir no Google Maps"
+            >
+              <FiMapPin />
+              <span>Abrir no Google Maps</span>
+            </button>
+          </div>
         </div>
       ) : null}
     </div>
