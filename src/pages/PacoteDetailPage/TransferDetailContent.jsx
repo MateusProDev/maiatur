@@ -9,6 +9,7 @@ import AmenitiesList from '../../components/AmenitiesList/AmenitiesList';
 import BookingSteps from '../../components/BookingSteps/BookingSteps';
 import AdvantagesList from '../../components/AdvantagesList/AdvantagesList';
 import LocationMap from '../../components/LocationMap/LocationMap';
+import PaymentSecuritySection from '../../components/PaymentSecuritySection/PaymentSecuritySection';
 import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import './TransferDetailContent.css';
 
@@ -40,6 +41,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
     passosReserva,
     faq,
     localizacao,
+    pagamentoSeguranca,
     tipo,
     destaques
   } = pacote;
@@ -310,6 +312,13 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
           </div>
         </div>
       )}
+
+      {/* Pagamento e Segurança */}
+      {pagamentoSeguranca && (pagamentoSeguranca.bandeiras?.length > 0 || pagamentoSeguranca.seloSeguranca || pagamentoSeguranca.textoSeguranca) ? (
+        <div className="transfer-section">
+          <PaymentSecuritySection pagamentoSeguranca={pagamentoSeguranca} />
+        </div>
+      ) : null}
 
       {/* FAQ */}
       {faq && faq.length > 0 ? (

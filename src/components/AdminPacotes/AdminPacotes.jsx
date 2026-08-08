@@ -82,6 +82,11 @@ const AdminPacotes = () => {
       descricao: "",
       imagemMapa: "",
       coordenadas: ""
+    },
+    pagamentoSeguranca: {
+      bandeiras: [],
+      seloSeguranca: "",
+      textoSeguranca: ""
     }
   });
   const [notification, setNotification] = useState({
@@ -1354,6 +1359,54 @@ const AdminPacotes = () => {
                     value={currentPacote.localizacao?.coordenadas || ''}
                     onChange={(e) => handleNestedChange('localizacao', 'coordenadas', e.target.value)}
                     helperText="Ex: -4.534686, -37.679838 ou link do Google/Bing Maps"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                💳 Pagamento e Segurança
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle2" gutterBottom>
+                    Bandeiras de Pagamento Aceitas
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                    {['Visa', 'Mastercard', 'American Express', 'Elo', 'Hipercard', 'Pix'].map((bandeira) => (
+                      <Chip
+                        key={bandeira}
+                        label={bandeira}
+                        clickable
+                        color={currentPacote.pagamentoSeguranca?.bandeiras?.includes(bandeira) ? 'primary' : 'default'}
+                        onClick={() => {
+                          const bandeiras = currentPacote.pagamentoSeguranca?.bandeiras || [];
+                          const novasBandeiras = bandeiras.includes(bandeira)
+                            ? bandeiras.filter(b => b !== bandeira)
+                            : [...bandeiras, bandeira];
+                          handleNestedChange('pagamentoSeguranca', 'bandeiras', novasBandeiras);
+                        }}
+                      />
+                    ))}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="URL do Selo de Segurança"
+                    value={currentPacote.pagamentoSeguranca?.seloSeguranca || ''}
+                    onChange={(e) => handleNestedChange('pagamentoSeguranca', 'seloSeguranca', e.target.value)}
+                    helperText="URL da imagem do selo de segurança (SSL, Site Blindado, etc.)"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Texto de Segurança"
+                    value={currentPacote.pagamentoSeguranca?.textoSeguranca || ''}
+                    onChange={(e) => handleNestedChange('pagamentoSeguranca', 'textoSeguranca', e.target.value)}
+                    helperText="Ex: Pagamento 100% seguro, Site blindado, etc."
                   />
                 </Grid>
               </Grid>

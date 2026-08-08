@@ -75,7 +75,7 @@ const LocationMap = ({ localizacao = {} }) => {
   const getValidCoordinates = () => {
     if (!coordenadas) return null;
     
-    console.log('🗺️ getValidCoordinates - coordenadas:', coordenadas);
+    console.log('🗺️ getVal\idCoordinates - coordenadas:', coordenadas);
     
     // Se já for coordenadas diretas, retorna como está
     if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(coordenadas.trim())) {
