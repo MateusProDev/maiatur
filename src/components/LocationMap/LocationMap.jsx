@@ -17,8 +17,10 @@ const LocationMap = ({ localizacao = {} }) => {
   const isMapLink = (value) => {
     return value && (
       value.includes('maps.google.com') || 
+      value.includes('maps.google.com.br') ||
       value.includes('goo.gl') || 
       value.includes('google.com/maps') ||
+      value.includes('google.com.br/maps') ||
       value.includes('maps.app.goo.gl') ||
       value.includes('bing.com/maps')
     );
