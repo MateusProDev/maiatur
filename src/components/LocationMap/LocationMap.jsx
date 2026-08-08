@@ -11,6 +11,8 @@ import './LocationMap.css';
 const LocationMap = ({ localizacao = {} }) => {
   const { descricao, imagemMapa, coordenadas } = localizacao;
 
+  console.log('🗺️ LocationMap recebeu:', { descricao, imagemMapa, coordenadas });
+
   // Verifica se é um link de mapa (Google Maps, Bing Maps, etc.)
   const isMapLink = (value) => {
     return value && (
@@ -26,10 +28,14 @@ const LocationMap = ({ localizacao = {} }) => {
   const extractCoordinatesFromLink = (link) => {
     if (!link) return null;
     
+    console.log('🗺️ Tentando extrair coordenadas do link:', link);
+    
     // Google Maps: formato @lat,lng
     const googleCoordMatch = link.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
     if (googleCoordMatch) {
-      return `${googleCoordMatch[1]},${googleCoordMatch[2]}`;
+      const coords = `${googleCoordMatch[1]},${googleCoordMatch[2]}`;
+      console.log('✅ Coordenadas extraídas do formato @lat,lng:', coords);
+      return coords;
     }
     
     // Google Maps: parâmetro q
@@ -38,6 +44,7 @@ const LocationMap = ({ localizacao = {} }) => {
       const qValue = decodeURIComponent(googleQMatch[1]);
       // Verifica se o valor de q já são coordenadas
       if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(qValue)) {
+        console.log('✅ Coordenadas extraídas do parâmetro q:', qValue);
         return qValue;
       }
     }
@@ -45,15 +52,20 @@ const LocationMap = ({ localizacao = {} }) => {
     // Bing Maps: parâmetro cp (center point) no formato lat~lng
     const bingCpMatch = link.match(/[?&]cp=(-?\d+\.\d+)~(-?\d+\.\d+)/);
     if (bingCpMatch) {
-      return `${bingCpMatch[1]},${bingCpMatch[2]}`;
+      const coords = `${bingCpMatch[1]},${bingCpMatch[2]}`;
+      console.log('✅ Coordenadas extraídas do Bing Maps cp:', coords);
+      return coords;
     }
     
     // Bing Maps: parâmetro where
     const bingWhereMatch = link.match(/[?&]where=([^&]+)/);
     if (bingWhereMatch) {
-      return decodeURIComponent(bingWhereMatch[1]);
+      const coords = decodeURIComponent(bingWhereMatch[1]);
+      console.log('✅ Coordenadas extraídas do Bing Maps where:', coords);
+      return coords;
     }
     
+    console.log('❌ Não foi possível extrair coordenadas do link');
     return null;
   };
 
@@ -61,21 +73,27 @@ const LocationMap = ({ localizacao = {} }) => {
   const getValidCoordinates = () => {
     if (!coordenadas) return null;
     
+    console.log('🗺️ getValidCoordinates - coordenadas:', coordenadas);
+    
     // Se já for coordenadas diretas, retorna como está
     if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(coordenadas.trim())) {
+      console.log('✅ Coordenadas diretas detectadas');
       return coordenadas.trim();
     }
     
     // Se for um link, tenta extrair as coordenadas
     if (isMapLink(coordenadas)) {
+      console.log('🔗 É um link de mapa, tentando extrair coordenadas');
       return extractCoordinatesFromLink(coordenadas);
     }
     
+    console.log('❌ Não é coordenadas diretas nem link de mapa');
     // Se não for coordenadas nem link, retorna null
     return null;
   };
 
   const validCoords = getValidCoordinates();
+  console.log('🗺️ validCoords final:', validCoords);
 
   const openGoogleMaps = () => {
     if (coordenadas) {
