@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FiMapPin } from 'react-icons/fi';
 import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import MapWithMarker from './MapWithMarker';
@@ -9,46 +9,7 @@ import './LocationMap.css';
  * Exibe mapa e descrição do destino do transfer
  */
 const LocationMap = ({ localizacao = {} }) => {
-  const [resolvedCoords, setResolvedCoords] = useState(null);
-
   const { descricao, imagemMapa, coordenadas } = localizacao;
-
-  // Resolver links curtos do Google Maps para obter coordenadas
-  useEffect(() => {
-    const resolveShortLink = async () => {
-      if (!coordenadas) return;
-      
-      // Se já for coordenadas diretas, não precisa resolver
-      if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(coordenadas.trim())) {
-        setResolvedCoords(coordenadas.trim());
-        return;
-      }
-
-      // Se for um link curto do Google Maps, precisa resolver
-      if (coordenadas.includes('maps.app.goo.gl') || coordenadas.includes('goo.gl')) {
-        try {
-          // Usar um serviço de redirecionamento ou fazer fetch direto
-          // Como não podemos fazer fetch direto por CORS, vamos tentar extrair de outras formas
-          const extracted = extractCoordinatesFromLink(coordenadas);
-          if (extracted) {
-            setResolvedCoords(extracted);
-          } else {
-            // Se não conseguir extrair, usa o valor original
-            setResolvedCoords(coordenadas);
-          }
-        } catch (error) {
-          console.error('Erro ao resolver link curto:', error);
-          setResolvedCoords(coordenadas);
-        }
-      } else {
-        // Se não for link curto, tenta extrair coordenadas normalmente
-        const extracted = extractCoordinatesFromLink(coordenadas);
-        setResolvedCoords(extracted || coordenadas);
-      }
-    };
-
-    resolveShortLink();
-  }, [coordenadas]);
 
   // Verifica se é um link de mapa (Google Maps, Bing Maps, etc.)
   const isMapLink = (value) => {
