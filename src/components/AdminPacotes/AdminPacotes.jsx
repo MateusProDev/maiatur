@@ -1020,7 +1020,7 @@ const AdminPacotes = () => {
                 margin="normal"
                 helperText="Ex: 156 km"
               />
-            </Grid>
+            </Grid> 
 
             <Grid item xs={12} md={6}>
               <FormControlLabel
