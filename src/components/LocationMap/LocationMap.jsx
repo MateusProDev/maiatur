@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiMapPin } from 'react-icons/fi';
 import { autoOptimize } from '../../utils/cloudinaryOptimizer';
+import MapWithMarker from './MapWithMarker';
 import './LocationMap.css';
 
 /**
@@ -127,59 +128,6 @@ const LocationMap = ({ localizacao = {} }) => {
     }
   };
 
-  // Fallback: usar OpenStreetMap (não precisa de API key)
-  const getOpenStreetMapUrl = () => {
-    if (!validCoords) return null;
-    
-    const [lat, lng] = validCoords.split(',').map(c => c.trim());
-    if (!lat || !lng || isNaN(lat) || isNaN(lng)) return null;
-    
-    // Usar OpenStreetMap com marker usando a API de embed
-    // O marker é adicionado como um parâmetro de query
-    return `https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.01}%2C${lat-0.01}%2C${lng+0.01}%2C${lat+0.01}&layer=mapnik&marker=${lat}%2C${lng}`;
-  };
-
-  // Usar Google Maps Static API para mostrar mapa com marcador (sem API key)
-  const getGoogleMapsStaticUrl = () => {
-    // Usar resolvedCoords se disponível, senão validCoords
-    const coordsToUse = resolvedCoords || validCoords;
-    if (!coordsToUse) return null;
-    
-    const [lat, lng] = coordsToUse.split(',').map(c => c.trim());
-    if (!lat || !lng || isNaN(lat) || isNaN(lng)) return null;
-    
-    // Usar Google Maps Static com marker (não precisa de API key para uso básico)
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=800x400&maptype=roadmap&markers=color:red%7C${lat},${lng}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw`;
-  };
-
-  // Converter link do Google Maps para formato embed
-  const getGoogleMapsEmbedUrl = () => {
-    if (!coordenadas) return null;
-    
-    // Se for coordenadas diretas, usa Google Maps embed
-    if (/^-?\d+\.\d+,-?\d+\.\d+$/.test(coordenadas.trim())) {
-      const [lat, lng] = coordenadas.trim().split(',').map(c => c.trim());
-      return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&center=${lat},${lng}&zoom=15&maptype=roadmap`;
-    }
-    
-    // Se for link do Google Maps, tenta converter para embed
-    if (isMapLink(coordenadas) && (coordenadas.includes('google.com') || coordenadas.includes('maps.google.com'))) {
-      // Tenta converter link normal para embed
-      if (coordenadas.includes('/maps/place/')) {
-        return coordenadas.replace(/\/maps\/place\//, '/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw');
-      }
-      
-      // Se tiver coordenadas no link, usa embed com coordenadas
-      const coords = extractCoordinatesFromLink(coordenadas);
-      if (coords) {
-        const [lat, lng] = coords.split(',').map(c => c.trim());
-        return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&center=${lat},${lng}&zoom=15`;
-      }
-    }
-    
-    return null;
-  };
-
 
   return (
     <div className="location-map-section">
@@ -192,63 +140,10 @@ const LocationMap = ({ localizacao = {} }) => {
         <p className="location-map-description">{descricao}</p>
       )}
       
-      {/* Prioridade: 1. Google Maps embed (se for coordenadas ou link do Google), 2. Google Maps Static com marcador, 3. OpenStreetMap, 4. Imagem estática, 5. Botão para abrir link */}
-      {getGoogleMapsEmbedUrl() ? (
+      {/* Prioridade: 1. MapWithMarker (Leaflet) com coordenadas, 2. Imagem estática, 3. Botão para abrir link */}
+      {validCoords ? (
         <div className="location-map-container">
-          <iframe
-            src={getGoogleMapsEmbedUrl()}
-            title="Mapa do destino"
-            className="location-map-iframe"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-          <button 
-            className="location-map-button"
-            onClick={openGoogleMaps}
-            aria-label="Abrir no Google Maps"
-          >
-            <FiMapPin />
-            <span>Abrir no Google Maps</span>
-          </button>
-        </div>
-      ) : validCoords && getGoogleMapsStaticUrl() ? (
-        <div className="location-map-container">
-          <img
-            src={getGoogleMapsStaticUrl()}
-            alt="Mapa do destino"
-            className="location-map-image"
-            loading="lazy"
-            decoding="async"
-            onError={(e) => {
-              // Se falhar, tenta usar OpenStreetMap
-              const osmUrl = getOpenStreetMapUrl();
-              if (osmUrl) {
-                e.target.src = osmUrl;
-              } else {
-                e.target.style.display = 'none';
-              }
-            }}
-          />
-          <button 
-            className="location-map-button"
-            onClick={openGoogleMaps}
-            aria-label="Abrir no Google Maps"
-          >
-            <FiMapPin />
-            <span>Abrir no Google Maps</span>
-          </button>
-        </div>
-      ) : validCoords && getOpenStreetMapUrl() ? (
-        <div className="location-map-container">
-          <iframe
-            src={getOpenStreetMapUrl()}
-            title="Mapa do destino"
-            className="location-map-iframe"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          <MapWithMarker coordinates={validCoords} description={descricao} />
           <button 
             className="location-map-button"
             onClick={openGoogleMaps}
@@ -272,7 +167,7 @@ const LocationMap = ({ localizacao = {} }) => {
           />
         </div>
       ) : coordenadas ? (
-        // Se houver coordenadas/link mas não foi possível gerar mapa, mostra botão para abrir
+        // Se houver link mas não foi possível extrair coordenadas, mostra botão para abrir
         <div className="location-map-container" style={{ 
           minHeight: '300px', 
           display: 'flex', 
@@ -284,8 +179,8 @@ const LocationMap = ({ localizacao = {} }) => {
             <FiMapPin style={{ fontSize: '3rem', color: '#21A657', marginBottom: '1rem' }} />
             <p style={{ color: '#64748b', marginBottom: '1.5rem' }}>
               {coordenadas.includes('maps.app.goo.gl') || coordenadas.includes('goo.gl') 
-                ? 'Links curtos do Google Maps não podem ser exibidos diretamente. Clique abaixo para abrir no Google Maps.'
-                : 'Não foi possível gerar o mapa embutido. Clique abaixo para abrir no Google Maps.'}
+                ? 'Links curtos do Google Maps não podem ser exibidos diretamente. Use coordenadas diretas.'
+                : 'Não foi possível extrair coordenadas do link. Use coordenadas diretas (ex: -4.534686, -37.679838).'}
             </p>
             <button 
               className="location-map-button"
