@@ -9,7 +9,6 @@ import './LocationMap.css';
  */
 const LocationMap = ({ localizacao = {} }) => {
   const [resolvedCoords, setResolvedCoords] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const { descricao, imagemMapa, coordenadas } = localizacao;
 
@@ -26,7 +25,6 @@ const LocationMap = ({ localizacao = {} }) => {
 
       // Se for um link curto do Google Maps, precisa resolver
       if (coordenadas.includes('maps.app.goo.gl') || coordenadas.includes('goo.gl')) {
-        setLoading(true);
         try {
           // Usar um serviço de redirecionamento ou fazer fetch direto
           // Como não podemos fazer fetch direto por CORS, vamos tentar extrair de outras formas
@@ -40,8 +38,6 @@ const LocationMap = ({ localizacao = {} }) => {
         } catch (error) {
           console.error('Erro ao resolver link curto:', error);
           setResolvedCoords(coordenadas);
-        } finally {
-          setLoading(false);
         }
       } else {
         // Se não for link curto, tenta extrair coordenadas normalmente
@@ -170,7 +166,7 @@ const LocationMap = ({ localizacao = {} }) => {
     if (isMapLink(coordenadas) && (coordenadas.includes('google.com') || coordenadas.includes('maps.google.com'))) {
       // Tenta converter link normal para embed
       if (coordenadas.includes('/maps/place/')) {
-        return coordenadas.replace('/maps/place/', '/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw');
+        return coordenadas.replace(/\/maps\/place\//, '/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw');
       }
       
       // Se tiver coordenadas no link, usa embed com coordenadas
@@ -184,40 +180,6 @@ const LocationMap = ({ localizacao = {} }) => {
     return null;
   };
 
-  // Para links que não podem ser convertidos para embed, usar iframe direto
-  const getDirectEmbedUrl = () => {
-    if (!coordenadas || !isMapLink(coordenadas)) return null;
-    
-    // Se for link do Google Maps, tenta usar o formato embed
-    if (coordenadas.includes('google.com') || coordenadas.includes('maps.google.com')) {
-      // Converter link normal para embed
-      if (coordenadas.includes('/maps/place/')) {
-        const placeId = coordenadas.match(/\/maps\/place\/([^\/]+)/);
-        if (placeId) {
-          return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&q=${encodeURIComponent(placeId[1])}`;
-        }
-      }
-      
-      // Se tiver coordenadas
-      const coords = extractCoordinatesFromLink(coordenadas);
-      if (coords) {
-        const [lat, lng] = coords.split(',').map(c => c.trim());
-        return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17Rw&center=${lat},${lng}&zoom=15`;
-      }
-      
-      // Para links curtos, não é possível converter, retorna null
-      if (coordenadas.includes('maps.app.goo.gl') || coordenadas.includes('goo.gl')) {
-        return null;
-      }
-    }
-    
-    // Se for link do Bing Maps, não é possível usar embed
-    if (coordenadas.includes('bing.com/maps')) {
-      return null;
-    }
-    
-    return null;
-  };
 
   return (
     <div className="location-map-section">
