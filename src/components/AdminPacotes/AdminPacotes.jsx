@@ -254,6 +254,11 @@ const AdminPacotes = () => {
           imagemMapa: '',
           coordenadas: ''
         },
+        pagamentoSeguranca: currentPacote.pagamentoSeguranca || {
+          bandeiras: [],
+          seloSeguranca: '',
+          textoSeguranca: ''
+        },
         createdAt: currentPacote.createdAt || serverTimestamp(),
         updatedAt: serverTimestamp()
       };
