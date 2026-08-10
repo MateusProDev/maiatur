@@ -10,13 +10,8 @@ import { seoData } from '../../utils/seoData';
  */
 const RouteSEO = () => {
   const { pathname } = useLocation();
-  const isPacoteDetailPage = /^\/pacote\/[^/]+\/?$/.test(pathname);
 
   const seoInfo = useMemo(() => {
-    if (isPacoteDetailPage) {
-      return null;
-    }
-
     // Exact matches
     if (pathname === '/' || pathname === '') return seoData.home || {};
     if (pathname.startsWith('/pacotes')) return seoData.pacotes || {};
@@ -44,12 +39,10 @@ const RouteSEO = () => {
       description: seoData.home?.description || '',
       canonical: pathname
     };
-  }, [pathname, isPacoteDetailPage]);
+  }, [pathname]);
 
   // Immediate DOM fallback: write title and meta description synchronously
   useEffect(() => {
-    if (!seoInfo) return;
-
     try {
       const title = seoInfo.title || '';
       const description = seoInfo.description || '';
@@ -69,10 +62,6 @@ const RouteSEO = () => {
       // noop
     }
   }, [seoInfo]);
-
-  if (isPacoteDetailPage || !seoInfo) {
-    return null;
-  }
 
   // Ensure canonical is absolute when provided by seoData
   const canonical = seoInfo.canonical && seoInfo.canonical.startsWith('http')

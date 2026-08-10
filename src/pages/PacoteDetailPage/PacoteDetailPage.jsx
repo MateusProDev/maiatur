@@ -177,7 +177,7 @@ const PacoteDetailPage = () => {
         title={`${pacote.titulo} - ${pacote.tipo === 'transfer' ? 'Transfers' : 'Pacotes e Passeios'}`}
         description={pacote.descricaoCurta || pacote.descricao?.substring(0, 160)}
         canonical={`/pacote/${pacoteSlug}`}
-        ogImage={pacote.imagemPrincipal || pacote.imagens?.[0]}
+        ogImage={pacote.imagens?.[0]}
         ogType={pacote.tipo === 'transfer' ? 'service' : 'product'}
         pacote={pacote}
       />
