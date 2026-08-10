@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
+const chromium = require('@sparticuz/chromium').default;
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, getDocs } = require('firebase/firestore');
 
@@ -170,9 +171,12 @@ async function runPrerender(validPackages) {
         ? path.join(BUILD_DIR, 'pacote', rawUrl.replace(/^\/pacote\//, '').split('/')[0], 'index.html')
         : null;
 
-      const candidate = fs.existsSync(packageStaticPath) && fs.statSync(packageStaticPath).isFile()
-        ? packageStaticPath
-        : requestedPath;
+      const candidate =
+        packageStaticPath &&
+        fs.existsSync(packageStaticPath) &&
+        fs.statSync(packageStaticPath).isFile()
+          ? packageStaticPath
+          : requestedPath;
 
       if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
         const ext = path.extname(candidate).toLowerCase();
@@ -208,7 +212,12 @@ async function runPrerender(validPackages) {
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const { port } = server.address();
 
-  const browser = await puppeteer.launch({ args: ['--headless'] });
+  const browser = await puppeteer.launch({
+   args: chromium.args,
+   defaultViewport: chromium.defaultViewport,
+   executablePath: await chromium.executablePath(),
+   headless: chromium.headless
+  });
   const page = await browser.newPage({ waitUntil: 'load', timeout: 60000 });
 
   let generated = 0;
