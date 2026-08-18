@@ -1,0 +1,171 @@
+.transfer-beberibe-section {
+  padding: 4rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.transfer-beberibe-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.transfer-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.transfer-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.transfer-subtitle {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.transfer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.transfer-item {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transfer-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.item-icon {
+  font-size: 3rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.item-content {
+  flex: 1;
+}
+
+.item-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.item-description {
+  font-size: 0.95rem;
+  margin: 0;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.tripadvisor-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.tripadvisor-link:hover {
+  color: #ffed4a;
+  text-decoration: underline;
+}
+
+.transfer-whatsapp-container {
+  text-align: center;
+}
+
+.transfer-whatsapp-button {
+  background: #25D366;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.transfer-whatsapp-button:hover {
+  background: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+.transfer-whatsapp-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .transfer-beberibe-section {
+    padding: 3rem 1rem;
+  }
+
+  .transfer-title {
+    font-size: 2rem;
+  }
+
+  .transfer-subtitle {
+    font-size: 1rem;
+  }
+
+  .transfer-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .transfer-item {
+    padding: 1.5rem;
+  }
+
+  .item-icon {
+    font-size: 2.5rem;
+  }
+
+  .transfer-whatsapp-button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .transfer-title {
+    font-size: 1.75rem;
+  }
+
+  .transfer-item {
+    padding: 1.25rem;
+  }
+
+  .item-icon {
+    font-size: 2rem;
+  }
+}

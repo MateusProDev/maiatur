@@ -12,6 +12,7 @@ import AvaliacoesPreview from '../../components/AvaliacoesPreview/AvaliacoesPrev
 import AboutSection from '../../components/About/AboutSection';
 import Depoimentos from '../../components/Depoimentos/Depoimentos';
 import DestinosGrid from '../../components/DestinosGrid/DestinosGrid';
+import TransferBeberibe from '../../components/TransferBeberibe/TransferBeberibe';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { inicializarAvaliacoes } from '../../utils/avaliacoesInitializer';
@@ -217,6 +218,8 @@ const Home = () => {
       )}
       
       <Boxes />
+      
+      <TransferBeberibe />
       
       <AboutSection />
       

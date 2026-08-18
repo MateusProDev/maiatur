@@ -320,7 +320,8 @@ const AdminDashboard = () => {
     { icon: FiImage, title: "Carrossel Imagens", description: "Editar carrossel de 3 fileiras", path: "/admin/edit-image-carousel", gradient: "from-cyan-500 to-blue-600" },
     { icon: FiInfo, title: "Sobre Nós", description: "Editar página sobre", path: "/admin/edit-about", gradient: "from-slate-500 to-slate-600" },
     { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", gradient: "from-gray-500 to-gray-600" },
-    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", gradient: "from-zinc-500 to-zinc-600" }
+    { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", gradient: "from-zinc-500 to-zinc-600" },
+    { icon: FiZap, title: "Transfer Beberibe", description: "Editar seção Transfer Beberibe", path: "/admin/edit-transfer-beberibe", gradient: "from-indigo-500 to-purple-600" }
   ];
 
   
