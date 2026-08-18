@@ -13,6 +13,7 @@ import AboutSection from '../../components/About/AboutSection';
 import Depoimentos from '../../components/Depoimentos/Depoimentos';
 import DestinosGrid from '../../components/DestinosGrid/DestinosGrid';
 import TransferBeberibe from '../../components/TransferBeberibe/TransferBeberibe';
+import HomeFAQSection from '../../components/HomeFAQSection/HomeFAQSection';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { inicializarAvaliacoes } from '../../utils/avaliacoesInitializer';
@@ -283,6 +284,9 @@ const Home = () => {
       <Carousel />
       
       <WhatsAppButton />
+      
+      <HomeFAQSection />
+      
       {/* Veja Também - contextual link to categoria/passeio to improve inbound links */}
       <section className="veja-tambem-section" style={{ padding: '2rem 0', background: '#fbfbfb' }}>
         <div className="veja-tambem-container" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1rem' }}>

@@ -65,10 +65,10 @@
   "scripts": {
     "start": "craco start",
     "type-check": "tsc --noEmit -p tsconfig.json",
-    "prebuild": "npm run generate-link-bio && npm run type-check",
     "build": "craco build",
-    "postbuild": "node scripts/prerenderPackages.js",
-    "prerender": "node scripts/prerenderPackages.js",
+    "postbuild": "node scripts/prerenderPackages.js && node scripts/prerenderHome.js",
+    "prerender": "node scripts/prerenderPackages.js && node scripts/prerenderHome.js",
+    "prerender-home": "node scripts/prerenderHome.js",
     "test": "craco test",
     "eject": "react-scripts eject",
     "deploy": "npm run build && vercel --prod",

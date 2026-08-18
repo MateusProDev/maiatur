@@ -1,0 +1,53 @@
+.home-faq-section {
+  padding: 4rem 1rem;
+  background: #f8f9fa;
+}
+
+.home-faq-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.home-faq-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.home-faq-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.home-faq-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-faq-section {
+    padding: 3rem 1rem;
+  }
+
+  .home-faq-title {
+    font-size: 2rem;
+  }
+
+  .home-faq-subtitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-faq-title {
+    font-size: 1.75rem;
+  }
+
+  .home-faq-subtitle {
+    font-size: 0.95rem;
+  }
+}
