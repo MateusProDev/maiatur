@@ -54,7 +54,12 @@ const SEOHelmet = ({
       "provider": {
         "@type": "Organization",
         "name": brand,
-        "url": baseUrl
+        "url": baseUrl,
+        "logo": ogImage
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": brand
       }
     };
 
@@ -71,18 +76,29 @@ const SEOHelmet = ({
           "price": pacote.preco,
           "priceCurrency": "BRL",
           "availability": "https://schema.org/InStock",
-          "description": pacote.precoPorVeiculo ? "Preço por veículo" : "Preço por pessoa"
+          "description": pacote.precoPorVeiculo ? "Preço por veículo" : "Preço por pessoa",
+          "seller": {
+            "@type": "Organization",
+            "name": brand,
+            "url": baseUrl
+          }
         } : undefined
       };
     } else {
       // Schema for Product (Passeio)
       return {
         ...baseSchema,
+        "category": "Tourism",
         "offers": pacote.mostrarPreco && pacote.preco ? {
           "@type": "Offer",
           "price": pacote.preco,
           "priceCurrency": "BRL",
-          "availability": "https://schema.org/InStock"
+          "availability": "https://schema.org/InStock",
+          "seller": {
+            "@type": "Organization",
+            "name": brand,
+            "url": baseUrl
+          }
         } : undefined
       };
     }
@@ -106,8 +122,37 @@ const SEOHelmet = ({
     };
   };
 
+  // Generate BreadcrumbList Schema
+  const generateBreadcrumbSchema = () => {
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": baseUrl
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": pacote?.tipo === 'transfer' ? 'Transfers' : 'Pacotes e Passeios',
+          "item": `${baseUrl}/pacotes`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": pacote?.titulo || "Detalhes",
+          "item": fullCanonical
+        }
+      ]
+    };
+  };
+
   const schemaMarkup = generateSchemaMarkup();
   const faqSchema = generateFAQSchema();
+  const breadcrumbSchema = generateBreadcrumbSchema();
 
   return (
     <Helmet>
@@ -140,6 +185,13 @@ const SEOHelmet = ({
       {faqSchema && (
         <script type="application/ld+json">
           {JSON.stringify(faqSchema)}
+        </script>
+      )}
+
+      {/* Breadcrumb Schema */}
+      {breadcrumbSchema && (
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
         </script>
       )}
 

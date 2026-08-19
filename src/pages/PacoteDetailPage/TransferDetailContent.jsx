@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { FiClock, FiMapPin, FiArrowLeft, FiShare2, FiHeart, FiStar } from 'react-icons/fi';
+import React, { useState, useEffect } from 'react';
+import { FiClock, FiMapPin, FiArrowLeft, FiShare2, FiHeart, FiStar, FiHome, FiUsers, FiCalendar, FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { collection, query, where, limit, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase/firebaseConfig';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import VehicleGallery from '../../components/VehicleGallery/VehicleGallery';
 import FAQSection from '../../components/FAQSection/FAQSection';
@@ -20,6 +23,35 @@ import './TransferDetailContent.css';
  */
 const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, onShare, onFavorite, isFavorite }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
+  // Buscar produtos relacionados
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      try {
+        const pacotesRef = collection(db, 'pacotes');
+        const q = query(
+          pacotesRef,
+          where('tipo', '==', tipo),
+          limit(4)
+        );
+        const querySnapshot = await getDocs(q);
+        
+        const related = querySnapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(p => p.id !== pacote.id && p.slug !== pacote.slug)
+          .slice(0, 3);
+        
+        setRelatedProducts(related);
+      } catch (error) {
+        console.error('Erro ao buscar produtos relacionados:', error);
+      }
+    };
+
+    if (pacote?.tipo) {
+      fetchRelatedProducts();
+    }
+  }, [pacote?.tipo, pacote?.id, pacote?.slug]);
 
   const {
     titulo,
@@ -67,6 +99,20 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
 
   return (
     <div className="transfer-detail">
+      {/* Breadcrumb */}
+      <nav className="transfer-breadcrumb" aria-label="Navegação">
+        <Link to="/" className="breadcrumb-link">
+          <FiHome />
+          <span>Início</span>
+        </Link>
+        <span className="breadcrumb-separator">/</span>
+        <Link to="/pacotes" className="breadcrumb-link">
+          <span>{tipo === 'transfer' ? 'Transfers' : 'Pacotes e Passeios'}</span>
+        </Link>
+        <span className="breadcrumb-separator">/</span>
+        <span className="breadcrumb-current">{titulo}</span>
+      </nav>
+
       {/* Hero Section com Carrossel */}
       <div className="transfer-hero-section">
         <button onClick={onBack} className="transfer-back-button">
@@ -93,7 +139,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
               <div className="transfer-main-image">
                 <img
                   src={autoOptimize(imagens[currentImageIndex], 'banner')}
-                  alt={titulo}
+                  alt={`${titulo} - Imagem principal`}
                   loading="eager"
                   decoding="async"
                   onError={(e) => {
@@ -103,10 +149,10 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
 
                 {imagens.length > 1 && (
                   <>
-                    <button className="transfer-nav-btn transfer-prev" onClick={prevImage}>
+                    <button className="transfer-nav-btn transfer-prev" onClick={prevImage} aria-label="Imagem anterior">
                       ‹
                     </button>
-                    <button className="transfer-nav-btn transfer-next" onClick={nextImage}>
+                    <button className="transfer-nav-btn transfer-next" onClick={nextImage} aria-label="Próxima imagem">
                       ›
                     </button>
                   </>
@@ -126,10 +172,13 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
                       key={index}
                       className={`transfer-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
                       onClick={() => setCurrentImageIndex(index)}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Ver imagem ${index + 1} de ${imagens.length}`}
                     >
                       <img
                         src={autoOptimize(img, 'packageCard')}
-                        alt={`${titulo} ${index + 1}`}
+                        alt={`${titulo} - Imagem ${index + 1}`}
                         loading="lazy"
                         decoding="async"
                       />
@@ -184,36 +233,53 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
             )}
           </div>
 
-          {/* Preço */}
-          {mostrarPreco === true && preco && preco > 0 && (
-            <div className="transfer-hero-price">
-              <div className="transfer-price-section">
-                {precoPorVeiculo && (
-                  <span className="transfer-price-badge">Preço por veículo</span>
-                )}
-                {precoOriginal && (
-                  <span className="transfer-price-original">
-                    R$ {formatPrice(precoOriginal)}
-                  </span>
-                )}
-                <div className="transfer-price-current">
-                  <span className="transfer-price-currency">R$</span>
-                  <span className="transfer-price-value">{formatPrice(preco)}</span>
+          {/* Preço e CTA Principal */}
+          <div className="transfer-hero-cta-container">
+            {mostrarPreco === true && preco && preco > 0 && (
+              <div className="transfer-hero-price">
+                <div className="transfer-price-section">
+                  {precoPorVeiculo && (
+                    <span className="transfer-price-badge">Preço por veículo</span>
+                  )}
+                  {precoOriginal && (
+                    <span className="transfer-price-original">
+                      R$ {formatPrice(precoOriginal)}
+                    </span>
+                  )}
+                  <div className="transfer-price-current">
+                    <span className="transfer-price-currency">R$</span>
+                    <span className="transfer-price-value">{formatPrice(preco)}</span>
+                  </div>
+                  {precoOriginal && (
+                    <span className="transfer-price-discount">
+                      Economize R$ {formatPrice(precoOriginal - preco)}
+                    </span>
+                  )}
                 </div>
-                {precoOriginal && (
-                  <span className="transfer-price-discount">
-                    Economize R$ {formatPrice(precoOriginal - preco)}
-                  </span>
-                )}
               </div>
-            </div>
-          )}
+            )}
+
+            <button
+              className="transfer-hero-cta-button"
+              onClick={() => onWhatsApp ? onWhatsApp(generateWhatsAppMessage()) : null}
+              disabled={whatsappLoading}
+            >
+              <FaWhatsapp />
+              <span>{tipo === 'transfer' ? 'SOLICITAR RESERVA' : 'RESERVAR AGORA'}</span>
+            </button>
+
+            {!mostrarPreco && (
+              <p className="transfer-price-consult">
+                Consulte o valor via WhatsApp
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Sobre o Pacote/Transfer */}
       <div className="transfer-section">
-        <h2 className="transfer-section-title">{tipo === 'transfer' ? 'Sobre este Transfer' : 'Sobre este Pacote'}</h2>
+        <h2 className="transfer-section-title">{tipo === 'transfer' ? 'Sobre este Transfer' : 'Sobre este Passeio'}</h2>
         <div className="transfer-description">
           <MarkdownRenderer content={descricao} />
         </div>
@@ -222,100 +288,55 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {/* Vantagens / Destaques */}
       {(vantagens && vantagens.length > 0) || (destaques && destaques.length > 0) ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">{tipo === 'transfer' ? 'Vantagens' : 'O que está incluído'}</h2>
           <AdvantagesList vantagens={vantagens || destaques} />
         </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">{tipo === 'transfer' ? 'Vantagens' : 'O que está incluído'}</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">🌟</div>
-            <p className="transfer-empty-state-text">
-              {tipo === 'transfer' 
-                ? 'As vantagens deste transfer serão adicionadas em breve.' 
-                : 'Os destaques deste pacote serão adicionados em breve.'}
-            </p>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* Veículos */}
       {veiculos && veiculos.length > 0 ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">Veículos Disponíveis</h2>
           <VehicleGallery veiculos={veiculos} />
         </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Veículos Disponíveis</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">🚐</div>
-            <p className="transfer-empty-state-text">Informações sobre os veículos serão adicionadas em breve.</p>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* Locais Atendidos */}
       {locaisAtendidos && locaisAtendidos.length > 0 ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">Locais Atendidos</h2>
           <ServiceAreas locais={locaisAtendidos} />
         </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Locais Atendidos</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">📍</div>
-            <p className="transfer-empty-state-text">A lista de locais atendidos será adicionada em breve.</p>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* Comodidades */}
       {comodidades && comodidades.length > 0 ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">Comodidades</h2>
           <AmenitiesList comodidades={comodidades} />
         </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Comodidades</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">✨</div>
-            <p className="transfer-empty-state-text">As comodidades disponíveis serão listadas em breve.</p>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* Como Funciona a Reserva */}
       {passosReserva && passosReserva.length > 0 ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">Como Funciona a Reserva</h2>
           <BookingSteps passos={passosReserva} />
         </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Como Funciona a Reserva</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">📋</div>
-            <p className="transfer-empty-state-text">O processo de reserva será detalhado em breve.</p>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* Localização */}
       {localizacao && (localizacao.descricao || localizacao.imagemMapa || localizacao.coordenadas) ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">Localização do Destino</h2>
           <LocationMap localizacao={localizacao} />
         </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Localização do Destino</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">🗺️</div>
-            <p className="transfer-empty-state-text">Informações sobre a localização serão adicionadas em breve.</p>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* Pagamento e Segurança */}
       {pagamentoSeguranca && (pagamentoSeguranca.bandeiras?.length > 0 || pagamentoSeguranca.seloSeguranca || pagamentoSeguranca.textoSeguranca) ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">Pagamento e Segurança</h2>
           <PaymentSecuritySection pagamentoSeguranca={pagamentoSeguranca} />
         </div>
       ) : null}
@@ -323,17 +344,10 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {/* FAQ */}
       {faq && faq.length > 0 ? (
         <div className="transfer-section">
+          <h2 className="transfer-section-title">Perguntas Frequentes</h2>
           <FAQSection faq={faq} />
         </div>
-      ) : (
-        <div className="transfer-section transfer-empty-section">
-          <h2 className="transfer-section-title">Perguntas Frequentes</h2>
-          <div className="transfer-empty-state">
-            <div className="transfer-empty-state-icon">❓</div>
-            <p className="transfer-empty-state-text">As perguntas frequentes serão adicionadas em breve.</p>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* CTA Final */}
       <div className="transfer-cta-section">
@@ -344,7 +358,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
           <p className="transfer-cta-text">
             Entre em contato conosco pelo WhatsApp para verificar disponibilidade e finalizar sua reserva.
           </p>
-          
+
           {mostrarPreco === true && preco && preco > 0 && (
             <div className="transfer-cta-price">
               <span className="transfer-cta-price-label">A partir de</span>
@@ -370,6 +384,62 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Produtos Relacionados */}
+      {relatedProducts.length > 0 && (
+        <div className="transfer-section">
+          <h2 className="transfer-section-title">Você também pode gostar</h2>
+          <div className="related-products-grid">
+            {relatedProducts.map((product) => (
+              <Link
+                key={product.id}
+                to={`/pacote/${product.slug}`}
+                className="related-product-card"
+              >
+                {product.imagens && product.imagens.length > 0 && (
+                  <div className="related-product-image">
+                    <img
+                      src={autoOptimize(product.imagens[0], 'packageCard')}
+                      alt={product.titulo}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div className="related-product-content">
+                  <h3 className="related-product-title">{product.titulo}</h3>
+                  {product.descricaoCurta && (
+                    <p className="related-product-description">{product.descricaoCurta}</p>
+                  )}
+                  {product.mostrarPreco && product.preco && (
+                    <div className="related-product-price">
+                      <span className="related-product-price-label">A partir de</span>
+                      <span className="related-product-price-value">R$ {formatPrice(product.preco)}</span>
+                    </div>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* CTA Fixo Mobile */}
+      <div className="transfer-mobile-cta">
+        {mostrarPreco === true && preco && preco > 0 && (
+          <div className="mobile-cta-price">
+            <span className="mobile-cta-price-label">A partir de</span>
+            <span className="mobile-cta-price-value">R$ {formatPrice(preco)}</span>
+          </div>
+        )}
+        <button
+          className="mobile-cta-button"
+          onClick={() => onWhatsApp ? onWhatsApp(generateWhatsAppMessage()) : null}
+          disabled={whatsappLoading}
+        >
+          <FaWhatsapp />
+          <span>{tipo === 'transfer' ? 'RESERVAR' : 'RESERVAR'}</span>
+        </button>
       </div>
     </div>
   );

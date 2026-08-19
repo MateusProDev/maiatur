@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase/firebaseConfig';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { 
-  FaMapPin, 
   FaCar, 
   FaCreditCard, 
   FaCalendarAlt,

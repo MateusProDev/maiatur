@@ -174,7 +174,7 @@ const PacoteDetailPage = () => {
   return (
     <>
       <SEOHelmet
-        title={`${pacote.titulo} - ${pacote.tipo === 'transfer' ? 'Transfers' : 'Pacotes e Passeios'}`}
+        title={`${pacote.titulo} | ${pacote.tipo === 'transfer' ? 'Transfer Fortaleza' : 'Passeios em Fortaleza'}`}
         description={pacote.descricaoCurta || pacote.descricao?.substring(0, 160)}
         canonical={`/pacote/${pacoteSlug}`}
         ogImage={pacote.imagens?.[0]}
