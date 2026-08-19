@@ -1,8 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
-const puppeteer = require('puppeteer-core');
-const chromium = require('@sparticuz/chromium').default;
+
+// Detectar ambiente: usar puppeteer regular localmente, @sparticuz/chromium em produção
+const isProduction = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME;
+let puppeteer, chromium;
+
+if (isProduction) {
+  // Em produção (Vercel/AWS), usar @sparticuz/chromium
+  puppeteer = require('puppeteer-core');
+  chromium = require('@sparticuz/chromium').default;
+} else {
+  // Localmente, usar puppeteer regular
+  puppeteer = require('puppeteer');
+}
 
 const BUILD_DIR = path.resolve(__dirname, '../build');
 const SITE_URL = process.env.REACT_APP_SITE_URL || process.env.SITE_URL || 'https://transferfortalezatur.com.br';
@@ -61,6 +72,11 @@ async function runPrerenderHome() {
     throw new Error('Build da CRA ainda não existe em build/. Execute o build antes do prerender.');
   }
 
+  const indexHtmlPath = path.join(BUILD_DIR, 'index.html');
+  if (!fs.existsSync(indexHtmlPath)) {
+    throw new Error('index.html não encontrado em build/. Execute "npm run build" antes do prerender para gerar os arquivos de build.');
+  }
+
   const server = http.createServer((req, res) => {
     try {
       const rawUrl = decodeURIComponent(req.url || '/').split('?')[0];
@@ -92,25 +108,43 @@ async function runPrerenderHome() {
       } else {
         // Fallback para SPA routing
         const fallback = path.join(BUILD_DIR, 'index.html');
+        if (!fs.existsSync(fallback)) {
+          console.error('[prerender-home] index.html não encontrado para fallback');
+          res.writeHead(404);
+          res.end('Not Found');
+          return;
+        }
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         res.end(fs.readFileSync(fallback));
       }
     } catch (error) {
       console.error('[prerender-home] erro no servidor estático:', error);
-      res.writeHead(500);
-      res.end('Internal error');
+      if (!res.headersSent) {
+        res.writeHead(500);
+        res.end('Internal error');
+      }
     }
   });
 
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const { port } = server.address();
 
-  const browser = await puppeteer.launch({
-   args: chromium.args,
-   defaultViewport: chromium.defaultViewport,
-   executablePath: await chromium.executablePath(),
-   headless: chromium.headless
-  });
+  // Configurar browser baseado no ambiente
+  let browser;
+  if (isProduction) {
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless
+    });
+  } else {
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+  }
+  
   const page = await browser.newPage({ waitUntil: 'load', timeout: 60000 });
 
   try {
