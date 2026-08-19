@@ -66,7 +66,7 @@
     "start": "craco start",
     "type-check": "tsc --noEmit -p tsconfig.json",
     "build": "craco build",
-    "postbuild": "node scripts/prerenderPackages.js && node scripts/prerenderHome.js",
+    "postbuild": "node scripts/prerenderHome.js",
     "prerender": "node scripts/prerenderPackages.js && node scripts/prerenderHome.js",
     "prerender-home": "node scripts/prerenderHome.js",
     "test": "craco test",
