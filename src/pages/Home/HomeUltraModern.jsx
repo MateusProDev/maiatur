@@ -10,6 +10,8 @@ import BlogPreview from '../../components/BlogPreview/BlogPreview';
 import PacotesCarousel from '../../components/PacotesCarousel/PacotesCarousel';
 import GoogleReviews from '../../components/GoogleReviews/GoogleReviews';
 import ImageCarousel from '../../components/ImageCarousel/ImageCarousel';
+import TransferBeberibe from '../../components/TransferBeberibe/TransferBeberibe';
+import HomeFAQSection from '../../components/HomeFAQSection/HomeFAQSection';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { seoData } from '../../utils/seoData';
 import { 
@@ -506,6 +508,9 @@ const HomeUltraModern = () => {
         />
       )}
 
+      {/* ========== TRANSFER BEBERIBE ========== */}
+      <TransferBeberibe />
+
       {/* ========== POR QUE ESCOLHER ========== */}
       {differentialsSettings.active && (
         <section className="why-choose-ultra">
@@ -680,6 +685,9 @@ const HomeUltraModern = () => {
       <GoogleReviews />
 
       <BlogPreview />
+
+      {/* ========== FAQ SECTION ========== */}
+      <HomeFAQSection />
 
       <Footer />
       <WhatsAppButton />
