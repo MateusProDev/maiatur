@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase/firebaseConfig';
 import { doc, onSnapshot } from 'firebase/firestore';
+import { 
+  FaMapPin, 
+  FaCar, 
+  FaCreditCard, 
+  FaCalendarAlt,
+  FaStar,
+  FaWhatsapp
+} from 'react-icons/fa';
 import './TransferBeberibe.css';
 
 const TransferBeberibe = () => {
@@ -56,7 +64,7 @@ const TransferBeberibe = () => {
         <div className="transfer-content">
           {/* Tripadvisor Badge */}
           <div className="transfer-item tripadvisor-item">
-            <div className="item-icon">📌</div>
+            <div className="item-icon"><FaStar /></div>
             <div className="item-content">
               <h3 className="item-title">{transferData.tripadvisorBadge}</h3>
               {transferData.tripadvisorLink && (
@@ -74,7 +82,7 @@ const TransferBeberibe = () => {
 
           {/* Vehicle Reservation */}
           <div className="transfer-item vehicle-item">
-            <div className="item-icon">🚗</div>
+            <div className="item-icon"><FaCar /></div>
             <div className="item-content">
               <h3 className="item-title">{transferData.vehicleTitle}</h3>
               <p className="item-description">{transferData.vehicleDescription}</p>
@@ -83,7 +91,7 @@ const TransferBeberibe = () => {
 
           {/* Payment Info */}
           <div className="transfer-item payment-item">
-            <div className="item-icon">💳</div>
+            <div className="item-icon"><FaCreditCard /></div>
             <div className="item-content">
               <h3 className="item-title">{transferData.paymentTitle}</h3>
               <p className="item-description">{transferData.paymentDescription}</p>
@@ -92,7 +100,7 @@ const TransferBeberibe = () => {
 
           {/* Schedule Info */}
           <div className="transfer-item schedule-item">
-            <div className="item-icon">👨‍👩‍👧‍👦</div>
+            <div className="item-icon"><FaCalendarAlt /></div>
             <div className="item-content">
               <h3 className="item-title">{transferData.scheduleTitle}</h3>
               <p className="item-description">{transferData.scheduleDescription}</p>
@@ -105,6 +113,7 @@ const TransferBeberibe = () => {
               className="transfer-whatsapp-button"
               onClick={handleWhatsAppClick}
             >
+              <FaWhatsapp />
               {transferData.whatsappButtonText}
             </button>
           </div>
