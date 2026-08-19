@@ -11,7 +11,6 @@
   height: 50px;
   width: auto;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, height 0.2s ease;
 }
 
@@ -20,7 +19,6 @@
   width: auto;
   margin-bottom: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   object-fit: contain;
 }
 
@@ -31,11 +29,12 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 100%;
   }
 
   .cadastur-img {
     width: 100%;
-    max-width: 200px;
+    max-width: 100%;
     height: auto;
     object-fit: contain;
     margin-bottom: 15px;
@@ -43,7 +42,7 @@
 
   .tripadvisor-img {
     width: 100%;
-    max-width: 200px;
+    max-width: 100%;
     height: auto;
     object-fit: contain;
   }
@@ -588,6 +587,7 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    width: 100%;
   }
 
   .footer-credit-turvia {
@@ -596,14 +596,16 @@
   }
 
   .cadastur-img {
-    height: 80px;
-    width: auto;
+    height: auto;
+    width: 100%;
+    max-width: 800px;
     margin-bottom: 0;
   }
 
   .tripadvisor-img {
-    height: 50px;
-    width: auto;
+    height: auto;
+    width: 100%;
+    max-width: 800px;
   }
 }
 
