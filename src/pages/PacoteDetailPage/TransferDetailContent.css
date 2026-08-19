@@ -55,7 +55,7 @@
 
 /* Hero Section */
 .transfer-hero-section {
-  margin: 2rem 0;
+  margin: 1.25rem 0;
   background: linear-gradient(135deg, #1a8546 0%, #21A657 50%, #2bc46a 100%);
   border-radius: 20px;
   overflow: hidden;
@@ -320,7 +320,7 @@
 
 /* Info Card */
 .transfer-info-card {
-  padding: 2.5rem;
+  padding: 2rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   display: flex;
@@ -331,7 +331,7 @@
 
 @media (min-width: 1024px) {
   .transfer-info-card {
-    padding: 3rem;
+    padding: 2.5rem;
   }
 }
 
@@ -524,8 +524,8 @@
 
 /* Sections */
 .transfer-section {
-  margin: 2rem 0;
-  padding: 2rem;
+  margin: 1.25rem 0;
+  padding: 1.5rem;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -586,7 +586,7 @@
 
 .transfer-description {
   color: #374151;
-  line-height: 1.8;
+  line-height: 1.7;
   font-size: 1.05rem;
   overflow-x: hidden;
   max-width: 100%;
@@ -594,32 +594,33 @@
 }
 
 .transfer-description p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .transfer-description h2,
 .transfer-description h3,
 .transfer-description h4 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  line-height: 1.4;
+  margin-top: 1.25rem;
+  margin-bottom: 0.625rem;
+  line-height: 1.3;
   color: #1a1a1a;
+  letter-spacing: -0.02em;
 }
 
 .transfer-description ul,
 .transfer-description ol {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   padding-left: 1.5rem;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .transfer-description li {
-  margin-bottom: 0.75rem;
-  line-height: 1.8;
+  margin-bottom: 0.4rem;
+  line-height: 1.7;
 }
 
 .transfer-description p:last-child {
@@ -686,7 +687,7 @@
 
 /* CTA Section */
 .transfer-cta-section {
-  margin: 4rem 0;
+  margin: 1.25rem 0;
   animation: fadeInUp 0.6s ease-out 0.6s;
   animation-fill-mode: both;
 }
@@ -829,7 +830,7 @@
 /* Responsive */
 @media (max-width: 1024px) {
   .transfer-hero-section {
-    margin: 1.5rem 0;
+    margin: 1rem 0;
   }
   
   .transfer-hero-gallery {
@@ -900,7 +901,8 @@
   }
   
   .transfer-section {
-    padding: 2rem;
+    padding: 1.25rem;
+    margin: 1rem 0;
   }
   
   .transfer-cta-card {
@@ -924,7 +926,7 @@
   }
   
   .transfer-hero-section {
-    margin: 1rem 0;
+    margin: 0.75rem 0;
     border-radius: 16px;
     grid-template-columns: 1fr;
   }
@@ -1006,7 +1008,7 @@
   }
   
   .transfer-hero-info {
-    gap: 1rem;
+    gap: 0.75rem;
   }
   
   .transfer-info-item {
@@ -1036,8 +1038,8 @@
   }
   
   .transfer-section {
-    padding: 1.5rem;
-    margin: 1.5rem 0;
+    padding: 1.25rem;
+    margin: 1rem 0;
     border-radius: 12px;
   }
   
@@ -1256,8 +1258,8 @@
 .related-products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .related-product-card {
