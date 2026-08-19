@@ -26,6 +26,15 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
+/* Mobile: cadastur image 1x1 */
+@media (max-width: 768px) {
+  .cadastur-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+}
+
 .tripadvisor-text {
   font-size: 14px;
   color: rgba(255,255,255,0.8);
