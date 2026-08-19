@@ -32,25 +32,51 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
     onChange(template);
   };
 
+  const insertColoredText = () => {
+    const coloredText = `<span style="color: #21A657;">texto em destaque</span>`;
+    onChange((value || '') + coloredText);
+  };
+
+  const insertHighlight = () => {
+    const highlight = `<mark style="background-color: #fff3cd; padding: 2px 4px; border-radius: 4px;">texto destacado</mark>`;
+    onChange((value || '') + highlight);
+  };
+
   return (
     <Box className="rich-text-editor-v2">
-      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
         <Typography variant="h6" component="h3">
-          📝 Editor de Descrição (Markdown)
+          📝 Editor de Descrição
         </Typography>
-        <Button 
-          variant="outlined" 
-          size="small" 
-          onClick={insertTemplate}
-          sx={{ ml: 'auto' }}
-        >
-          📝 Inserir Template
-        </Button>
+        <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
+          <Button 
+            variant="outlined" 
+            size="small" 
+            onClick={insertTemplate}
+          >
+            📝 Template
+          </Button>
+          <Button 
+            variant="outlined" 
+            size="small" 
+            onClick={insertColoredText}
+            sx={{ color: '#21A657', borderColor: '#21A657' }}
+          >
+            🎨 Cor Verde
+          </Button>
+          <Button 
+            variant="outlined" 
+            size="small" 
+            onClick={insertHighlight}
+            sx={{ color: '#f59e0b', borderColor: '#f59e0b' }}
+          >
+            🖍️ Destaque
+          </Button>
+        </Box>
       </Box>
       
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Use a sintaxe Markdown para formatar o texto. Ex: **negrito**, *itálico*, 
-        ### títulos, - listas, {'>'}citações
+        Use Markdown ou HTML para formatar. Ex: **negrito**, *itálico*, ### títulos, - listas, {'>'}citações
       </Typography>
 
       <MDEditor
@@ -67,15 +93,24 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
         textareaProps={{
           placeholder: placeholder || 'Digite a descrição em Markdown...',
           style: {
-            fontSize: 14,
-            lineHeight: 1.6,
-            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+            fontSize: 15,
+            lineHeight: 1.8,
+            fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+            padding: '16px'
+          }
+        }}
+        previewOptions={{
+          style: {
+            fontSize: 15,
+            lineHeight: 1.8,
+            fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+            padding: '16px'
           }
         }}
       />
       
       <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-        💡 Dica: Use o botão de preview (👁️) na barra de ferramentas para visualizar como ficará formatado
+        💡 Use os botões acima para adicionar cores e destaques. Clique em 👁️ para preview.
       </Typography>
     </Box>
   );
