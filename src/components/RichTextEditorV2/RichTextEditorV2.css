@@ -112,3 +112,14 @@
   border-top: 2px solid #e5e7eb;
   margin: 2rem 0;
 }
+
+/* Custom syntax support in preview */
+.rich-text-editor-v2 .wmde-markdown span[style*="color"] {
+  font-weight: 600;
+}
+
+.rich-text-editor-v2 .wmde-markdown mark {
+  background-color: #fff3cd;
+  padding: 2px 4px;
+  border-radius: 4px;
+}

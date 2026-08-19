@@ -133,6 +133,36 @@
   margin: 1rem 0;
 }
 
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.markdown-content th {
+  font-weight: 700;
+  background-color: #f9fafb;
+}
+
+/* Custom syntax styling */
+.markdown-content span[style*="color"] {
+  font-weight: 600;
+}
+
+.markdown-content mark {
+  background-color: #fff3cd;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: inherit;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
   .markdown-content h1 { font-size: 1.5rem; }

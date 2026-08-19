@@ -1,10 +1,12 @@
 // src/components/RichTextEditorV2/RichTextEditorV2.jsx
 import React from 'react';
 import MDEditor from '@uiw/react-md-editor';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Menu, MenuItem } from '@mui/material';
 import './RichTextEditorV2.css';
 
 const RichTextEditorV2 = ({ value, onChange, placeholder, height = 400 }) => {
+  const [colorMenuAnchor, setColorMenuAnchor] = React.useState(null);
+
   const insertTemplate = () => {
     const template = `## 🌟 Sobre este Pacote
 
@@ -12,7 +14,7 @@ Descreva aqui as principais características do pacote turístico.
 
 ### 📍 O que está incluído:
 
-- **Transporte:** Descrição do transporte
+- **Transporte:** {color:green}Veículo confortável com ar-condicionado{color}
 - **Hospedagem:** Informações sobre acomodação  
 - **Alimentação:** Detalhes das refeições
 - **Passeios:** Lista dos passeios inclusos
@@ -20,7 +22,7 @@ Descreva aqui as principais características do pacote turístico.
 ### ⏰ Itinerário:
 
 **Dia 1:** Chegada e acomodação  
-**Dia 2:** Principais atividades  
+**Dia 2:** {highlight}Principais atividades{highlight}  
 **Dia 3:** Retorno
 
 > 💡 **Dica especial:** Adicione informações importantes ou dicas extras aqui.
@@ -32,14 +34,16 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
     onChange(template);
   };
 
-  const insertColoredText = () => {
-    const coloredText = `<span style="color: #21A657;">texto em destaque</span>`;
-    onChange((value || '') + coloredText);
+  const insertColorSyntax = (color) => {
+    const syntax = `{color:${color}}`;
+    onChange((value || '') + syntax);
+    setColorMenuAnchor(null);
   };
 
-  const insertHighlight = () => {
-    const highlight = `<mark style="background-color: #fff3cd; padding: 2px 4px; border-radius: 4px;">texto destacado</mark>`;
-    onChange((value || '') + highlight);
+  const insertHighlightSyntax = () => {
+    const syntax = `{highlight}`;
+    onChange((value || '') + syntax);
+    setColorMenuAnchor(null);
   };
 
   return (
@@ -59,15 +63,15 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
           <Button 
             variant="outlined" 
             size="small" 
-            onClick={insertColoredText}
+            onClick={(e) => setColorMenuAnchor(e.currentTarget)}
             sx={{ color: '#21A657', borderColor: '#21A657' }}
           >
-            🎨 Cor Verde
+            🎨 Cores
           </Button>
           <Button 
             variant="outlined" 
             size="small" 
-            onClick={insertHighlight}
+            onClick={insertHighlightSyntax}
             sx={{ color: '#f59e0b', borderColor: '#f59e0b' }}
           >
             🖍️ Destaque
@@ -75,8 +79,30 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
         </Box>
       </Box>
       
+      <Menu
+        anchorEl={colorMenuAnchor}
+        open={Boolean(colorMenuAnchor)}
+        onClose={() => setColorMenuAnchor(null)}
+      >
+        <MenuItem onClick={() => insertColorSyntax('green')} sx={{ color: '#21A657' }}>
+          Verde Corporativo
+        </MenuItem>
+        <MenuItem onClick={() => insertColorSyntax('orange')} sx={{ color: '#EE7C35' }}>
+          Laranja
+        </MenuItem>
+        <MenuItem onClick={() => insertColorSyntax('blue')} sx={{ color: '#3b82f6' }}>
+          Azul
+        </MenuItem>
+        <MenuItem onClick={() => insertColorSyntax('red')} sx={{ color: '#ef4444' }}>
+          Vermelho
+        </MenuItem>
+        <MenuItem onClick={() => insertColorSyntax('purple')} sx={{ color: '#8b5cf6' }}>
+          Roxo
+        </MenuItem>
+      </Menu>
+      
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Use Markdown ou HTML para formatar. Ex: **negrito**, *itálico*, ### títulos, - listas, {'>'}citações
+        Use Markdown ou sintaxe customizada: {`{color:green}texto{}`}{`{color}`} para cores e {`{highlight}texto{highlight}`} para destaque
       </Typography>
 
       <MDEditor
@@ -110,7 +136,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
       />
       
       <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-        💡 Use os botões acima para adicionar cores e destaques. Clique em 👁️ para preview.
+        💡 Sintaxe: {`{color:green}texto{color}`} - cores: green, orange, blue, red, purple. {`{highlight}texto{highlight}`} para destaque amarelo.
       </Typography>
     </Box>
   );
