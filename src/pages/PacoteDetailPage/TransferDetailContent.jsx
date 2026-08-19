@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiClock, FiMapPin, FiArrowLeft, FiShare2, FiHeart, FiStar, FiHome, FiUsers, FiCalendar, FiCheckCircle, FiXCircle } from 'react-icons/fi';
+import { FiClock, FiMapPin, FiArrowLeft, FiShare2, FiHeart, FiStar, FiHome } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { collection, query, where, limit, getDocs } from 'firebase/firestore';
@@ -51,7 +51,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
     if (pacote?.tipo) {
       fetchRelatedProducts();
     }
-  }, [pacote?.tipo, pacote?.id, pacote?.slug]);
+  }, [pacote?.tipo, pacote?.id, pacote?.slug, tipo]);
 
   const {
     titulo,
