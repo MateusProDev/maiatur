@@ -25,6 +25,31 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
 
+  const {
+    titulo,
+    descricao,
+    descricaoCurta,
+    preco,
+    precoOriginal,
+    mostrarPreco,
+    imagens,
+    destaque,
+    destino,
+    tempoPercurso,
+    distancia,
+    precoPorVeiculo,
+    veiculos,
+    locaisAtendidos,
+    comodidades,
+    vantagens,
+    passosReserva,
+    faq,
+    localizacao,
+    pagamentoSeguranca,
+    tipo,
+    destaques
+  } = pacote;
+
   // Buscar produtos relacionados
   useEffect(() => {
     const fetchRelatedProducts = async () => {
@@ -52,31 +77,6 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       fetchRelatedProducts();
     }
   }, [pacote?.tipo, pacote?.id, pacote?.slug, tipo]);
-
-  const {
-    titulo,
-    descricao,
-    descricaoCurta,
-    preco,
-    precoOriginal,
-    mostrarPreco,
-    imagens,
-    destaque,
-    destino,
-    tempoPercurso,
-    distancia,
-    precoPorVeiculo,
-    veiculos,
-    locaisAtendidos,
-    comodidades,
-    vantagens,
-    passosReserva,
-    faq,
-    localizacao,
-    pagamentoSeguranca,
-    tipo,
-    destaques
-  } = pacote;
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % imagens.length);
