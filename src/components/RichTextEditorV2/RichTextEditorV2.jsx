@@ -15,7 +15,7 @@ const RichTextEditorV2 = ({ value, onChange, placeholder, height = 400 }) => {
       setLocalValue(value || '');
     }
     isUpdatingFromProps.current = false;
-  }, [value]);
+  }, [value, localValue]);
 
   const handleChange = (val) => {
     isUpdatingFromProps.current = true;
