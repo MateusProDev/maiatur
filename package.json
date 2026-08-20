@@ -70,8 +70,8 @@
     "prerender-home": "node scripts/prerenderHome.js",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && npm run prerender-home && vercel --prod",
-    "preview": "npm run build && npm run prerender-home && vercel",
+    "deploy": "npm run build && npm run prerender && npm run prerender-home && vercel --prod",
+    "preview": "npm run build && npm run prerender && npm run prerender-home && vercel",
     "generate-link-bio": "node scripts/generateLinkBio.js"
   },
   "eslintConfig": {
