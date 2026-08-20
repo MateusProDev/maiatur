@@ -1,4 +1,5 @@
 {
+  "buildCommand": "npm run build:full",
   "functions": {
     "api/mercadopago.js": {
       "maxDuration": 30
