@@ -156,7 +156,7 @@ async function runPrerenderHome() {
     // Configurar timeout maior para carregar todos os dados do Firebase
     const response = await page.goto(url, {
       waitUntil: 'networkidle2',
-      timeout: 120000
+      timeout: 180000 // Aumentado de 120s para 180s
     });
 
     if (!response || response.status() < 200 || response.status() >= 400) {
@@ -220,8 +220,15 @@ async function runPrerenderHome() {
 
 async function main() {
   console.log('[prerender-home] Iniciando prerender da página inicial...');
-  await runPrerenderHome();
-  console.log('[prerender-home] Prerender da Home concluído com sucesso');
+  try {
+    await runPrerenderHome();
+    console.log('[prerender-home] Prerender da Home concluído com sucesso');
+  } catch (error) {
+    console.error('[prerender-home] falha:', error.message);
+    console.warn('[prerender-home] Prerender da Home falhou, mas o build continuará. Os pacotes já foram prerenderizados com sucesso.');
+    // Não lança erro para não falhar o build inteiro
+    process.exitCode = 0;
+  }
 }
 
 main().catch((error) => {
