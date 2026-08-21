@@ -59,7 +59,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
       <MDEditor
         value={value}
         onChange={(val) => onChange(val || '')}
-        preview="edit"
+        preview="live"
         hideToolbar={false}
         visibleDragBar={false}
         height={height}

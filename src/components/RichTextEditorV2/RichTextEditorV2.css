@@ -15,6 +15,7 @@
   line-height: 1.8 !important;
   font-family: "Inter", "Roboto", "Helvetica", "Arial", sans-serif !important;
   letter-spacing: 0.01em;
+  min-height: 400px !important;
 }
 
 .rich-text-editor-v2 .w-md-editor-focus {
@@ -30,6 +31,7 @@
   font-size: 15px;
   line-height: 1.8;
   letter-spacing: 0.01em;
+  min-height: 400px !important;
 }
 
 .rich-text-editor-v2 .wmde-markdown h1,
