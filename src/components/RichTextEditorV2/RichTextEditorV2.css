@@ -9,29 +9,16 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.rich-text-editor-v2 .w-md-editor-text-textarea,
-.rich-text-editor-v2 .w-md-editor-text {
-  font-size: 15px !important;
-  line-height: 1.8 !important;
-  font-family: "Inter", "Roboto", "Helvetica", "Arial", sans-serif !important;
-  letter-spacing: 0.01em;
-  min-height: 400px !important;
-}
-
 .rich-text-editor-v2 .w-md-editor-focus {
   border-color: #21A657 !important;
   box-shadow: 0 0 0 2px rgba(33, 166, 87, 0.2) !important;
 }
 
-/* Estilos para o preview */
+/* Preview styles - sem altura forçada */
 .rich-text-editor-v2 .wmde-markdown {
   padding: 20px;
   background-color: #fafafa;
   border-radius: 4px;
-  font-size: 15px;
-  line-height: 1.8;
-  letter-spacing: 0.01em;
-  min-height: 400px !important;
 }
 
 .rich-text-editor-v2 .wmde-markdown h1,

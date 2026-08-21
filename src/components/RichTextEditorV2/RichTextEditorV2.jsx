@@ -68,21 +68,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
           backgroundColor: '#fff'
         }}
         textareaProps={{
-          placeholder: placeholder || 'Digite a descrição em Markdown...',
-          style: {
-            fontSize: 15,
-            lineHeight: 1.8,
-            fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-            padding: '16px'
-          }
-        }}
-        previewOptions={{
-          style: {
-            fontSize: 15,
-            lineHeight: 1.8,
-            fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-            padding: '16px'
-          }
+          placeholder: placeholder || 'Digite a descrição em Markdown...'
         }}
       />
       
