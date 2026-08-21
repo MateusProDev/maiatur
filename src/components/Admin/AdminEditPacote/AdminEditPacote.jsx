@@ -688,6 +688,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
             </button>
           </div>
           <RichTextEditorV2
+            key={`editor-${pacoteId}`}
             value={pacote.descricao}
             onChange={handleDescriptionChange}
             placeholder="Digite a descrição completa do pacote. Use as ferramentas de formatação para criar parágrafos, negrito, listas, etc."
