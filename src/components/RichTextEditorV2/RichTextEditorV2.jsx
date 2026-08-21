@@ -1,29 +1,10 @@
 // src/components/RichTextEditorV2/RichTextEditorV2.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import { Box, Typography, Button } from '@mui/material';
 import './RichTextEditorV2.css';
 
 const RichTextEditorV2 = ({ value, onChange, placeholder, height = 400 }) => {
-  const [localValue, setLocalValue] = useState(value || '');
-  const editorRef = useRef(null);
-  const isUpdatingFromProps = useRef(false);
-
-  // Sincronizar com props externas
-  useEffect(() => {
-    if (value !== localValue && !isUpdatingFromProps.current) {
-      setLocalValue(value || '');
-    }
-    isUpdatingFromProps.current = false;
-  }, [value, localValue]);
-
-  const handleChange = (val) => {
-    isUpdatingFromProps.current = true;
-    const newValue = val || '';
-    setLocalValue(newValue);
-    onChange(newValue);
-  };
-
   const insertTemplate = () => {
     const template = `## 🌟 Sobre este Pacote
 
@@ -48,7 +29,7 @@ Descreva aqui as principais características do pacote turístico.
 
 Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
 
-    handleChange(template);
+    onChange(template);
   };
 
   return (
@@ -76,9 +57,8 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
       </Typography>
 
       <MDEditor
-        ref={editorRef}
-        value={localValue}
-        onChange={handleChange}
+        value={value}
+        onChange={(val) => onChange(val || '')}
         preview="edit"
         hideToolbar={false}
         visibleDragBar={false}
