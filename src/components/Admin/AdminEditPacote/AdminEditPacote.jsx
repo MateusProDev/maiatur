@@ -16,7 +16,7 @@ import { FaPlus, FaTrash, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import './AdminEditPacote.css';
 
 const AdminEditPacote = () => {
-  console.log('🚀 AdminEditPacote montado!');
+  console.log('🚀 AdminEditPacote montado v2!');
   const { pacoteId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
