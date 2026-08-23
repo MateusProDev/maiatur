@@ -16,6 +16,7 @@ import { FaPlus, FaTrash, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import './AdminEditPacote.css';
 
 const AdminEditPacote = () => {
+  console.log('🚀 AdminEditPacote montado!');
   const { pacoteId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -75,6 +76,7 @@ const AdminEditPacote = () => {
   }, [pacoteId]);
 
   useEffect(() => {
+    console.log('🔍 useEffect para buscar pacotes executado!');
     const fetchAllPackages = async () => {
       try {
         console.log('🔍 Buscando todos os pacotes para seleção de recomendados...');
@@ -334,8 +336,8 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
         </div>
 
         {/* Pacotes Recomendados */}
-        <div className="form-section" style={{display: 'block'}}>
-          <h3>⭐ Pacotes Recomendados (até 3)</h3>
+        <div className="form-section" style={{display: 'block', backgroundColor: '#fff3cd', border: '2px solid #ffc107', padding: '20px', margin: '20px 0'}}>
+          <h3 style={{color: '#856404'}}>⭐ Pacotes Recomendados (até 3) - SEÇÃO DE TESTE</h3>
           <p className="form-help">Selecione até 3 pacotes para mostrar como recomendação na página de detalhes deste pacote.</p>
           
           {console.log('🔍 Renderizando seção de pacotes recomendados:', {
@@ -346,13 +348,13 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
           })}
           
           {(pacote.pacotesRecomendados || []).length === 0 && (
-            <p style={{color: '#666', fontStyle: 'italic', marginBottom: '1rem'}}>
+            <p style={{color: '#666', fontStyle: 'italic', marginBottom: '1rem', backgroundColor: '#fff', padding: '10px'}}>
               Nenhum pacote recomendado selecionado. Clique no botão abaixo para adicionar.
             </p>
           )}
           
           {(pacote.pacotesRecomendados || []).map((recomendadoId, index) => (
-            <div key={index} className="array-item">
+            <div key={index} className="array-item" style={{backgroundColor: '#fff', border: '1px solid #000', padding: '10px', marginBottom: '10px'}}>
               <div className="array-item-header">
                 <span>Pacote Recomendado {index + 1}</span>
                 <button
@@ -367,7 +369,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
                 value={recomendadoId}
                 onChange={(e) => updateArrayItem('pacotesRecomendados', index, e.target.value)}
                 className="form-select"
-                style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '6px'}}
+                style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '6px', backgroundColor: '#fff'}}
               >
                 <option value="">Selecione um pacote</option>
                 {allPackages
@@ -386,6 +388,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
               type="button"
               onClick={() => addArrayItem('pacotesRecomendados', '')}
               className="btn-add-array"
+              style={{backgroundColor: '#ffc107', color: '#000', fontWeight: 'bold'}}
             >
               <FaPlus /> Adicionar Pacote Recomendado
             </button>
