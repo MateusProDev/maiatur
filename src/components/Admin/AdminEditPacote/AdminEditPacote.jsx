@@ -7,8 +7,7 @@ import {
   setDoc, 
   serverTimestamp,
   collection,
-  getDocs,
-  query 
+  getDocs
 } from 'firebase/firestore';
 import { db, storage } from '../../../firebase/firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
