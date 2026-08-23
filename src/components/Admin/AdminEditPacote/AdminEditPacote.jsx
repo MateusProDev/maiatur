@@ -1,4 +1,5 @@
 // src/components/Admin/AdminEditPacote/AdminEditPacote.jsx
+// v2.1 - Force chunk rebuild
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
