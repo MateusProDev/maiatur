@@ -336,7 +336,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
           <h3>⭐ Pacotes Recomendados (até 3)</h3>
           <p className="form-help">Selecione até 3 pacotes para mostrar como recomendação na página de detalhes deste pacote.</p>
           
-          {pacote.pacotesRecomendados && pacote.pacotesRecomendados.map((recomendadoId, index) => (
+          {(pacote.pacotesRecomendados || []).map((recomendadoId, index) => (
             <div key={index} className="array-item">
               <div className="array-item-header">
                 <span>Pacote Recomendado {index + 1}</span>
