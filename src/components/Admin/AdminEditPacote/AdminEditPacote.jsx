@@ -336,8 +336,8 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
         </div>
 
         {/* Pacotes Recomendados */}
-        <div className="form-section" style={{display: 'block', backgroundColor: '#fff3cd', border: '2px solid #ffc107', padding: '20px', margin: '20px 0'}}>
-          <h3 style={{color: '#856404'}}>⭐ Pacotes Recomendados (até 3) - SEÇÃO DE TESTE</h3>
+        <div className="form-section" style={{display: 'block', backgroundColor: '#fff3cd', border: '3px solid #ffc107', padding: '25px', margin: '25px 0'}}>
+          <h3 style={{color: '#856404', fontSize: '1.3rem'}}>⭐ Pacotes Recomendados (até 3) - SEÇÃO DE TESTE v3</h3>
           <p className="form-help">Selecione até 3 pacotes para mostrar como recomendação na página de detalhes deste pacote.</p>
           
           {console.log('🔍 Renderizando seção de pacotes recomendados:', {
