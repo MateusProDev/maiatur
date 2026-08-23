@@ -5,6 +5,7 @@ import axios from "axios";
 import RichTextEditorV2 from '../RichTextEditorV2/RichTextEditorV2';
 import { CLOUDINARY_CONFIG } from '../../config/cloudinary';
 import { useSEOIndexing } from '../../hooks/useSEOIndexing';
+import { FaPlus, FaTrash } from 'react-icons/fa';
 
 import { 
   Box,
@@ -88,7 +89,8 @@ const AdminPacotes = () => {
       bandeiras: [],
       seloSeguranca: "",
       textoSeguranca: ""
-    }
+    },
+    pacotesRecomendados: [] // Novo campo para pacotes recomendados
   });
   const [notification, setNotification] = useState({
     show: false,
@@ -97,6 +99,7 @@ const AdminPacotes = () => {
   });
   const [showAdditionalCategories, setShowAdditionalCategories] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [allPackages, setAllPackages] = useState([]); // Para dropdown de pacotes recomendados
 
   useEffect(() => {
     const fetchPacotes = async () => {
@@ -108,6 +111,7 @@ const AdminPacotes = () => {
         }));
         
         setPacotes(pacotesData);
+        setAllPackages(pacotesData); // Também carregar para dropdown de recomendados
       } catch (err) {
         showNotification("error", "Erro ao carregar pacotes");
         console.error("Erro ao buscar pacotes:", err);
@@ -259,6 +263,7 @@ const AdminPacotes = () => {
           seloSeguranca: '',
           textoSeguranca: ''
         },
+        pacotesRecomendados: currentPacote.pacotesRecomendados || [],
         createdAt: currentPacote.createdAt || serverTimestamp(),
         updatedAt: serverTimestamp()
       };
@@ -320,7 +325,8 @@ const AdminPacotes = () => {
           descricao: "",
           imagemMapa: "",
           coordenadas: ""
-        }
+        },
+        pacotesRecomendados: []
       });
       
       // Fechar formulário após salvar
@@ -520,7 +526,8 @@ const AdminPacotes = () => {
         descricao: '',
         imagemMapa: '',
         coordenadas: ''
-      }
+      },
+      pacotesRecomendados: pacote.pacotesRecomendados || []
     };
     console.log('📦 Pacote atualizado:', updatedPacote);
     console.log('📦 Tipo após atualização:', updatedPacote.tipo);
@@ -584,7 +591,8 @@ const AdminPacotes = () => {
                   descricao: "",
                   imagemMapa: "",
                   coordenadas: ""
-                }
+                },
+                pacotesRecomendados: []
               });
             } else {
               setShowForm(true);
@@ -625,7 +633,8 @@ const AdminPacotes = () => {
                   descricao: "",
                   imagemMapa: "",
                   coordenadas: ""
-                }
+                },
+                pacotesRecomendados: []
               });
             }
           }}
@@ -1330,6 +1339,89 @@ const AdminPacotes = () => {
               >
                 Adicionar Pergunta
               </Button>
+            </Grid>
+
+            {/* Pacotes Recomendados */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 1, color: '#667eea' }}>
+                ⭐ Pacotes Recomendados (até 3)
+              </Typography>
+              <Typography variant="caption" sx={{ color: '#64748b', display: 'block', mb: 2 }}>
+                Selecione até 3 pacotes para mostrar como recomendação na página de detalhes deste pacote.
+              </Typography>
+              
+              {(currentPacote.pacotesRecomendados || []).length === 0 && (
+                <Box sx={{ 
+                  p: 2, 
+                  bgcolor: '#f8fafc', 
+                  border: '1px dashed #cbd5e1',
+                  borderRadius: '8px',
+                  mb: 2,
+                  textAlign: 'center',
+                  color: '#64748b'
+                }}>
+                  Nenhum pacote recomendado selecionado
+                </Box>
+              )}
+              
+              {(currentPacote.pacotesRecomendados || []).map((recomendadoId, index) => (
+                <Paper 
+                  key={index}
+                  elevation={0}
+                  sx={{ 
+                    p: 2, 
+                    mb: 1, 
+                    bgcolor: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px'
+                  }}
+                >
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={11}>
+                      <TextField
+                        fullWidth
+                        select
+                        label={`Pacote Recomendado ${index + 1}`}
+                        value={recomendadoId}
+                        onChange={(e) => updateArrayItem('pacotesRecomendados', index, e.target.value)}
+                        size="small"
+                        SelectProps={{
+                          native: true,
+                        }}
+                      >
+                        <option value="">Selecione um pacote</option>
+                        {allPackages
+                          .filter(pkg => pkg.id !== currentPacote.id)
+                          .map(pkg => (
+                            <option key={pkg.id} value={pkg.id}>
+                              {pkg.titulo}
+                            </option>
+                          ))}
+                      </TextField>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <IconButton
+                        color="error"
+                        onClick={() => removeArrayItem('pacotesRecomendados', index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              ))}
+              
+              {(!currentPacote.pacotesRecomendados || currentPacote.pacotesRecomendados.length < 3) && (
+                <Button
+                  startIcon={<AddIcon />}
+                  onClick={() => addArrayItem('pacotesRecomendados', '')}
+                  variant="outlined"
+                  size="small"
+                  sx={{ mt: 1 }}
+                >
+                  Adicionar Pacote Recomendado
+                </Button>
+              )}
             </Grid>
 
             {/* Localização */}
