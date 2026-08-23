@@ -6,7 +6,9 @@ import {
   getDoc, 
   setDoc, 
   serverTimestamp,
-  collection 
+  collection,
+  getDocs,
+  query 
 } from 'firebase/firestore';
 import { db, storage } from '../../../firebase/firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -19,6 +21,7 @@ const AdminEditPacote = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [allPackages, setAllPackages] = useState([]);
   const [pacote, setPacote] = useState({
     titulo: '',
     descricao: '',
@@ -42,6 +45,7 @@ const AdminEditPacote = () => {
       imagemMapa: '',
       coordenadas: ''
     },
+    pacotesRecomendados: [],
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp()
   });
@@ -70,6 +74,24 @@ const AdminEditPacote = () => {
       fetchPacote();
     }
   }, [pacoteId]);
+
+  useEffect(() => {
+    const fetchAllPackages = async () => {
+      try {
+        const pacotesRef = collection(db, 'pacotes');
+        const querySnapshot = await getDocs(pacotesRef);
+        const packages = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          titulo: doc.data().titulo,
+          slug: doc.data().slug
+        }));
+        setAllPackages(packages);
+      } catch (error) {
+        console.error("Erro ao buscar pacotes:", error);
+      }
+    };
+    fetchAllPackages();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -308,6 +330,51 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
             onChange={handleChange}
             required
           />
+        </div>
+
+        {/* Pacotes Recomendados */}
+        <div className="form-section">
+          <h3>⭐ Pacotes Recomendados (até 3)</h3>
+          <p className="form-help">Selecione até 3 pacotes para mostrar como recomendação na página de detalhes deste pacote.</p>
+          
+          {pacote.pacotesRecomendados && pacote.pacotesRecomendados.map((recomendadoId, index) => (
+            <div key={index} className="array-item">
+              <div className="array-item-header">
+                <span>Pacote Recomendado {index + 1}</span>
+                <button
+                  type="button"
+                  onClick={() => removeArrayItem('pacotesRecomendados', index)}
+                  title="Remover"
+                >
+                  <FaTrash />
+                </button>
+              </div>
+              <select
+                value={recomendadoId}
+                onChange={(e) => updateArrayItem('pacotesRecomendados', index, e.target.value)}
+                className="form-select"
+              >
+                <option value="">Selecione um pacote</option>
+                {allPackages
+                  .filter(pkg => pkg.id !== pacoteId)
+                  .map(pkg => (
+                    <option key={pkg.id} value={pkg.id}>
+                      {pkg.titulo}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          ))}
+          
+          {(!pacote.pacotesRecomendados || pacote.pacotesRecomendados.length < 3) && (
+            <button
+              type="button"
+              onClick={() => addArrayItem('pacotesRecomendados', '')}
+              className="btn-add-array"
+            >
+              <FaPlus /> Adicionar Pacote Recomendado
+            </button>
+          )}
         </div>
 
         {/* Campos específicos para Transfer */}

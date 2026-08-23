@@ -49,7 +49,9 @@ const PacoteDetailPage = () => {
       faq: Array.isArray(data.faq) ? data.faq : [],
       localizacao: data.localizacao || null,
       // Campo para passeios
-      destaques: Array.isArray(data.destaques) ? data.destaques : []
+      destaques: Array.isArray(data.destaques) ? data.destaques : [],
+      // Pacotes recomendados selecionados
+      pacotesRecomendados: Array.isArray(data.pacotesRecomendados) ? data.pacotesRecomendados : []
     };
   }, [pacoteSlug]);
 
@@ -139,6 +141,7 @@ const PacoteDetailPage = () => {
         onShare={handleShare}
         onFavorite={toggleFavorite}
         isFavorite={isFavorite}
+        pacotesRecomendados={pacote.pacotesRecomendados}
       />
     );
   };

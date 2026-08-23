@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiClock, FiMapPin, FiArrowLeft, FiShare2, FiHeart, FiStar, FiHome } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { collection, query, where, limit, getDocs } from 'firebase/firestore';
+import { collection, query, where, limit, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import VehicleGallery from '../../components/VehicleGallery/VehicleGallery';
@@ -21,7 +21,7 @@ import './TransferDetailContent.css';
  * Renderiza o conteúdo detalhado de um pacote (usado para todos os tipos)
  * Inclui hero com carrossel, descrição, veículos, locais atendidos, comodidades, vantagens, passos de reserva, FAQ e localização
  */
-const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, onShare, onFavorite, isFavorite }) => {
+const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, onShare, onFavorite, isFavorite, pacotesRecomendados }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
 
@@ -54,18 +54,41 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       try {
-        const pacotesRef = collection(db, 'pacotes');
-        const q = query(
-          pacotesRef,
-          where('tipo', '==', tipo),
-          limit(4)
-        );
-        const querySnapshot = await getDocs(q);
-        
-        const related = querySnapshot.docs
-          .map(doc => ({ id: doc.id, ...doc.data() }))
-          .filter(p => p.id !== pacote.id && p.slug !== pacote.slug)
-          .slice(0, 3);
+        let related = [];
+
+        // Se houver pacotes recomendados selecionados, buscar esses específicos
+        if (pacotesRecomendados && pacotesRecomendados.length > 0) {
+          const packagePromises = pacotesRecomendados.map(async (pkgId) => {
+            try {
+              const docRef = doc(db, 'pacotes', pkgId);
+              const docSnap = await getDoc(docRef);
+              if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+              }
+              return null;
+            } catch (error) {
+              console.error('Erro ao buscar pacote recomendado:', pkgId, error);
+              return null;
+            }
+          });
+
+          const results = await Promise.all(packagePromises);
+          related = results.filter(p => p !== null && p.id !== pacote.id);
+        } else {
+          // Fallback: buscar pacotes aleatórios do mesmo tipo se não houver seleção
+          const pacotesRef = collection(db, 'pacotes');
+          const q = query(
+            pacotesRef,
+            where('tipo', '==', tipo),
+            limit(4)
+          );
+          const querySnapshot = await getDocs(q);
+          
+          related = querySnapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter(p => p.id !== pacote.id && p.slug !== pacote.slug)
+            .slice(0, 3);
+        }
         
         setRelatedProducts(related);
       } catch (error) {
@@ -76,7 +99,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
     if (pacote?.tipo) {
       fetchRelatedProducts();
     }
-  }, [pacote?.tipo, pacote?.id, pacote?.slug, tipo]);
+  }, [pacote?.tipo, pacote?.id, pacote?.slug, tipo, pacotesRecomendados]);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % imagens.length);
