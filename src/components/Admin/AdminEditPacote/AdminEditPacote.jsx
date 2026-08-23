@@ -77,6 +77,7 @@ const AdminEditPacote = () => {
   useEffect(() => {
     const fetchAllPackages = async () => {
       try {
+        console.log('🔍 Buscando todos os pacotes para seleção de recomendados...');
         const pacotesRef = collection(db, 'pacotes');
         const querySnapshot = await getDocs(pacotesRef);
         const packages = querySnapshot.docs.map(doc => ({
@@ -84,6 +85,7 @@ const AdminEditPacote = () => {
           titulo: doc.data().titulo,
           slug: doc.data().slug
         }));
+        console.log('📦 Pacotes carregados:', packages.length, 'pacotes');
         setAllPackages(packages);
       } catch (error) {
         console.error("Erro ao buscar pacotes:", error);
@@ -332,9 +334,22 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
         </div>
 
         {/* Pacotes Recomendados */}
-        <div className="form-section">
+        <div className="form-section" style={{display: 'block'}}>
           <h3>⭐ Pacotes Recomendados (até 3)</h3>
           <p className="form-help">Selecione até 3 pacotes para mostrar como recomendação na página de detalhes deste pacote.</p>
+          
+          {console.log('🔍 Renderizando seção de pacotes recomendados:', {
+            pacotesRecomendados: pacote.pacotesRecomendados,
+            allPackagesCount: allPackages.length,
+            pacoteId,
+            allPackages: allPackages.slice(0, 3)
+          })}
+          
+          {(pacote.pacotesRecomendados || []).length === 0 && (
+            <p style={{color: '#666', fontStyle: 'italic', marginBottom: '1rem'}}>
+              Nenhum pacote recomendado selecionado. Clique no botão abaixo para adicionar.
+            </p>
+          )}
           
           {(pacote.pacotesRecomendados || []).map((recomendadoId, index) => (
             <div key={index} className="array-item">
@@ -352,6 +367,7 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
                 value={recomendadoId}
                 onChange={(e) => updateArrayItem('pacotesRecomendados', index, e.target.value)}
                 className="form-select"
+                style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '6px'}}
               >
                 <option value="">Selecione um pacote</option>
                 {allPackages
