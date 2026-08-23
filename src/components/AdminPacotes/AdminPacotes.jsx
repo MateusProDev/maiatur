@@ -5,7 +5,6 @@ import axios from "axios";
 import RichTextEditorV2 from '../RichTextEditorV2/RichTextEditorV2';
 import { CLOUDINARY_CONFIG } from '../../config/cloudinary';
 import { useSEOIndexing } from '../../hooks/useSEOIndexing';
-import { FaPlus, FaTrash } from 'react-icons/fa';
 
 import { 
   Box,
