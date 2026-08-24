@@ -8,24 +8,24 @@
 }
 /* TripAdvisor image sizing */
 .tripadvisor-img {
-  height: 50px;
+  height: 40px;
   width: auto;
   border-radius: 8px;
   transition: transform 0.2s ease, height 0.2s ease;
 }
 
 .cadastur-img {
-  height: 80px;
+  height: 50px;
   width: auto;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   border-radius: 8px;
   object-fit: contain;
 }
 
 .cad-img {
-  height: 80px;
+  height: 50px;
   width: auto;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   border-radius: 8px;
   object-fit: contain;
 }
@@ -36,24 +36,24 @@
   align-items: center;
   text-decoration: none;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .seguraca-link:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   opacity: 0.9;
 }
 
 .seguraca-img {
-  height: 80px;
+  height: 50px;
   width: auto;
   border-radius: 8px;
   object-fit: contain;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .seguraca-text {
-  font-size: 12px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
   text-align: center;
@@ -79,7 +79,7 @@
     max-width: 100%;
     height: auto;
     object-fit: contain;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .cad-img {
@@ -87,7 +87,7 @@
     max-width: 100%;
     height: auto;
     object-fit: contain;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .seguraca-link {
@@ -100,11 +100,11 @@
     max-width: 100%;
     height: auto;
     object-fit: contain;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .seguraca-text {
-    font-size: 11px;
+    font-size: 9px;
   }
 
   .tripadvisor-img {
@@ -665,36 +665,36 @@
   .cadastur-img {
     height: auto;
     width: 100%;
-    max-width: 800px;
+    max-width: 400px;
     margin-bottom: 0;
   }
 
   .cad-img {
     height: auto;
     width: 100%;
-    max-width: 800px;
+    max-width: 400px;
     margin-bottom: 0;
   }
 
   .seguraca-link {
-    max-width: 800px;
+    max-width: 400px;
   }
 
   .seguraca-img {
     height: auto;
     width: 100%;
-    max-width: 800px;
-    margin-bottom: 8px;
+    max-width: 400px;
+    margin-bottom: 6px;
   }
 
   .seguraca-text {
-    font-size: 13px;
+    font-size: 11px;
   }
 
   .tripadvisor-img {
     height: auto;
     width: 100%;
-    max-width: 800px;
+    max-width: 400px;
   }
 }
 

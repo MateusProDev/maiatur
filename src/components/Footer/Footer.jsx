@@ -251,14 +251,14 @@ const FooterUltraModern = () => {
           {/* TripAdvisor - agora abaixo dos links */}
           <div className={cx('footer-tripadvisor-ultra')}>
             <img
+              src={require('../../assets/Tripadviser.jpg')}
+              alt="TripAdvisor"
+              className={cx('tripadvisor-img')}
+            />
+            <img
               src={require('../../assets/Cadastur.png')}
               alt="CADASTUR"
               className={cx('cadastur-img')}
-            />
-            <img
-              src={require('../../assets/CAD.png')}
-              alt="CAD"
-              className={cx('cad-img')}
             />
             <a
               href="https://transparencyreport.google.com/safe-browsing/search?url=transferfortalezatur.com.br&hl=pt_BR"
@@ -273,11 +273,6 @@ const FooterUltraModern = () => {
               />
               <span className={cx('seguraca-text')}>Clique para conferir</span>
             </a>
-            <img
-              src={require('../../assets/Tripadviser.jpg')}
-              alt="TripAdvisor"
-              className={cx('tripadvisor-img')}
-            />
             <a
               href="https://www.tripadvisor.com.br/UserReviewEdit-g23379655-d34005292-Transfer_Fortaleza_Tur-Porto_Das_Dunas_Aquiraz_State_of_Ceara.html"
               target="_blank"
