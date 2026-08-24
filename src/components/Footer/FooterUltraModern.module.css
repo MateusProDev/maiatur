@@ -83,16 +83,16 @@
   }
 
   .cad-img {
-    width: 100%;
-    max-width: 100%;
+    width: 80%;
+    max-width: 200px;
     height: auto;
     object-fit: contain;
     margin-bottom: 10px;
   }
 
   .tripadvisor-img {
-    width: 100%;
-    max-width: 100%;
+    width: 60%;
+    max-width: 150px;
     height: auto;
     object-fit: contain;
   }
