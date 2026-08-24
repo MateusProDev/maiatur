@@ -22,7 +22,8 @@ import {
   FiLink,
   FiMousePointer,
   FiTarget,
-  FiX
+  FiX,
+  FiGrid
 } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
 import {
@@ -322,7 +323,8 @@ const AdminDashboard = () => {
     { icon: FiImage, title: "Logo", description: "Alterar logo do site", path: "/admin/edit-header", gradient: "from-gray-500 to-gray-600" },
     { icon: FiMail, title: "Rodapé", description: "Editar informações do footer", path: "/admin/edit-footer", gradient: "from-zinc-500 to-zinc-600" },
     { icon: FiZap, title: "Transfer Beberibe", description: "Editar seção Transfer Beberibe", path: "/admin/edit-transfer-beberibe", gradient: "from-indigo-500 to-purple-600" },
-    { icon: FiHelpCircle, title: "FAQ Home", description: "Editar perguntas frequentes da home", path: "/admin/edit-home-faq", gradient: "from-teal-500 to-cyan-600" }
+    { icon: FiHelpCircle, title: "FAQ Home", description: "Editar perguntas frequentes da home", path: "/admin/edit-home-faq", gradient: "from-teal-500 to-cyan-600" },
+    { icon: FiGrid, title: "Categorias", description: "Editar títulos e descrições de categorias", path: "/admin/edit-categories", gradient: "from-orange-500 to-red-600" }
   ];
 
   

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { collection, getDocs, query } from 'firebase/firestore';
+import { collection, getDocs, query, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -10,8 +10,8 @@ import { FiSearch, FiX, FiFilter, FiMapPin, FiTrendingUp, FiStar, FiPackage } fr
 import seoData from '../../utils/seoData';
 import './CategoriaPage.css';
 
-// Mapeamento de categorias
-const CATEGORIAS = {
+// Mapeamento de categorias padrão (fallback)
+const CATEGORIAS_DEFAULT = {
   'passeio': {
     nome: 'Passeios e Experiências',
     descricao: 'Descubra experiências únicas e passeios inesquecíveis',
@@ -36,6 +36,11 @@ const CATEGORIAS = {
     nome: 'Transfers e Traslados',
     descricao: 'Transporte confortável e seguro para todos os destinos',
     icon: FiPackage
+  },
+  'beach-park': {
+    nome: 'Beach Park',
+    descricao: 'O maior parque aquático da América Latina',
+    icon: FiPackage
   }
 };
 
@@ -48,12 +53,45 @@ const CategoriaPage = () => {
   const [filterDestaque, setFilterDestaque] = useState(false);
   const [priceRange, setPriceRange] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [categoriasConfig, setCategoriasConfig] = useState(CATEGORIAS_DEFAULT);
 
-  const categoriaInfo = CATEGORIAS[categoria] || {
-    nome: 'Categoria',
-    descricao: 'Explore nossos pacotes',
-    icon: FiPackage
-  };
+  // Buscar configurações das categorias do Firestore
+  useEffect(() => {
+    const fetchCategoriasConfig = async () => {
+      try {
+        const categoriasRef = doc(db, "content", "categories");
+        const categoriasDoc = await getDoc(categoriasRef);
+        if (categoriasDoc.exists()) {
+          const data = categoriasDoc.data();
+          setCategoriasConfig({
+            ...CATEGORIAS_DEFAULT,
+            ...(data || {})
+          });
+        }
+      } catch (error) {
+        console.error("Erro ao buscar configurações das categorias:", error);
+        // Usa configurações padrão em caso de erro
+      }
+    };
+
+    fetchCategoriasConfig();
+  }, []);
+
+  // Para categorias de transfer, usa a configuração do transfer_chegada como padrão
+  const categoriaInfo = (() => {
+    if (categoria.includes('transfer')) {
+      return categoriasConfig['transfer_chegada'] || {
+        nome: 'Transfers e Traslados',
+        descricao: 'Transporte confortável e seguro para todos os destinos',
+        icon: FiPackage
+      };
+    }
+    return categoriasConfig[categoria] || {
+      nome: 'Categoria',
+      descricao: 'Explore nossos pacotes',
+      icon: FiPackage
+    };
+  })();
 
   const Icon = categoriaInfo.icon;
 

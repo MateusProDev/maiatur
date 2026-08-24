@@ -256,6 +256,24 @@ const FooterUltraModern = () => {
               className={cx('cadastur-img')}
             />
             <img
+              src={require('../../assets/CAD.png')}
+              alt="CAD"
+              className={cx('cad-img')}
+            />
+            <a
+              href="https://transparencyreport.google.com/safe-browsing/search?url=transferfortalezatur.com.br&hl=pt_BR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cx('seguraca-link')}
+            >
+              <img
+                src={require('../../assets/SEGURACA.png')}
+                alt="SEGURACA"
+                className={cx('seguraca-img')}
+              />
+              <span className={cx('seguraca-text')}>Clique para conferir</span>
+            </a>
+            <img
               src={require('../../assets/Tripadviser.jpg')}
               alt="TripAdvisor"
               className={cx('tripadvisor-img')}

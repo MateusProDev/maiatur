@@ -45,6 +45,7 @@ const EditCarousel = lazy(() => import("./components/Admin/EditCarousel/EditCaro
 const EditHours = lazy(() => import("./components/Admin/EditHours/EditHours"));
 const EditTransferBeberibe = lazy(() => import("./components/Admin/EditTransferBeberibe/EditTransferBeberibe"));
 const EditHomeFAQ = lazy(() => import("./components/Admin/EditHomeFAQ/EditHomeFAQ"));
+const EditCategories = lazy(() => import("./components/Admin/EditCategories/EditCategories"));
 const BannerAdmin = lazy(() => import("./components/Admin/BannerAdmin/BannerAdmin"));
 const AddAdmin = lazy(() => import("./pages/Admin/AddAdmin/AddAdmin"));
 const LinkInBio = lazy(() => import("./components/LinkInBio/LinkInBio"));
@@ -187,6 +188,7 @@ const App = () => {
               <Route path="/admin/edit-hours" element={<ProtectedRoute><EditHours /></ProtectedRoute>} />
               <Route path="/admin/edit-transfer-beberibe" element={<ProtectedRoute><EditTransferBeberibe /></ProtectedRoute>} />
               <Route path="/admin/edit-home-faq" element={<ProtectedRoute><EditHomeFAQ /></ProtectedRoute>} />
+              <Route path="/admin/edit-categories" element={<ProtectedRoute><EditCategories /></ProtectedRoute>} />
               <Route path="/admin/banner-admin" element={<ProtectedRoute><BannerAdmin /></ProtectedRoute>} />
               <Route path="/admin/view-users" element={<ProtectedRoute><ViewUsers /></ProtectedRoute>} />
               <Route path="/admin/add-admin" element={<ProtectedRoute><AddAdmin /></ProtectedRoute>} />
