@@ -2,21 +2,20 @@
 
 ## Alterações Realizadas
 
-Adicionei suporte para 2 novas imagens no footer com reorganização da ordem:
+Adicionei suporte para 3 imagens no footer com a seguinte ordem:
 
-1. **Tripadviser.jpg** - Já existente (movida para o topo)
-2. **CADASTUR.png** - Já existente (abaixo do TripAdvisor)
-3. **SEGURACA.png** - Adicionada com link clicável (abaixo do CADASTUR)
-4. **CAD.png** - Removida (não está mais no footer)
+1. **CAD.png** - Adicionada no topo
+2. **Tripadviser.jpg** - Já existente (abaixo do CAD)
+3. **CADASTUR.png** - Já existente (abaixo do TripAdvisor)
+4. **SEGURACA.png** - Adicionada com link clicável (abaixo do CADASTUR)
 
 ## Arquivos Modificados
 
 1. **src/components/Footer/Footer.jsx**
-   - Reorganizada a ordem das imagens
-   - TripAdvisor agora aparece primeiro
+   - CAD.png adicionada no topo
+   - TripAdvisor abaixo do CAD
    - CADASTUR abaixo do TripAdvisor
    - SEGURACA abaixo do CADASTUR com link clicável
-   - CAD.png removida do footer
    - Texto "Clique para conferir" abaixo da imagem SEGURACA
 
 2. **src/components/Footer/FooterUltraModern.module.css**
@@ -43,13 +42,15 @@ A imagem SEGURACA.png:
 ## Estrutura Final das Imagens no Footer
 
 A ordem das imagens é:
-1. Tripadviser.jpg (40px de altura)
-2. CADASTUR.png (50px de altura)
-3. SEGURACA.png (50px de altura) com link clicável e texto
+1. CAD.png (50px de altura)
+2. Tripadviser.jpg (40px de altura)
+3. CADASTUR.png (50px de altura)
+4. SEGURACA.png (50px de altura) com link clicável e texto
 
 ## Estilos
 
 ### Dimensões das Imagens
+- **CAD**: 50px de altura (desktop), responsivo (mobile)
 - **TripAdvisor**: 40px de altura (desktop), responsivo (mobile)
 - **CADASTUR**: 50px de altura (desktop), responsivo (mobile)
 - **SEGURACA**: 50px de altura (desktop), responsivo (mobile)

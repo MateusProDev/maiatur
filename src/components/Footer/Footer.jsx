@@ -251,6 +251,11 @@ const FooterUltraModern = () => {
           {/* TripAdvisor - agora abaixo dos links */}
           <div className={cx('footer-tripadvisor-ultra')}>
             <img
+              src={require('../../assets/CAD.png')}
+              alt="CAD"
+              className={cx('cad-img')}
+            />
+            <img
               src={require('../../assets/Tripadviser.jpg')}
               alt="TripAdvisor"
               className={cx('tripadvisor-img')}

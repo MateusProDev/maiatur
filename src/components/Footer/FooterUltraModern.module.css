@@ -90,6 +90,13 @@
     margin-bottom: 10px;
   }
 
+  .tripadvisor-img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
   .seguraca-link {
     width: 100%;
     max-width: 100%;
@@ -674,6 +681,12 @@
     width: 100%;
     max-width: 400px;
     margin-bottom: 0;
+  }
+
+  .tripadvisor-img {
+    height: auto;
+    width: 100%;
+    max-width: 400px;
   }
 
   .seguraca-link {
