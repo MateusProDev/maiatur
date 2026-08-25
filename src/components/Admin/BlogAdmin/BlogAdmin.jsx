@@ -53,7 +53,43 @@ const BlogAdmin = () => {
       'bold italic underline strikethrough | alignleft aligncenter ' +
       'alignright alignjustify | bullist numlist outdent indent | ' +
       'link media table | removeformat | help',
-    content_style: 'body { font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; }',
+    content_style: `
+      body { 
+        font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+        font-size: 14px; 
+        line-height: 1.6; 
+      }
+      h1, h2, h3 { 
+        color: #21A657; 
+        margin-top: 2rem; 
+        margin-bottom: 1rem; 
+        line-height: 1.3; 
+        letter-spacing: -0.02em; 
+      }
+      h1 { 
+        font-size: 2rem; 
+        font-weight: 800; 
+      }
+      h2 { 
+        font-size: 1.5rem; 
+        font-weight: 700; 
+      }
+      h3 { 
+        font-size: 1.25rem; 
+        font-weight: 600; 
+      }
+      strong { 
+        color: #EE7C35; 
+        font-weight: 700; 
+      }
+      blockquote { 
+        border-left: 4px solid #21A657; 
+        background-color: #f0fdf4; 
+        padding: 16px; 
+        margin: 1.5rem 0; 
+        border-radius: 4px; 
+      }
+    `,
     branding: false,
     promotion: false,
     paste_data_images: true,

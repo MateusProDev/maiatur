@@ -475,6 +475,28 @@
   margin-bottom: 1rem;
 }
 
+/* TinyMCE Editor Styles */
+.editor-wrapper .tox-tinymce {
+  border-radius: 8px;
+}
+
+.editor-wrapper .tox-editor-header {
+  border-radius: 8px 8px 0 0;
+}
+
+.editor-wrapper .tox-sidebar-wrap {
+  border-radius: 0 0 8px 8px;
+}
+
+/* TinyMCE Content Styles - aplicando cores dourado/laranja */
+.editor-wrapper .tox-edit-area__iframe {
+  background-color: #fafafa;
+}
+
+.editor-wrapper .tox-edit-area iframe {
+  background-color: #fafafa;
+}
+
 .editor-wrapper-class {
   width: 100%;
 }
