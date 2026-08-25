@@ -44,6 +44,12 @@ const HomeUltraModern = () => {
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [services, setServices] = useState([]);
   const [differentials, setDifferentials] = useState([]);
+  const [categoriasConfig, setCategoriasConfig] = useState({
+    destinos_home: {
+      titulo: "Escolha Sua Próxima Aventura",
+      descricao: "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"
+    }
+  });
   const [differentialsSettings, setDifferentialsSettings] = useState({
     active: true,
     badge: 'Diferenciais',
@@ -188,6 +194,21 @@ const HomeUltraModern = () => {
             }
           ]);
           console.log('⚠️ Usando diferenciais estáticos (Firestore não encontrado)');
+        }
+
+        // Buscar configurações das categorias do Firestore
+        const categoriasDoc = await getDoc(doc(db, 'content', 'categories'));
+        if (categoriasDoc.exists()) {
+          const data = categoriasDoc.data();
+          setCategoriasConfig({
+            destinos_home: {
+              titulo: data.destinos_home?.titulo || "Escolha Sua Próxima Aventura",
+              descricao: data.destinos_home?.descricao || "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"
+            }
+          });
+          console.log('✅ Configurações de categorias carregadas do Firestore');
+        } else {
+          console.log('⚠️ Usando configurações padrão de categorias (Firestore não encontrado)');
         }
 
         // Buscar Carrossel de Imagens do Firestore
@@ -398,10 +419,10 @@ const HomeUltraModern = () => {
               <FiMapPin /> Destinos em Destaque
             </span>
             <h1 className="section-title-ultra">
-              Escolha Sua Próxima <span className="gradient-text">Aventura</span>
+              {categoriasConfig.destinos_home?.titulo || "Escolha Sua Próxima Aventura"}
             </h1>
             <p className="section-description">
-              Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única
+              {categoriasConfig.destinos_home?.descricao || "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"}
             </p>
           </div>
 

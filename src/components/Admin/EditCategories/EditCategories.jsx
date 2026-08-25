@@ -34,6 +34,10 @@ const initialCategoriesData = {
   destaques_home: {
     titulo: "Pacotes em Destaque",
     descricao: "Os melhores pacotes selecionados especialmente para você"
+  },
+  destinos_home: {
+    titulo: "Escolha Sua Próxima Aventura",
+    descricao: "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"
   }
 };
 
@@ -48,7 +52,8 @@ const EditCategories = () => {
     passeio: true,
     transfer: true,
     beach_park: true,
-    destaques: true
+    destaques: true,
+    destinos: true
   });
 
   const toggleSection = (section) => {
@@ -334,6 +339,52 @@ const EditCategories = () => {
                   required
                 />
                 <small className="form-hint">Esta descrição aparece abaixo do título na seção de destaques</small>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Seção Destinos Home */}
+        <div className="form-section">
+          <div 
+            className="section-with-icon" 
+            onClick={() => toggleSection('destinos')}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="section-icon"><FiMapPin /></div>
+            <h3>Destinos em Destaque (Home)</h3>
+            <FiChevronDown 
+              style={{ 
+                marginLeft: 'auto', 
+                transition: 'transform 0.3s',
+                transform: expandedSections.destinos ? 'rotate(180deg)' : 'rotate(0deg)'
+              }} 
+            />
+          </div>
+          
+          {expandedSections.destinos && (
+            <div className="form-group">
+              <div className="form-field">
+                <label>Título da Seção de Destinos</label>
+                <input
+                  type="text"
+                  value={categoriesData.destinos_home?.titulo || ""}
+                  onChange={(e) => updateCategoryField("destinos_home", "titulo", e.target.value)}
+                  placeholder="Escolha Sua Próxima Aventura"
+                  required
+                />
+                <small className="form-hint">Este título aparece na seção de destinos da página inicial</small>
+              </div>
+              <div className="form-field">
+                <label>Descrição da Seção de Destinos</label>
+                <textarea
+                  value={categoriesData.destinos_home?.descricao || ""}
+                  onChange={(e) => updateCategoryField("destinos_home", "descricao", e.target.value)}
+                  rows="3"
+                  placeholder="Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"
+                  required
+                />
+                <small className="form-hint">Esta descrição aparece abaixo do título na seção de destinos</small>
               </div>
             </div>
           )}
