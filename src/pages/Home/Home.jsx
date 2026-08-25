@@ -14,7 +14,7 @@ import Depoimentos from '../../components/Depoimentos/Depoimentos';
 import DestinosGrid from '../../components/DestinosGrid/DestinosGrid';
 import TransferBeberibe from '../../components/TransferBeberibe/TransferBeberibe';
 import HomeFAQSection from '../../components/HomeFAQSection/HomeFAQSection';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import { inicializarAvaliacoes } from '../../utils/avaliacoesInitializer';
 import { Box, Typography, Button } from '@mui/material';
@@ -27,7 +27,34 @@ const Home = () => {
   const [outrosPacotes, setOutrosPacotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [categoriasConfig, setCategoriasConfig] = useState({
+    destaques_home: {
+      titulo: "Pacotes em Destaque",
+      descricao: "Os melhores pacotes selecionados especialmente para você"
+    }
+  });
   const intervalRef = useRef(null);
+
+  // Buscar configurações das categorias do Firestore
+  useEffect(() => {
+    const fetchCategoriasConfig = async () => {
+      try {
+        const categoriasRef = doc(db, "content", "categories");
+        const categoriasDoc = await getDoc(categoriasRef);
+        if (categoriasDoc.exists()) {
+          const data = categoriasDoc.data();
+          setCategoriasConfig(prev => ({
+            ...prev,
+            ...(data || {})
+          }));
+        }
+      } catch (error) {
+        console.error("Erro ao buscar configurações das categorias:", error);
+      }
+    };
+
+    fetchCategoriasConfig();
+  }, []);
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -123,8 +150,13 @@ const Home = () => {
         <section className="destaques-section">
           <div className="section-header">
             <Typography variant="h2" className="section-title">
-              Pacotes em Destaque 
+              {categoriasConfig.destaques_home?.titulo || "Pacotes em Destaque"}
             </Typography>
+            {categoriasConfig.destaques_home?.descricao && (
+              <Typography variant="body1" className="section-description">
+                {categoriasConfig.destaques_home.descricao}
+              </Typography>
+            )}
             {/* <div className="carousel-controls">
               <IconButton 
                 className="nav-button"

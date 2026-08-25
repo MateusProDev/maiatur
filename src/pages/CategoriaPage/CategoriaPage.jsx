@@ -80,20 +80,28 @@ const CategoriaPage = () => {
   // Para categorias de transfer, usa a configuração do transfer_chegada como padrão
   const categoriaInfo = (() => {
     if (categoria.includes('transfer')) {
-      return categoriasConfig['transfer_chegada'] || {
+      const config = categoriasConfig['transfer_chegada'] || {
         nome: 'Transfers e Traslados',
         descricao: 'Transporte confortável e seguro para todos os destinos',
         icon: FiPackage
       };
+      return {
+        ...config,
+        icon: config.icon || FiPackage
+      };
     }
-    return categoriasConfig[categoria] || {
+    const config = categoriasConfig[categoria] || {
       nome: 'Categoria',
       descricao: 'Explore nossos pacotes',
       icon: FiPackage
     };
+    return {
+      ...config,
+      icon: config.icon || FiPackage
+    };
   })();
 
-  const Icon = categoriaInfo.icon;
+  const Icon = categoriaInfo.icon || FiPackage;
 
   // Determinar dados SEO baseado na categoria
   const getSEOData = () => {

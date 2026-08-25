@@ -402,8 +402,14 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: var(--gradient-primary);
-  border-radius: 2px;
+}
+
+.section-description {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 1rem;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
 }
 
 .star-icon {

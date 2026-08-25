@@ -2,17 +2,18 @@
 
 ## Overview
 
-Implementei uma funcionalidade completa que permite editar os títulos e descrições das páginas de categoria (Transfer/Traslado e Passeios) diretamente do painel administrativo.
+Implementei uma funcionalidade completa que permite editar os títulos e descrições das páginas de categoria (Transfer/Traslado e Passeios) e da seção de destaques na Home diretamente do painel administrativo.
 
 ## 🎯 O que foi implementado
 
 ### 1. Componente Admin - EditCategories
 - **Localização**: `src/components/Admin/EditCategories/EditCategories.jsx`
-- **Funcionalidade**: Interface para editar títulos e descrições de categorias
+- **Funcionalidade**: Interface para editar títulos e descrições de categorias e seção de destaques
 - **Recursos**:
   - Seção para "Passeios e Experiências"
   - Seção para "Transfers e Traslados" (aplica a todos os tipos de transfer)
   - Seção para "Beach Park"
+  - Seção para "Pacotes em Destaque (Home)" - NOVO
   - Interface expansível/colapsável
   - Feedback visual de salvamento
   - Validação de campos
@@ -25,14 +26,28 @@ Implementei uma funcionalidade completa que permite editar os títulos e descri�
   - Fallback para configurações padrão
   - Lógica inteligente para categorias de transfer (usa `transfer_chegada` para todos os tipos)
 
-### 3. Integração com AdminDashboard
+### 3. Modificação da Home
+- **Localização**: `src/pages/Home/Home.jsx`
+- **Alterações**:
+  - Busca configurações do Firestore (`content/categories`)
+  - Usa título e descrição configurados para a seção de destaques
+  - Fallback para valores padrão se não houver configuração
+
+### 4. Modificação do CSS da Home
+- **Localização**: `src/pages/Home/Home.css`
+- **Alterações**:
+  - Adicionado estilo `.section-description` para a descrição da seção de destaques
+  - Alinhamento centralizado
+  - Cor e espaçamento ajustados
+
+### 5. Integração com AdminDashboard
 - **Localização**: `src/components/Admin/AdminDashboard/AdminDashboard.jsx`
 - **Alterações**:
   - Adicionado link "Categorias" com ícone FiGrid
   - Gradiente visual: `from-orange-500 to-red-600`
   - Descrição: "Editar títulos e descrições de categorias"
 
-### 4. Roteamento
+### 6. Roteamento
 - **Localização**: `src/App.jsx`
 - **Alterações**:
   - Import lazy do componente EditCategories
@@ -67,6 +82,10 @@ Implementei uma funcionalidade completa que permite editar os títulos e descri�
   beach_park: {
     nome: "Beach Park",
     descricao: "O maior parque aquático da América Latina"
+  },
+  destaques_home: {
+    titulo: "Pacotes em Destaque",
+    descricao: "Os melhores pacotes selecionados especialmente para você"
   }
 }
 ```
@@ -79,11 +98,18 @@ Implementei uma funcionalidade completa que permite editar os títulos e descri�
 - Feedback visual de sucesso/erro
 - Botão de voltar ao dashboard
 - Responsivo para mobile
+- Nova seção com ícone de estrela (FiStar) para destaques
 
 ### Página de Categoria
 - Títulos e descrições dinâmicos
 - Atualização em tempo real após salvar
 - Mantém o design existente
+
+### Página Home
+- Título da seção de destaques dinâmico
+- Descrição da seção de destaques dinâmica
+- Atualização em tempo real após salvar
+- Estilo consistente com o restante da página
 
 ## 🚀 Como Usar
 
@@ -93,14 +119,19 @@ Implementei uma funcionalidade completa que permite editar os títulos e descri�
    - Vá para `/admin`
    - Faça login com suas credenciais
 
-2. **Editar categorias**:
+2. **Editar categorias e destaques**:
    - No dashboard, clique em "Categorias"
-   - Expanda a seção desejada (Passeios, Transfers, Beach Park)
+   - Expanda a seção desejada:
+     - Passeios: Edite título e descrição de passeios
+     - Transfers: Edite título e descrição de transfers (aplica a todos os tipos)
+     - Beach Park: Edite título e descrição do Beach Park
+     - Destaques Home: Edite título e descrição da seção de destaques da home
    - Edite o título e/ou descrição
    - Clique em "Salvar Alterações"
 
 3. **Verificar mudanças**:
-   - Acesse uma página de categoria (ex: `/categoria/transfer_chegada`)
+   - **Categorias**: Acesse uma página de categoria (ex: `/categoria/transfer_chegada`)
+   - **Destaques**: Acesse a página inicial (`/`)
    - As mudanças aparecerão imediatamente
 
 ### Para Desenvolvedores
@@ -128,8 +159,11 @@ src/
 │           ├── EditCategories.jsx       # Componente principal
 │           └── EditCategories.css       # Estilos
 ├── pages/
-│   └── CategoriaPage/
-│       └── CategoriaPage.jsx            # Modificado para buscar config
+│   ├── CategoriaPage/
+│   │   └── CategoriaPage.jsx            # Modificado para buscar config
+│   └── Home/
+│       ├── Home.jsx                      # Modificado para buscar config de destaques
+│       └── Home.css                      # Modificado para adicionar estilo de descrição
 └── App.jsx                              # Rota adicionada
 ```
 
@@ -141,8 +175,9 @@ A coleção `content/categories` será criada automaticamente na primeira vez qu
 
 ### Valores Padrão
 
-Se a coleção não existir, o sistema usa valores padrão definidos em `CategoriaPage.jsx`:
+Se a coleção não existir, o sistema usa valores padrão definidos nos componentes:
 
+**CategoriaPage.jsx:**
 ```javascript
 const CATEGORIAS_DEFAULT = {
   'passeio': {
@@ -154,6 +189,16 @@ const CATEGORIAS_DEFAULT = {
 };
 ```
 
+**Home.jsx:**
+```javascript
+const [categoriasConfig, setCategoriasConfig] = useState({
+  destaques_home: {
+    titulo: "Pacotes em Destaque",
+    descricao: "Os melhores pacotes selecionados especialmente para você"
+  }
+});
+```
+
 ## 🎯 Benefícios
 
 1. **Flexibilidade**: Admin pode personalizar títulos e descrições sem código
@@ -161,16 +206,19 @@ const CATEGORIAS_DEFAULT = {
 3. **Segurança**: Apenas usuários autenticados podem editar
 4. **Performance**: Cache local no componente
 5. **UX**: Interface intuitiva com feedback visual
+6. **Consistência**: Mesmo padrão para categorias e seção de destaques
 
 ## 📝 Notas Importantes
 
 1. **Categorias de Transfer**: Ao editar a seção "Transfers e Traslados", a mudança se aplica a todos os tipos de transfer (chegada, saída, chegada+saida, entre hotéis)
 
-2. **Fallback**: Se houver erro ao buscar do Firestore, o sistema usa configurações padrão automaticamente
+2. **Destaques Home**: Ao editar a seção "Pacotes em Destaque (Home)", a mudança afeta apenas a seção de destaques na página inicial
 
-3. **Permissões**: A rota `/admin/edit-categories` é protegida - apenas usuários autenticados podem acessar
+3. **Fallback**: Se houver erro ao buscar do Firestore, o sistema usa configurações padrão automaticamente
 
-4. **SEO**: As mudanças nos títulos afetam o SEO das páginas de categoria
+4. **Permissões**: A rota `/admin/edit-categories` é protegida - apenas usuários autenticados podem acessar
+
+5. **SEO**: As mudanças nos títulos afetam o SEO das páginas de categoria e da home
 
 ## 🔍 Troubleshooting
 
@@ -193,8 +241,20 @@ const CATEGORIAS_DEFAULT = {
 **Solução**:
 - Verifique se está editando a categoria correta
 - Para transfers, edite a seção "Transfers e Traslados"
+- Para destaques, edite a seção "Pacotes em Destaque (Home)"
 - Verifique o console para erros
+
+### Problema: Descrição não aparece na Home
+
+**Solução**:
+- Verifique se salvou a descrição na seção "Pacotes em Destaque (Home)"
+- Verifique se o campo `descricao` foi preenchido
+- Limpe o cache do navegador
 
 ## 🎉 Conclusão
 
-A funcionalidade está pronta para uso! O administrador agora pode personalizar os títulos e descrições das páginas de categoria de forma simples e intuitiva, sem precisar modificar código.
+A funcionalidade está pronta para uso! O administrador agora pode personalizar:
+- Títulos e descrições das páginas de categoria
+- Título e descrição da seção de destaques na home
+
+Tudo de forma simples e intuitiva, sem precisar modificar código.

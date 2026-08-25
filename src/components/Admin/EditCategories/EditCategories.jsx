@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import "./EditCategories.css";
-import { FiSave, FiChevronDown, FiPackage, FiMapPin, FiSettings, FiArrowLeft } from "react-icons/fi";
+import { FiSave, FiChevronDown, FiPackage, FiMapPin, FiSettings, FiArrowLeft, FiStar } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 // Estado inicial das categorias
@@ -30,6 +30,10 @@ const initialCategoriesData = {
   beach_park: {
     nome: "Beach Park",
     descricao: "O maior parque aquático da América Latina"
+  },
+  destaques_home: {
+    titulo: "Pacotes em Destaque",
+    descricao: "Os melhores pacotes selecionados especialmente para você"
   }
 };
 
@@ -43,7 +47,8 @@ const EditCategories = () => {
   const [expandedSections, setExpandedSections] = useState({
     passeio: true,
     transfer: true,
-    beach_park: true
+    beach_park: true,
+    destaques: true
   });
 
   const toggleSection = (section) => {
@@ -283,6 +288,52 @@ const EditCategories = () => {
                   placeholder="O maior parque aquático da América Latina"
                   required
                 />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Seção Destaques Home */}
+        <div className="form-section">
+          <div 
+            className="section-with-icon" 
+            onClick={() => toggleSection('destaques')}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="section-icon"><FiStar /></div>
+            <h3>Pacotes em Destaque (Home)</h3>
+            <FiChevronDown 
+              style={{ 
+                marginLeft: 'auto', 
+                transition: 'transform 0.3s',
+                transform: expandedSections.destaques ? 'rotate(180deg)' : 'rotate(0deg)'
+              }} 
+            />
+          </div>
+          
+          {expandedSections.destaques && (
+            <div className="form-group">
+              <div className="form-field">
+                <label>Título da Seção de Destaques</label>
+                <input
+                  type="text"
+                  value={categoriesData.destaques_home?.titulo || ""}
+                  onChange={(e) => updateCategoryField("destaques_home", "titulo", e.target.value)}
+                  placeholder="Pacotes em Destaque"
+                  required
+                />
+                <small className="form-hint">Este título aparece na seção de destaques da página inicial</small>
+              </div>
+              <div className="form-field">
+                <label>Descrição da Seção de Destaques</label>
+                <textarea
+                  value={categoriesData.destaques_home?.descricao || ""}
+                  onChange={(e) => updateCategoryField("destaques_home", "descricao", e.target.value)}
+                  rows="3"
+                  placeholder="Os melhores pacotes selecionados especialmente para você"
+                  required
+                />
+                <small className="form-hint">Esta descrição aparece abaixo do título na seção de destaques</small>
               </div>
             </div>
           )}
