@@ -282,10 +282,7 @@
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 1rem 0;
-  background: linear-gradient(135deg, var(--pdp-text) 0%, var(--pdp-primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--pdp-primary);
 }
 
 .pdp-subtitle {
@@ -462,10 +459,7 @@
 .pdp-price-value {
   font-size: 3.5rem;
   font-weight: 900;
-  background: linear-gradient(135deg, var(--pdp-primary) 0%, var(--pdp-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--pdp-primary);
 }
 
 .pdp-price-discount {

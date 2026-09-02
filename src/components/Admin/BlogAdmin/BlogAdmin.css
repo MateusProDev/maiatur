@@ -63,10 +63,7 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 2rem;
-  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #EE7C35;
 }
 
 .btn-primary {
@@ -375,10 +372,7 @@
 
 .editor-header h2 {
   font-size: 1.75rem;
-  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #EE7C35;
 }
 
 .editor-actions {

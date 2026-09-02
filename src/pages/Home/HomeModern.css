@@ -92,10 +92,7 @@
 
 .gradient-text {
   display: block;
-  background: linear-gradient(90deg, #fff 0%, #f093fb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #EE7C35;
 }
 
 .hero-description {
@@ -246,10 +243,7 @@
 .stat-number {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #EE7C35;
   margin: 0;
 }
 
@@ -414,10 +408,7 @@
 .price-current {
   font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #EE7C35;
 }
 
 .btn-package-details {

@@ -239,10 +239,7 @@
 .related-posts h3 {
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #21A657 0%, #78C8E5 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #EE7C35;
 }
 
 .related-posts-grid {

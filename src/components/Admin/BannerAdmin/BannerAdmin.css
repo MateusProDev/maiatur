@@ -53,10 +53,7 @@
 /* Título com gradiente */
 .banner-admin-title {
   font-size: 1.8rem;
-  background: linear-gradient(90deg, #4361ee, #3a0ca3);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #EE7C35;
   margin-bottom: 2rem;
   display: flex;
   align-items: center;

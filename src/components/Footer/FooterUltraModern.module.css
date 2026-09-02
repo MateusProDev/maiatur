@@ -308,10 +308,7 @@
 .footer-logo-ultra h2 {
   font-size: clamp(24px, 3vw, 32px);
   font-weight: 800;
-  background: linear-gradient(135deg, var(--footer-cyan), var(--footer-pink), var(--footer-blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #EE7C35;
   margin: 0;
   filter: brightness(1.2) contrast(1.1);
 }

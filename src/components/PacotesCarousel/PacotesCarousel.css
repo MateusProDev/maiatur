@@ -54,7 +54,7 @@
 .carousel-title {
   font-size: clamp(1.5rem, 3vw, 2rem) !important;
   font-weight: 700 !important;
-  color: var(--color-text-primary, #1a1a2e) !important;
+  color: #EE7C35 !important;
   margin: 0 !important;
   padding: 0 !important;
   display: flex !important;
@@ -62,10 +62,6 @@
   gap: 0.75rem !important;
   line-height: 1.2 !important;
   box-sizing: border-box !important;
-  background: linear-gradient(135deg, #1a1a2e 0%, #EE7C35 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
 }
 
 .carousel-title::before {
@@ -282,10 +278,7 @@
 .carousel-price-current {
   font-size: 1.4rem !important;
   font-weight: 800 !important;
-  background: linear-gradient(135deg, var(--color-primary, #21A657) 0%, var(--color-info, #78C8E5) 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
+  color: #EE7C35 !important;
   margin: 0 !important;
   padding: 0 !important;
   line-height: 1 !important;

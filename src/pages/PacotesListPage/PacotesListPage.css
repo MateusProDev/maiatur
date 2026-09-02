@@ -546,10 +546,7 @@
 .price-current {
   font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #21A657 0%, #78C8E5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #EE7C35;
 }
 
 .pacote-card-btn {

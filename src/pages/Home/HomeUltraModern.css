@@ -189,10 +189,7 @@
 
 .title-highlight {
   display: block;
-  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fff;
   text-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
 }
 
@@ -412,10 +409,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 50%, #21A657 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #EE7C35;
   position: relative;
   display: inline-block;
 }
@@ -663,10 +657,7 @@
 .price-value {
   font-size: 1.8rem;
   font-weight: 900;
-  background: var(--primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #EE7C35;
 }
 
 .pacote-cta {
@@ -853,12 +844,8 @@
 .servico-title {
   font-size: 1.05rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #EE7C35;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #EE7C35 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .servico-description {
