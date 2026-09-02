@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { FiSettings, FiSave } from 'react-icons/fi';
@@ -14,11 +14,7 @@ const AdminPacotesPage = () => {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    loadSettings();
-  }, []);
-
-  const loadSettings = async () => {
+  const loadSettings = useCallback(async () => {
     try {
       setLoading(true);
       const docRef = doc(db, 'content', 'pacotesPage');
@@ -36,7 +32,11 @@ const AdminPacotesPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [settings]);
+
+  useEffect(() => {
+    loadSettings();
+  }, [loadSettings]);
 
   const handleSave = async () => {
     try {
