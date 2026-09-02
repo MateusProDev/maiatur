@@ -616,10 +616,11 @@
   letter-spacing: 0.01em;
   word-wrap: break-word;
   word-break: break-word;
+  padding: 0.5rem 0;
 }
 
 .transfer-description p {
-  margin: 0 0 1em 0;
+  margin: 0;
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -633,7 +634,7 @@
 .transfer-description h2,
 .transfer-description h3,
 .transfer-description h4 {
-  margin: 0 0 0.5em 0;
+  margin: 0;
   line-height: 1.3;
   color: #1a1a1a;
   letter-spacing: -0.02em;
@@ -641,7 +642,7 @@
 
 .transfer-description ul,
 .transfer-description ol {
-  margin: 0 0 1em 0 !important;
+  margin: 0 !important;
   padding-left: 1.5rem !important;
   line-height: 1.7;
 }
@@ -653,7 +654,7 @@
 }
 
 .transfer-description p:last-child {
-  margin-bottom: 1em;
+  margin-bottom: 0;
 }
 
 .transfer-description img {
