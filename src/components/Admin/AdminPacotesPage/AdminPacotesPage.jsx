@@ -26,7 +26,7 @@ const AdminPacotesPage = () => {
         setSettings(prevSettings => ({ ...prevSettings, ...docSnap.data() }));
       } else {
         // Criar documento inicial com valores padrão
-        await setDoc(docRef, settings);
+        await setDoc(docRef, DEFAULT_SETTINGS);
       }
     } catch (error) {
       console.error('Erro ao carregar configurações:', error);
