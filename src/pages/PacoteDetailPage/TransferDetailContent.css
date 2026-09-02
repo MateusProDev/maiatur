@@ -609,7 +609,7 @@
 
 .transfer-description {
   color: #374151;
-  line-height: 1.1;
+  line-height: 0.9;
   font-size: 1.05rem;
   overflow-x: hidden;
   max-width: 100%;
@@ -643,15 +643,14 @@
 .transfer-description ul,
 .transfer-description ol {
   margin: 0 !important;
-  padding-left: 0 !important;
-  line-height: 1.1;
-  list-style: none !important;
+  padding-left: 1.5rem !important;
+  line-height: 0.9;
 }
 
 .transfer-description li {
   margin: 0 !important;
   padding: 0 !important;
-  line-height: 1.1;
+  line-height: 0.9;
 }
 
 .transfer-description p:last-child {
