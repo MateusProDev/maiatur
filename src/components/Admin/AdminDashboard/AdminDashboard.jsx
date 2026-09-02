@@ -312,6 +312,7 @@ const AdminDashboard = () => {
     { icon: FiShield, title: "Usuários", description: "Gerenciar acessos", path: "/admin/users", gradient: "from-blue-600 to-blue-700" },
     { icon: FiImage, title: "Banners Hero", description: "Editar carrossel principal", path: "/admin/banners", gradient: "from-gray-600 to-gray-700" },
     { icon: FiPackage, title: "Pacotes", description: "Gerenciar pacotes de viagem", path: "/admin/pacotes", gradient: "from-zinc-600 to-zinc-700" },
+    { icon: FiSettings, title: "Página Pacotes", description: "Editar textos da página de pacotes", path: "/admin/pacotes-page", gradient: "from-orange-500 to-orange-600" },
     { icon: FiSettings, title: "Reservas", description: "Gerenciar reservas online", path: "/admin/reservas", gradient: "from-neutral-600 to-neutral-700" },
     { icon: FiMessageSquare, title: "Blog", description: "Gerenciar posts do blog", path: "/admin/blog", gradient: "from-stone-600 to-stone-700" },
     { icon: FiLink, title: "Link in Bio", description: "Configure links para Instagram", path: "/admin/link-bio", gradient: "from-purple-600 to-pink-600" },
