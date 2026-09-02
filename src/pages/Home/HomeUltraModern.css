@@ -959,7 +959,7 @@
   box-shadow: 0 12px 30px rgba(238, 124, 53, 0.4);
 }
 
-.feature-text h4 {
+.feature-text h3 {
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -1119,7 +1119,7 @@
   font-weight: 700;
 }
 
-.author-info h4 {
+.author-info h3 {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);

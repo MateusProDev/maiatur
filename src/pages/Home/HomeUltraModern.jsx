@@ -43,6 +43,11 @@ const HomeUltraModern = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [services, setServices] = useState([]);
+  const [servicesSectionData, setServicesSectionData] = useState({
+    badge: 'Experiências Personalizadas',
+    title: 'Nossos Serviços',
+    subtitle: 'Cada detalhe pensado para tornar sua viagem perfeita'
+  });
   const [differentials, setDifferentials] = useState([]);
   const [categoriasConfig, setCategoriasConfig] = useState({
     destinos_home: {
@@ -120,9 +125,25 @@ const HomeUltraModern = () => {
 
         // Buscar Serviços do Firestore
         const servicesDoc = await getDoc(doc(db, 'content', 'servicesSection'));
-        if (servicesDoc.exists() && servicesDoc.data().services) {
-          setServices(servicesDoc.data().services);
-          console.log('✅ Serviços carregados do Firestore:', servicesDoc.data().services);
+        if (servicesDoc.exists()) {
+          const data = servicesDoc.data();
+          if (data.services) {
+            setServices(data.services);
+            console.log('✅ Serviços carregados do Firestore:', data.services);
+          }
+          // Carregar dados da seção (badge, title, subtitle)
+          if (data.badge || data.title || data.subtitle) {
+            setServicesSectionData({
+              badge: data.badge || 'Experiências Personalizadas',
+              title: data.title || 'Nossos Serviços',
+              subtitle: data.subtitle || 'Cada detalhe pensado para tornar sua viagem perfeita'
+            });
+            console.log('✅ Dados da seção de serviços carregados:', {
+              badge: data.badge,
+              title: data.title,
+              subtitle: data.subtitle
+            });
+          }
         } else {
           // Fallback para dados estáticos se não encontrar no Firestore
           setServices([
@@ -418,9 +439,9 @@ const HomeUltraModern = () => {
             <span className="section-badge">
               <FiMapPin /> Destinos em Destaque
             </span>
-            <h1 className="section-title-ultra">
+            <h2 className="section-title-ultra">
               {categoriasConfig.destinos_home?.titulo || "Escolha Sua Próxima Aventura"}
-            </h1>
+            </h2>
             <p className="section-description">
               {categoriasConfig.destinos_home?.descricao || "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"}
             </p>
@@ -473,14 +494,13 @@ const HomeUltraModern = () => {
         <div className="container-ultra">
           <div className="section-header-ultra center">
             <span className="section-badge">
-              <FiSun /> Nossos Serviços
+              <FiSun /> {servicesSectionData.title}
             </span>
             <h2 className="section-title-ultra">
-              Experiências
-              <span className="gradient-text"> Personalizadas</span>
+              {servicesSectionData.badge}
             </h2>
             <p className="section-description">
-              Cada detalhe pensado para tornar sua viagem perfeita
+              {servicesSectionData.subtitle}
             </p>
           </div>
 
@@ -558,7 +578,7 @@ const HomeUltraModern = () => {
                         {getIconComponent(feature.icon)}
                       </div>
                       <div className="feature-text">
-                        <h4>{feature.title}</h4>
+                        <h3>{feature.title}</h3>
                         <p>{feature.description}</p>
                       </div>
                     </div>
@@ -651,7 +671,7 @@ const HomeUltraModern = () => {
                         {avaliacao.nomeCliente?.charAt(0) || 'C'}
                       </div>
                       <div className="author-info">
-                        <h4>{avaliacao.nomeCliente || 'Cliente Satisfeito'}</h4>
+                        <h3>{avaliacao.nomeCliente || 'Cliente Satisfeito'}</h3>
                         <p>{avaliacao.destino || 'Viajante Transfer Fortaleza Tur'}</p>
                       </div>
                     </div>
@@ -682,27 +702,6 @@ const HomeUltraModern = () => {
         <div className="cta-shapes">
           <div className="cta-shape cta-shape-1"></div>
           <div className="cta-shape cta-shape-2"></div>
-        </div>
-        
-        <div className="container-ultra">
-          <div className="cta-content-ultra">
-            <FiCamera className="cta-icon-large" />
-            <h2 className="cta-title-ultra">
-              Pronto para sua próxima aventura?
-            </h2>
-            <p className="cta-text-ultra">
-              Fale com nossos especialistas e monte o roteiro perfeito para você
-            </p>
-            <div className="cta-buttons-group">
-              <button onClick={() => handleWhatsApp()} className="btn-cta-whatsapp">
-                <FaWhatsapp />
-                Chamar no WhatsApp
-              </button>
-              <Link to="/pacotes" className="btn-cta-explore">
-                Ver Pacotes
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
 

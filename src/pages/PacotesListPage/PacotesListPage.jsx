@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebaseConfig';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -20,6 +20,29 @@ const PacotesListPage = () => {
   const [filterCategoria, setFilterCategoria] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [pageSettings, setPageSettings] = useState({
+    heroTitle: 'Descubra seu Próximo Destino',
+    heroSubtitle: 'Pacotes exclusivos com os melhores preços e experiências inesquecíveis',
+    searchPlaceholder: 'Buscar destino, cidade, país...'
+  });
+
+  // Carregar configurações da página do Firebase
+  useEffect(() => {
+    const loadPageSettings = async () => {
+      try {
+        const docRef = doc(db, 'content', 'pacotesPage');
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          setPageSettings(prevSettings => ({ ...prevSettings, ...docSnap.data() }));
+        }
+      } catch (error) {
+        console.error('Erro ao carregar configurações da página:', error);
+      }
+    };
+
+    loadPageSettings();
+  }, []);
 
   // Busca inicial dos pacotes do Firebase (executa apenas uma vez)
   useEffect(() => {
@@ -185,10 +208,10 @@ const PacotesListPage = () => {
         <div className="pacotes-hero-bg"></div>
         <div className="pacotes-hero-content">
           <h1 className="pacotes-hero-title">
-            Descubra seu Próximo Destino
+            {pageSettings.heroTitle}
           </h1>
           <p className="pacotes-hero-subtitle">
-            Pacotes exclusivos com os melhores preços e experiências inesquecíveis
+            {pageSettings.heroSubtitle}
           </p>
           
           {/* Search Bar */}
@@ -196,7 +219,7 @@ const PacotesListPage = () => {
             <FiSearch className="search-icon" />
             <input
               type="text"
-              placeholder="Buscar destino, cidade, país..."
+              placeholder={pageSettings.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"

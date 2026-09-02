@@ -30,7 +30,7 @@ const SEOHelmet = ({
   // Build canonical safely
   let fullCanonical = '';
   try {
-    if (canonical && typeof canonical === 'string') {
+    if (canonical && typeof canonical === 'string' && canonical.trim() !== '') {
       fullCanonical = canonical.startsWith('http') ? canonical : `${baseUrl}${canonical}`;
     } else if (typeof window !== 'undefined' && window.location) {
       fullCanonical = window.location.href;
