@@ -4,12 +4,14 @@ import { db } from '../../../firebase/firebase';
 import { FiSettings, FiSave } from 'react-icons/fi';
 import './AdminPacotesPage.css';
 
+const DEFAULT_SETTINGS = {
+  heroTitle: 'Descubra seu Próximo Destino',
+  heroSubtitle: 'Pacotes exclusivos com os melhores preços e experiências inesquecíveis',
+  searchPlaceholder: 'Buscar destino, cidade, país...'
+};
+
 const AdminPacotesPage = () => {
-  const [settings, setSettings] = useState({
-    heroTitle: 'Descubra seu Próximo Destino',
-    heroSubtitle: 'Pacotes exclusivos com os melhores preços e experiências inesquecíveis',
-    searchPlaceholder: 'Buscar destino, cidade, país...'
-  });
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -32,7 +34,7 @@ const AdminPacotesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [settings]);
+  }, []);
 
   useEffect(() => {
     loadSettings();
