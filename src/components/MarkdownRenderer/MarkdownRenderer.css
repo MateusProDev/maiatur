@@ -5,7 +5,7 @@
 }
 
 .markdown-content {
-  line-height: 1.7;
+  line-height: 1.1;
   color: inherit;
   overflow-x: hidden;
   overflow-wrap: break-word;
@@ -37,7 +37,7 @@
 
 .markdown-content p {
   margin: 0;
-  line-height: 1.7;
+  line-height: 1.1;
 }
 
 .markdown-content p:empty,
@@ -49,15 +49,16 @@
 .markdown-content ul,
 .markdown-content ol {
   margin: 0 !important;
-  padding-left: 1.5rem !important;
+  padding-left: 0 !important;
   max-width: 100%;
   overflow-x: hidden;
+  list-style: none !important;
 }
 
 .markdown-content li {
   margin: 0 !important;
   padding: 0 !important;
-  line-height: 1.7;
+  line-height: 1.1;
 }
 
 .markdown-content blockquote {
