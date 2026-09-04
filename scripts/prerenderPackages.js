@@ -249,47 +249,52 @@ async function runPrerender(validPackages) {
 
       console.log(`[prerender] visita ${route}`);
 
-      const response = await page.goto(url, {
-        waitUntil: 'networkidle2',
-        timeout: 120000
-      });
+      try {
+        const response = await page.goto(url, {
+          waitUntil: 'domcontentloaded',
+          timeout: 60000
+        });
 
-      if (!response || response.status() < 200 || response.status() >= 400) {
-        throw new Error(`[prerender] ${route} retornou status ${response ? response.status() : 'sem status'}`);
+        if (!response || response.status() < 200 || response.status() >= 400) {
+          throw new Error(`[prerender] ${route} retornou status ${response ? response.status() : 'sem status'}`);
+        }
+
+        await page.locator('h1').wait({ state: 'attached', timeout: 15000 });
+        await page.locator('body').wait({ state: 'attached', timeout: 15000 });
+
+        await page.waitForFunction(() => {
+          const heading = document.querySelector('h1');
+          const bodyText = document.body ? document.body.innerText : '';
+          return Boolean(heading && bodyText && String(bodyText).trim().length > 80);
+        }, { timeout: 15000 });
+
+        const html = await page.evaluate(() => document.documentElement.outerHTML);
+
+        if (!html || !html.includes('<html')) {
+          throw new Error(`PRERENDER FAILED: /pacote/${slug} produced invalid HTML shell.`);
+        }
+
+        assertHtmlHasPackageContent(html, slug, pkg.title);
+
+        const outDir = path.join(BUILD_DIR, 'pacote', slug);
+        fs.mkdirSync(outDir, { recursive: true });
+        const outFile = path.join(outDir, 'index.html');
+        fs.writeFileSync(outFile, html, 'utf8');
+
+        const saved = fs.readFileSync(outFile, 'utf8');
+        const requiredText = [pkg.title, 'description'];
+        const hasData = requiredText.every((v) => saved.toLowerCase().includes(String(v).toLowerCase())) || saved.includes('transfer') || saved.includes('passeio');
+
+        if (!hasData) {
+          throw new Error(`PRERENDER FAILED: /pacote/${slug} did not contain package content in generated HTML.`);
+        }
+
+        generated += 1;
+        console.log(`[prerender] ok ${route} -> ${outFile}`);
+      } catch (error) {
+        failed.push(`${route}: ${error.message}`);
+        console.error(`[prerender] falha em ${route}: ${error.message}`);
       }
-
-      await page.locator('h1').wait({ state: 'attached', timeout: 15000 });
-      await page.locator('body').wait({ state: 'attached', timeout: 15000 });
-
-      await page.waitForFunction(() => {
-        const heading = document.querySelector('h1');
-        const bodyText = document.body ? document.body.innerText : '';
-        return Boolean(heading && bodyText && String(bodyText).trim().length > 80);
-      }, { timeout: 15000 });
-
-      const html = await page.evaluate(() => document.documentElement.outerHTML);
-
-      if (!html || !html.includes('<html')) {
-        throw new Error(`PRERENDER FAILED: /pacote/${slug} produced invalid HTML shell.`);
-      }
-
-      assertHtmlHasPackageContent(html, slug, pkg.title);
-
-      const outDir = path.join(BUILD_DIR, 'pacote', slug);
-      fs.mkdirSync(outDir, { recursive: true });
-      const outFile = path.join(outDir, 'index.html');
-      fs.writeFileSync(outFile, html, 'utf8');
-
-      const saved = fs.readFileSync(outFile, 'utf8');
-      const requiredText = [pkg.title, 'description'];
-      const hasData = requiredText.every((v) => saved.toLowerCase().includes(String(v).toLowerCase())) || saved.includes('transfer') || saved.includes('passeio');
-
-      if (!hasData) {
-        throw new Error(`PRERENDER FAILED: /pacote/${slug} did not contain package content in generated HTML.`);
-      }
-
-      generated += 1;
-      console.log(`[prerender] ok ${route} -> ${outFile}`);
     }
   } catch (error) {
     console.error('[prerender] erro no prerender:', error.message);

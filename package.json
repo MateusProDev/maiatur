@@ -64,10 +64,12 @@
   },
   "scripts": {
     "start": "craco start",
+    "lint": "eslint src scripts --ext .js,.jsx,.ts,.tsx",
     "type-check": "tsc --noEmit -p tsconfig.json",
     "build": "craco build",
     "build:full": "craco build",
     "prerender": "node scripts/prerenderPackages.js && node scripts/prerenderHome.js && node scripts/prerenderInstitutional.js",
+    "diagnose": "node scripts/diagnoseBuild.js",
     "prerender-home": "node scripts/prerenderHome.js",
     "prerender-institutional": "node scripts/prerenderInstitutional.js",
     "test": "craco test",
