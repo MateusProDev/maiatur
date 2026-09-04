@@ -3,7 +3,7 @@ import { FaShieldAlt, FaLock, FaCreditCard } from 'react-icons/fa';
 import { SiVisa, SiMastercard, SiAmericanexpress } from 'react-icons/si';
 import './PaymentSecuritySection.css';
 
-const PaymentSecuritySection = ({ pagamentoSeguranca = {} }) => {
+const PaymentSecuritySection = ({ pagamentoSeguranca = {}, showTitle = true }) => {
   const { bandeiras = [], seloSeguranca, textoSeguranca } = pagamentoSeguranca;
 
   if (!bandeiras.length && !seloSeguranca && !textoSeguranca) {
@@ -25,12 +25,14 @@ const PaymentSecuritySection = ({ pagamentoSeguranca = {} }) => {
 
   return (
     <div className="payment-security-section">
-      <div className="payment-security-header">
-        <h2 className="payment-security-title">
-          <FaShieldAlt className="payment-security-icon" />
-          Pagamento e Segurança
-        </h2>
-      </div>
+      {showTitle && (
+        <div className="payment-security-header">
+          <h2 className="payment-security-title">
+            <FaShieldAlt className="payment-security-icon" />
+            Pagamento e Segurança
+          </h2>
+        </div>
+      )}
 
       <div className="payment-security-content">
         {/* Bandeiras de pagamento */}

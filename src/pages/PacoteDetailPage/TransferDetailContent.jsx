@@ -312,7 +312,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {(vantagens && vantagens.length > 0) || (destaques && destaques.length > 0) ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">{tipo === 'transfer' ? 'Vantagens' : 'O que está incluído'}</h2>
-          <AdvantagesList vantagens={vantagens || destaques} />
+          <AdvantagesList vantagens={vantagens || destaques} showTitle={false} />
         </div>
       ) : null}
 
@@ -320,7 +320,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {veiculos && veiculos.length > 0 ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">Veículos Disponíveis</h2>
-          <VehicleGallery veiculos={veiculos} />
+          <VehicleGallery veiculos={veiculos} showTitle={false} />
         </div>
       ) : null}
 
@@ -328,7 +328,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {locaisAtendidos && locaisAtendidos.length > 0 ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">Locais Atendidos</h2>
-          <ServiceAreas locais={locaisAtendidos} />
+          <ServiceAreas locais={locaisAtendidos} showTitle={false} />
         </div>
       ) : null}
 
@@ -336,7 +336,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {comodidades && comodidades.length > 0 ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">Comodidades</h2>
-          <AmenitiesList comodidades={comodidades} />
+          <AmenitiesList comodidades={comodidades} showTitle={false} />
         </div>
       ) : null}
 
@@ -344,7 +344,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {passosReserva && passosReserva.length > 0 ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">Como Funciona a Reserva</h2>
-          <BookingSteps passos={passosReserva} />
+          <BookingSteps passos={passosReserva} showTitle={false} />
         </div>
       ) : null}
 
@@ -352,7 +352,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {localizacao && (localizacao.descricao || localizacao.imagemMapa || localizacao.coordenadas) ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">Localização do Destino</h2>
-          <LocationMap localizacao={localizacao} />
+          <LocationMap localizacao={localizacao} showTitle={false} />
         </div>
       ) : null}
 
@@ -360,7 +360,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {pagamentoSeguranca && (pagamentoSeguranca.bandeiras?.length > 0 || pagamentoSeguranca.seloSeguranca || pagamentoSeguranca.textoSeguranca) ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">Pagamento e Segurança</h2>
-          <PaymentSecuritySection pagamentoSeguranca={pagamentoSeguranca} />
+          <PaymentSecuritySection pagamentoSeguranca={pagamentoSeguranca} showTitle={false} />
         </div>
       ) : null}
 
@@ -368,7 +368,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
       {faq && faq.length > 0 ? (
         <div className="transfer-section">
           <h2 className="transfer-section-title">Perguntas Frequentes</h2>
-          <FAQSection faq={faq} />
+          <FAQSection faq={faq} showTitle={false} />
         </div>
       ) : null}
 

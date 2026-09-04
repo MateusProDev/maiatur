@@ -8,14 +8,14 @@ import './VehicleGallery.css';
  * Exibe galeria de veículos disponíveis para transfer
  * Responsivo: 1 coluna mobile, 2 colunas tablet, 3 colunas desktop
  */
-const VehicleGallery = ({ veiculos = [] }) => {
+const VehicleGallery = ({ veiculos = [], showTitle = true }) => {
   if (!veiculos || veiculos.length === 0) {
     return null;
   }
 
   return (
     <div className="vehicle-gallery">
-      <h2 className="vehicle-gallery-title">Nossa Frota</h2>
+      {showTitle && <h2 className="vehicle-gallery-title">Nossa Frota</h2>}
       <div className="vehicle-gallery-grid">
         {veiculos.map((veiculo, index) => (
           <div key={index} className="vehicle-card">

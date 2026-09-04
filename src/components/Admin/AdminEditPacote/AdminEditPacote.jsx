@@ -25,6 +25,11 @@ const AdminEditPacote = () => {
   const [allPackages, setAllPackages] = useState([]);
   const [pacote, setPacote] = useState({
     titulo: '',
+    seo: {
+      metaTitle: '',
+      metaDescription: '',
+      keywords: ''
+    },
     descricao: '',
     descricaoCurta: '',
     preco: 0,
@@ -334,6 +339,38 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
             onChange={handleChange}
             required
           />
+        </div>
+
+        <div className="form-section">
+          <h3>SEO do Pacote</h3>
+          <div className="form-group">
+            <label>Meta title</label>
+            <input
+              type="text"
+              value={pacote.seo?.metaTitle || ''}
+              onChange={(e) => handleNestedChange('seo', 'metaTitle', e.target.value)}
+              placeholder={`${pacote.titulo || 'Título do pacote'} - Transfer Fortaleza Tur`}
+              maxLength="60"
+            />
+          </div>
+          <div className="form-group">
+            <label>Meta description</label>
+            <textarea
+              value={pacote.seo?.metaDescription || ''}
+              onChange={(e) => handleNestedChange('seo', 'metaDescription', e.target.value)}
+              rows="3"
+              maxLength="160"
+            />
+          </div>
+          <div className="form-group">
+            <label>Meta keywords</label>
+            <input
+              type="text"
+              value={pacote.seo?.keywords || ''}
+              onChange={(e) => handleNestedChange('seo', 'keywords', e.target.value)}
+              placeholder="Separe as palavras-chave por vírgula"
+            />
+          </div>
         </div>
 
         {/* Pacotes Recomendados */}

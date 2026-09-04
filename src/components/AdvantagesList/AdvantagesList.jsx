@@ -7,7 +7,7 @@ import './AdvantagesList.css';
  * Exibe vantagens do serviço em grid de cards
  * Com ícones grandes e destaque visual
  */
-const AdvantagesList = ({ vantagens = [] }) => {
+const AdvantagesList = ({ vantagens = [], showTitle = true }) => {
   if (!vantagens || vantagens.length === 0) {
     return null;
   }
@@ -25,7 +25,7 @@ const AdvantagesList = ({ vantagens = [] }) => {
 
   return (
     <div className="advantages-list">
-      <h2 className="advantages-list-title">Por Que Escolher Nosso Transfer</h2>
+      {showTitle && <h2 className="advantages-list-title">Por Que Escolher Nosso Transfer</h2>}
       <div className="advantages-grid">
         {vantagens.map((vantagem, index) => {
           const Icon = getIconForAdvantage(vantagem);

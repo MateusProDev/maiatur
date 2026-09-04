@@ -53,6 +53,11 @@ const AdminPacotes = () => {
   const { indexPacoteCreated, indexPacoteUpdated, indexPacoteDeleted } = useSEOIndexing();
   const [currentPacote, setCurrentPacote] = useState({
     titulo: "",
+    seo: {
+      metaTitle: "",
+      metaDescription: "",
+      keywords: ""
+    },
     descricao: "",
     descricaoCurta: "",
     categoria: "passeio", // Categoria principal
@@ -227,6 +232,11 @@ const AdminPacotes = () => {
     try {
       const pacoteData = {
         titulo: currentPacote.titulo,
+        seo: {
+          metaTitle: currentPacote.seo?.metaTitle || `${currentPacote.titulo} - Transfer Fortaleza Tur`,
+          metaDescription: currentPacote.seo?.metaDescription || '',
+          keywords: currentPacote.seo?.keywords || ''
+        },
         descricao: currentPacote.descricao || '',
         descricaoCurta: currentPacote.descricaoCurta || '',
         categoria: currentPacote.categoria || 'passeio',
@@ -295,6 +305,11 @@ const AdminPacotes = () => {
       // Resetar formulário
       setCurrentPacote({
         titulo: "",
+        seo: {
+          metaTitle: "",
+          metaDescription: "",
+          keywords: ""
+        },
         descricao: "",
         descricaoCurta: "",
         categoria: "passeio",
@@ -502,6 +517,11 @@ const AdminPacotes = () => {
     console.log('📦 Tipo do pacote:', pacote.tipo);
     const updatedPacote = {
       ...pacote,
+      seo: {
+        metaTitle: pacote.seo?.metaTitle || `${pacote.titulo} - Transfer Fortaleza Tur`,
+        metaDescription: pacote.seo?.metaDescription || '',
+        keywords: pacote.seo?.keywords || ''
+      },
       categorias: pacote.categorias || [], // Carregar categorias múltiplas
       preco: Number(pacote.preco) || 0,
       mostrarPreco: pacote.mostrarPreco === true,
@@ -913,6 +933,48 @@ const AdminPacotes = () => {
                 multiline
                 rows={2}
               />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+                  SEO do pacote
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 2, color: '#64748b' }}>
+                  Deixe o meta title vazio para usar automaticamente: título do pacote - Transfer Fortaleza Tur.
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Meta title"
+                      value={currentPacote.seo?.metaTitle || ''}
+                      onChange={(e) => handleNestedChange('seo', 'metaTitle', e.target.value)}
+                      inputProps={{ maxLength: 60 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Meta description"
+                      value={currentPacote.seo?.metaDescription || ''}
+                      onChange={(e) => handleNestedChange('seo', 'metaDescription', e.target.value)}
+                      multiline
+                      rows={3}
+                      inputProps={{ maxLength: 160 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Meta keywords"
+                      value={currentPacote.seo?.keywords || ''}
+                      onChange={(e) => handleNestedChange('seo', 'keywords', e.target.value)}
+                      helperText="Separe as palavras-chave por vírgula."
+                    />
+                  </Grid>
+                </Grid>
+              </Paper>
             </Grid>
             
             <Grid item xs={12}>

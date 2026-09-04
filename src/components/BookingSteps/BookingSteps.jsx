@@ -6,14 +6,14 @@ import './BookingSteps.css';
  * Exibe passos para reserva em formato timeline
  * Layout horizontal desktop, vertical mobile
  */
-const BookingSteps = ({ passos = [] }) => {
+const BookingSteps = ({ passos = [], showTitle = true }) => {
   if (!passos || passos.length === 0) {
     return null;
   }
 
   return (
     <div className="booking-steps">
-      <h2 className="booking-steps-title">Como Funciona a Reserva</h2>
+      {showTitle && <h2 className="booking-steps-title">Como Funciona a Reserva</h2>}
       <div className="booking-steps-container">
         {passos.map((passo, index) => (
           <div key={index} className="step-item">

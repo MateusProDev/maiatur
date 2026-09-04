@@ -147,6 +147,24 @@ function assertHtmlHasPackageContent(html, slug, title) {
     throw new Error(`PRERENDER FAILED: /pacote/${slug} did not contain required package content in generated HTML. Missing: ${missing.join(', ')}`);
   }
 
+  const countMeta = (attribute, value) => {
+    const pattern = new RegExp(`<meta[^>]+${attribute}="${value}"[^>]*>`, 'gi');
+    return (html.match(pattern) || []).length;
+  };
+
+  const duplicateTags = [
+    ['property', 'og:title'],
+    ['property', 'og:description'],
+    ['property', 'og:image'],
+    ['name', 'twitter:title'],
+    ['name', 'twitter:description'],
+    ['name', 'twitter:image']
+  ].filter(([attribute, value]) => countMeta(attribute, value) > 1);
+
+  if (duplicateTags.length > 0) {
+    throw new Error(`PRERENDER FAILED: /pacote/${slug} generated duplicate social metadata: ${duplicateTags.map(([, value]) => value).join(', ')}`);
+  }
+
   return true;
 }
 

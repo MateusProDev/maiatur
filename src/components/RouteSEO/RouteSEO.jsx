@@ -1,7 +1,9 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { seoData } from '../../utils/seoData';
+import { db } from '../../firebase/firebase';
 
 /**
  * Route-level SEO defaults
@@ -11,6 +13,19 @@ import { seoData } from '../../utils/seoData';
 const RouteSEO = () => {
   const { pathname } = useLocation();
   const isPacoteDetailPage = /^\/pacote\/[^/]+\/?$/.test(pathname);
+  const [homeSeo, setHomeSeo] = useState(seoData.home);
+
+  useEffect(() => {
+    if (pathname !== '/' && pathname !== '') return;
+
+    getDoc(doc(db, 'content', 'homeSeo'))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setHomeSeo((current) => ({ ...current, ...snapshot.data() }));
+        }
+      })
+      .catch((error) => console.error('Erro ao carregar SEO da home:', error));
+  }, [pathname]);
 
   const seoInfo = useMemo(() => {
     if (isPacoteDetailPage) {
@@ -18,7 +33,7 @@ const RouteSEO = () => {
     }
 
     // Exact matches
-    if (pathname === '/' || pathname === '') return seoData.home || {};
+    if (pathname === '/' || pathname === '') return homeSeo || {};
     if (pathname.startsWith('/pacotes')) return seoData.pacotes || {};
     if (pathname.startsWith('/destinos')) return seoData.destinos || {};
     if (pathname.startsWith('/contato')) return seoData.contato || {};
@@ -44,7 +59,7 @@ const RouteSEO = () => {
       description: seoData.home?.description || '',
       canonical: pathname
     };
-  }, [pathname, isPacoteDetailPage]);
+  }, [pathname, isPacoteDetailPage, homeSeo]);
 
   // Immediate DOM fallback: write title and meta description synchronously
   useEffect(() => {
@@ -83,6 +98,7 @@ const RouteSEO = () => {
     <SEOHelmet
       title={seoInfo.title}
       description={seoInfo.description}
+      keywords={seoInfo.keywords}
       canonical={canonical}
       noindex={seoInfo.noindex}
     />

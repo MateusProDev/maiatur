@@ -5,8 +5,8 @@
 
 export const seoData = {
   home: {
-    title: 'Transfer Fortaleza Tur | Transfers Aeroporto, Passeios e Pacotes em Fortaleza',
-    description: 'Agência de turismo em Fortaleza especializada em transfers do aeroporto, passeios privativos para Beach Park, Jericoacoara, Cumbuco e Canoa Quebrada. Reserve online com segurança, conforto e melhor preço.',
+    title: 'Transfer Fortaleza Tur | Translados Aeroporto, Passeios e Pacotes',
+    description: 'Agência de turismo receptivo em Fortaleza especializada em transfer do aeroporto, passeios para Beach Park, Jeri, Cumbuco, Canoa Quebrada e outros destinos. Reserve seu privativo com melhor preço.',
     canonical: '/'
   },
   

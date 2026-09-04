@@ -7,14 +7,14 @@ import './ServiceAreas.css';
  * Exibe lista de locais atendidos pelo transfer
  * Responsivo com grid layout
  */
-const ServiceAreas = ({ locais = [] }) => {
+const ServiceAreas = ({ locais = [], showTitle = true }) => {
   if (!locais || locais.length === 0) {
     return null;
   }
 
   return (
     <div className="service-areas">
-      <h2 className="service-areas-title">Locais Atendidos</h2>
+      {showTitle && <h2 className="service-areas-title">Locais Atendidos</h2>}
       <div className="service-areas-grid">
         {locais.map((local, index) => (
           <div key={index} className="service-area-item">

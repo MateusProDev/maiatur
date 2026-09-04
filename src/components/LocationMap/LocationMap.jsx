@@ -8,7 +8,7 @@ import './LocationMap.css';
  * Componente LocationMap
  * Exibe mapa e descrição do destino do transfer
  */
-const LocationMap = ({ localizacao = {} }) => {
+const LocationMap = ({ localizacao = {}, showTitle = true }) => {
   const { descricao, imagemMapa, coordenadas } = localizacao;
 
   // Verifica se é um link de mapa (Google Maps, Bing Maps, etc.)
@@ -94,10 +94,12 @@ const LocationMap = ({ localizacao = {} }) => {
 
   return (
     <div className="location-map-section">
-      <h2 className="location-map-title">
-        <FiMapPin className="location-map-title-icon" />
-        Localização do Destino
-      </h2>
+      {showTitle && (
+        <h2 className="location-map-title">
+          <FiMapPin className="location-map-title-icon" />
+          Localização do Destino
+        </h2>
+      )}
       
       {descricao && (
         <p className="location-map-description">{descricao}</p>

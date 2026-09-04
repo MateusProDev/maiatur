@@ -40,7 +40,7 @@ const HomeFAQSection = () => {
             <p className="home-faq-subtitle">{faqData.subtitle}</p>
           )}
         </div>
-        <FAQSection faq={faqData.faq} />
+        <FAQSection faq={faqData.faq} showTitle={false} />
       </div>
     </section>
   );

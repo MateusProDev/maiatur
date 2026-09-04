@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet-async';
 const SEOHelmet = ({
   title = '',
   description = '',
+  keywords = '',
   canonical = '',
   ogImage = 'https://res.cloudinary.com/dqejvdl8w/image/upload/v1762465385/logos/cz00p4dxeday83oadkwz.png',
   ogType = 'website',
@@ -21,6 +22,7 @@ const SEOHelmet = ({
   // Safe handlers for missing props
   const safeTitle = String(title || '').trim();
   const safeDescription = String(description || '').trim();
+  const safeKeywords = String(keywords || '').trim();
 
   // Build fullTitle: avoid duplicating brand
   const fullTitle = safeTitle
@@ -174,6 +176,7 @@ const SEOHelmet = ({
     <Helmet>
       <title>{fullTitle}</title>
       {safeDescription && <meta name="description" content={safeDescription} />}
+      {safeKeywords && <meta name="keywords" content={safeKeywords} />}
       {fullCanonical && <link rel="canonical" href={fullCanonical} />}
 
       {/* Open Graph */}

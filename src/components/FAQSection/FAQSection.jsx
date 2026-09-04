@@ -7,7 +7,7 @@ import './FAQSection.css';
  * Exibe perguntas e respostas em formato accordion
  * Suporta Schema Markup para FAQPage (rich snippets)
  */
-const FAQSection = ({ faq = [] }) => {
+const FAQSection = ({ faq = [], showTitle = true }) => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFAQ = (index) => {
@@ -44,7 +44,7 @@ const FAQSection = ({ faq = [] }) => {
       </script>
 
       <div className="faq-section">
-        <h2 className="faq-section-title">Perguntas Frequentes</h2>
+        {showTitle && <h2 className="faq-section-title">Perguntas Frequentes</h2>}
         <div className="faq-list">
           {faq.map((item, index) => (
             <div key={index} className="faq-item">

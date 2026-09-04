@@ -25,6 +25,11 @@ const PacoteDetailPage = () => {
     return {
       id: doc.id,
       titulo: data.titulo || '',
+      seo: {
+        metaTitle: data.seo?.metaTitle || '',
+        metaDescription: data.seo?.metaDescription || '',
+        keywords: data.seo?.keywords || ''
+      },
       descricao: data.descricao || '',
       descricaoCurta: data.descricaoCurta || '',
       preco: parseFloat(data.preco) || 0,
@@ -177,10 +182,11 @@ const PacoteDetailPage = () => {
   return (
     <>
       <SEOHelmet
-        title={`${pacote.titulo} | ${pacote.tipo === 'transfer' ? 'Transfer Fortaleza' : 'Passeios em Fortaleza'}`}
-        description={pacote.descricaoCurta || pacote.descricao?.substring(0, 160)}
+        title={pacote.seo?.metaTitle || `${pacote.titulo} - Transfer Fortaleza Tur`}
+        description={pacote.seo?.metaDescription || pacote.descricaoCurta || pacote.descricao?.substring(0, 160)}
+        keywords={pacote.seo?.keywords}
         canonical={`/pacote/${pacoteSlug}`}
-        ogImage={pacote.imagens?.[0]}
+        ogImage={pacote.imagens?.[0] || null}
         ogType={pacote.tipo === 'transfer' ? 'service' : 'product'}
         pacote={pacote}
       />

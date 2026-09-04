@@ -7,7 +7,7 @@ import './AmenitiesList.css';
  * Exibe lista de comodidades com ícones
  * Formato de badges/cards
  */
-const AmenitiesList = ({ comodidades = [] }) => {
+const AmenitiesList = ({ comodidades = [], showTitle = true }) => {
   if (!comodidades || comodidades.length === 0) {
     return null;
   }
@@ -25,7 +25,7 @@ const AmenitiesList = ({ comodidades = [] }) => {
 
   return (
     <div className="amenities-list">
-      <h2 className="amenities-list-title">Comodidades</h2>
+      {showTitle && <h2 className="amenities-list-title">Comodidades</h2>}
       <div className="amenities-grid">
         {comodidades.map((comodidade, index) => {
           const Icon = getIconForAmenity(comodidade);

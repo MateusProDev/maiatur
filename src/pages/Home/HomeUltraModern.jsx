@@ -71,6 +71,7 @@ const HomeUltraModern = () => {
     speed: 50,
     images: []
   });
+  const [homeSeo, setHomeSeo] = useState(seoData.home);
 
   const categorias = {
     'passeio': 'Passeios e Experiências',
@@ -100,6 +101,11 @@ const HomeUltraModern = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const homeSeoDoc = await getDoc(doc(db, 'content', 'homeSeo'));
+        if (homeSeoDoc.exists()) {
+          setHomeSeo({ ...seoData.home, ...homeSeoDoc.data() });
+        }
+
         // Otimização: Verificar cache primeiro para pacotes
         const cacheKey = 'home_pacotes_data';
         const cachedData = localStorage.getItem(cacheKey);
@@ -370,9 +376,9 @@ const HomeUltraModern = () => {
   // Ensure document title and meta description for home (fallback if Helmet not applied fast enough)
   useEffect(() => {
     try {
-      const fullTitle = seoData.home.title ? (seoData.home.title.includes('Transfer Fortaleza Tur') ? seoData.home.title : `${seoData.home.title} | Transfer Fortaleza Tur`) : 'Transfer Fortaleza Tur';
+      const fullTitle = homeSeo.title ? (homeSeo.title.includes('Transfer Fortaleza Tur') ? homeSeo.title : `${homeSeo.title} | Transfer Fortaleza Tur`) : 'Transfer Fortaleza Tur';
       document.title = fullTitle;
-      const desc = seoData.home.description || '';
+      const desc = homeSeo.description || '';
       let meta = document.querySelector('meta[name="description"]');
       if (!meta) {
         meta = document.createElement('meta');
@@ -383,7 +389,7 @@ const HomeUltraModern = () => {
     } catch (e) {
       // noop
     }
-  }, []);
+  }, [homeSeo]);
 
   // Auto-play testimonials
   useEffect(() => {
@@ -418,9 +424,10 @@ const HomeUltraModern = () => {
   return (
     <div className="home-ultra-modern">
       <SEOHelmet 
-        title={seoData.home.title}
-        description={seoData.home.description}
-        canonical={seoData.home.canonical}
+        title={homeSeo.title}
+        description={homeSeo.description}
+        keywords={homeSeo.keywords}
+        canonical={homeSeo.canonical}
         ogType="website"
       />
 
