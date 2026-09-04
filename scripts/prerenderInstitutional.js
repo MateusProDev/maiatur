@@ -147,8 +147,8 @@ async function runPrerenderInstitutional() {
 
         // Configurar timeout maior para carregar todos os dados
         const response = await page.goto(url, {
-          waitUntil: 'networkidle2',
-          timeout: 180000
+          waitUntil: 'domcontentloaded',
+          timeout: 60000
         });
 
         if (!response || response.status() < 200 || response.status() >= 400) {
@@ -165,7 +165,7 @@ async function runPrerenderInstitutional() {
         }, { timeout: 30000 });
 
         // Esperar um pouco mais para garantir que dados carregaram
-        await page.waitForTimeout(2000);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         const html = await page.evaluate(() => document.documentElement.outerHTML);
 

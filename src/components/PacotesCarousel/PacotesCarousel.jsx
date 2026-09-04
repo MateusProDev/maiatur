@@ -229,7 +229,7 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
                 <div className="carousel-card-image">
                   <img 
                     src={autoOptimize(imagemUrl, 'packageCard')} 
-                    alt={pacote.titulo}
+                    alt={pacote.imagensAlt?.[0] || pacote.titulo || 'Imagem do pacote'}
                     loading="lazy"
                     width="600"
                     height="400"

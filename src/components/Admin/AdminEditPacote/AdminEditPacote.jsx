@@ -35,6 +35,7 @@ const AdminEditPacote = () => {
     preco: 0,
     precoOriginal: 0,
     imagens: [],
+    imagensAlt: [],
     tipo: 'passeio', // Default to passeio
     destino: '',
     tempoPercurso: '',
@@ -71,7 +72,7 @@ const AdminEditPacote = () => {
               veiculos: data.veiculos?.length,
               vantagens: data.vantagens?.length
             });
-            setPacote(data);
+            setPacote({ ...data, imagens: data.imagens || [], imagensAlt: (data.imagens || []).map((_, index) => data.imagensAlt?.[index] || '') });
           }
         } catch (error) {
           console.error("Erro ao buscar pacote:", error);
@@ -233,7 +234,8 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
     if (files.length === 0) return;
 
     setUploading(true);
-    const newImages = [...pacote.imagens];
+    const newImages = [...(pacote.imagens || [])];
+    const newImagesAlt = [...(pacote.imagensAlt || [])];
     
     try {
       for (const file of files) {
@@ -241,8 +243,9 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
         newImages.push(downloadURL);
+        newImagesAlt.push('');
       }
-      setPacote(prev => ({ ...prev, imagens: newImages }));
+      setPacote(prev => ({ ...prev, imagens: newImages, imagensAlt: newImagesAlt }));
     } catch (error) {
       console.error("Erro ao fazer upload:", error);
       alert("Erro ao fazer upload das imagens");
@@ -254,7 +257,9 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
   const handleRemoveImage = (index) => {
     const newImages = [...pacote.imagens];
     newImages.splice(index, 1);
-    setPacote(prev => ({ ...prev, imagens: newImages }));
+    const newImagesAlt = [...(pacote.imagensAlt || [])];
+    newImagesAlt.splice(index, 1);
+    setPacote(prev => ({ ...prev, imagens: newImages, imagensAlt: newImagesAlt }));
   };
 
   const handleSubmit = async (e) => {
@@ -862,7 +867,16 @@ Liste aqui informações importantes sobre documentos, vacinas, clima, etc.`;
             <div className="images-preview">
               {pacote.imagens.map((img, index) => (
                 <div key={index} className="image-item">
-                  <img src={img} alt={`Preview ${index}`} />
+                  <img src={img} alt={pacote.imagensAlt?.[index] || `Imagem do pacote ${index + 1}`} />
+                  <input
+                    type="text"
+                    value={pacote.imagensAlt?.[index] || ''}
+                    onChange={(e) => setPacote(prev => ({
+                      ...prev,
+                      imagensAlt: (prev.imagensAlt || []).map((alt, altIndex) => altIndex === index ? e.target.value : alt)
+                    }))}
+                    placeholder="Texto alternativo da imagem"
+                  />
                   <button 
                     type="button" 
                     onClick={() => handleRemoveImage(index)}

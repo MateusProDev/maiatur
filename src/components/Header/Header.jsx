@@ -38,6 +38,7 @@ const cx = (cls) => {
 
 const Header = () => {
   const [logoUrl, setLogoUrl] = useState('');
+  const [logoAlt, setLogoAlt] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [scrolled, setScrolled] = useState(false);
@@ -55,6 +56,7 @@ const Header = () => {
         if (headerDoc.exists()) {
           const url = headerDoc.data().logoUrl;
           setLogoUrl(url);
+          setLogoAlt(headerDoc.data().logoAlt || '');
         }
 
         // Buscar número do WhatsApp
@@ -163,7 +165,7 @@ const Header = () => {
           {logoUrl ? (
             <img 
               src={autoOptimize(logoUrl, 'logo')} 
-              alt="Transfer Fortaleza Tur Logo"
+              alt={logoAlt || "Transfer Fortaleza Tur Logo"}
               width="50"
               height="50"
               loading="eager"

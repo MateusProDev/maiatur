@@ -105,7 +105,7 @@ const BannerCarousel = () => {
                 src={autoOptimize(banner.imagem, 'banner')} 
                 srcSet={generateCloudinarySrcset(banner.imagem, [640, 960, 1280, 1920])}
                 sizes="(max-width: 640px) 640px, (max-width: 960px) 960px, (max-width: 1280px) 1280px, 1920px"
-                alt={banner.titulo}
+                alt={banner.imagemAlt || banner.titulo || 'Imagem do banner'}
                 className="banner-image"
                 width="1920"
                 height="800"

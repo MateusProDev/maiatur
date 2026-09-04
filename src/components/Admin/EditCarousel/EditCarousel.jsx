@@ -24,7 +24,8 @@ const EditCarousel = () => {
         const carouselDoc = await getDoc(carouselRef);
 
         if (carouselDoc.exists()) {
-          setCarouselData(carouselDoc.data()); // Atualiza o estado com os dados do Firestore
+          const data = carouselDoc.data();
+          setCarouselData({ ...data, images: (data.images || []).map(image => typeof image === "string" ? { url: image, title: "", alt: "" } : { ...image, alt: image.alt || "" }) }); // Atualiza o estado com os dados do Firestore
         } else {
           console.log("Carrossel não encontrado!");
         }
@@ -52,7 +53,7 @@ const EditCarousel = () => {
       );
       setCarouselData((prev) => ({
         ...prev,
-        images: [...prev.images, { url: response.data.secure_url, title }], // Adiciona a nova imagem com título
+        images: [...prev.images, { url: response.data.secure_url, title, alt: "" }], // Adiciona a nova imagem com título
       }));
     } catch (error) {
       setError("Erro ao enviar imagem");
@@ -122,6 +123,15 @@ const EditCarousel = () => {
           <div key={index} className="carousel-image-container">
             <img src={image.url} alt={`Carrossel ${index}`} className="carousel-image" />
             <p className="image-title">{image.title}</p>
+            <input
+              type="text"
+              value={image.alt || ""}
+              onChange={(e) => setCarouselData(prev => ({
+                ...prev,
+                images: prev.images.map((item, itemIndex) => itemIndex === index ? { ...item, alt: e.target.value } : item)
+              }))}
+              placeholder="Texto alternativo da imagem"
+            />
             <button onClick={() => handleDelete(index)} disabled={loading}>
               Excluir
             </button>

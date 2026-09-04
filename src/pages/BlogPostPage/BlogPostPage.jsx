@@ -149,7 +149,7 @@ const BlogPostPage = () => {
           </button>
 
           <div className="blog-post-hero">
-            <img src={post.featuredImage} alt={post.title} />
+            <img src={post.featuredImage} alt={post.featuredImageAlt || post.title || 'Imagem do artigo'} />
             <div className="blog-post-hero-overlay">
               {post.category && <span className="post-category-badge">{post.category}</span>}
               <h1>{post.title}</h1>
@@ -263,7 +263,7 @@ const BlogPostPage = () => {
                     className="related-post-card"
                     onClick={() => navigate(`/blog/${related.slug}`)}
                   >
-                    <img src={related.featuredImage} alt={related.title} />
+                    <img src={related.featuredImage} alt={related.featuredImageAlt || related.title || 'Imagem do artigo'} />
                     <h4>{related.title}</h4>
                     <p>{related.excerpt}</p>
                   </div>

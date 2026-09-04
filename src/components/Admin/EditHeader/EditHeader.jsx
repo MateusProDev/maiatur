@@ -18,6 +18,7 @@ const AdminEditHeader = () => {
   const navigate = useNavigate();
   const [logoUrl, setLogoUrl] = useState("");
   const [newLogoUrl, setNewLogoUrl] = useState("");
+  const [logoAlt, setLogoAlt] = useState("");
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [notification, setNotification] = useState({ show: false, type: "", message: "" });
@@ -31,6 +32,7 @@ const AdminEditHeader = () => {
         const url = headerDoc.data().logoUrl;
         setLogoUrl(url);
         setNewLogoUrl(url);
+        setLogoAlt(headerDoc.data().logoAlt || "");
       }
     } catch (error) {
       console.error("Erro ao buscar logo:", error);
@@ -103,7 +105,7 @@ const AdminEditHeader = () => {
     try {
       setSaving(true);
       const headerRef = doc(db, "content", "header");
-      await setDoc(headerRef, { logoUrl: newLogoUrl }, { merge: true });
+      await setDoc(headerRef, { logoUrl: newLogoUrl, logoAlt: logoAlt.trim() }, { merge: true });
 
       setLogoUrl(newLogoUrl);
       showNotification("success", "Logo atualizada com sucesso!");
@@ -201,6 +203,13 @@ const AdminEditHeader = () => {
                 </div>
               </label>
             )}
+            <input
+              type="text"
+              value={logoAlt}
+              onChange={(e) => setLogoAlt(e.target.value)}
+              placeholder="Texto alternativo da logo"
+              disabled={uploading || saving}
+            />
           </div>
 
           {/* Action Buttons */}

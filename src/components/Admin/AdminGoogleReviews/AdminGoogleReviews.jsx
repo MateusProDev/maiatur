@@ -85,6 +85,7 @@ const AdminGoogleReviews = () => {
       id: Date.now(),
       name: '',
       photo: 'https://via.placeholder.com/70',
+      photoAlt: '',
       rating: 5,
       text: '',
       date: new Date().toLocaleDateString('pt-BR')
@@ -416,6 +417,13 @@ const AdminGoogleReviews = () => {
                             placeholder="https://..."
                             disabled={uploadingPhoto[review.id]}
                           />
+                          <input
+                            type="text"
+                            value={review.photoAlt || ''}
+                            onChange={(e) => updateReview(review.id, 'photoAlt', e.target.value)}
+                            placeholder="Texto alternativo da foto"
+                            disabled={uploadingPhoto[review.id]}
+                          />
                         </div>
                       </div>
 
@@ -444,7 +452,7 @@ const AdminGoogleReviews = () => {
 
                       {review.photo && (
                         <div className="photo-preview">
-                          <img src={review.photo} alt={review.name} />
+                          <img src={review.photo} alt={review.photoAlt || review.name || 'Foto do cliente'} />
                         </div>
                       )}
                     </div>

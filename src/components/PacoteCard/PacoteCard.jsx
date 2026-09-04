@@ -10,7 +10,7 @@ const PacoteCard = ({ pacote }) => {
         <div className="image-container">
           <img 
             src={pacote.imagens?.[0] || 'https://via.placeholder.com/300x200'} 
-            alt={pacote.titulo} 
+            alt={pacote.imagensAlt?.[0] || pacote.titulo || 'Imagem do pacote'} 
           />
           {/* Só mostra badge de desconto se mostrarPreco for true */}
           {pacote.mostrarPreco === true && pacote.precoOriginal && (

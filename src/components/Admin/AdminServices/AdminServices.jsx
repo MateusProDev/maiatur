@@ -43,6 +43,7 @@ const AdminServices = () => {
               title: 'Transfers & Receptivo',
               description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
               image: '/aviaoservico.png',
+              alt: 'Transfer e receptivo em Fortaleza',
               color: '#21A657',
               link: '/pacotes',
               linkText: 'Saiba mais'
@@ -52,6 +53,7 @@ const AdminServices = () => {
               title: 'Passeios Privativos',
               description: 'Experiências exclusivas com roteiros personalizados para você',
               image: '/jericoaquaraservico.png',
+              alt: 'Passeio privativo',
               color: '#EE7C35',
               link: '/pacotes',
               linkText: 'Saiba mais'
@@ -61,6 +63,7 @@ const AdminServices = () => {
               title: 'City Tours',
               description: 'Conheça as principais atrações e cultura local com nossos guias',
               image: '/fortalezacityservico.png',
+              alt: 'City tour em Fortaleza',
               color: '#F8C144',
               link: '/pacotes',
               linkText: 'Saiba mais'
@@ -110,6 +113,7 @@ const AdminServices = () => {
       title: '',
       description: '',
       image: 'https://via.placeholder.com/400x300',
+      alt: '',
       color: '#667eea',
       link: '/pacotes',
       linkText: 'Saiba mais'
@@ -435,12 +439,19 @@ const AdminServices = () => {
                             placeholder="https://..."
                             disabled={uploadingImage[service.id]}
                           />
+                          <input
+                            type="text"
+                            value={service.alt || ''}
+                            onChange={(e) => updateService(service.id, 'alt', e.target.value)}
+                            placeholder="Texto alternativo da imagem"
+                            disabled={uploadingImage[service.id]}
+                          />
                         </div>
                       </div>
 
                       {service.image && (
                         <div className="image-preview">
-                          <img src={service.image} alt={service.title} />
+                          <img src={service.image} alt={service.alt || service.title || 'Imagem do serviço'} />
                         </div>
                       )}
                     </div>

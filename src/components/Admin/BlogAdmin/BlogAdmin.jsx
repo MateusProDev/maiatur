@@ -23,6 +23,7 @@ const BlogAdmin = () => {
     content: '',
     excerpt: '',
     featuredImage: '',
+    featuredImageAlt: '',
     instagramUrl: '',
     author: 'Transfer Fortaleza Tur',
     category: '',
@@ -153,6 +154,7 @@ const BlogAdmin = () => {
       content: '',
       excerpt: '',
       featuredImage: '',
+      featuredImageAlt: '',
       instagramUrl: '',
       author: 'Transfer Fortaleza Tur',
       category: '',
@@ -215,6 +217,7 @@ const BlogAdmin = () => {
       setCurrentPost(prev => ({
         ...prev,
         featuredImage: response.data.secure_url,
+        featuredImageAlt: prev.featuredImageAlt || '',
         seo: {
           ...prev.seo,
           ogImage: response.data.secure_url
@@ -497,7 +500,7 @@ const BlogAdmin = () => {
                 <h3>Imagem Destacada</h3>
                 {currentPost.featuredImage ? (
                   <div className="featured-image-preview">
-                    <img src={currentPost.featuredImage} alt="Preview" />
+                    <img src={currentPost.featuredImage} alt={currentPost.featuredImageAlt || currentPost.title || 'Imagem destacada'} />
                     <button 
                       className="btn-remove-image"
                       onClick={() => setCurrentPost({...currentPost, featuredImage: ''})}
@@ -529,6 +532,12 @@ const BlogAdmin = () => {
                     </label>
                   </div>
                 )}
+                <input
+                  type="text"
+                  value={currentPost.featuredImageAlt || ''}
+                  onChange={(e) => setCurrentPost({...currentPost, featuredImageAlt: e.target.value})}
+                  placeholder="Texto alternativo da imagem destacada"
+                />
               </div>
 
               <div className="sidebar-section">

@@ -33,6 +33,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
     precoOriginal,
     mostrarPreco,
     imagens,
+    imagensAlt,
     destaque,
     destino,
     tempoPercurso,
@@ -162,7 +163,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
               <div className="transfer-main-image">
                 <img
                   src={autoOptimize(imagens[currentImageIndex], 'banner')}
-                  alt={`${titulo} - Imagem principal`}
+                  alt={imagensAlt?.[currentImageIndex] || `${titulo} - Imagem principal`}
                   loading="eager"
                   decoding="async"
                   onError={(e) => {
@@ -201,7 +202,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
                     >
                       <img
                         src={autoOptimize(img, 'packageCard')}
-                        alt={`${titulo} - Imagem ${index + 1}`}
+                        alt={imagensAlt?.[index] || `${titulo} - Imagem ${index + 1}`}
                         loading="lazy"
                         decoding="async"
                       />
@@ -424,7 +425,7 @@ const TransferDetailContent = ({ pacote, onWhatsApp, whatsappLoading, onBack, on
                   <div className="related-product-image">
                     <img
                       src={autoOptimize(product.imagens[0], 'packageCard')}
-                      alt={product.titulo}
+                      alt={product.imagensAlt?.[0] || product.titulo || 'Imagem do pacote'}
                       loading="lazy"
                     />
                   </div>

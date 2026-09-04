@@ -128,7 +128,7 @@ const BlogPage = () => {
                 onClick={() => navigate(`/blog/${post.slug}`)}
               >
                 <div className="blog-card-image">
-                  <img src={post.featuredImage} alt={post.title} loading="lazy" />
+                  <img src={post.featuredImage} alt={post.featuredImageAlt || post.title || 'Imagem do artigo'} loading="lazy" />
                   {post.category && (
                     <span className="blog-card-category">{post.category}</span>
                   )}

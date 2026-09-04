@@ -11,7 +11,7 @@ const EditBoxes = () => {
   const [sections, setSections] = useState([]);
   const [newSectionTitle, setNewSectionTitle] = useState("");
   const [addingBoxSection, setAddingBoxSection] = useState(null); // index da seção para adicionar box
-  const [newBox, setNewBox] = useState({ title: "", content: "", image: null });
+  const [newBox, setNewBox] = useState({ title: "", content: "", image: null, alt: "" });
   const [editingSection, setEditingSection] = useState(null); // {index, title}
   const [editingBox, setEditingBox] = useState(null); // {sectionIndex, boxIndex, title, content, image}
   const [loading, setLoading] = useState(false);
@@ -73,12 +73,13 @@ const EditBoxes = () => {
       updatedSections[sectionIndex].boxes.push({
         title: newBox.title.trim(),
         content: newBox.content.trim(),
-        imageUrl
+        imageUrl,
+        alt: newBox.alt.trim()
       });
       try {
         await setDoc(doc(db, "content", "boxes"), { sections: updatedSections });
         setSections(updatedSections);
-        setNewBox({ title: "", content: "", image: null });
+        setNewBox({ title: "", content: "", image: null, alt: "" });
         setAddingBoxSection(null);
         setSuccess("Box adicionado com sucesso!");
         setError("");
@@ -133,7 +134,7 @@ const EditBoxes = () => {
   };
 
   const handleSaveBox = async () => {
-    const { sectionIndex, boxIndex, title, content, image } = editingBox;
+    const { sectionIndex, boxIndex, title, content, image, alt } = editingBox;
     if (!title.trim() || !content.trim()) {
       setError("Preencha todos os campos!");
       return;
@@ -148,7 +149,8 @@ const EditBoxes = () => {
     updatedSections[sectionIndex].boxes[boxIndex] = {
       title: title.trim(),
       content: content.trim(),
-      imageUrl
+      imageUrl,
+      alt: alt.trim()
     };
     try {
       await setDoc(doc(db, "content", "boxes"), { sections: updatedSections });
@@ -175,7 +177,8 @@ const EditBoxes = () => {
       boxIndex,
       title: box.title,
       content: box.content,
-      image: box.imageUrl
+      image: box.imageUrl,
+      alt: box.alt || ""
     });
     setError("");
     setSuccess("");
@@ -274,14 +277,14 @@ const EditBoxes = () => {
                   <button onClick={() => handleAddBox(sectionIndex)} disabled={loading} className="save-btn">
                     {loading ? "Adicionando..." : "Adicionar Box"}
                   </button>
-                  <button onClick={() => { setAddingBoxSection(null); setNewBox({ title: "", content: "", image: null }); }} disabled={loading} className="cancel-btn">
+                  <button onClick={() => { setAddingBoxSection(null); setNewBox({ title: "", content: "", image: null, alt: "" }); }} disabled={loading} className="cancel-btn">
                     Cancelar
                   </button>
                 </div>
               </div>
             )}
             <button
-              onClick={() => { setAddingBoxSection(sectionIndex); setNewBox({ title: "", content: "", image: null }); }}
+              onClick={() => { setAddingBoxSection(sectionIndex); setNewBox({ title: "", content: "", image: null, alt: "" }); }}
               disabled={loading || addingBoxSection === sectionIndex}
               className="add-box-btn"
             >
@@ -349,7 +352,7 @@ const EditBoxes = () => {
                           </svg>
                         </button>
                       </div>
-                      <img src={box.imageUrl} alt={box.title} />
+                      <img src={box.imageUrl} alt={box.alt || box.title || 'Imagem do box'} />
                       <h4>{box.title}</h4>
                       <p>{box.content}</p>
                     </div>

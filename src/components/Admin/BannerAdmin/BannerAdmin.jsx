@@ -19,6 +19,7 @@ const BannerAdmin = () => {
     message: ""
   });
   const [previewUrl, setPreviewUrl] = useState("");
+  const [imageAlt, setImageAlt] = useState("");
 
   const showNotification = (type, message, duration = 5000) => {
     setNotification({ show: true, type, message });
@@ -34,6 +35,7 @@ const BannerAdmin = () => {
       const bannersData = snapshot.docs.map((doc) => ({
         id: doc.id,
         imageUrl: doc.data().imageUrl,
+        alt: doc.data().alt || "",
       }));
       setBanners(bannersData);
     } catch (error) {
@@ -104,12 +106,14 @@ const BannerAdmin = () => {
 
       await addDoc(collection(db, "bannersTurismo"), { 
         imageUrl: response.data.secure_url,
+        alt: imageAlt.trim(),
         createdAt: new Date()
       });
 
       showNotification("success", "Banner adicionado com sucesso!");
       setFile(null);
       setPreviewUrl("");
+      setImageAlt("");
       fetchBanners();
     } catch (error) {
       showNotification("error", error.message || "Erro ao enviar imagem.");
@@ -180,6 +184,15 @@ const BannerAdmin = () => {
               </div>
             </label>
             {file && (
+              <input
+                type="text"
+                value={imageAlt}
+                onChange={(e) => setImageAlt(e.target.value)}
+                placeholder="Texto alternativo do banner"
+                className="image-alt-input"
+              />
+            )}
+            {file && (
               <button
                 onClick={handleUpload}
                 disabled={loading.upload}
@@ -205,7 +218,7 @@ const BannerAdmin = () => {
             banners.map((banner) => (
               <div key={banner.id} className="banner-item">
                 <div className="banner-image-container">
-                  <img src={banner.imageUrl} alt="Banner" className="banner-image" />
+                  <img src={banner.imageUrl} alt={banner.alt || "Banner de turismo"} className="banner-image" />
                   <button
                     onClick={() => handleDelete(banner.id)}
                     disabled={loading.deleting === banner.id}

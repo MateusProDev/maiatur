@@ -65,6 +65,7 @@ const AdminPacotes = () => {
     preco: 0,
     mostrarPreco: true, // Nova opção para ocultar preço
     imagens: [],
+    imagensAlt: [],
     destaque: false,
     slug: "",
     // Configurações de ida e volta
@@ -160,7 +161,8 @@ const AdminPacotes = () => {
       
       setCurrentPacote(prev => ({ 
         ...prev, 
-        imagens: [...prev.imagens, response.data.secure_url] 
+        imagens: [...prev.imagens, response.data.secure_url],
+        imagensAlt: [...(prev.imagensAlt || []), '']
       }));
       
       showNotification("success", "Imagem enviada com sucesso!");
@@ -176,7 +178,9 @@ const AdminPacotes = () => {
     setCurrentPacote(prev => {
       const newImages = [...prev.imagens];
       newImages.splice(index, 1);
-      return { ...prev, imagens: newImages };
+      const newImagesAlt = [...(prev.imagensAlt || [])];
+      newImagesAlt.splice(index, 1);
+      return { ...prev, imagens: newImages, imagensAlt: newImagesAlt };
     });
   };
 
@@ -244,6 +248,7 @@ const AdminPacotes = () => {
         preco: Number(currentPacote.preco) || 0,
         mostrarPreco: currentPacote.mostrarPreco === true,
         imagens: currentPacote.imagens || [],
+        imagensAlt: currentPacote.imagensAlt || [],
         destaque: currentPacote.destaque || false,
         slug: slug,
         isIdaEVolta: currentPacote.isIdaEVolta || false,
@@ -317,6 +322,7 @@ const AdminPacotes = () => {
         preco: 0,
         mostrarPreco: true,
         imagens: [],
+        imagensAlt: [],
         destaque: false,
         slug: "",
         isIdaEVolta: false,
@@ -517,6 +523,8 @@ const AdminPacotes = () => {
     console.log('📦 Tipo do pacote:', pacote.tipo);
     const updatedPacote = {
       ...pacote,
+      imagens: pacote.imagens || [],
+      imagensAlt: (pacote.imagens || []).map((_, index) => pacote.imagensAlt?.[index] || ''),
       seo: {
         metaTitle: pacote.seo?.metaTitle || `${pacote.titulo} - Transfer Fortaleza Tur`,
         metaDescription: pacote.seo?.metaDescription || '',
@@ -1596,9 +1604,18 @@ const AdminPacotes = () => {
                         component="img"
                         height="140"
                         image={img}
-                        alt={`Imagem ${index + 1}`}
+                        alt={currentPacote.imagensAlt?.[index] || `Imagem do pacote ${index + 1}`}
                       />
                       <CardActions>
+                        <TextField
+                          size="small"
+                          label="Texto alternativo"
+                          value={currentPacote.imagensAlt?.[index] || ''}
+                          onChange={(e) => setCurrentPacote(prev => ({
+                            ...prev,
+                            imagensAlt: (prev.imagensAlt || []).map((alt, altIndex) => altIndex === index ? e.target.value : alt)
+                          }))}
+                        />
                         <IconButton
                           size="small"
                           onClick={() => removeImage(index)}
@@ -1773,7 +1790,7 @@ const AdminPacotes = () => {
                       component="img"
                       height="200"
                       image={pacote.imagens[0]}
-                      alt={pacote.titulo}
+                      alt={pacote.imagensAlt?.[0] || pacote.titulo || 'Imagem do pacote'}
                       sx={{ 
                         objectFit: 'cover',
                         transition: 'transform 0.4s ease'

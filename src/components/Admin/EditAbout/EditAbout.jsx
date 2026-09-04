@@ -27,7 +27,7 @@ const EditAbout = () => {
           setAboutData({
             description: data.description || "",
             aboutCarousel: {
-              images: data.aboutCarousel?.images || []
+              images: (data.aboutCarousel?.images || []).map(image => typeof image === "string" ? { url: image, title: "", alt: "" } : { ...image, alt: image.alt || "" })
             }
           });
         }
@@ -68,7 +68,7 @@ const EditAbout = () => {
         ...prev,
         aboutCarousel: {
           ...prev.aboutCarousel,
-          images: [...prev.aboutCarousel.images, { url: imageUrl, title }]
+          images: [...prev.aboutCarousel.images, { url: imageUrl, title, alt: "" }]
         }
       }));
     }
@@ -125,6 +125,18 @@ const EditAbout = () => {
             <div key={index} className="carousel-preview-item">
               <img src={image.url} alt={image.title} />
               <p>{image.title}</p>
+              <input
+                type="text"
+                value={image.alt || ""}
+                onChange={(e) => setAboutData(prev => ({
+                  ...prev,
+                  aboutCarousel: {
+                    ...prev.aboutCarousel,
+                    images: prev.aboutCarousel.images.map((item, itemIndex) => itemIndex === index ? { ...item, alt: e.target.value } : item)
+                  }
+                }))}
+                placeholder="Texto alternativo da imagem"
+              />
               <button type="button" onClick={() => handleRemoveImage(index)}>
                 Remover
               </button>

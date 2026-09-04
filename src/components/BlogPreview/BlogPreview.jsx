@@ -76,7 +76,7 @@ const BlogPreview = () => {
               onClick={() => navigate(`/blog/${post.slug}`)}
             >
               <div className="blog-preview-image">
-                <img src={post.featuredImage} alt={post.title} loading="lazy" />
+                <img src={post.featuredImage} alt={post.featuredImageAlt || post.title || 'Imagem do artigo'} loading="lazy" />
                 <div className="blog-preview-stats">
                   <span><FiEye /> {post.views || 0}</span>
                 </div>

@@ -155,8 +155,8 @@ async function runPrerenderHome() {
 
     // Configurar timeout maior para carregar todos os dados do Firebase
     const response = await page.goto(url, {
-      waitUntil: 'networkidle2',
-      timeout: 180000 // Aumentado de 120s para 180s
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
     });
 
     if (!response || response.status() < 200 || response.status() >= 400) {
@@ -172,7 +172,7 @@ async function runPrerenderHome() {
     }, { timeout: 30000 });
 
     // Esperar um pouco mais para garantir que dados do Firebase carregaram
-    await page.waitForTimeout(3000);
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const html = await page.evaluate(() => document.documentElement.outerHTML);
 

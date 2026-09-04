@@ -46,7 +46,7 @@ const AboutCarousel = () => {
             key={index}
             className={`about-carousel-item ${index === currentIndex ? "active" : ""}`}
           >
-            <img src={image.url} alt={image.title} className="about-carousel-image" />
+            <img src={image.url} alt={image.alt || image.title || `Imagem sobre a Maiatur ${index + 1}`} className="about-carousel-image" />
             {image.title && <p className="about-image-title">{image.title}</p>}
           </div>
         ))}

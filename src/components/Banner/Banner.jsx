@@ -8,6 +8,8 @@ const Banner = () => {
   const [bannerDescription, setBannerDescription] = useState("Encontre os melhores produtos aqui.");
   const [bannerImageUrl, setBannerImageUrl] = useState(""); // Imagem principal
   const [bannerBgUrl, setBannerBgUrl] = useState(""); // Imagem de fundo
+  const [bannerImageAlt, setBannerImageAlt] = useState("");
+  const [bannerBgAlt, setBannerBgAlt] = useState("");
 
   useEffect(() => {
     const fetchBannerData = async () => {
@@ -21,6 +23,8 @@ const Banner = () => {
           setBannerDescription(data.description || "Encontre os melhores produtos aqui.");
           setBannerImageUrl(data.imageUrl || ""); // Imagem principal
           setBannerBgUrl(data.bgUrl || ""); // Imagem de fundo separada
+          setBannerImageAlt(data.imageAlt || "");
+          setBannerBgAlt(data.bgAlt || "");
         } else {
           console.log("Banner não encontrado!");
         }
@@ -38,6 +42,8 @@ const Banner = () => {
       <div 
         className="banner-background" 
         style={{ backgroundImage: `url(${bannerBgUrl})` }}
+        role="img"
+        aria-label={bannerBgAlt || "Imagem de fundo do banner"}
       ></div>
 
       {/* Camada escura para dar contraste ao texto */}
@@ -47,7 +53,7 @@ const Banner = () => {
       {bannerImageUrl && (
         <img 
           src={bannerImageUrl} 
-          alt="Banner Principal" 
+          alt={bannerImageAlt || bannerText || "Banner principal"} 
           className="banner-image" 
           width="1920"
           height="800"

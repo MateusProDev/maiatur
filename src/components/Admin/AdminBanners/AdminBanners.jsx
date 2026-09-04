@@ -37,6 +37,7 @@ const AdminBanners = () => {
     subtitulo: '',
     descricao: '',
     imagem: '',
+    imagemAlt: '',
     localizacao: '',
     botaoTexto: 'Ver Pacotes',
     botaoLink: '/pacotes',
@@ -180,6 +181,7 @@ const AdminBanners = () => {
       subtitulo: banner.subtitulo || '',
       descricao: banner.descricao || '',
       imagem: banner.imagem || '',
+      imagemAlt: banner.imagemAlt || '',
       localizacao: banner.localizacao || '',
       botaoTexto: banner.botaoTexto || 'Ver Pacotes',
       botaoLink: banner.botaoLink || '/pacotes',
@@ -317,7 +319,7 @@ const AdminBanners = () => {
               <div className="image-upload-area">
                 {formData.imagem ? (
                   <div className="image-preview">
-                    <img src={formData.imagem} alt="Preview" />
+                    <img src={formData.imagem} alt={formData.imagemAlt || 'Preview do banner'} />
                     <button 
                       type="button"
                       className="btn-remove-image"
@@ -353,6 +355,14 @@ const AdminBanners = () => {
                 value={formData.imagem}
                 onChange={handleInputChange}
                 placeholder="https://exemplo.com/imagem.jpg"
+                disabled={uploading}
+              />
+              <input
+                type="text"
+                name="imagemAlt"
+                value={formData.imagemAlt}
+                onChange={handleInputChange}
+                placeholder="Texto alternativo da imagem"
                 disabled={uploading}
               />
             </div>
@@ -446,7 +456,7 @@ const AdminBanners = () => {
             banners.map((banner) => (
               <div key={banner.id} className={`banner-card ${!banner.ativo ? 'inactive' : ''}`}>
                 <div className="banner-card-image">
-                  <img src={banner.imagem} alt={banner.titulo} />
+                  <img src={banner.imagem} alt={banner.imagemAlt || banner.titulo || 'Imagem do banner'} />
                   {!banner.ativo && (
                     <div className="inactive-overlay">
                       <FiEyeOff /> Inativo

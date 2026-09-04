@@ -13,7 +13,9 @@ const EditBanner = () => {
     text: "",
     description: "",
     imageUrl: "",
+    imageAlt: "",
     bgUrl: "",
+    bgAlt: "",
     ctaText: "Compre agora",
     ctaLink: "#"
   });
@@ -241,6 +243,14 @@ const EditBanner = () => {
                 )}
               </div>
               <small className="form-hint">Recomendado: 800x600px</small>
+              <input
+                type="text"
+                name="imageAlt"
+                value={bannerData.imageAlt}
+                onChange={handleChange}
+                placeholder="Texto alternativo da imagem principal"
+                className="form-input"
+              />
             </div>
 
             <div className="image-upload-card">
@@ -276,6 +286,14 @@ const EditBanner = () => {
                 )}
               </div>
               <small className="form-hint">Recomendado: 1920x1080px</small>
+              <input
+                type="text"
+                name="bgAlt"
+                value={bannerData.bgAlt}
+                onChange={handleChange}
+                placeholder="Texto alternativo da imagem de fundo"
+                className="form-input"
+              />
             </div>
           </div>
 
