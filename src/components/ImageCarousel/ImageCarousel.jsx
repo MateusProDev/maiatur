@@ -52,7 +52,7 @@ const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
         >
           {duplicatedImages.map((img, index) => (
             <div key={`row1-${index}`} className="carousel-image-wrapper">
-              <img {...getImageProps(img)} loading="lazy" width="300" height="300" />
+              <img {...getImageProps(img)} alt={typeof img === 'string' ? '' : (img.alt || 'Imagem do destino')} loading="lazy" width="300" height="300" />
             </div>
           ))}
         </div>
@@ -68,7 +68,7 @@ const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
         >
           {duplicatedImages.map((img, index) => (
             <div key={`row2-${index}`} className="carousel-image-wrapper">
-              <img {...getImageProps(img)} loading="lazy" width="300" height="300" />
+              <img {...getImageProps(img)} alt={typeof img === 'string' ? '' : (img.alt || 'Imagem do destino')} loading="lazy" width="300" height="300" />
             </div>
           ))}
         </div>
@@ -84,7 +84,7 @@ const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
         >
           {duplicatedImages.map((img, index) => (
             <div key={`row3-${index}`} className="carousel-image-wrapper">
-              <img {...getImageProps(img)} loading="lazy" width="300" height="300" />
+              <img {...getImageProps(img)} alt={typeof img === 'string' ? '' : (img.alt || 'Imagem do destino')} loading="lazy" width="300" height="300" />
             </div>
           ))}
         </div>
