@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FiStar, FiArrowRight } from 'react-icons/fi';
-import { autoOptimize } from '../../utils/cloudinaryOptimizer';
+import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 import './PacotesCarousel.css';
 
 const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisLink = '/pacotes' }) => {
@@ -229,8 +229,12 @@ const PacotesCarousel = ({ pacotes, categoria, autoPlayInterval = 5000, verMaisL
                 <div className="carousel-card-image">
                   <img 
                     src={autoOptimize(imagemUrl, 'packageCard')} 
+                    srcSet={generateCloudinarySrcset(imagemUrl, [320, 480, 600]) || undefined}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     alt={pacote.imagensAlt?.[0] || pacote.titulo || 'Imagem do pacote'}
-                    loading="lazy"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={index === 0 ? 'high' : undefined}
+                    decoding="async"
                     width="600"
                     height="400"
                     onError={(e) => {

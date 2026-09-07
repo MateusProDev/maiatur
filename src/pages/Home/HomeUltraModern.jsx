@@ -101,7 +101,14 @@ const HomeUltraModern = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const homeSeoDoc = await getDoc(doc(db, 'content', 'homeSeo'));
+        const [homeSeoDoc, pacotesSnapshot] = await Promise.all([
+          getDoc(doc(db, 'content', 'homeSeo')),
+          getDocs(query(
+            collection(db, 'pacotes'),
+            orderBy('createdAt', 'desc')
+          ))
+        ]);
+
         if (homeSeoDoc.exists()) {
           setHomeSeo({ ...seoData.home, ...homeSeoDoc.data() });
         }
@@ -285,11 +292,6 @@ const HomeUltraModern = () => {
         }
 
         // Buscar Pacotes (todos, não apenas 6)
-        const pacotesQuery = query(
-          collection(db, 'pacotes'),
-          orderBy('createdAt', 'desc')
-        );
-        const pacotesSnapshot = await getDocs(pacotesQuery);
         const pacotesData = pacotesSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -337,6 +339,7 @@ const HomeUltraModern = () => {
         }
         
         setPacotesPorCategoria(grouped);
+        setLoading(false);
         
         // Debug
         console.log('📦 Total de pacotes:', pacotesData.length);
@@ -525,7 +528,9 @@ const HomeUltraModern = () => {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                     alt={service.title}
                     className="servico-image"
-                    loading="lazy"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={index === 0 ? 'high' : undefined}
+                    decoding="async"
                     width="665"
                     height="374"
                     onError={(e) => {
