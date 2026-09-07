@@ -520,9 +520,9 @@ const HomeUltraModern = () => {
               >
                 <div className="servico-image-wrapper">
                   <img 
-                    src={autoOptimize(service.image, 'serviceCard')}
-                    srcSet={generateCloudinarySrcset(service.image, [320, 480, 640, 800]) || undefined}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 665px"
+                    src={autoOptimize(service.image, 'packageCard')}
+                    srcSet={generateCloudinarySrcset(service.image, [320, 480, 600]) || undefined}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                     alt={service.title}
                     className="servico-image"
                     loading="lazy"

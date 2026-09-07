@@ -108,8 +108,8 @@ export const cloudinaryPresets = {
 
   // Card de serviço (mobile ~402px, desktop ~665px)
   serviceCard: (url) => optimizeCloudinaryUrl(url, {
-    width: 800, // Tamanho médio
-    height: 450,
+    width: 600, // Tamanho máximo exibido nos cards
+    height: 600,
     quality: 'auto:eco', // Mudado para eco
     crop: 'fill'
   }),

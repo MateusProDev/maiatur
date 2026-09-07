@@ -10,7 +10,7 @@ const fallbackBanner = {
   id: 'fallback1',
   titulo: 'Passeios e Transfer em Fortaleza',
   subtitulo: 'Conforto, segurança e experiências inesquecíveis no Ceará',
-  imagem: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=70',
+  imagem: 'https://res.cloudinary.com/dqejvdl8w/image/upload/banners/a7ofck9cbk4c7itoqlpa.jpg',
   botaoTexto: 'Ver Pacotes',
   botaoLink: '/pacotes'
 };
@@ -42,7 +42,11 @@ const BannerCarousel = () => {
       }
     };
 
-    fetchBanners();
+    const schedule = window.requestIdleCallback || ((callback) => setTimeout(callback, 1800));
+    const cancel = window.cancelIdleCallback || clearTimeout;
+    const task = schedule(fetchBanners);
+
+    return () => cancel(task);
   }, []);
 
   const nextSlide = useCallback(() => {
