@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { AuthProvider } from "./context/AuthContext";
 import { setupErrorSuppression } from "./utils/errorSuppression";
 import { initializeFirestoreCollections } from "./utils/firestoreUtils";
 import "./utils/initBanners"; // Disponibiliza window.initBanners()
@@ -44,8 +43,6 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
 // Renderização da aplicação
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <App />
   </React.StrictMode>
 );
