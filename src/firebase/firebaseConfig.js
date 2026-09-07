@@ -17,8 +17,15 @@ const firebaseConfig = {
 // Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 
-// Exportando os serviços do Firebase
-const auth = getAuth(app);
+// Initialize Auth only when an authentication feature accesses it.
+let authInstance = null;
+const auth = new Proxy({}, {
+  get(_target, property) {
+    authInstance ||= getAuth(app);
+    const value = authInstance[property];
+    return typeof value === 'function' ? value.bind(authInstance) : value;
+  }
+});
 const db = getFirestore(app);
 const storage = getStorage(app);
 

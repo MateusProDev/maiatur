@@ -9,8 +9,16 @@ import { firebaseConfig } from "./firebaseConfig"; // Importando a configuraçã
 // Inicializando o Firebase
 const app = initializeApp(firebaseConfig);
 
-// Exportando os serviços
-const auth = getAuth(app);
+// Auth is created only when a feature actually needs it. This avoids loading
+// the Firebase Auth iframe on public pages.
+let authInstance = null;
+const auth = new Proxy({}, {
+  get(_target, property) {
+    authInstance ||= getAuth(app);
+    const value = authInstance[property];
+    return typeof value === 'function' ? value.bind(authInstance) : value;
+  }
+});
 const db = getFirestore(app);
 const storage = getStorage(app);
 

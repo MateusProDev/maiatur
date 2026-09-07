@@ -3,14 +3,21 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 import './BannerCarousel.css';
 
+const fallbackBanner = {
+  id: 'fallback1',
+  titulo: 'Passeios e Transfer em Fortaleza',
+  subtitulo: 'Conforto, segurança e experiências inesquecíveis no Ceará',
+  imagem: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=70',
+  botaoTexto: 'Ver Pacotes',
+  botaoLink: '/pacotes'
+};
+
 const BannerCarousel = () => {
-  const [banners, setBanners] = useState([]);
+  const [banners, setBanners] = useState([fallbackBanner]);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
@@ -29,22 +36,9 @@ const BannerCarousel = () => {
           .sort((a, b) => (a.ordem || 0) - (b.ordem || 0)); // Ordenar por ordem
 
         console.log(`✅ ${bannersData.length} banners ativos carregados`);
-        setBanners(bannersData);
+        if (bannersData.length > 0) setBanners(bannersData);
       } catch (err) {
-        console.error('❌ Erro ao buscar banners:', err);
-        // Banners fallback caso dê erro
-        setBanners([
-          {
-            id: 'fallback1',
-            titulo: 'Explore Destinos Incríveis',
-            subtitulo: 'Suas melhores férias começam aqui',
-            imagem: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80',
-            botaoTexto: 'Ver Pacotes',
-            botaoLink: '/pacotes'
-          }
-        ]);
-      } finally {
-        setLoading(false);
+        console.warn('Banners dinâmicos indisponíveis; usando banner padrão.', err);
       }
     };
 
@@ -73,14 +67,6 @@ const BannerCarousel = () => {
 
     return () => clearInterval(interval);
   }, [banners.length, nextSlide, isPaused]);
-
-  if (loading) {
-    return (
-      <div className="banner-carousel-loading">
-        <LoadingSpinner size="large" text="Carregando banners..." />
-      </div>
-    );
-  }
 
   if (banners.length === 0) {
     return null;
