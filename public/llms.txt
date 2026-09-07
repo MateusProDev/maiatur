@@ -1,0 +1,13 @@
+# Transfer Fortaleza Tur
+
+Agencia de turismo especializada em transfers, passeios e experiencias em Fortaleza e no Ceara.
+
+## Paginas principais
+
+- [Inicio](https://transferfortalezatur.com.br/)
+- [Pacotes e passeios](https://transferfortalezatur.com.br/pacotes)
+- [Destinos](https://transferfortalezatur.com.br/destinos)
+- [Sobre a empresa](https://transferfortalezatur.com.br/sobre)
+- [Contato](https://transferfortalezatur.com.br/contato)
+- [Avaliacoes](https://transferfortalezatur.com.br/avaliacoes)
+- [Blog](https://transferfortalezatur.com.br/blog)

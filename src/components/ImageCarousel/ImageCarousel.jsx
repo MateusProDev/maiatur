@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { generateCloudinarySrcset, optimizeCloudinaryUrl } from '../../utils/cloudinaryOptimizer';
 import './ImageCarousel.css';
 
 const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
@@ -15,6 +16,28 @@ const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
   // Duplicar imagens para criar efeito de loop infinito
   const duplicatedImages = [...images, ...images, ...images];
 
+  const getImageProps = (img) => {
+    const src = typeof img === 'string' ? img : img.url;
+    const alt = typeof img === 'string' ? '' : img.alt;
+    const isCloudinary = src?.includes('res.cloudinary.com');
+
+    return {
+      src: isCloudinary
+        ? optimizeCloudinaryUrl(src, {
+            width: 480,
+            height: 480,
+            quality: 'auto:eco',
+            crop: 'fill'
+          })
+        : src,
+      srcSet: isCloudinary
+        ? generateCloudinarySrcset(src, [180, 240, 320, 480])
+        : undefined,
+      alt: alt || 'Imagem do destino',
+      sizes: '(max-width: 480px) 180px, (max-width: 768px) 200px, 300px'
+    };
+  };
+
   return (
     <section className="image-carousel-section">
       <div className="image-carousel-container">
@@ -29,7 +52,7 @@ const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
         >
           {duplicatedImages.map((img, index) => (
             <div key={`row1-${index}`} className="carousel-image-wrapper">
-              <img src={img.url} alt={img.alt || `Imagem ${index + 1}`} loading="lazy" />
+              <img {...getImageProps(img)} loading="lazy" width="300" height="300" />
             </div>
           ))}
         </div>
@@ -45,7 +68,7 @@ const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
         >
           {duplicatedImages.map((img, index) => (
             <div key={`row2-${index}`} className="carousel-image-wrapper">
-              <img src={img.url} alt={img.alt || `Imagem ${index + 1}`} loading="lazy" />
+              <img {...getImageProps(img)} loading="lazy" width="300" height="300" />
             </div>
           ))}
         </div>
@@ -61,7 +84,7 @@ const ImageCarousel = ({ images = [], autoPlay = true, speed = 50 }) => {
         >
           {duplicatedImages.map((img, index) => (
             <div key={`row3-${index}`} className="carousel-image-wrapper">
-              <img src={img.url} alt={img.alt || `Imagem ${index + 1}`} loading="lazy" />
+              <img {...getImageProps(img)} loading="lazy" width="300" height="300" />
             </div>
           ))}
         </div>

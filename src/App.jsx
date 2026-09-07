@@ -6,7 +6,6 @@ import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
-import { autoInitialize } from "./utils/firestoreUtils";
 import analyticsService from "./services/analyticsService";
 
 // Lazy load components for code splitting
@@ -103,14 +102,6 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const schedule = window.requestIdleCallback || ((callback) => setTimeout(callback, 2000));
-    const cancel = window.cancelIdleCallback || clearTimeout;
-    const task = schedule(() => autoInitialize());
-
-    return () => cancel(task);
-  }, []);
 
   return (
     <HelmetProvider>
