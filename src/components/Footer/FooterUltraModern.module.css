@@ -9,6 +9,8 @@
 /* TripAdvisor image sizing */
 .tripadvisor-img {
   height: 40px;
+  width: 150px;
+  object-fit: contain;
   width: auto;
   border-radius: 8px;
   transition: transform 0.2s ease, height 0.2s ease;
@@ -16,6 +18,7 @@
 
 .cadastur-img {
   height: 50px;
+  width: 180px;
   width: auto;
   margin-bottom: 8px;
   border-radius: 8px;
@@ -24,6 +27,7 @@
 
 .cad-img {
   height: 50px;
+  width: 180px;
   width: auto;
   margin-bottom: 8px;
   border-radius: 8px;
@@ -46,6 +50,7 @@
 
 .seguraca-img {
   height: 50px;
+  width: 180px;
   width: auto;
   border-radius: 8px;
   object-fit: contain;

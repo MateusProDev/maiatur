@@ -33,7 +33,7 @@ import {
 import { FaWhatsapp } from 'react-icons/fa';
 import './HomeUltraModern.css';
 
-import { autoOptimize } from '../../utils/cloudinaryOptimizer';
+import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 
 const HomeUltraModern = () => {
   const navigate = useNavigate();
@@ -521,6 +521,8 @@ const HomeUltraModern = () => {
                 <div className="servico-image-wrapper">
                   <img 
                     src={autoOptimize(service.image, 'serviceCard')}
+                    srcSet={generateCloudinarySrcset(service.image, [320, 480, 640, 800]) || undefined}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 665px"
                     alt={service.title}
                     className="servico-image"
                     loading="lazy"
@@ -605,26 +607,38 @@ const HomeUltraModern = () => {
                 <div className="image-collage">
                   <div className="collage-item collage-1">
                     <img 
-                      src={autoOptimize(differentialsSettings.collageImages?.image1 || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop', 'banner')} 
+                      src={autoOptimize(differentialsSettings.collageImages?.image1 || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop', 'banner')}
+                      srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image1, [320, 480, 640, 800]) || undefined}
+                      sizes="(max-width: 768px) 70vw, 420px"
                       alt="Destino" 
                       loading="lazy"
                       decoding="async"
+                      width="600"
+                      height="800"
                     />
                   </div>
                   <div className="collage-item collage-2">
                     <img 
-                      src={autoOptimize(differentialsSettings.collageImages?.image2 || 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop', 'banner')} 
+                      src={autoOptimize(differentialsSettings.collageImages?.image2 || 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop', 'banner')}
+                      srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image2, [240, 320, 480, 640]) || undefined}
+                      sizes="(max-width: 768px) 55vw, 330px"
                       alt="Experiência" 
                       loading="lazy"
                       decoding="async"
+                      width="400"
+                      height="500"
                     />
                   </div>
                   <div className="collage-item collage-3">
                     <img 
-                      src={autoOptimize(differentialsSettings.collageImages?.image3 || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop', 'banner')} 
+                      src={autoOptimize(differentialsSettings.collageImages?.image3 || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop', 'banner')}
+                      srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image3, [240, 320, 480, 640]) || undefined}
+                      sizes="(max-width: 768px) 60vw, 360px"
                       alt="Aventura" 
                       loading="lazy"
                       decoding="async"
+                      width="500"
+                      height="600"
                     />
                   </div>
                 </div>

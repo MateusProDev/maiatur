@@ -254,16 +254,22 @@ const FooterUltraModern = () => {
               src={require('../../assets/CAD.png')}
               alt="CAD"
               className={cx('cad-img')}
+              width="180"
+              height="50"
             />
             <img
               src={require('../../assets/Tripadviser.jpg')}
               alt="TripAdvisor"
               className={cx('tripadvisor-img')}
+              width="150"
+              height="40"
             />
             <img
               src={require('../../assets/Cadastur.png')}
               alt="CADASTUR"
               className={cx('cadastur-img')}
+              width="180"
+              height="50"
             />
             <a
               href="https://transparencyreport.google.com/safe-browsing/search?url=transferfortalezatur.com.br&hl=pt_BR"
@@ -275,6 +281,8 @@ const FooterUltraModern = () => {
                 src={require('../../assets/SEGURACA.png')}
                 alt="SEGURACA"
                 className={cx('seguraca-img')}
+                width="180"
+                height="50"
               />
               <span className={cx('seguraca-text')}>Clique para conferir</span>
             </a>

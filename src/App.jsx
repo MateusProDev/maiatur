@@ -71,8 +71,12 @@ const AnalyticsTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Track page view on route change
-    analyticsService.trackPageView(location.pathname);
+    // Keep analytics and Firestore writes out of the initial render path.
+    const schedule = window.requestIdleCallback || ((callback) => setTimeout(callback, 1200));
+    const cancel = window.cancelIdleCallback || clearTimeout;
+    const task = schedule(() => analyticsService.trackPageView(location.pathname));
+
+    return () => cancel(task);
   }, [location]);
 
   return null;
@@ -99,27 +103,23 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
   const [loading, setLoading] = useState(false);
-  const [initialLoad, setInitialLoad] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setInitialLoad(false);
-    }, 1500);
-    
-    // Inicializa estruturas do Firestore automaticamente
-    autoInitialize();
-    
-    return () => clearTimeout(timer);
+    const schedule = window.requestIdleCallback || ((callback) => setTimeout(callback, 2000));
+    const cancel = window.cancelIdleCallback || clearTimeout;
+    const task = schedule(() => autoInitialize());
+
+    return () => cancel(task);
   }, []);
 
   return (
     <HelmetProvider>
       <LoadingContext.Provider value={{ setLoading }}>
-        <AuthProvider>
-          <Router>
+        <Router>
+          <AuthProvider>
             <AnalyticsTracker />
             <RouteSEO />
-            {(loading || initialLoad) && (
+            {loading && (
               <LoadingSpinner 
                 size="large" 
                 text="Carregando experiências incríveis..." 
@@ -205,9 +205,9 @@ const App = () => {
                 </Routes>
               </main>
             </Suspense>
-          </ErrorBoundary>
+            </ErrorBoundary>
+          </AuthProvider>
         </Router>
-      </AuthProvider>
     </LoadingContext.Provider>
     </HelmetProvider>
   );
