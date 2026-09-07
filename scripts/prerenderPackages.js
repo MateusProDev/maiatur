@@ -250,6 +250,12 @@ async function runPrerender(validPackages) {
       console.log(`[prerender] visita ${route}`);
 
       try {
+        await page.evaluateOnNewDocument((packageData, packageSlug) => {
+          window.__PRERENDER__ = true;
+          localStorage.setItem(`pacote_${packageSlug}`, JSON.stringify(packageData));
+          localStorage.setItem(`pacote_${packageSlug}_time`, String(Date.now()));
+        }, { id: pkg.id, ...pkg.raw, slug: pkg.slug }, slug);
+
         const response = await page.goto(url, {
           waitUntil: 'domcontentloaded',
           timeout: 60000

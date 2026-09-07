@@ -74,8 +74,8 @@
     "prerender-institutional": "node scripts/prerenderInstitutional.js",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && npm run prerender && vercel --prod",
-    "preview": "npm run build && npm run prerender && vercel",
+    "deploy": "npm run build && vercel --prod",
+    "preview": "npm run build && vercel",
     "generate-link-bio": "node scripts/generateLinkBio.js"
   },
   "eslintConfig": {

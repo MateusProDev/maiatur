@@ -65,14 +65,18 @@ const PacoteDetailPage = () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // DEBUG: Limpar cache temporariamente para forçar busca fresca
+
         const cacheKey = `pacote_${pacoteSlug}`;
-        localStorage.removeItem(cacheKey);
-        localStorage.removeItem(`${cacheKey}_time`);
-        console.log('�️ Cache limpo para debug');
-        
-        // Buscar do Firestore (sem cache por enquanto)
+        const cachedPackage = localStorage.getItem(cacheKey);
+        const cachedAt = Number(localStorage.getItem(`${cacheKey}_time`));
+        const cacheIsValid = cachedPackage && cachedAt && Date.now() - cachedAt < 5 * 60 * 1000;
+
+        if (cacheIsValid) {
+          setPacote(JSON.parse(cachedPackage));
+          setLoading(false);
+          return;
+        }
+
         const pacotesRef = collection(db, 'pacotes');
         const q = query(pacotesRef, where("slug", "==", pacoteSlug));
         const querySnapshot = await getDocs(q);

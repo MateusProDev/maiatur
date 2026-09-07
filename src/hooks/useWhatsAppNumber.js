@@ -7,6 +7,12 @@ export const useWhatsAppNumber = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.__PRERENDER__) {
+      setPhoneNumber("5511999999999");
+      setLoading(false);
+      return undefined;
+    }
+
     const fetchWhatsAppNumber = async () => {
       try {
         const docRef = doc(db, "settings", "whatsapp");
