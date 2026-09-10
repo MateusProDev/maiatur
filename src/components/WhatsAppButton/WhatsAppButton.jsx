@@ -3,9 +3,10 @@ import "./WhatsAppButton.css";
 import { db } from "../../firebase/firebase"; // Importe sua configuração do Firebase
 import { doc, getDoc } from "firebase/firestore";
 
+const FALLBACK_PHONE_NUMBER = process.env.REACT_APP_AGENCY_PHONE_WHATS || "5511999999999";
+
 const WhatsAppButton = () => {
-  const fallbackPhoneNumber = process.env.REACT_APP_AGENCY_PHONE_WHATS || "5511999999999";
-  const [phoneNumber, setPhoneNumber] = useState(fallbackPhoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState(FALLBACK_PHONE_NUMBER);
 
   useEffect(() => {
     const fetchWhatsAppNumber = async () => {
@@ -14,7 +15,7 @@ const WhatsAppButton = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setPhoneNumber(docSnap.data().number || fallbackPhoneNumber);
+          setPhoneNumber(docSnap.data().number || FALLBACK_PHONE_NUMBER);
         }
       } catch (err) {
         console.error(err);
