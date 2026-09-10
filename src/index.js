@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import { setupErrorSuppression } from "./utils/errorSuppression";
 import "./utils/serviceWorkerCleanup"; // Limpar service workers problemáticos
@@ -8,7 +8,8 @@ import "./utils/serviceWorkerCleanup"; // Limpar service workers problemáticos
 setupErrorSuppression();
 
 // Criação do root
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const rootElement = document.getElementById("root");
+const renderApp = rootElement.hasChildNodes() ? hydrateRoot : createRoot;
 
 // Registro do Service Worker para melhor cache e performance
 if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
@@ -32,7 +33,7 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
 }
 
 // Renderização da aplicação
-root.render(
+renderApp(rootElement,
   <React.StrictMode>
     <App />
   </React.StrictMode>

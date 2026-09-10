@@ -36,6 +36,7 @@ const PacoteDetailPage = () => {
       precoOriginal: data.precoOriginal ? parseFloat(data.precoOriginal) : null,
       mostrarPreco: data.mostrarPreco === true,
       imagens: Array.isArray(data.imagens) ? data.imagens : [],
+      imagensAlt: Array.isArray(data.imagensAlt) ? data.imagensAlt : [],
       slug: data.slug || pacoteSlug,
       destaque: data.destaque || false,
       tipo: data.tipo || 'passeio', // Default to 'passeio' for backward compatibility
@@ -155,7 +156,7 @@ const PacoteDetailPage = () => {
     );
   };
 
-  if (loading || whatsappLoading) {
+  if (loading) {
     return (
       <>
         <Header />
