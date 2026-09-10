@@ -2,14 +2,21 @@
 export const unregisterServiceWorker = async () => {
   if ('serviceWorker' in navigator) {
     const registrations = await navigator.serviceWorker.getRegistrations();
-    for (let registration of registrations) {
+    for (const registration of registrations) {
       await registration.unregister();
       console.log('Service Worker desregistrado:', registration.scope);
     }
   }
+
+  if ('caches' in window) {
+    const cacheNames = await caches.keys();
+    await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+  }
 };
 
-// Chama a função para limpar durante desenvolvimento
-if (process.env.NODE_ENV === 'development') {
-  unregisterServiceWorker();
+// Remove versões antigas que podem servir bundles incompatíveis com o build atual.
+if (typeof window !== 'undefined') {
+  unregisterServiceWorker().catch((error) => {
+    console.error('Erro ao limpar o Service Worker:', error);
+  });
 }
