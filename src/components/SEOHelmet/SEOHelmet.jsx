@@ -27,7 +27,7 @@ const SEOHelmet = ({
   // Build fullTitle: avoid duplicating brand
   const fullTitle = safeTitle
     ? (safeTitle.includes(brand) ? safeTitle : `${safeTitle} | ${brand}`)
-    : brand;
+    : '';
 
   // Build canonical safely
   let fullCanonical = '';
@@ -142,6 +142,8 @@ const SEOHelmet = ({
 
   // Generate BreadcrumbList Schema
   const generateBreadcrumbSchema = () => {
+    if (!pacote) return null;
+
     return {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -174,7 +176,7 @@ const SEOHelmet = ({
 
   return (
     <Helmet>
-      <title>{fullTitle}</title>
+      {fullTitle && <title>{fullTitle}</title>}
       {safeDescription && <meta name="description" content={safeDescription} />}
       {safeKeywords && <meta name="keywords" content={safeKeywords} />}
       {fullCanonical && <link rel="canonical" href={fullCanonical} />}
