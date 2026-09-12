@@ -16,9 +16,10 @@ const fallbackBanner = {
 };
 
 const BannerCarousel = () => {
-  const [banners, setBanners] = useState([fallbackBanner]);
+  const [banners, setBanners] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -36,17 +37,16 @@ const BannerCarousel = () => {
           .sort((a, b) => (a.ordem || 0) - (b.ordem || 0)); // Ordenar por ordem
 
         console.log(`✅ ${bannersData.length} banners ativos carregados`);
-        if (bannersData.length > 0) setBanners(bannersData);
+        setBanners(bannersData.length > 0 ? bannersData : [fallbackBanner]);
       } catch (err) {
         console.warn('Banners dinâmicos indisponíveis; usando banner padrão.', err);
+        setBanners([fallbackBanner]);
+      } finally {
+        setLoading(false);
       }
     };
 
-    const schedule = window.requestIdleCallback || ((callback) => setTimeout(callback, 1800));
-    const cancel = window.cancelIdleCallback || clearTimeout;
-    const task = schedule(fetchBanners);
-
-    return () => cancel(task);
+    fetchBanners();
   }, []);
 
   const nextSlide = useCallback(() => {
@@ -72,7 +72,7 @@ const BannerCarousel = () => {
     return () => clearInterval(interval);
   }, [banners.length, nextSlide, isPaused]);
 
-  if (banners.length === 0) {
+  if (loading || banners.length === 0) {
     return null;
   }
 

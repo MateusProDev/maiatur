@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-const CACHE_NAME = 'maiatur-v1';
+const CACHE_NAME = 'maiatur-v2';
 const CACHE_DURATION = 90 * 60 * 1000; // 90 minutos
 
 // Assets para cache imediato
@@ -88,10 +88,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Estratégia: Stale While Revalidate para páginas HTML
+  // HTML sempre busca a versão atual antes de usar cache.
   if (request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
-      staleWhileRevalidate(request)
+      networkFirst(request)
     );
     return;
   }
