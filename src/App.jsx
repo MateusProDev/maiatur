@@ -6,6 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
+import WhatsAppButton from "./components/WhatsAppButton/WhatsAppButton";
 import analyticsService from "./services/analyticsService";
 
 // Lazy load components for code splitting
@@ -81,6 +82,16 @@ const AnalyticsTracker = () => {
   return null;
 };
 
+const PublicWhatsAppButton = () => {
+  const { pathname } = useLocation();
+
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
+  return <WhatsAppButton />;
+};
+
 const ProtectedRoute = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -110,6 +121,7 @@ const App = () => {
           <AuthProvider>
             <AnalyticsTracker />
             <RouteSEO />
+            <PublicWhatsAppButton />
             {loading && (
               <LoadingSpinner 
                 size="large" 

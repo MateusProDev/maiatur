@@ -4,7 +4,6 @@ import { collection, getDocs, query, orderBy, limit, doc, getDoc } from 'firebas
 import { db } from '../../firebase/firebase';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import WhatsAppButton from '../../components/WhatsAppButton/WhatsAppButton';
 import BannerCarousel from '../../components/BannerCarousel/BannerCarousel';
 import BlogPreview from '../../components/BlogPreview/BlogPreview';
 import PacotesCarousel from '../../components/PacotesCarousel/PacotesCarousel';
@@ -739,7 +738,6 @@ const HomeUltraModern = () => {
       <HomeFAQSection />
 
       <Footer />
-      <WhatsAppButton />
     </div>
   );
 };
