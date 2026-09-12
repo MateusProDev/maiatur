@@ -6,7 +6,6 @@ import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
-import WhatsAppButton from "./components/WhatsAppButton/WhatsAppButton";
 import analyticsService from "./services/analyticsService";
 
 // Lazy load components for code splitting
@@ -111,7 +110,6 @@ const App = () => {
           <AuthProvider>
             <AnalyticsTracker />
             <RouteSEO />
-            <WhatsAppButton />
             {loading && (
               <LoadingSpinner 
                 size="large" 

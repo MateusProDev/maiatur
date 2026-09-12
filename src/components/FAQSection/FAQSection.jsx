@@ -26,7 +26,24 @@ const FAQSection = ({ faq = [], showTitle = true }) => {
   }
 
   return (
-    <div className="faq-section">
+    <>
+      {/* Schema Markup para FAQPage */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faq.map(item => ({
+            "@type": "Question",
+            "name": item.pergunta,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": item.resposta
+            }
+          }))
+        })}
+      </script>
+
+      <div className="faq-section">
         {showTitle && <h2 className="faq-section-title">Perguntas Frequentes</h2>}
         <div className="faq-list">
           {faq.map((item, index) => (
@@ -52,7 +69,8 @@ const FAQSection = ({ faq = [], showTitle = true }) => {
             </div>
           ))}
         </div>
-    </div>
+      </div>
+    </>
   );
 };
 

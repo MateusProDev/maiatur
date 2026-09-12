@@ -3,10 +3,10 @@ import "./WhatsAppButton.css";
 import { db } from "../../firebase/firebase"; // Importe sua configuração do Firebase
 import { doc, getDoc } from "firebase/firestore";
 
-const FALLBACK_PHONE_NUMBER = process.env.REACT_APP_AGENCY_PHONE_WHATS || "5511999999999";
-
 const WhatsAppButton = () => {
-  const [phoneNumber, setPhoneNumber] = useState(FALLBACK_PHONE_NUMBER);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchWhatsAppNumber = async () => {
@@ -15,15 +15,23 @@ const WhatsAppButton = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setPhoneNumber(docSnap.data().number || FALLBACK_PHONE_NUMBER);
+          setPhoneNumber(docSnap.data().number || ""); // Define o número do WhatsApp
+        } else {
+          setError("Número do WhatsApp não encontrado.");
         }
       } catch (err) {
+        setError("Erro ao carregar o número do WhatsApp.");
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchWhatsAppNumber();
   }, []);
+
+  if (loading) return null; // Removido <p>Carregando...</p> para não atrasar renderização
+  if (error) return null; // Removido <p>{error}</p> para não mostrar erro visual
 
   const message = "Olá, gostaria de saber mais sobre os pacotes de turismo da Transfer Fortaleza Tur.";
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

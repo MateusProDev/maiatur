@@ -29,8 +29,8 @@ const PacoteDetailPage = () => {
       : [];
     const imagensAlt = imagens.map((_, index) => {
       const imagem = data.imagens?.[index];
-      const altDoArquivo = typeof imagem === 'object' ? imagem?.alt : '';
-      return String(altDoArquivo || data.imagensAlt?.[index] || '').trim();
+      const alt = typeof imagem === 'object' ? imagem?.alt : data.imagensAlt?.[index];
+      return String(alt || '').trim() || `${data.titulo || 'Imagem do pacote'} - Imagem ${index + 1}`;
     });
 
     return {
@@ -84,7 +84,13 @@ const PacoteDetailPage = () => {
         const cacheIsValid = cachedPackage && cachedAt && Date.now() - cachedAt < 5 * 60 * 1000;
 
         if (cacheIsValid) {
-          setPacote(JSON.parse(cachedPackage));
+          const cachedData = JSON.parse(cachedPackage);
+          const cachedImages = Array.isArray(cachedData.imagens) ? cachedData.imagens : [];
+          const cachedImagesAlt = cachedImages.map((_, index) => (
+            String(cachedData.imagensAlt?.[index] || '').trim() ||
+            `${cachedData.titulo || 'Imagem do pacote'} - Imagem ${index + 1}`
+          ));
+          setPacote({ ...cachedData, imagensAlt: cachedImagesAlt });
           setLoading(false);
           return;
         }
@@ -167,7 +173,7 @@ const PacoteDetailPage = () => {
     );
   };
 
-  if (loading) {
+  if (loading || whatsappLoading) {
     return (
       <>
         <Header />
