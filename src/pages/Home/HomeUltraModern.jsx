@@ -34,6 +34,8 @@ import './HomeUltraModern.css';
 
 import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 
+const DEFAULT_HOME_FEATURED_IMAGE = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=630&fit=crop';
+
 const HomeUltraModern = () => {
   const navigate = useNavigate();
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
@@ -423,6 +425,10 @@ const HomeUltraModern = () => {
     );
   };
 
+  const featuredHomeImage = typeof carouselSettings.images?.[0] === 'string'
+    ? carouselSettings.images[0]
+    : carouselSettings.images?.[0]?.url;
+
   return (
     <div className="home-ultra-modern">
       <SEOHelmet 
@@ -430,6 +436,7 @@ const HomeUltraModern = () => {
         description={homeSeo.description}
         keywords={homeSeo.keywords}
         canonical={homeSeo.canonical}
+        ogImage={featuredHomeImage || DEFAULT_HOME_FEATURED_IMAGE}
         ogType="website"
       />
 
