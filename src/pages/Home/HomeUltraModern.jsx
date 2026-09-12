@@ -41,6 +41,7 @@ const HomeUltraModern = () => {
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [homeContentReady, setHomeContentReady] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [services, setServices] = useState([]);
@@ -371,6 +372,7 @@ const HomeUltraModern = () => {
         console.error('Erro ao buscar dados:', error);
       } finally {
         setLoading(false);
+        setHomeContentReady(true);
       }
     };
 
@@ -449,7 +451,7 @@ const HomeUltraModern = () => {
       <BannerCarousel />
 
       {/* ========== EXPLORAR DESTINOS POR CATEGORIA ========== */}
-      <section className="destinos-section-ultra">
+      {homeContentReady && <section className="destinos-section-ultra">
         <div className="container-ultra">
           <div className="section-header-ultra">
             <span className="section-badge">
@@ -503,10 +505,10 @@ const HomeUltraModern = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* ========== SERVIÇOS PREMIUM ========== */}
-      <section className="servicos-section-ultra">
+      {homeContentReady && <section className="servicos-section-ultra">
         <div className="container-ultra">
           <div className="section-header-ultra center">
             <span className="section-badge">
@@ -561,10 +563,10 @@ const HomeUltraModern = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* ========== CARROSSEL DE IMAGENS ========== */}
-      {carouselSettings.active && carouselSettings.images.length > 0 && (
+      {homeContentReady && carouselSettings.active && carouselSettings.images.length > 0 && (
         <ImageCarousel 
           images={carouselSettings.images}
           autoPlay={true}
@@ -576,7 +578,7 @@ const HomeUltraModern = () => {
       <TransferBeberibe />
 
       {/* ========== POR QUE ESCOLHER ========== */}
-      {differentialsSettings.active && (
+      {homeContentReady && differentialsSettings.active && (
         <section className="why-choose-ultra">
           <div className="container-ultra">
             <div className="why-choose-content">
