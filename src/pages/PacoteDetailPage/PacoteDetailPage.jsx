@@ -22,6 +22,17 @@ const PacoteDetailPage = () => {
 
   const formatPacoteData = useCallback((doc) => {
     const data = doc.data();
+    const imagens = Array.isArray(data.imagens)
+      ? data.imagens
+          .map((imagem) => typeof imagem === 'string' ? imagem : imagem?.url)
+          .filter(Boolean)
+      : [];
+    const imagensAlt = imagens.map((_, index) => {
+      const imagem = data.imagens?.[index];
+      const altDoArquivo = typeof imagem === 'object' ? imagem?.alt : '';
+      return String(altDoArquivo || data.imagensAlt?.[index] || '').trim();
+    });
+
     return {
       id: doc.id,
       titulo: data.titulo || '',
@@ -35,8 +46,8 @@ const PacoteDetailPage = () => {
       preco: parseFloat(data.preco) || 0,
       precoOriginal: data.precoOriginal ? parseFloat(data.precoOriginal) : null,
       mostrarPreco: data.mostrarPreco === true,
-      imagens: Array.isArray(data.imagens) ? data.imagens : [],
-      imagensAlt: Array.isArray(data.imagensAlt) ? data.imagensAlt : [],
+      imagens,
+      imagensAlt,
       slug: data.slug || pacoteSlug,
       destaque: data.destaque || false,
       tipo: data.tipo || 'passeio', // Default to 'passeio' for backward compatibility
