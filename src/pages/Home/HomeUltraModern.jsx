@@ -156,16 +156,20 @@ const HomeUltraModern = () => {
         const cachedData = localStorage.getItem(cacheKey);
         const cacheTime = localStorage.getItem(`${cacheKey}_time`);
 
-        if (cachedData && cacheTime) {
-          const cacheAge = Date.now() - parseInt(cacheTime, 10);
-          if (cacheAge < HOME_CACHE_TTL) {
-            console.log('📦 Usando cache de pacotes da Home');
-            const parsed = JSON.parse(cachedData);
-            setPacotesPorCategoria(parsed.pacotesPorCategoria || {});
-            setAvaliacoes(parsed.avaliacoes || []);
-            setLoading(false);
-            return;
-          }
+        const cachedHomeData = cachedData && cacheTime
+          ? (() => {
+              const cacheAge = Date.now() - parseInt(cacheTime, 10);
+              if (cacheAge < HOME_CACHE_TTL) {
+                console.log('📦 Usando cache de pacotes da Home');
+                return JSON.parse(cachedData);
+              }
+              return null;
+            })()
+          : null;
+
+        if (cachedHomeData) {
+          setPacotesPorCategoria(cachedHomeData.pacotesPorCategoria || {});
+          setAvaliacoes(cachedHomeData.avaliacoes || []);
         }
 
         const [homeSeoDoc, pacotesSnapshot] = await Promise.all([
@@ -482,9 +486,9 @@ const HomeUltraModern = () => {
     return (
       <div className="home-ultra-modern home-loading-shell">
         <Header />
-        <div className="loading-ultra" style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="loading-ultra global-loading" style={{ minHeight: '70vh' }}>
           <div className="spinner-ultra"></div>
-          <p>Carregando experiências e destinos...</p>
+          <p>Carregando a melhor experiência para você...</p>
         </div>
         <Footer />
       </div>
@@ -525,12 +529,7 @@ const HomeUltraModern = () => {
             </p>
           </div>
 
-          {loading ? (
-            <div className="loading-ultra">
-              <div className="spinner-ultra"></div>
-              <p>Carregando destinos incríveis...</p>
-            </div>
-          ) : Object.keys(pacotesPorCategoria).length === 0 ? (
+          {Object.keys(pacotesPorCategoria).length === 0 ? (
             <div className="empty-state-ultra">
               <FiMapPin className="empty-icon" />
               <h3>Novos destinos em breve!</h3>
@@ -542,11 +541,10 @@ const HomeUltraModern = () => {
           ) : (
             <div className="carousels-section">
               {Object.entries(pacotesPorCategoria).map(([categoria, pacotesCategoria]) => {
-                // Definir link "Ver Mais" baseado na categoria
                 const verMaisLink = categoria === 'passeio' ? '/categoria/passeio' : '/categoria/transfer_chegada';
-                
+
                 return (
-                  <PacotesCarousel 
+                  <PacotesCarousel
                     key={categoria}
                     pacotes={pacotesCategoria}
                     categoria={categorias[categoria] || categoria}

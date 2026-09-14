@@ -45,6 +45,28 @@
   background: var(--white);
 }
 
+.home-loading-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.global-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  background: linear-gradient(135deg, #f5f9f6 0%, #eef7f2 100%);
+}
+
+.global-loading p {
+  font-size: 1rem;
+  color: #214c3b;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .container-ultra {
   max-width: 1400px;
   margin: 0 auto;
