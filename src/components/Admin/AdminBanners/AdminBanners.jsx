@@ -66,7 +66,7 @@ const AdminBanners = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }; 
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
