@@ -565,7 +565,7 @@ const HomeUltraModern = () => {
             </Link>
           </div>
         </div>
-      </section>}
+      </section>
 
       {/* ========== SERVIÇOS PREMIUM ========== */}
       <section className="servicos-section-ultra">
@@ -623,7 +623,7 @@ const HomeUltraModern = () => {
             ))}
           </div>
         </div>
-      </section>}
+      </section>
 
       {/* ========== POR QUE ESCOLHER ========== */}
       {differentialsSettings.active && (
