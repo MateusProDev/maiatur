@@ -393,7 +393,6 @@ const HomeUltraModern = () => {
         }
         
         setPacotesPorCategoria(grouped);
-        setLoading(false);
         
         // Debug
         console.log('📦 Total de pacotes:', pacotesData.length);
@@ -485,12 +484,14 @@ const HomeUltraModern = () => {
   if (loading) {
     return (
       <div className="home-ultra-modern home-loading-shell">
-        <Header />
         <div className="loading-ultra global-loading" style={{ minHeight: '70vh' }}>
-          <div className="spinner-ultra"></div>
+          <div className="wave-spinner wave-spinner-large" aria-label="Carregando">
+            <span className="wave wave1" />
+            <span className="wave wave2" />
+            <span className="wave wave3" />
+          </div>
           <p>Carregando a melhor experiência para você...</p>
         </div>
-        <Footer />
       </div>
     );
   }
