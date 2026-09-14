@@ -89,7 +89,6 @@ const HomeUltraModern = () => {
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [homeContentReady, setHomeContentReady] = useState(true);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [services, setServices] = useState(DEFAULT_SERVICES);
@@ -417,8 +416,6 @@ const HomeUltraModern = () => {
 
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
-      } finally {
-        setHomeContentReady(true);
       }
     };
 
