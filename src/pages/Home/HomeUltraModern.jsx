@@ -481,10 +481,10 @@ const HomeUltraModern = () => {
     ? carouselSettings.images[0]
     : carouselSettings.images?.[0]?.url;
 
-  if (loading) {
-    return (
-      <div className="home-ultra-modern home-loading-shell">
-        <div className="loading-ultra global-loading" style={{ minHeight: '70vh' }}>
+  return (
+    <div className="home-ultra-modern" aria-busy={loading}>
+      {loading && (
+        <div className="loading-ultra global-loading-overlay" role="status" aria-live="polite">
           <div className="wave-spinner wave-spinner-large" aria-label="Carregando">
             <span className="wave wave1" />
             <span className="wave wave2" />
@@ -492,12 +492,8 @@ const HomeUltraModern = () => {
           </div>
           <p>Carregando a melhor experiência para você...</p>
         </div>
-      </div>
-    );
-  }
+      )}
 
-  return (
-    <div className="home-ultra-modern">
       <SEOHelmet 
         title={homeSeo.title}
         description={homeSeo.description}
