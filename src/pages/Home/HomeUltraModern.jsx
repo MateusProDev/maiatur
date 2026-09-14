@@ -35,6 +35,8 @@ import './HomeUltraModern.css';
 import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 
 const DEFAULT_HOME_FEATURED_IMAGE = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=630&fit=crop';
+const HOME_CACHE_KEY = 'home_pacotes_data';
+const HOME_CACHE_TTL = 5 * 60 * 1000;
 
 const DEFAULT_SERVICES = [
   {
@@ -88,7 +90,7 @@ const HomeUltraModern = () => {
   const navigate = useNavigate();
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [services, setServices] = useState(DEFAULT_SERVICES);
@@ -150,6 +152,22 @@ const HomeUltraModern = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const cacheKey = HOME_CACHE_KEY;
+        const cachedData = localStorage.getItem(cacheKey);
+        const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+
+        if (cachedData && cacheTime) {
+          const cacheAge = Date.now() - parseInt(cacheTime, 10);
+          if (cacheAge < HOME_CACHE_TTL) {
+            console.log('📦 Usando cache de pacotes da Home');
+            const parsed = JSON.parse(cachedData);
+            setPacotesPorCategoria(parsed.pacotesPorCategoria || {});
+            setAvaliacoes(parsed.avaliacoes || []);
+            setLoading(false);
+            return;
+          }
+        }
+
         const [homeSeoDoc, pacotesSnapshot] = await Promise.all([
           getDoc(doc(db, 'content', 'homeSeo')),
           getDocs(query(
@@ -160,22 +178,6 @@ const HomeUltraModern = () => {
 
         if (homeSeoDoc.exists()) {
           setHomeSeo({ ...seoData.home, ...homeSeoDoc.data() });
-        }
-
-        // Otimização: Verificar cache primeiro para pacotes
-        const cacheKey = 'home_pacotes_data';
-        const cachedData = localStorage.getItem(cacheKey);
-        const cacheTime = localStorage.getItem(`${cacheKey}_time`);
-        
-        // Usar cache se tiver menos de 5 minutos
-        if (cachedData && cacheTime) {
-          const cacheAge = Date.now() - parseInt(cacheTime);
-          if (cacheAge < 5 * 60 * 1000) {
-            console.log('📦 Usando cache de pacotes da Home');
-            const parsed = JSON.parse(cachedData);
-            setPacotesPorCategoria(parsed.pacotesPorCategoria);
-            setAvaliacoes(parsed.avaliacoes);
-          }
         }
         
         // Buscar WhatsApp
@@ -413,9 +415,11 @@ const HomeUltraModern = () => {
           avaliacoes: avaliacoesData
         }));
         localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
+        setLoading(false);
 
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
+        setLoading(false);
       }
     };
 
@@ -473,6 +477,19 @@ const HomeUltraModern = () => {
   const featuredHomeImage = typeof carouselSettings.images?.[0] === 'string'
     ? carouselSettings.images[0]
     : carouselSettings.images?.[0]?.url;
+
+  if (loading) {
+    return (
+      <div className="home-ultra-modern home-loading-shell">
+        <Header />
+        <div className="loading-ultra" style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="spinner-ultra"></div>
+          <p>Carregando experiências e destinos...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="home-ultra-modern">
