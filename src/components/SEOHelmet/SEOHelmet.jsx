@@ -18,16 +18,18 @@ const SEOHelmet = ({
   const brand = 'Transfer Fortaleza Tur';
   const envBase = process.env.REACT_APP_SITE_URL || '';
   const baseUrl = envBase || 'https://transferfortalezatur.com.br';
+  const fallbackDescription = 'Transfer Fortaleza Tur oferece transfers e passeios em Fortaleza com conforto, pontualidade e preços competitivos.';
+  const fallbackImage = 'https://res.cloudinary.com/dqejvdl8w/image/upload/v1762465385/logos/cz00p4dxeday83oadkwz.png';
 
   // Safe handlers for missing props
   const safeTitle = String(title || '').trim();
-  const safeDescription = String(description || '').trim();
+  const safeDescription = String(description || '').trim() || fallbackDescription;
   const safeKeywords = String(keywords || '').trim();
 
   // Build fullTitle: avoid duplicating brand
   const fullTitle = safeTitle
     ? (safeTitle.includes(brand) ? safeTitle : `${safeTitle} | ${brand}`)
-    : '';
+    : `${brand} | Transfers e Passeios em Fortaleza`;
 
   // Build canonical safely
   let fullCanonical = '';
@@ -175,28 +177,33 @@ const SEOHelmet = ({
   const breadcrumbSchema = generateBreadcrumbSchema();
   const structuredSchemas = [schemaMarkup, faqSchema, breadcrumbSchema].filter(Boolean);
 
+  const resolvedOgImage = (ogImage && String(ogImage).trim()) || fallbackImage;
+  const resolvedOgType = ogType || 'website';
+
   return (
     <Helmet>
-      {fullTitle && <title>{fullTitle}</title>}
-      {safeDescription && <meta name="description" content={safeDescription} />}
+      <title>{fullTitle}</title>
+      <meta name="description" content={safeDescription} />
       {safeKeywords && <meta name="keywords" content={safeKeywords} />}
       {fullCanonical && <link rel="canonical" href={fullCanonical} />}
 
       {/* Open Graph */}
-      <meta property="og:title" content={fullTitle || brand} />
-      {safeDescription && <meta property="og:description" content={safeDescription} />}
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={safeDescription} />
       {fullCanonical && <meta property="og:url" content={fullCanonical} />}
-      <meta property="og:type" content={ogType} />
-      {ogImage && <meta property="og:image" content={ogImage} />}
-      {fullTitle && <meta property="og:image:alt" content={fullTitle} />}
+      <meta property="og:type" content={resolvedOgType} />
+      <meta property="og:image" content={resolvedOgImage} />
+      <meta property="og:image:secure_url" content={resolvedOgImage} />
+      <meta property="og:image:alt" content={fullTitle} />
       <meta property="og:site_name" content={brand} />
-      <meta property="og:locale" content="pt_BR" />
+      <meta property="og:locale" content="pt-BR" />
+      <meta property="og:logo" content={resolvedOgImage} />
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={fullTitle || brand} />
-      {safeDescription && <meta name="twitter:description" content={safeDescription} />}
-      {ogImage && <meta name="twitter:image" content={ogImage} />}
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={safeDescription} />
+      <meta name="twitter:image" content={resolvedOgImage} />
 
       {/* Schema Markup: consolidated to avoid repeated blocks while preserving the necessary structured data */}
       {structuredSchemas.length > 0 && (
