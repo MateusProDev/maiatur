@@ -36,21 +36,69 @@ import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOp
 
 const DEFAULT_HOME_FEATURED_IMAGE = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=630&fit=crop';
 
+const DEFAULT_SERVICES = [
+  {
+    image: '/aviaoservico.png',
+    title: 'Transfers & Receptivo',
+    description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
+    color: '#21A657'
+  },
+  {
+    image: '/jericoaquaraservico.png',
+    title: 'Passeios Privativos',
+    description: 'Experiências exclusivas com roteiros personalizados para você',
+    color: '#EE7C35'
+  },
+  {
+    image: '/fortalezacityservico.png',
+    title: 'City Tours',
+    description: 'Conheça as principais atrações e cultura local com nossos guias',
+    color: '#F8C144'
+  }
+];
+
+const DEFAULT_DIFFERENTIALS = [
+  {
+    icon: 'shield',
+    title: 'Segurança Total',
+    description: 'Veículos vistoriados e motoristas experientes',
+    image: ''
+  },
+  {
+    icon: 'smile',
+    title: 'Atendimento Personalizado',
+    description: 'Equipe dedicada para ajudar no planejamento da sua viagem',
+    image: ''
+  },
+  {
+    icon: 'credit-card',
+    title: 'Melhor Custo-Benefício',
+    description: 'Preços justos sem taxas ocultas',
+    image: ''
+  },
+  {
+    icon: 'heart',
+    title: 'Paixão por Turismo',
+    description: 'Cada viagem é única e especial para nós',
+    image: ''
+  }
+];
+
 const HomeUltraModern = () => {
   const navigate = useNavigate();
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [homeContentReady, setHomeContentReady] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [homeContentReady, setHomeContentReady] = useState(true);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState(DEFAULT_SERVICES);
   const [servicesSectionData, setServicesSectionData] = useState({
     badge: 'Experiências Personalizadas',
     title: 'Nossos Serviços',
     subtitle: 'Cada detalhe pensado para tornar sua viagem perfeita'
   });
-  const [differentials, setDifferentials] = useState([]);
+  const [differentials, setDifferentials] = useState(DEFAULT_DIFFERENTIALS);
   const [categoriasConfig, setCategoriasConfig] = useState({
     destinos_home: {
       titulo: "Escolha Sua Próxima Aventura",
@@ -128,7 +176,6 @@ const HomeUltraModern = () => {
             const parsed = JSON.parse(cachedData);
             setPacotesPorCategoria(parsed.pacotesPorCategoria);
             setAvaliacoes(parsed.avaliacoes);
-            setLoading(false);
           }
         }
         
@@ -371,7 +418,6 @@ const HomeUltraModern = () => {
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
       } finally {
-        setLoading(false);
         setHomeContentReady(true);
       }
     };
@@ -451,7 +497,7 @@ const HomeUltraModern = () => {
       <BannerCarousel />
 
       {/* ========== EXPLORAR DESTINOS POR CATEGORIA ========== */}
-      {homeContentReady && <section className="destinos-section-ultra">
+      <section className="destinos-section-ultra">
         <div className="container-ultra">
           <div className="section-header-ultra">
             <span className="section-badge">
@@ -508,7 +554,7 @@ const HomeUltraModern = () => {
       </section>}
 
       {/* ========== SERVIÇOS PREMIUM ========== */}
-      {homeContentReady && <section className="servicos-section-ultra">
+      <section className="servicos-section-ultra">
         <div className="container-ultra">
           <div className="section-header-ultra center">
             <span className="section-badge">
@@ -565,20 +611,8 @@ const HomeUltraModern = () => {
         </div>
       </section>}
 
-      {/* ========== CARROSSEL DE IMAGENS ========== */}
-      {homeContentReady && carouselSettings.active && carouselSettings.images.length > 0 && (
-        <ImageCarousel 
-          images={carouselSettings.images}
-          autoPlay={true}
-          speed={carouselSettings.speed}
-        />
-      )}
-
-      {/* ========== TRANSFER BEBERIBE ========== */}
-      <TransferBeberibe />
-
       {/* ========== POR QUE ESCOLHER ========== */}
-      {homeContentReady && differentialsSettings.active && (
+      {differentialsSettings.active && (
         <section className="why-choose-ultra">
           <div className="container-ultra">
             <div className="why-choose-content">
@@ -592,7 +626,7 @@ const HomeUltraModern = () => {
                 <p className="section-text-large">
                   {differentialsSettings.description}
                 </p>
-                
+
                 <div className="features-list-ultra">
                   {differentials.map((feature, index) => (
                     <div key={feature.id || index} className="feature-item-ultra">
@@ -607,8 +641,8 @@ const HomeUltraModern = () => {
                   ))}
                 </div>
 
-                <button 
-                  onClick={() => navigate('/pacotes')} 
+                <button
+                  onClick={() => navigate('/pacotes')}
                   className="btn-cta-large"
                 >
                   <FiPackage />
@@ -619,11 +653,11 @@ const HomeUltraModern = () => {
               <div className="why-choose-right">
                 <div className="image-collage">
                   <div className="collage-item collage-1">
-                    <img 
+                    <img
                       src={autoOptimize(differentialsSettings.collageImages?.image1 || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop', 'banner')}
                       srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image1, [320, 480, 640, 800]) || undefined}
                       sizes="(max-width: 768px) 70vw, 420px"
-                      alt="Destino" 
+                      alt="Destino"
                       loading="lazy"
                       decoding="async"
                       width="600"
@@ -631,11 +665,11 @@ const HomeUltraModern = () => {
                     />
                   </div>
                   <div className="collage-item collage-2">
-                    <img 
+                    <img
                       src={autoOptimize(differentialsSettings.collageImages?.image2 || 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop', 'banner')}
                       srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image2, [240, 320, 480, 640]) || undefined}
                       sizes="(max-width: 768px) 55vw, 330px"
-                      alt="Experiência" 
+                      alt="Experiência"
                       loading="lazy"
                       decoding="async"
                       width="400"
@@ -643,11 +677,11 @@ const HomeUltraModern = () => {
                     />
                   </div>
                   <div className="collage-item collage-3">
-                    <img 
+                    <img
                       src={autoOptimize(differentialsSettings.collageImages?.image3 || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop', 'banner')}
                       srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image3, [240, 320, 480, 640]) || undefined}
                       sizes="(max-width: 768px) 60vw, 360px"
-                      alt="Aventura" 
+                      alt="Aventura"
                       loading="lazy"
                       decoding="async"
                       width="500"
@@ -660,6 +694,18 @@ const HomeUltraModern = () => {
           </div>
         </section>
       )}
+
+      {/* ========== CARROSSEL DE IMAGENS ========== */}
+      {carouselSettings.active && carouselSettings.images.length > 0 && (
+        <ImageCarousel
+          images={carouselSettings.images}
+          autoPlay={true}
+          speed={carouselSettings.speed}
+        />
+      )}
+
+      {/* ========== TRANSFER BEBERIBE ========== */}
+      <TransferBeberibe />
 
       {/* ========== DEPOIMENTOS ========== */}
       {avaliacoes.length > 0 && (
