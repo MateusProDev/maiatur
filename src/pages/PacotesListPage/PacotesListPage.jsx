@@ -181,9 +181,19 @@ const PacotesListPage = () => {
     setFilterCategoria('all');
   };
 
+  const pageSeo = (
+    <SEOHelmet 
+      title={seoData.pacotes.title}
+      description={seoData.pacotes.description}
+      canonical={seoData.pacotes.canonical}
+      noindex={seoData.pacotes.noindex}
+    />
+  );
+
   if (loading) {
     return (
       <>
+        {pageSeo}
         <Header />
         <div className="container-pacotes">
           <LoadingSpinner size="large" text="Carregando pacotes incríveis..." />
@@ -195,12 +205,7 @@ const PacotesListPage = () => {
 
   return (
     <div className="pacotes-page-modern">
-      <SEOHelmet 
-        title={seoData.pacotes.title}
-        description={seoData.pacotes.description}
-        canonical={seoData.pacotes.canonical}
-        noindex={seoData.pacotes.noindex}
-      />
+      {pageSeo}
       <Header />
       
       {/* Hero Section */}

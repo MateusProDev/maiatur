@@ -1,11 +1,9 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import RouteSEO from './components/RouteSEO/RouteSEO';
 import { AuthProvider } from "./context/AuthContext";
 import { auth } from "./firebase/firebaseConfig";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
-import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import WhatsAppButton from "./components/WhatsAppButton/WhatsAppButton";
 import analyticsService from "./services/analyticsService";
 
@@ -112,7 +110,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const App = () => {
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   return (
     <HelmetProvider>
@@ -120,23 +118,9 @@ const App = () => {
         <Router>
           <AuthProvider>
             <AnalyticsTracker />
-            <RouteSEO />
             <PublicWhatsAppButton />
-            {loading && (
-              <LoadingSpinner 
-                size="large" 
-                text="Carregando experiências incríveis..." 
-              fullScreen={true} 
-            />
-          )}
           <ErrorBoundary>
-            <Suspense fallback={
-              <LoadingSpinner 
-                size="large" 
-                text="Carregando..." 
-                fullScreen={true} 
-              />
-            }>
+            <Suspense fallback={null}>
               <main role="main">
                 <Routes>
                   {/* As rotas de motorista e usuário foram removidas conforme solicitado */}
@@ -204,7 +188,7 @@ const App = () => {
               <Route path="/link-bio" element={<LinkInBio />} />
               <Route path="/google" element={<GoogleHub />} />
               
-              <Route path="*" element={<Suspense fallback={<LoadingSpinner />}><Falha /></Suspense>} />
+              <Route path="*" element={<Falha />} />
                 </Routes>
               </main>
             </Suspense>

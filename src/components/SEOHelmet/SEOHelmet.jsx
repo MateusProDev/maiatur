@@ -27,7 +27,7 @@ const SEOHelmet = ({
   const safeKeywords = String(keywords || '').trim();
 
   // Build fullTitle: avoid duplicating brand
-  const fullTitle = safeTitle
+  const fullTitle = safeTitle && safeTitle !== brand
     ? (safeTitle.includes(brand) ? safeTitle : `${safeTitle} | ${brand}`)
     : `${brand} | Transfers e Passeios em Fortaleza`;
 

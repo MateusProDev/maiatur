@@ -69,7 +69,9 @@ const RouteSEO = () => {
       const title = seoInfo.title || '';
       const description = seoInfo.description || '';
       if (title) {
-        const safeTitle = title.includes('Transfer Fortaleza Tur') ? title : `${title} | Transfer Fortaleza Tur`;
+        const safeTitle = title && title !== 'Transfer Fortaleza Tur'
+          ? (title.includes('Transfer Fortaleza Tur') ? title : `${title} | Transfer Fortaleza Tur`)
+          : 'Transfer Fortaleza Tur | Transfers e Passeios em Fortaleza';
         document.title = safeTitle;
       }
 
