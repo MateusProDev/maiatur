@@ -84,7 +84,7 @@ const BannerCarousel = () => {
       <div className="banner-slides-container">
         {displayBanners.map((banner, index) => (
           <div
-            key={banner.id}
+            key={index === 0 ? 'banner-primary' : banner.id}
             className={`banner-slide ${index === currentSlide ? 'active' : ''} ${
               index === (currentSlide - 1 + displayBanners.length) % displayBanners.length ? 'prev' : ''
             } ${index === (currentSlide + 1) % displayBanners.length ? 'next' : ''}`}
