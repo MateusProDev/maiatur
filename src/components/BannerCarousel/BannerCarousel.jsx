@@ -72,23 +72,22 @@ const BannerCarousel = () => {
     return () => clearInterval(interval);
   }, [banners.length, nextSlide, isPaused]);
 
-  if (loading || banners.length === 0) {
-    return null;
-  }
+  const displayBanners = banners.length > 0 ? banners : [fallbackBanner];
 
   return (
     <section 
       className="banner-carousel-hero"
+      aria-busy={loading}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="banner-slides-container">
-        {banners.map((banner, index) => (
+        {displayBanners.map((banner, index) => (
           <div
             key={banner.id}
             className={`banner-slide ${index === currentSlide ? 'active' : ''} ${
-              index === (currentSlide - 1 + banners.length) % banners.length ? 'prev' : ''
-            } ${index === (currentSlide + 1) % banners.length ? 'next' : ''}`}
+              index === (currentSlide - 1 + displayBanners.length) % displayBanners.length ? 'prev' : ''
+            } ${index === (currentSlide + 1) % displayBanners.length ? 'next' : ''}`}
           >
             <div className="banner-image-wrapper">
               <img 
@@ -154,7 +153,7 @@ const BannerCarousel = () => {
       </div>
 
       {/* Navigation Arrows */}
-      {banners.length > 1 && (
+      {displayBanners.length > 1 && (
         <>
           <button 
             className="banner-nav-btn banner-nav-prev" 
@@ -174,9 +173,9 @@ const BannerCarousel = () => {
       )}
 
       {/* Dots Indicator */}
-      {banners.length > 1 && (
+      {displayBanners.length > 1 && (
         <div className="banner-dots">
-          {banners.map((_, index) => (
+          {displayBanners.map((_, index) => (
             <button
               key={index}
               className={`banner-dot ${index === currentSlide ? 'active' : ''}`}
@@ -188,7 +187,7 @@ const BannerCarousel = () => {
       )}
 
       {/* Progress Bar */}
-      {banners.length > 1 && !isPaused && (
+      {displayBanners.length > 1 && !isPaused && (
         <div className="banner-progress-bar">
           <div 
             className="banner-progress-fill"
