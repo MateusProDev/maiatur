@@ -84,6 +84,29 @@
   line-height: 1.6;
 }
 
+.pacotes-hero-skeleton {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.pacotes-hero-skeleton-title,
+.pacotes-hero-skeleton-subtitle {
+  background: rgba(255, 255, 255, 0.32);
+  border-radius: 8px;
+}
+
+.pacotes-hero-skeleton-title {
+  width: min(82vw, 620px);
+  height: 4.2rem;
+}
+
+.pacotes-hero-skeleton-subtitle {
+  width: min(70vw, 500px);
+  height: 2.1rem;
+}
+
 /* Search Bar */
 .pacotes-search-bar {
   position: relative;

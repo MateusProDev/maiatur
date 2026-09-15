@@ -475,6 +475,28 @@
   color: #F8C144;
 }
 
+.destinos-header-skeleton {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.destinos-header-skeleton-title,
+.destinos-header-skeleton-description {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+}
+
+.destinos-header-skeleton-title {
+  width: min(68vw, 520px);
+  height: 2.4rem;
+}
+
+.destinos-header-skeleton-description {
+  width: min(82vw, 700px);
+  height: 3.6rem;
+}
+
 .carousels-section {
   width: 100%;
 }

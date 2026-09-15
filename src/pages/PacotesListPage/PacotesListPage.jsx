@@ -20,6 +20,7 @@ const PacotesListPage = () => {
   const [filterCategoria, setFilterCategoria] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [pageSettingsLoading, setPageSettingsLoading] = useState(true);
   const [pageSettings, setPageSettings] = useState({
     heroTitle: 'Descubra seu Próximo Destino',
     heroSubtitle: 'Pacotes exclusivos com os melhores preços e experiências inesquecíveis',
@@ -38,6 +39,8 @@ const PacotesListPage = () => {
         }
       } catch (error) {
         console.error('Erro ao carregar configurações da página:', error);
+      } finally {
+        setPageSettingsLoading(false);
       }
     };
 
@@ -212,19 +215,28 @@ const PacotesListPage = () => {
       <section className="pacotes-hero">
         <div className="pacotes-hero-bg"></div>
         <div className="pacotes-hero-content">
-          <h1 className="pacotes-hero-title">
-            {pageSettings.heroTitle}
-          </h1>
-          <p className="pacotes-hero-subtitle">
-            {pageSettings.heroSubtitle}
-          </p>
+          {pageSettingsLoading ? (
+            <div className="pacotes-hero-skeleton" aria-label="Carregando conteúdo da página" aria-hidden="true">
+              <div className="pacotes-hero-skeleton-title" />
+              <div className="pacotes-hero-skeleton-subtitle" />
+            </div>
+          ) : (
+            <>
+              <h1 className="pacotes-hero-title">
+                {pageSettings.heroTitle}
+              </h1>
+              <p className="pacotes-hero-subtitle">
+                {pageSettings.heroSubtitle}
+              </p>
+            </>
+          )}
           
           {/* Search Bar */}
           <div className="pacotes-search-bar">
             <FiSearch className="search-icon" />
             <input
               type="text"
-              placeholder={pageSettings.searchPlaceholder}
+              placeholder={pageSettingsLoading ? '' : pageSettings.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"

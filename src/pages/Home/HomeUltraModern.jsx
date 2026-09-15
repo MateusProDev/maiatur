@@ -494,12 +494,21 @@ const HomeUltraModern = () => {
             <span className="section-badge">
               <FiMapPin /> Destinos em Destaque
             </span>
-            <h2 className="section-title-ultra">
-              {categoriasConfig.destinos_home?.titulo || "Escolha Sua Próxima Aventura"}
-            </h2>
-            <p className="section-description">
-              {categoriasConfig.destinos_home?.descricao || "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"}
-            </p>
+            {loading ? (
+              <div className="destinos-header-skeleton" aria-label="Carregando conteúdo da seção" aria-hidden="true">
+                <div className="destinos-header-skeleton-title" />
+                <div className="destinos-header-skeleton-description" />
+              </div>
+            ) : (
+              <>
+                <h2 className="section-title-ultra">
+                  {categoriasConfig.destinos_home?.titulo || "Escolha Sua Próxima Aventura"}
+                </h2>
+                <p className="section-description">
+                  {categoriasConfig.destinos_home?.descricao || "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"}
+                </p>
+              </>
+            )}
           </div>
 
           {loading ? (
