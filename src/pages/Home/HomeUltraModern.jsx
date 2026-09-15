@@ -459,9 +459,14 @@ const HomeUltraModern = () => {
     );
   };
 
-  const featuredHomeImage = typeof carouselSettings.images?.[0] === 'string'
+  const carouselFeaturedImage = typeof carouselSettings.images?.[0] === 'string'
     ? carouselSettings.images[0]
     : carouselSettings.images?.[0]?.url;
+  const packageFeaturedImage = Object.values(pacotesPorCategoria)
+    .flat()
+    .map((pacote) => pacote.imagens?.[0] || pacote.imagem || pacote.image)
+    .find((image) => typeof image === 'string' && image.trim());
+  const featuredHomeImage = carouselFeaturedImage || packageFeaturedImage;
 
   return (
     <div className="home-ultra-modern" aria-busy={loading}>
