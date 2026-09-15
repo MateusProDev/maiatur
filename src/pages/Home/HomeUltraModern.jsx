@@ -465,17 +465,6 @@ const HomeUltraModern = () => {
 
   return (
     <div className="home-ultra-modern" aria-busy={loading}>
-      {loading && (
-        <div className="loading-ultra global-loading-overlay" role="status" aria-live="polite">
-          <div className="wave-spinner wave-spinner-large" aria-label="Carregando">
-            <span className="wave wave1" />
-            <span className="wave wave2" />
-            <span className="wave wave3" />
-          </div>
-          <p>Carregando a melhor experiência para você...</p>
-        </div>
-      )}
-
       <SEOHelmet 
         title={homeSeo.title}
         description={homeSeo.description}
@@ -508,7 +497,20 @@ const HomeUltraModern = () => {
             </p>
           </div>
 
-          {Object.keys(pacotesPorCategoria).length === 0 ? (
+          {loading ? (
+            <div className="destinos-skeleton" aria-label="Carregando destinos" aria-hidden="true">
+              {[1, 2, 3].map((item) => (
+                <div className="destino-skeleton-card" key={item}>
+                  <div className="destino-skeleton-image" />
+                  <div className="destino-skeleton-content">
+                    <div className="destino-skeleton-line destino-skeleton-line-title" />
+                    <div className="destino-skeleton-line" />
+                    <div className="destino-skeleton-line destino-skeleton-line-short" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : Object.keys(pacotesPorCategoria).length === 0 ? (
             <div className="empty-state-ultra">
               <FiMapPin className="empty-icon" />
               <h3>Novos destinos em breve!</h3>

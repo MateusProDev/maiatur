@@ -66,7 +66,7 @@
     "start": "craco start",
     "lint": "eslint src scripts --ext .js,.jsx,.ts,.tsx",
     "type-check": "tsc --noEmit -p tsconfig.json",
-    "build": "craco build",
+    "build": "craco build && npm run prerender",
     "build:full": "craco build",
     "prerender": "node scripts/prerenderPackages.js && node scripts/prerenderHome.js && node scripts/prerenderInstitutional.js",
     "diagnose": "node scripts/diagnoseBuild.js",
@@ -74,7 +74,7 @@
     "prerender-institutional": "node scripts/prerenderInstitutional.js",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && npm run prerender && vercel --prod",
+    "deploy": "npm run build && vercel --prod",
     "preview": "npm run build && vercel",
     "generate-link-bio": "node scripts/generateLinkBio.js"
   },

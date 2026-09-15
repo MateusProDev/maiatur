@@ -225,9 +225,7 @@ async function main() {
     console.log('[prerender-home] Prerender da Home concluído com sucesso');
   } catch (error) {
     console.error('[prerender-home] falha:', error.message);
-    console.warn('[prerender-home] Prerender da Home falhou, mas o build continuará. Os pacotes já foram prerenderizados com sucesso.');
-    // Não lança erro para não falhar o build inteiro
-    process.exitCode = 0;
+    process.exitCode = 1;
   }
 }
 

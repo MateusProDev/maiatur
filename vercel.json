@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build && npm run prerender",
+  "buildCommand": "npm run build",
   "functions": {
     "api/mercadopago.js": {
       "maxDuration": 30
