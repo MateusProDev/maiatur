@@ -107,24 +107,26 @@ const BannerCarousel = () => {
 
             <div className="banner-content">
               <div className="banner-text-container">
-                {banner.localizacao && (
+                {(!loading || banner.id !== fallbackBanner.id) && banner.localizacao && (
                   <div className="banner-location">
                     <FiMapPin />
                     <span>{banner.localizacao}</span>
                   </div>
                 )}
                 
-                <h1 className="banner-title">{banner.titulo}</h1>
+                {(!loading || banner.id !== fallbackBanner.id) && (
+                  <h1 className="banner-title">{banner.titulo}</h1>
+                )}
                 
-                {banner.subtitulo && (
+                {(!loading || banner.id !== fallbackBanner.id) && banner.subtitulo && (
                   <p className="banner-subtitle">{banner.subtitulo}</p>
                 )}
 
-                {banner.descricao && (
+                {(!loading || banner.id !== fallbackBanner.id) && banner.descricao && (
                   <p className="banner-description">{banner.descricao}</p>
                 )}
 
-                <div className="banner-actions">
+                {(!loading || banner.id !== fallbackBanner.id) && <div className="banner-actions">
                   {banner.botaoTexto && banner.botaoLink && (
                     <Link 
                       to={banner.botaoLink} 
@@ -145,7 +147,7 @@ const BannerCarousel = () => {
                       {banner.botaoSecundarioTexto}
                     </Link>
                   )}
-                </div>
+                </div>}
               </div>
             </div>
           </div>
