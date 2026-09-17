@@ -168,22 +168,6 @@
   transform: rotate(90deg);
 }
 
-/* Hero Wave */
-.hero-wave {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  color: #f5f7fa;
-  z-index: 1;
-}
-
-.hero-wave svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 /* ========================================
    FILTERS SECTION
    ======================================== */

@@ -1,4 +1,4 @@
-/* Loading Spinner Padronizado - Tema Turismo com Ondas */
+/* Loading Spinner Padronizado - Tema Turismo */
 
 /* Container */
 .loading-spinner-container {
@@ -25,48 +25,26 @@
   z-index: 9999;
 }
 
-/* Wave Spinner - 3 ondas animadas */
-.wave-spinner {
+.loading-indicator {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 8px;
+  width: 42px;
+  height: 42px;
   margin-bottom: 1.5rem;
+  border: 4px solid rgba(238, 124, 53, 0.2);
+  border-top-color: #EE7C35;
+  border-radius: 50%;
 }
 
-.wave {
-  width: 8px;
-  background: linear-gradient(135deg, #EE7C35 0%, #F8C144 100%);
-  border-radius: 10px;
+.loading-indicator-small {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
 }
 
-/* Sizes */
-.wave-spinner-small {
-  gap: 5px;
-}
-
-.wave-spinner-small .wave {
-  width: 5px;
-  height: 20px;
-}
-
-.wave-spinner-medium {
-  gap: 8px;
-}
-
-.wave-spinner-medium .wave {
-  width: 8px;
-  height: 35px;
-}
-
-.wave-spinner-large {
-  gap: 10px;
-}
-
-.wave-spinner-large .wave {
-  width: 10px;
-  height: 50px;
+.loading-indicator-large {
+  width: 52px;
+  height: 52px;
+  border-width: 5px;
 }
 
 /* Loading Text */
@@ -84,58 +62,14 @@
     min-height: 150px;
   }
 
-  .wave-spinner-medium .wave {
-    width: 6px;
-    height: 28px;
-  }
-
-  .wave-spinner-large .wave {
-    width: 8px;
-    height: 40px;
-  }
-
   .loading-text {
     font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
-  .wave-spinner-small .wave {
-    width: 4px;
-    height: 16px;
-  }
-
-  .wave-spinner-medium .wave {
-    width: 5px;
-    height: 22px;
-  }
-
   .loading-text {
     font-size: 0.85rem;
   }
 }
 
-/* Alternative: Circular Wave Pattern (optional) */
-.wave-spinner-circular {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 4px solid rgba(238, 124, 53, 0.2);
-  border-top-color: #EE7C35;
-  border-right-color: #F8C144;
-  margin-bottom: 1.5rem;
-}
-
-/* Dot Wave Pattern (alternative) */
-.wave-spinner-dots {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1.5rem;
-}
-
-.wave-spinner-dots .dot {
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(135deg, #EE7C35, #F8C144);
-  border-radius: 50%;
-}

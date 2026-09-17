@@ -67,11 +67,6 @@ export const seoData = {
       title: 'Transfer Aeroporto Fortaleza | Traslado Privativo Hotel - Transfer Fortaleza Tur',
       description: 'Transfer privativo do aeroporto de Fortaleza para hotéis e praias. Motorista profissional, veículo confortável, pontualidade garantida. Reserve online agora!',
       canonical: '/categoria/transfer'
-    },
-    'beach-park': {
-      title: 'Passeio Beach Park com Transfer Incluso | Porto das Dunas - Transfer Fortaleza Tur',
-      description: 'Pacote completo para Beach Park com transfer ida e volta incluso. Translado confortável saindo de Fortaleza. Ideal para famílias. Reserve com antecedência!',
-      canonical: '/categoria/beach-park'
     }
   }
 };

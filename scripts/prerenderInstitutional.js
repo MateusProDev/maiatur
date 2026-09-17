@@ -27,8 +27,7 @@ const INSTITUTIONAL_ROUTES = [
   '/blog',
   '/politica',
   '/categoria/passeio',
-  '/categoria/transfer',
-  '/categoria/beach-park'
+  '/categoria/transfer'
 ];
 
 function assertHtmlHasSeoContent(html, route) {

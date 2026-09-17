@@ -46,12 +46,6 @@ const STATIC_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>${SITE_URL}/categoria/beach-park</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>${SITE_URL}/pacotes</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
     <changefreq>weekly</changefreq>
@@ -128,7 +122,6 @@ function getPriority(categoria) {
     'transfer_saida': 0.7,
     'transfer_chegada_saida': 0.7,
     'transfer_entre_hoteis': 0.7,
-    'beach-park': 0.9
   };
   return priorities[categoria] || 0.7;
 }
@@ -143,7 +136,6 @@ function getChangeFreq(categoria) {
     'transfer_saida': 'monthly',
     'transfer_chegada_saida': 'monthly',
     'transfer_entre_hoteis': 'monthly',
-    'beach-park': 'weekly'
   };
   return freqs[categoria] || 'monthly';
 }
@@ -209,7 +201,6 @@ export default async function handler(req, res) {
       { loc: '/', priority: 1.0, changefreq: 'daily' },
       { loc: '/categoria/passeio', priority: 0.9, changefreq: 'weekly' },
       { loc: '/categoria/transfer', priority: 0.9, changefreq: 'weekly' },
-      { loc: '/categoria/beach-park', priority: 0.9, changefreq: 'weekly' },
       { loc: '/pacotes', priority: 0.8, changefreq: 'weekly' },
       { loc: '/destinos', priority: 0.8, changefreq: 'weekly' },
       { loc: '/blog', priority: 0.8, changefreq: 'weekly' },

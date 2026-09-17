@@ -37,11 +37,6 @@ const CATEGORIAS_DEFAULT = {
     descricao: 'Transporte confortável e seguro para todos os destinos',
     icon: FiPackage
   },
-  'beach-park': {
-    nome: 'Beach Park',
-    descricao: 'O maior parque aquático da América Latina',
-    icon: FiPackage
-  }
 };
 
 const CategoriaPage = () => {
@@ -107,7 +102,6 @@ const CategoriaPage = () => {
   const getSEOData = () => {
     if (categoria === 'passeio') return seoData.categorias.passeio;
     if (categoria.includes('transfer')) return seoData.categorias.transfer;
-    if (categoria === 'beach-park') return seoData.categorias['beach-park'];
     return {
       title: `${categoriaInfo.nome} - Transfer Fortaleza Tur`,
       description: categoriaInfo.descricao,
