@@ -483,7 +483,15 @@
 
 .destinos-header-skeleton-title,
 .destinos-header-skeleton-description {
-  background: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(214, 220, 222, 0.72) 45%,
+    rgba(255, 255, 255, 0.24) 70%,
+    rgba(255, 255, 255, 0.24) 100%
+  );
+  background-size: 240% 100%;
+  animation: destinos-skeleton-shimmer 1.8s ease-in-out infinite;
   border-radius: 8px;
 }
 
@@ -518,7 +526,15 @@
 
 .destino-skeleton-image {
   height: 180px;
-  background: #d9e2e3;
+  background: linear-gradient(
+    90deg,
+    #d9e2e3 0%,
+    #eef1f2 45%,
+    #c8d0d2 60%,
+    #d9e2e3 100%
+  );
+  background-size: 240% 100%;
+  animation: destinos-skeleton-shimmer 1.8s ease-in-out infinite;
 }
 
 .destino-skeleton-content {
@@ -530,18 +546,43 @@
 .destino-skeleton-line {
   width: 88%;
   height: 14px;
-  background: #d9e2e3;
+  background: linear-gradient(
+    90deg,
+    #d9e2e3 0%,
+    #eef1f2 45%,
+    #c8d0d2 60%,
+    #d9e2e3 100%
+  );
+  background-size: 240% 100%;
+  animation: destinos-skeleton-shimmer 1.8s ease-in-out infinite;
   border-radius: 4px;
 }
 
 .destino-skeleton-line-title {
   width: 64%;
   height: 20px;
-  background: #c5d3d5;
 }
 
 .destino-skeleton-line-short {
   width: 42%;
+}
+
+@keyframes destinos-skeleton-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -140% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .destinos-header-skeleton-title,
+  .destinos-header-skeleton-description,
+  .destino-skeleton-image,
+  .destino-skeleton-line {
+    animation: none;
+  }
 }
 
 .empty-state-ultra {
