@@ -34,6 +34,12 @@ No dashboard do Vercel, adicione estas variáveis de ambiente:
 - `REACT_APP_MERCADO_PAGO_PUBLIC_KEY` (chave pública)
 - `MERCADO_PAGO_ACCESS_TOKEN` (chave privada - APENAS para APIs serverless)
 
+#### Sitemap e Google Search Console
+- `GOOGLE_INDEXING_CREDENTIALS` (JSON completo da Service Account autorizada no Search Console)
+- `GOOGLE_SEARCH_CONSOLE_SITE_URL` (opcional; padrão: `https://transferfortalezatur.com.br`)
+
+O comando `npm run deploy` gera o build, publica na Vercel, consulta o sitemap publicado e o submete novamente ao Google Search Console. O sitemap inclui os pacotes da coleção `pacotes` e os posts publicados da coleção `blogPosts`. Sem `GOOGLE_INDEXING_CREDENTIALS`, o deploy continua e o sitemap é validado, mas a submissão automática fica desativada.
+
 ### 4. Configuração de Domínio Personalizado
 
 1. No dashboard do Vercel, vá em Settings > Domains

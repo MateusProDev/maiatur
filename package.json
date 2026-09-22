@@ -70,11 +70,12 @@
     "build:full": "craco build",
     "prerender": "node scripts/prerenderPackages.js && node scripts/prerenderHome.js && node scripts/prerenderInstitutional.js",
     "diagnose": "node scripts/diagnoseBuild.js",
+    "submit-sitemap": "node scripts/submit-sitemap.js",
     "prerender-home": "node scripts/prerenderHome.js",
     "prerender-institutional": "node scripts/prerenderInstitutional.js",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && vercel --prod",
+    "deploy": "npm run build && vercel --prod && npm run submit-sitemap",
     "preview": "npm run build && vercel",
     "generate-link-bio": "node scripts/generateLinkBio.js"
   },

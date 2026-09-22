@@ -9,20 +9,20 @@
  */
 
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs, query, where, orderBy } = require('firebase/firestore');
+const { getFirestore, collection, getDocs, query, where } = require('firebase/firestore');
 
 // Configuração do Firebase (usando variáveis de ambiente)
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || process.env.FIREBASE_MEASUREMENT_ID
 };
 
-const SITE_URL = 'https://transferfortalezatur.com.br';
+const SITE_URL = process.env.REACT_APP_SITE_URL || process.env.SITE_URL || 'https://transferfortalezatur.com.br';
 
 // Sitemap estático de fallback (páginas principais)
 const STATIC_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
@@ -173,11 +173,7 @@ export default async function handler(req, res) {
     
     // Buscar todos os posts de blog publicados do Firestore
     const blogPostsRef = collection(db, 'blogPosts');
-    const blogQuery = query(
-      blogPostsRef,
-      where('published', '==', true),
-      orderBy('publishedAt', 'desc')
-    );
+    const blogQuery = query(blogPostsRef, where('published', '==', true));
     const blogSnapshot = await getDocs(blogQuery);
     
     const blogPosts = [];
@@ -187,6 +183,12 @@ export default async function handler(req, res) {
         id: doc.id,
         ...data
       });
+    });
+
+    blogPosts.sort((first, second) => {
+      const firstDate = first.publishedAt?.toDate?.() || first.publishedAt || 0;
+      const secondDate = second.publishedAt?.toDate?.() || second.publishedAt || 0;
+      return new Date(secondDate).getTime() - new Date(firstDate).getTime();
     });
     
     console.log(`[Sitemap] ${blogPosts.length} posts de blog encontrados`);
