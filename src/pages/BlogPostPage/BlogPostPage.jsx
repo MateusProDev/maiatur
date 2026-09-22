@@ -10,6 +10,7 @@ import { getPostBySlug, incrementPostViews, getRelatedPosts } from '../../servic
 import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
 import { FiCalendar, FiUser, FiTag, FiArrowLeft, FiShare2, FiMessageCircle, FiHome } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import './BlogPostPage.css';
 
 const BlogPostPage = () => {
@@ -167,10 +168,9 @@ const BlogPostPage = () => {
 
         <div className="blog-post-container">
           <div className="blog-post-content">
-            <div 
-              className="post-body" 
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <div className="post-body">
+              <MarkdownRenderer content={post.content} />
+            </div>
 
             {/* Instagram Embed */}
             {post.instagramUrl && getInstagramEmbedUrl(post.instagramUrl) && (

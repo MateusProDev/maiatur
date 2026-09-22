@@ -13,6 +13,9 @@ Allow: /apple-icon-*.png
 # Sitemap
 Sitemap: https://transferfortalezatur.com.br/sitemap.xml
 
+# IA / LLM-friendly index
+Allow: /llms.txt
+
 # Disallow admin pages
 Disallow: /admin/
 Disallow: /admin/*

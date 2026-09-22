@@ -1,9 +1,9 @@
 // src/components/Admin/BlogAdmin/BlogAdmin.jsx
 import React, { useState, useEffect } from 'react';
 import { FiPlus, FiEdit2, FiTrash2, FiEye, FiEyeOff, FiSearch, FiSave, FiX, FiImage } from 'react-icons/fi';
-import { Editor } from '@tinymce/tinymce-react';
 import axios from 'axios';
 import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
+import RichTextEditorV2 from '../../RichTextEditorV2/RichTextEditorV2';
 import { createPost, updatePost, deletePost, getAllPostsAdmin, generateSlug } from '../../../services/blogService';
 import './BlogAdmin.css';
 
@@ -40,66 +40,7 @@ const BlogAdmin = () => {
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
   const [tagInput, setTagInput] = useState('');
 
-  // Configuração do editor TinyMCE - VERSÃO FREE (sem API key)
-  const tinymceConfig = {
-    height: 500,
-    menubar: false,
-    plugins: [
-      // Funcionalidades básicas gratuitas
-      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-      'insertdatetime', 'media', 'table', 'help', 'wordcount', 'paste'
-    ],
-    toolbar: 'undo redo | blocks | ' +
-      'bold italic underline strikethrough | alignleft aligncenter ' +
-      'alignright alignjustify | bullist numlist outdent indent | ' +
-      'link media table | removeformat | help',
-    content_style: `
-      body { 
-        font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; 
-        font-size: 14px; 
-        line-height: 1.6; 
-      }
-      h1, h2, h3 { 
-        color: #21A657; 
-        margin-top: 2rem; 
-        margin-bottom: 1rem; 
-        line-height: 1.3; 
-        letter-spacing: -0.02em; 
-      }
-      h1 { 
-        font-size: 2rem; 
-        font-weight: 800; 
-      }
-      h2 { 
-        font-size: 1.5rem; 
-        font-weight: 700; 
-      }
-      h3 { 
-        font-size: 1.25rem; 
-        font-weight: 600; 
-      }
-      strong { 
-        color: #EE7C35; 
-        font-weight: 700; 
-      }
-      blockquote { 
-        border-left: 4px solid #21A657; 
-        background-color: #f0fdf4; 
-        padding: 16px; 
-        margin: 1.5rem 0; 
-        border-radius: 4px; 
-      }
-    `,
-    branding: false,
-    promotion: false,
-    paste_data_images: true,
-    images_upload_handler: async (blobInfo, progress) => {
-      // Implementar upload básico se necessário
-      return Promise.reject('Upload de imagens não configurado');
-    }
-  };
-
+  // Editor de blog em Markdown para manter o mesmo padrão dos pacotes
   useEffect(() => {
     loadPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -463,11 +404,11 @@ const BlogAdmin = () => {
               <div className="form-group">
                 <label>Conteúdo do Post *</label>
                 <div className="editor-wrapper">
-                  <Editor
-                    apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+                  <RichTextEditorV2
                     value={editorContent}
-                    onEditorChange={(content) => setEditorContent(content)}
-                    init={tinymceConfig}
+                    onChange={setEditorContent}
+                    placeholder="Escreva o conteúdo do post em Markdown. Use preview ao lado para conferir o resultado."
+                    height={500}
                   />
                 </div>
               </div>
