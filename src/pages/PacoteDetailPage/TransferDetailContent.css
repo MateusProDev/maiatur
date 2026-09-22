@@ -451,7 +451,7 @@
   gap: 0.75rem;
   width: 100%;
   padding: 1.25rem 2rem;
-  background: linear-gradient(135deg, #21A657 0%, #16a34a 100%);
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -459,13 +459,13 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(33, 166, 87, 0.3);
+  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.35);
 }
 
 .transfer-hero-cta-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(33, 166, 87, 0.4);
-  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  box-shadow: 0 6px 24px rgba(194, 65, 12, 0.45);
+  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
 }
 
 .transfer-hero-cta-button:active:not(:disabled) {
@@ -473,7 +473,8 @@
 }
 
 .transfer-hero-cta-button:disabled {
-  opacity: 0.6;
+  background: #fb923c;
+  opacity: 0.85;
   cursor: not-allowed;
 }
 

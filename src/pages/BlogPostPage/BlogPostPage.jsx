@@ -130,7 +130,7 @@ const BlogPostPage = () => {
   return (
     <>
       <SEOHelmet
-        title={post.seo?.metaTitle || post.title}
+        title={post.title}
         description={post.seo?.metaDescription || post.excerpt}
         canonical={typeof window !== 'undefined' ? window.location.href : ''}
         ogImage={post.seo?.ogImage || post.featuredImage}

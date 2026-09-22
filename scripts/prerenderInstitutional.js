@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
+const { initializeApp } = require('firebase/app');
+const { getFirestore, collection, getDocs, query, where } = require('firebase/firestore');
 
 // Detectar ambiente: usar puppeteer regular localmente, @sparticuz/chromium em produção
 const isProduction = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME;
@@ -18,6 +20,16 @@ if (isProduction) {
 const BUILD_DIR = path.resolve(__dirname, '../build');
 const SITE_URL = process.env.REACT_APP_SITE_URL || process.env.SITE_URL || 'https://transferfortalezatur.com.br';
 
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || process.env.FIREBASE_MEASUREMENT_ID
+};
+
 // Rotas institucionais para prerender
 const INSTITUTIONAL_ROUTES = [
   '/',
@@ -29,6 +41,30 @@ const INSTITUTIONAL_ROUTES = [
   '/categoria/passeio',
   '/categoria/transfer'
 ];
+
+async function getPublishedBlogRoutes() {
+  if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+    console.warn('[prerender-institutional] Configuração pública do Firebase ausente; posts do blog não serão pré-renderizados.');
+    return [];
+  }
+
+  try {
+    const app = initializeApp(firebaseConfig, 'prerender-blog');
+    const db = getFirestore(app);
+    const postsSnapshot = await getDocs(query(
+      collection(db, 'blogPosts'),
+      where('published', '==', true)
+    ));
+
+    return postsSnapshot.docs
+      .map((postDoc) => postDoc.data())
+      .filter((post) => typeof post?.slug === 'string' && post.slug.trim())
+      .map((post) => `/blog/${post.slug.trim()}`);
+  } catch (error) {
+    console.warn(`[prerender-institutional] Não foi possível buscar posts do blog: ${error.message}`);
+    return [];
+  }
+}
 
 function assertHtmlHasSeoContent(html, route) {
   const lowerHtml = html.toLowerCase();
@@ -119,6 +155,9 @@ async function runPrerenderInstitutional() {
 
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const { port } = server.address();
+  const blogRoutes = await getPublishedBlogRoutes();
+  const routes = [...INSTITUTIONAL_ROUTES, ...blogRoutes];
+  console.log(`[prerender-institutional] ${blogRoutes.length} posts do blog serão pré-renderizados.`);
 
   // Configurar browser baseado no ambiente
   let browser;
@@ -137,7 +176,7 @@ async function runPrerenderInstitutional() {
   }
   
   try {
-    for (const route of INSTITUTIONAL_ROUTES) {
+    for (const route of routes) {
       const page = await browser.newPage({ waitUntil: 'load', timeout: 60000 });
       
       try {

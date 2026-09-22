@@ -257,7 +257,8 @@ export default async function handler(req, res) {
     
     // Retornar sitemap com headers corretos
     res.setHeader('Content-Type', 'application/xml');
-    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    // Manter o sitemap atualizado pouco depois de um pacote ser criado no painel.
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=600');
     res.status(200).send(xml);
     
   } catch (error) {
