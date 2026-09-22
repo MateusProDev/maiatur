@@ -37,7 +37,7 @@ const WhatsAppButton = () => {
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="whatsapp-button pulsante" aria-label="Fale conosco no WhatsApp">
+    <a href={url} target="_blank" rel="noopener noreferrer" className="whatsapp-floating-button pulsante" aria-label="Fale conosco no WhatsApp">
       <img src="/whatsappbtn.png" alt="WhatsApp" width="48" height="48" />
     </a>
   );
