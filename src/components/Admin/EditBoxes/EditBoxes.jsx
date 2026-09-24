@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
-import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from "../../../config/cloudinary";
 import { useNavigate } from "react-router-dom";
 import "./EditBoxes.css";
 
@@ -35,9 +35,7 @@ const EditBoxes = () => {
 
   const handleImageUpload = async (file) => {
     if (!file) return null;
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    const formData = createCloudinaryUploadFormData(file);
     try {
       const response = await axios.post(
         CLOUDINARY_CONFIG.apiUrl,

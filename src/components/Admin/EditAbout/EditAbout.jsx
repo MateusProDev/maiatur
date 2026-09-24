@@ -3,7 +3,7 @@ import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from "../../../config/cloudinary";
 import "./EditAbout.css";
 
 const EditAbout = () => {
@@ -42,9 +42,7 @@ const EditAbout = () => {
   }, []);
 
   const handleImageUpload = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    const formData = createCloudinaryUploadFormData(file);
     try {
       const response = await axios.post(
         CLOUDINARY_CONFIG.apiUrl,

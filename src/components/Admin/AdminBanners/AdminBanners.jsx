@@ -10,7 +10,7 @@ import {
   orderBy 
 } from 'firebase/firestore';
 import axios from 'axios';
-import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../../config/cloudinary';
 import { db } from '../../../firebase/firebase';
 import { 
   FiPlus, 
@@ -95,10 +95,7 @@ const AdminBanners = () => {
       setUploading(true);
       console.log('🚀 Iniciando upload para Cloudinary...');
       
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-      formData.append('folder', 'banners');
+      const formData = createCloudinaryUploadFormData(file, 'banners');
       
       console.log('📤 Fazendo upload do arquivo...');
       const response = await axios.post(

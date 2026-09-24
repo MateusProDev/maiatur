@@ -1,3 +1,4 @@
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../../config/cloudinary';
 import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -42,9 +43,7 @@ const EditCarousel = () => {
     if (!file || loading) return; // Impede o upload se já estiver em andamento
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    const formData = createCloudinaryUploadFormData(file, 'carousel');
 
     try {
       const response = await axios.post(

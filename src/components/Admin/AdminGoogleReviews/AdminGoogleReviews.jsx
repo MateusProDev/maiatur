@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { FaGoogle, FaStar, FaTrash, FaPlus, FaChevronDown, FaChevronUp, FaCloudUploadAlt } from 'react-icons/fa';
-import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../../config/cloudinary';
 import './AdminGoogleReviews.css';
 
 const AdminGoogleReviews = () => {
@@ -145,10 +145,7 @@ const AdminGoogleReviews = () => {
       setUploadingPhoto({ ...uploadingPhoto, [reviewId]: true });
       setMessage('📤 Enviando foto para Cloudinary...');
 
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-      formData.append('folder', 'reviews');
+      const formData = createCloudinaryUploadFormData(file, 'reviews');
 
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,

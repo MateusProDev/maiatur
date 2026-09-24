@@ -3,6 +3,7 @@ import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
 import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from "../../../config/cloudinary";
 import { useNavigate } from "react-router-dom";
 import { 
   FiUpload, 
@@ -66,10 +67,7 @@ const AdminEditHeader = () => {
     try {
       setUploading(true);
       
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
-      formData.append("folder", "logos");
+      const formData = createCloudinaryUploadFormData(file, 'logos');
 
       console.log('Upload config:', {
         apiUrl: CLOUDINARY_CONFIG.apiUrl,

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiPlus, FiEdit2, FiTrash2, FiEye, FiEyeOff, FiSearch, FiSave, FiX, FiImage } from 'react-icons/fi';
 import axios from 'axios';
-import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../../config/cloudinary';
 import RichTextEditorV2 from '../../RichTextEditorV2/RichTextEditorV2';
 import { createPost, updatePost, deletePost, getAllPostsAdmin, generateSlug } from '../../../services/blogService';
 import './BlogAdmin.css';
@@ -148,10 +148,7 @@ const BlogAdmin = () => {
 
     try {
       setUploadingImage(true);
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-      formData.append('folder', 'blog');
+      const formData = createCloudinaryUploadFormData(file, 'blog');
 
       const response = await axios.post(CLOUDINARY_CONFIG.apiUrl, formData);
       

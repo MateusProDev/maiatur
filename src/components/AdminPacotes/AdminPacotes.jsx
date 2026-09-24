@@ -4,6 +4,7 @@ import { db } from '../../firebase/firebase';
 import axios from "axios";
 import RichTextEditorV2 from '../RichTextEditorV2/RichTextEditorV2';
 import { CLOUDINARY_CONFIG } from '../../config/cloudinary';
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../config/cloudinary';
 import { useSEOIndexing } from '../../hooks/useSEOIndexing';
 
 import { 
@@ -149,9 +150,7 @@ const AdminPacotes = () => {
 
     setLoading({ ...loading, upload: true });
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    const formData = createCloudinaryUploadFormData(file);
 
     try {
       const response = await axios.post(
@@ -430,9 +429,7 @@ const AdminPacotes = () => {
 
     setLoading({ ...loading, upload: true });
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+    const formData = createCloudinaryUploadFormData(file);
 
     try {
       const response = await axios.post(

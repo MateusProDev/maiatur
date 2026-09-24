@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { FiAward, FiPlus, FiTrash, FiUpload, FiChevronDown, FiChevronUp, FiEdit3 } from 'react-icons/fi';
-import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../../config/cloudinary';
 import './EditDifferentials.css';
 
 const EditDifferentials = () => {
@@ -175,10 +175,7 @@ const EditDifferentials = () => {
       setUploadingImage(prev => ({ ...prev, [imageKey]: true }));
       setMessage('📤 Fazendo upload da imagem...');
 
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-      formData.append('folder', 'collage');
+      const formData = createCloudinaryUploadFormData(file, 'collage');
 
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,

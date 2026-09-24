@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { db } from "../../../firebase/firebaseConfig";
 import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from "../../../config/cloudinary";
 import { FiUpload, FiTrash2, FiImage, FiLoader } from "react-icons/fi";
 import "./BannerAdmin.css";
 
@@ -95,9 +95,7 @@ const BannerAdmin = () => {
     try {
       await validateImage(file);
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+      const formData = createCloudinaryUploadFormData(file, "banners");
 
       const response = await axios.post(
         CLOUDINARY_CONFIG.apiUrl,

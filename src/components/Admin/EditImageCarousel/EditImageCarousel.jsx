@@ -3,6 +3,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { FiImage, FiPlus, FiTrash, FiUpload, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { CLOUDINARY_CONFIG } from '../../../config/cloudinary';
+import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../../config/cloudinary';
 import './EditImageCarousel.css';
 
 const EditImageCarousel = () => {
@@ -155,10 +156,7 @@ const EditImageCarousel = () => {
       setUploadingImage(prev => ({ ...prev, [imageId]: true }));
       setMessage('📤 Fazendo upload da imagem...');
 
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-      formData.append('folder', 'carousel');
+      const formData = createCloudinaryUploadFormData(file, 'carousel');
 
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
