@@ -479,9 +479,6 @@ const HomeUltraModern = () => {
         ogType="website"
       />
 
-      {/* H1 principal para SEO - não visível, semanticamente correto */}
-      <h1 style={{ display: 'none' }}>Transfer Fortaleza Tur - Transfers Aeroporto, Passeios e Pacotes em Fortaleza, Beach Park, Jericoacoara e Ceará</h1>
-
       <Header />
 
       {/* Hero Banner Carousel */}
