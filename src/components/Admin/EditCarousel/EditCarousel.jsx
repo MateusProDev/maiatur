@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
-import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
 import { useNavigate } from "react-router-dom";
 import "./EditCarousel.css";
 

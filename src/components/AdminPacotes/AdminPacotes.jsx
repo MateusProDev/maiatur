@@ -3,7 +3,6 @@ import { collection, getDocs, deleteDoc, doc, setDoc, serverTimestamp } from 'fi
 import { db } from '../../firebase/firebase';
 import axios from "axios";
 import RichTextEditorV2 from '../RichTextEditorV2/RichTextEditorV2';
-import { CLOUDINARY_CONFIG } from '../../config/cloudinary';
 import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../config/cloudinary';
 import { useSEOIndexing } from '../../hooks/useSEOIndexing';
 

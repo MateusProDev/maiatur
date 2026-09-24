@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { db } from "../../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
-import { CLOUDINARY_CONFIG } from "../../../config/cloudinary";
 import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from "../../../config/cloudinary";
 import { useNavigate } from "react-router-dom";
 import { 
