@@ -104,12 +104,13 @@ function formatDate(timestamp) {
  * Gera slug amigável a partir do título
  */
 function generateSlug(titulo) {
-  return titulo
+  return String(titulo || '')
     .toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, '-')
     .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-');
+    .replace(/--+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 /**
@@ -223,7 +224,8 @@ export default async function handler(req, res) {
     
     // Adicionar pacotes individuais
     pacotes.forEach(pacote => {
-      const slug = pacote.slug || generateSlug(pacote.titulo);
+      const slug = pacote.slug || generateSlug(pacote.titulo || pacote.title || pacote.nome || `pacote-${pacote.id}`);
+      if (!slug) return;
       const lastmod = formatDate(pacote.updatedAt || pacote.createdAt);
       const priority = getPriority(pacote.categoria);
       const changefreq = getChangeFreq(pacote.categoria);
@@ -239,7 +241,8 @@ export default async function handler(req, res) {
     
     // Adicionar posts de blog individuais
     blogPosts.forEach(post => {
-      const slug = post.slug;
+      const slug = post.slug || generateSlug(post.title || post.titulo || `post-${post.id}`);
+      if (!slug) return;
       const lastmod = formatDate(post.updatedAt || post.publishedAt || post.createdAt);
       
       xml += `  <url>

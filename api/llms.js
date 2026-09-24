@@ -19,20 +19,6 @@ const firebaseConfig = {
 
 const SITE_URL = process.env.REACT_APP_SITE_URL || process.env.SITE_URL || 'https://transferfortalezatur.com.br';
 
-function formatDate(timestamp) {
-  if (!timestamp) return new Date().toISOString().split('T')[0];
-
-  if (timestamp.toDate) {
-    return timestamp.toDate().toISOString().split('T')[0];
-  }
-
-  if (timestamp.seconds) {
-    return new Date(timestamp.seconds * 1000).toISOString().split('T')[0];
-  }
-
-  return new Date(timestamp).toISOString().split('T')[0];
-}
-
 function generateSlug(titulo) {
   return String(titulo || '')
     .toLowerCase()
@@ -63,7 +49,7 @@ export default async function handler(req, res) {
     const packageUrls = pacotesSnapshot.docs
       .map((doc) => {
         const data = doc.data() || {};
-        const slug = data.slug || generateSlug(data.titulo || 'pacote');
+        const slug = data.slug || generateSlug(data.titulo || data.title || data.nome || `pacote-${doc.id}`);
         return `${SITE_URL}/pacote/${slug}`;
       })
       .filter(Boolean);
@@ -71,7 +57,7 @@ export default async function handler(req, res) {
     const blogUrls = blogSnapshot.docs
       .map((doc) => {
         const data = doc.data() || {};
-        const slug = data.slug || generateSlug(data.title || 'post');
+        const slug = data.slug || generateSlug(data.title || data.titulo || `post-${doc.id}`);
         return `${SITE_URL}/blog/${slug}`;
       })
       .filter(Boolean);
@@ -127,6 +113,7 @@ export default async function handler(req, res) {
       `${SITE_URL}/sobre`,
       `${SITE_URL}/contato`,
       `${SITE_URL}/avaliacoes`,
+      `${SITE_URL}/sitemap.xml`,
       ''
     ].join('\n');
 
