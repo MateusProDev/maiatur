@@ -11,7 +11,7 @@ export const CLOUDINARY_CONFIG = {
 
 const createImagePublicId = (file) => {
   const originalName = file?.name?.replace(/\.[^/.]+$/, '') || 'imagem';
-  const publicId = originalName
+  const normalizedName = originalName
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
@@ -19,7 +19,9 @@ const createImagePublicId = (file) => {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
-  return publicId || 'imagem';
+  const safeName = normalizedName || 'imagem';
+  const uniqueSuffix = Date.now();
+  return `${safeName}-${uniqueSuffix}`;
 };
 
 export const createCloudinaryUploadFormData = (file, folder = '') => {

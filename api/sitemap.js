@@ -172,18 +172,28 @@ export default async function handler(req, res) {
     
     console.log(`[Sitemap] ${pacotes.length} pacotes encontrados`);
     
-    // Buscar todos os posts de blog publicados do Firestore
+    // Buscar todos os posts de blog publicados do Firestore.
+    // O fallback sem query evita perder os artigos quando o índice composto
+    // ou a consulta indexada estiver temporariamente indisponível.
     const blogPostsRef = collection(db, 'blogPosts');
-    const blogQuery = query(blogPostsRef, where('published', '==', true));
-    const blogSnapshot = await getDocs(blogQuery);
+    let blogSnapshot;
+    try {
+      const blogQuery = query(blogPostsRef, where('published', '==', true));
+      blogSnapshot = await getDocs(blogQuery);
+    } catch (blogQueryError) {
+      console.warn('[Sitemap] Consulta filtrada de blog falhou; usando fallback:', blogQueryError.message);
+      blogSnapshot = await getDocs(blogPostsRef);
+    }
     
     const blogPosts = [];
     blogSnapshot.forEach((doc) => {
       const data = doc.data();
-      blogPosts.push({
-        id: doc.id,
-        ...data
-      });
+      if (data.published === true) {
+        blogPosts.push({
+          id: doc.id,
+          ...data
+        });
+      }
     });
 
     blogPosts.sort((first, second) => {

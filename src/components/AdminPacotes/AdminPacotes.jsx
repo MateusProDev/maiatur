@@ -165,10 +165,11 @@ const AdminPacotes = () => {
       
       showNotification("success", "Imagem enviada com sucesso!");
     } catch (error) {
-      showNotification("error", "Erro ao enviar imagem");
-      console.error("Erro no upload:", error);
+      const message = error.response?.data?.error?.message || error.message;
+      showNotification("error", `Erro ao enviar imagem${message ? `: ${message}` : ''}`);
+      console.error("Erro no upload:", error.response?.data || error);
     } finally {
-      setLoading({ ...loading, upload: false });
+      setLoading(prev => ({ ...prev, upload: false }));
     }
   };
 
@@ -443,10 +444,11 @@ const AdminPacotes = () => {
       
       showNotification("success", "Imagem do veículo enviada com sucesso!");
     } catch (error) {
-      showNotification("error", "Erro ao enviar imagem do veículo");
-      console.error("Erro no upload:", error);
+      const message = error.response?.data?.error?.message || error.message;
+      showNotification("error", `Erro ao enviar imagem do veículo${message ? `: ${message}` : ''}`);
+      console.error("Erro no upload:", error.response?.data || error);
     } finally {
-      setLoading({ ...loading, upload: false });
+      setLoading(prev => ({ ...prev, upload: false }));
     }
   };
 
