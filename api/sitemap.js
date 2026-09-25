@@ -9,7 +9,7 @@
  */
 
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs, query, where } = require('firebase/firestore');
+const { getFirestore, collection, getDocs } = require('firebase/firestore');
 
 // Configuração do Firebase (usando variáveis de ambiente)
 const firebaseConfig = {
@@ -114,6 +114,14 @@ function generateSlug(titulo) {
 }
 
 /**
+ * Posts legados podem não ter o campo published ou podem tê-lo como string.
+ * Apenas o valor explícito false deve manter um post fora do sitemap.
+ */
+function isPublicBlogPost(post) {
+  return post.published !== false && post.published !== 'false';
+}
+
+/**
  * Determina prioridade baseada na categoria
  */
 function getPriority(categoria) {
@@ -172,23 +180,15 @@ export default async function handler(req, res) {
     
     console.log(`[Sitemap] ${pacotes.length} pacotes encontrados`);
     
-    // Buscar todos os posts de blog publicados do Firestore.
-    // O fallback sem query evita perder os artigos quando o índice composto
-    // ou a consulta indexada estiver temporariamente indisponível.
+    // Ler a coleção inteira evita perder posts legados sem o campo published
+    // ou com esse valor salvo como string.
     const blogPostsRef = collection(db, 'blogPosts');
-    let blogSnapshot;
-    try {
-      const blogQuery = query(blogPostsRef, where('published', '==', true));
-      blogSnapshot = await getDocs(blogQuery);
-    } catch (blogQueryError) {
-      console.warn('[Sitemap] Consulta filtrada de blog falhou; usando fallback:', blogQueryError.message);
-      blogSnapshot = await getDocs(blogPostsRef);
-    }
+    const blogSnapshot = await getDocs(blogPostsRef);
     
     const blogPosts = [];
     blogSnapshot.forEach((doc) => {
       const data = doc.data();
-      if (data.published === true) {
+      if (isPublicBlogPost(data)) {
         blogPosts.push({
           id: doc.id,
           ...data
