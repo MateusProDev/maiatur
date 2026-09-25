@@ -29,7 +29,6 @@ export const createCloudinaryUploadFormData = (file, folder = '') => {
   formData.append('file', file);
   formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
   formData.append('public_id', createImagePublicId(file));
-  formData.append('unique_filename', 'false');
 
   if (folder) {
     formData.append('folder', folder);
