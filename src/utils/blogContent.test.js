@@ -1,4 +1,4 @@
-import { isMarkdownContent, renderBlogContent, removeDuplicateBlogTitleHeading } from './blogContent';
+import { isMarkdownContent, renderBlogContent, normalizeBlogContentHeadings } from './blogContent';
 
 describe('blogContent helpers', () => {
   it('detecta markdown em textos comuns', () => {
@@ -11,12 +11,10 @@ describe('blogContent helpers', () => {
     expect(renderBlogContent(html)).toBe(html);
   });
 
-  it('remove somente o H1 inicial que repete o título do post', () => {
-    expect(removeDuplicateBlogTitleHeading('# Como chegar em Cumbuco?\n\nConteúdo', 'Como chegar em Cumbuco?'))
-      .toBe('Conteúdo');
-    expect(removeDuplicateBlogTitleHeading('<h1><strong>Meu post</strong></h1><p>Conteúdo</p>', 'Meu post'))
-      .toBe('<p>Conteúdo</p>');
-    expect(removeDuplicateBlogTitleHeading('## Outro título\n\nConteúdo', 'Meu post'))
-      .toBe('## Outro título\n\nConteúdo');
+  it('rebaixa H1 do conteúdo do post sem alterar outros níveis', () => {
+    expect(normalizeBlogContentHeadings('# Como chegar em Cumbuco?\n\n## Onde fica?'))
+      .toBe('## Como chegar em Cumbuco?\n\n## Onde fica?');
+    expect(normalizeBlogContentHeadings('<h1><strong>Meu post</strong></h1><h2>Conteúdo</h2>'))
+      .toBe('<h2><strong>Meu post</strong></h2><h2>Conteúdo</h2>');
   });
 });
