@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
-import { FiArrowLeft, FiSave, FiSearch } from 'react-icons/fi';
+import { FiArrowLeft, FiImage, FiSave, FiSearch } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { uploadToCloudinary } from '../../../config/cloudinary';
 import { seoData } from '../../../utils/seoData';
 import './EditHomeSEO.css';
 
@@ -17,6 +18,7 @@ const EditHomeSEO = () => {
   const [settings, setSettings] = useState(defaultSettings);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -39,6 +41,24 @@ const EditHomeSEO = () => {
 
   const handleChange = (field, value) => {
     setSettings((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingImage(true);
+      const imageUrl = await uploadToCloudinary(file, 'seo');
+      handleChange('ogImage', imageUrl);
+      setMessage('Imagem Open Graph carregada. Salve para aplicar.');
+    } catch (error) {
+      console.error('Erro ao enviar imagem Open Graph:', error);
+      setMessage('Erro ao enviar imagem.');
+    } finally {
+      setUploadingImage(false);
+      event.target.value = '';
+    }
   };
 
   const handleSave = async (event) => {
@@ -106,6 +126,23 @@ const EditHomeSEO = () => {
             placeholder="fortaleza, transfer, passeios, turismo"
           />
           <small>Separe cada palavra-chave por vírgula.</small>
+        </label>
+
+        <label>
+          Imagem Open Graph da home
+          {settings.ogImage && <img className="edit-home-seo-image-preview" src={settings.ogImage} alt="Prévia da imagem Open Graph da home" />}
+          <input
+            type="url"
+            value={settings.ogImage || ''}
+            onChange={(event) => handleChange('ogImage', event.target.value)}
+            placeholder="URL da imagem ou envie um arquivo"
+          />
+          <span className="edit-home-seo-upload">
+            <FiImage />
+            <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} />
+            {uploadingImage ? 'Enviando imagem...' : 'Enviar imagem'}
+          </span>
+          <small>Use uma imagem horizontal adequada para compartilhamento (recomendado: 1200 × 630 px).</small>
         </label>
 
         <div className="edit-home-seo-actions">

@@ -11,6 +11,7 @@ import { useWhatsAppNumber } from '../../hooks/useWhatsAppNumber';
 import { FiCalendar, FiUser, FiTag, FiArrowLeft, FiShare2, FiMessageCircle, FiHome } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
+import { removeDuplicateBlogTitleHeading } from '../../utils/blogContent';
 import './BlogPostPage.css';
 
 const BlogPostPage = () => {
@@ -131,7 +132,7 @@ const BlogPostPage = () => {
   return (
     <>
       <SEOHelmet
-        title={post.title}
+        title={post.seo?.metaTitle || post.title}
         description={post.seo?.metaDescription || post.excerpt}
         canonical={typeof window !== 'undefined' ? window.location.href : ''}
         ogImage={post.seo?.ogImage || post.featuredImage}
@@ -169,7 +170,7 @@ const BlogPostPage = () => {
         <div className="blog-post-container">
           <div className="blog-post-content">
             <div className="post-body">
-              <MarkdownRenderer content={post.content} />
+              <MarkdownRenderer content={removeDuplicateBlogTitleHeading(post.content, post.title)} />
             </div>
 
             {/* Instagram Embed */}

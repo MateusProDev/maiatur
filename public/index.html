@@ -32,7 +32,9 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/android-icon-48x48.png" />
     <link rel="icon" type="image/png" sizes="36x36" href="/android-icon-36x36.png" />
     
-    <!-- Preconnect only to origins used by the first viewport -->
+    <!-- Preconnect to origins used during the initial application load -->
+    <link rel="preconnect" href="https://firebase.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
     
     <!-- Third-party services are loaded by the features that use them. -->

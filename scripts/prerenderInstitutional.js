@@ -196,11 +196,17 @@ async function runPrerenderInstitutional() {
         }
 
         // Esperar elementos essenciais carregarem
-        await page.waitForFunction(() => {
+        await page.waitForFunction((isBlogPost) => {
           const body = document.body;
           const bodyText = body ? body.innerText : '';
+          if (isBlogPost) {
+            const heading = document.querySelector('.blog-post-page h1');
+            const ogTitle = document.querySelector('meta[property="og:title"]')?.content || '';
+            const ogType = document.querySelector('meta[property="og:type"]')?.content || '';
+            return Boolean(heading && heading.textContent.trim() && ogTitle && ogType === 'article');
+          }
           return Boolean(bodyText && String(bodyText).trim().length > 50);
-        }, { timeout: 30000 });
+        }, route.startsWith('/blog/'), { timeout: 30000 });
 
         // Esperar um pouco mais para garantir que dados carregaram
         await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -214,6 +220,14 @@ async function runPrerenderInstitutional() {
         }
 
         const seoValid = assertHtmlHasSeoContent(html, route);
+
+        if (route.startsWith('/blog/')) {
+          const socialTitle = html.match(/<meta[^>]+property="og:title"[^>]+content="([^"]*)"/i)?.[1] || '';
+          const articleType = html.match(/<meta[^>]+property="og:type"[^>]+content="([^"]*)"/i)?.[1] || '';
+          if (!socialTitle || articleType !== 'article') {
+            throw new Error(`${route}: metadados Open Graph do artigo não carregaram antes da captura`);
+          }
+        }
 
         if (!seoValid) {
           console.warn(`[prerender-institutional] ${route} tem problemas de SEO, mas continuando...`);

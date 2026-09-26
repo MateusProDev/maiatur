@@ -475,7 +475,7 @@ const HomeUltraModern = () => {
         description={homeSeo.description}
         keywords={homeSeo.keywords}
         canonical={homeSeo.canonical}
-        ogImage={featuredHomeImage || DEFAULT_HOME_FEATURED_IMAGE}
+        ogImage={homeSeo.ogImage || featuredHomeImage || DEFAULT_HOME_FEATURED_IMAGE}
         ogType="website"
       />
 
