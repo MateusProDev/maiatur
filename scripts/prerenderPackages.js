@@ -31,7 +31,7 @@ function normalizeSlug(value) {
   return normalized || null;
 }
 
-function buildSitemapFromSlugs(slugs) {
+function buildSitemapFromSlugs(slugs, blogSlugs = []) {
   const lines = [];
   lines.push('<?xml version="1.0" encoding="UTF-8"?>');
   lines.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
@@ -61,6 +61,15 @@ function buildSitemapFromSlugs(slugs) {
     lines.push(`    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>`);
     lines.push('    <changefreq>weekly</changefreq>');
     lines.push('    <priority>0.8</priority>');
+    lines.push('  </url>');
+  });
+
+  blogSlugs.forEach((slug) => {
+    lines.push('  <url>');
+    lines.push(`    <loc>${SITE_URL}/blog/${slug}</loc>`);
+    lines.push(`    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>`);
+    lines.push('    <changefreq>weekly</changefreq>');
+    lines.push('    <priority>0.7</priority>');
     lines.push('  </url>');
   });
 
@@ -106,6 +115,21 @@ async function getAllPacotes() {
   });
 
   return docs;
+}
+
+async function getPublishedBlogSlugs() {
+  const app = initializeApp(firebaseConfig, 'prerender-blog-sitemap');
+  const db = getFirestore(app);
+  const snapshot = await getDocs(collection(db, 'blogPosts'));
+
+  return snapshot.docs
+    .map((postDoc) => postDoc.data())
+    .filter((post) => post.published !== false && post.published !== 'false')
+    .map((post) => {
+      const slug = typeof post.slug === 'string' ? post.slug.trim() : '';
+      return slug || normalizeSlug(post.title || post.titulo || '');
+    })
+    .filter(Boolean);
 }
 
 function assertHtmlHasPackageContent(html, slug, title) {
@@ -338,12 +362,14 @@ async function main() {
     return;
   }
 
+  const blogSlugs = await getPublishedBlogSlugs();
+
   await runPrerender(validPackages);
 
-  const sitemap = buildSitemapFromSlugs(validPackages.map((pkg) => pkg.slug));
+  const sitemap = buildSitemapFromSlugs(validPackages.map((pkg) => pkg.slug), blogSlugs);
   fs.writeFileSync(path.join(BUILD_DIR, 'sitemap.xml'), sitemap, 'utf8');
 
-  console.log(`[prerender] sitemap.xml atualizado com ${validPackages.length} URLs de pacotes`);
+  console.log(`[prerender] sitemap.xml atualizado com ${validPackages.length} URLs de pacotes e ${blogSlugs.length} posts do blog`);
 }
 
 main().catch((error) => {
