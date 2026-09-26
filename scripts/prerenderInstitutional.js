@@ -240,11 +240,16 @@ async function runPrerenderInstitutional() {
         } else {
           // Criar estrutura de diretórios para rotas
           const routePath = route.slice(1); // remover /
-          const routeDir = path.join(BUILD_DIR, path.dirname(routePath));
+          const isBlogPost = route.startsWith('/blog/');
+          const routeDir = isBlogPost
+            ? path.join(BUILD_DIR, routePath)
+            : path.join(BUILD_DIR, path.dirname(routePath));
           if (!fs.existsSync(routeDir)) {
             fs.mkdirSync(routeDir, { recursive: true });
           }
-          outFile = path.join(BUILD_DIR, routePath + '.html');
+          outFile = isBlogPost
+            ? path.join(routeDir, 'index.html')
+            : path.join(BUILD_DIR, routePath + '.html');
         }
 
         fs.writeFileSync(outFile, html, 'utf8');
