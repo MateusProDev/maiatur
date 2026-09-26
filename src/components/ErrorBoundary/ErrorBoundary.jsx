@@ -12,6 +12,24 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
+
+    const isChunkLoadError = /ChunkLoadError|Loading chunk \d+ failed|dynamically imported module|importing a module script failed/i
+      .test(`${error?.name || ''} ${error?.message || error}`);
+
+    if (isChunkLoadError) {
+      const retryKey = 'chunk-load-retry-at';
+      const retryWindow = 60 * 1000;
+
+      try {
+        const lastRetry = Number(sessionStorage.getItem(retryKey) || 0);
+        if (Date.now() - lastRetry > retryWindow) {
+          sessionStorage.setItem(retryKey, String(Date.now()));
+          window.location.reload();
+        }
+      } catch (storageError) {
+        console.warn('Não foi possível verificar a tentativa de recuperação do chunk:', storageError);
+      }
+    }
   }
 
   render() {
