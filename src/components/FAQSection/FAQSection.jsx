@@ -4,8 +4,12 @@ import './FAQSection.css';
 
 /**
  * Componente FAQSection
- * Exibe perguntas e respostas em formato accordion
- * Suporta Schema Markup para FAQPage (rich snippets)
+ * Exibe perguntas e respostas em formato accordion.
+ *
+ * A pergunta é um <h3> que ENVOLVE o botão (e não um h3 dentro dele), porque
+ * heading dentro de button é HTML inválido e o navegador quebra a estrutura.
+ * Isso dá semântica de heading para SEO mantendo o botão como controle
+ * acessível do acordeão.
  */
 const FAQSection = ({ faq = [], showTitle = true }) => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -31,16 +35,18 @@ const FAQSection = ({ faq = [], showTitle = true }) => {
         <div className="faq-list">
           {faq.map((item, index) => (
             <div key={index} className="faq-item">
-              <button
-                className={`faq-question ${openIndex === index ? 'open' : ''}`}
-                onClick={() => toggleFAQ(index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                aria-expanded={openIndex === index}
-                aria-controls={`faq-answer-${index}`}
-              >
-                <span className="faq-question-text">{item.pergunta}</span>
-                <FiChevronDown className={`faq-chevron ${openIndex === index ? 'open' : ''}`} />
-              </button>
+              <h3 className="faq-heading">
+                <button
+                  className={`faq-question ${openIndex === index ? 'open' : ''}`}
+                  onClick={() => toggleFAQ(index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  aria-expanded={openIndex === index}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  <span className="faq-question-text">{item.pergunta}</span>
+                  <FiChevronDown className={`faq-chevron ${openIndex === index ? 'open' : ''}`} />
+                </button>
+              </h3>
               <div
                 id={`faq-answer-${index}`}
                 className={`faq-answer ${openIndex === index ? 'open' : ''}`}

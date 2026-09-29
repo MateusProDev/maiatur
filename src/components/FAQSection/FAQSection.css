@@ -25,6 +25,17 @@
   border-bottom: none;
 }
 
+/* O heading existe apenas para semântica (SEO).
+   Todo o visual continua vindo do .faq-question, por isso o reset abaixo.
+   Sem isso, o h3 traz font-size e margin próprios e desalinha o item. */
+.faq-heading {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
 .faq-question {
   display: flex;
   justify-content: space-between;
@@ -39,10 +50,17 @@
   text-align: left;
   color: #1a1a1a;
   transition: color 0.2s ease;
+  font-family: inherit;
+  line-height: inherit;
 }
 
 .faq-question:hover {
   color: #21A657;
+}
+
+.faq-question:focus-visible {
+  outline: 2px solid #21A657;
+  outline-offset: 2px;
 }
 
 .faq-question-text {
@@ -83,12 +101,12 @@
   .faq-section-title {
     font-size: 1.5rem;
   }
-  
+
   .faq-question {
     font-size: 1rem;
     padding: 0.875rem 0;
   }
-  
+
   .faq-answer-text {
     font-size: 0.9rem;
   }
