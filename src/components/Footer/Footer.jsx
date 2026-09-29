@@ -71,7 +71,7 @@ const FooterUltraModern = () => {
     { name: 'Pacotes', path: '/pacotes' },
     { name: 'Sobre Nós', path: '/sobre' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Transfers', path: '/categoria/transfer_chegada' },
+    { name: 'Transfers', path: '/categoria/transfer' },
     { name: 'Contato', path: '/contato' }
   ];
 
@@ -236,7 +236,7 @@ const FooterUltraModern = () => {
             <nav className={cx('footer-links-ultra')}>
               <Link to="/pacotes">Pacotes</Link> |{' '}
               <Link to="/blog">Blog</Link> |{' '}
-              <Link to="/categoria/transfer_chegada">Transfers</Link> |{' '}
+              <Link to="/categoria/transfer">Transfers</Link> |{' '}
               <Link to="/politica">Política</Link> |{' '}
               <Link to="/contato">Contato</Link>
             </nav>

@@ -184,7 +184,7 @@ const Header = () => {
         <nav className={cx(`header-nav-modern ${menuOpen ? 'nav-open' : ''}`)}>
           <ul className={cx('header-nav-list-modern')}>
             <li>
-              <Link to="/categoria/transfer_chegada" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+              <Link to="/categoria/transfer" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
                 <FiTruck className={cx('nav-icon-modern')} /> 
                 <span>Transfers</span>
               </Link>
