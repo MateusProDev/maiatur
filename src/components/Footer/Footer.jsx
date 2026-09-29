@@ -69,10 +69,9 @@ const FooterUltraModern = () => {
   const quickLinks = [
     { name: 'Home', path: '/' },
     { name: 'Pacotes', path: '/pacotes' },
-    { name: 'Destinos', path: '/destinos' },
     { name: 'Sobre Nós', path: '/sobre' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Transfers', path: '/categoria/transfer' },
+    { name: 'Transfers', path: '/categoria/transfer_chegada' },
     { name: 'Contato', path: '/contato' }
   ];
 
@@ -235,10 +234,9 @@ const FooterUltraModern = () => {
               &copy; {new Date().getFullYear()} <Link to="/" className={cx('footer-company-link')}>{footerData.companyName || "Transfer Fortaleza Tur"}</Link>. Todos os direitos reservados.
             </p>
             <nav className={cx('footer-links-ultra')}>
-              <Link to="/destinos">Destinos</Link> |{' '}
               <Link to="/pacotes">Pacotes</Link> |{' '}
               <Link to="/blog">Blog</Link> |{' '}
-              <Link to="/categoria/transfer">Transfers</Link> |{' '}
+              <Link to="/categoria/transfer_chegada">Transfers</Link> |{' '}
               <Link to="/politica">Política</Link> |{' '}
               <Link to="/contato">Contato</Link>
             </nav>
@@ -315,4 +313,3 @@ const FooterUltraModern = () => {
 };
 
 export default FooterUltraModern;
-

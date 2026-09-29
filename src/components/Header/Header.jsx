@@ -8,14 +8,14 @@ import { autoOptimize } from '../../utils/cloudinaryOptimizer';
 import { 
   FiMenu, 
   FiX, 
-  FiHome, 
   FiInfo, 
-  FiMapPin,
   FiPackage,
   FiPhone,
   FiMessageCircle,
   FiMail,
-  FiSmartphone
+  FiSmartphone,
+  FiTruck,
+  FiCompass
 } from 'react-icons/fi';
 import { 
   FaWhatsapp,
@@ -184,21 +184,21 @@ const Header = () => {
         <nav className={cx(`header-nav-modern ${menuOpen ? 'nav-open' : ''}`)}>
           <ul className={cx('header-nav-list-modern')}>
             <li>
-              <Link to="/" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
-                <FiHome className={cx('nav-icon-modern')} /> 
-                <span>Início</span>
+              <Link to="/categoria/transfer_chegada" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+                <FiTruck className={cx('nav-icon-modern')} /> 
+                <span>Transfers</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/categoria/passeio" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
+                <FiCompass className={cx('nav-icon-modern')} /> 
+                <span>Passeios</span>
               </Link>
             </li>
             <li>
               <Link to="/pacotes" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
                 <FiPackage className={cx('nav-icon-modern')} /> 
                 <span>Pacotes</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/destinos" onClick={() => setMenuOpen(false)} className={cx('nav-link-modern')}>
-                <FiMapPin className={cx('nav-icon-modern')} /> 
-                <span>Destinos</span>
               </Link>
             </li>
             <li>
@@ -392,4 +392,3 @@ const Header = () => {
 };
 
 export default Header;
-
