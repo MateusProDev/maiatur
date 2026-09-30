@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { collection, getDocs, query, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import Header from '../../components/Header/Header';
@@ -118,10 +118,8 @@ const DEFAULT_DIFFERENTIALS = [
 ];
 
 const HomeUltraModern = () => {
-  const navigate = useNavigate();
   const [pacotesPorCategoria, setPacotesPorCategoria] = useState({});
   const [avaliacoes, setAvaliacoes] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [services, setServices] = useState(DEFAULT_SERVICES);
@@ -451,8 +449,6 @@ const HomeUltraModern = () => {
         localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
       } catch (error) {
         console.error("Erro ao carregar dados da Home:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
