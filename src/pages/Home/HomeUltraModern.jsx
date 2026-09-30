@@ -31,37 +31,39 @@ import {
 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import './HomeUltraModern.css';
+import './ServicesMissingImages.css';
 
 import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 
+const DEFAULT_HOME_FEATURED_IMAGE = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=630&fit=crop';
+const HOME_CACHE_KEY = 'home_pacotes_data';
+const HOME_CACHE_TTL = 5 * 60 * 1000;
+
 /*
- * Imagens padrão da seção de serviços, servidas pelo Cloudinary (f_auto,q_auto:eco).
- * Os PNGs locais antigos (aviaoservico.png, jericoaquaraservico.png,
- * fortalezacityservico.png) foram removidos por pesarem ~1,4 MB cada.
+ * Imagens padrão da seção de serviços.
+ * Apontam para o Cloudinary (f_auto,q_auto:eco) — os PNGs locais antigos
+ * (aviaoservico.png, jericoaquaraservico.png, fortalezacityservico.png)
+ * foram removidos por pesarem ~1,4 MB cada e não são mais usados.
  */
-export const SERVICES_DEFAULT_IMAGE = {
+const SERVICES_DEFAULT_IMAGE = {
   transfer: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/q459tqsslmbtdmp5hojb.jpg',
   passeio: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/fniea42zhtccycew2ogm.jpg',
   citytour: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/awotkycgcb1cyqzezj6x.jpg'
 };
 
-/*
- * Verifica se a imagem do serviço está ausente/inválida.
- * Nesses casos o card é renderizado em magenta, sinalizando que a imagem
- * precisa ser enviada pelo painel.
+/**
+ * Uma imagem é considerada "faltando" quando o campo está vazio, aponta para
+ * um placeholder ou para um caminho local legado que não existe mais.
  */
-export const isServiceImageMissing = (image) => {
+const isImageMissing = (image) => {
   if (!image || typeof image !== 'string') return true;
   const value = image.trim();
   if (!value) return true;
-  if (value.includes('placeholder.com') || value.includes('via.placeholder')) return true;
+  if (value.includes('placeholder.com')) return true;
+  if (value.includes('via.placeholder')) return true;
   if (value.startsWith('/') && /\.(png|jpe?g)$/i.test(value)) return true;
   return false;
 };
-
-const DEFAULT_HOME_FEATURED_IMAGE = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=630&fit=crop';
-const HOME_CACHE_KEY = 'home_pacotes_data';
-const HOME_CACHE_TTL = 5 * 60 * 1000;
 
 const DEFAULT_SERVICES = [
   {
@@ -507,52 +509,46 @@ const HomeUltraModern = () => {
               </div>
 
               <div className="home-services-grid">
-                {services.map((service, index) => {
-                  const imageMissing = isServiceImageMissing(service.image);
-
-                  return (
-                    <Link
-                      key={index}
-                      to={service.link || '/pacotes'}
-                      className={`home-service-card${imageMissing ? ' home-service-card--no-image' : ''}`}
-                    >
-                      <div className={`home-service-image-wrapper${imageMissing ? ' home-service-image-wrapper--no-image' : ''}`}>
-                        {imageMissing ? (
-                          <div className="home-service-image-missing" aria-label="Imagem pendente">
-                            <span>Imagem pendente</span>
-                          </div>
-                        ) : (
-                          <img
-                            src={autoOptimize(service.image, 'serviceCard')}
-                            srcSet={generateCloudinarySrcset(service.image, [400, 600, 800]) || undefined}
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
-                            alt={service.alt || service.title || 'Serviço'}
-                            className="servico-image"
-                            loading={index === 0 ? 'eager' : 'lazy'}
-                            fetchPriority={index === 0 ? 'high' : 'auto'}
-                            decoding="async"
-                            width="665"
-                            height="374"
-                          />
-                        )}
-                        {!imageMissing && (
-                          <div
-                            className="home-service-overlay"
-                            style={{ background: `linear-gradient(135deg, ${service.color}dd, ${service.color}99)` }}
-                          />
-                        )}
-                      </div>
-                      <div className="home-service-content">
-                        <h3 className="home-service-title">{service.title}</h3>
-                        <p className="home-service-description">{service.description}</p>
-                        <span className="home-service-link">
-                          {service.linkText || 'Saiba mais'}
-                          <FiArrowRight />
-                        </span>
-                      </div>
-                    </Link>
-                  );
-                })}
+                {services.map((service, index) => (
+                  <Link
+                    key={index}
+                    to={service.link || '/pacotes'}
+                    className={`home-service-card${isImageMissing(service.image) ? ' home-service-card--no-image' : ''}`}
+                  >
+                    <div className={`home-service-image-wrapper${isImageMissing(service.image) ? ' home-service-image-wrapper--no-image' : ''}`}>
+                      {isImageMissing(service.image) ? (
+                        <div className="home-service-image-missing">
+                          <span>Imagem não enviada</span>
+                        </div>
+                      ) : (
+                        <img
+                          src={autoOptimize(service.image, 'serviceCard')}
+                          srcSet={generateCloudinarySrcset(service.image, [400, 600, 800]) || undefined}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+                          alt={service.alt || service.title || 'Serviço'}
+                          className="servico-image"
+                          loading={index === 0 ? 'eager' : 'lazy'}
+                          fetchPriority={index === 0 ? 'high' : 'auto'}
+                          decoding="async"
+                          width="665"
+                          height="374"
+                        />
+                      )}
+                      <div 
+                        className="home-service-overlay"
+                        style={{ background: `linear-gradient(135deg, ${service.color}dd, ${service.color}99)` }}
+                      />
+                    </div>
+                    <div className="home-service-content">
+                      <h3 className="home-service-title">{service.title}</h3>
+                      <p className="home-service-description">{service.description}</p>
+                      <span className="home-service-link">
+                        {service.linkText || 'Saiba mais'}
+                        <FiArrowRight />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </section>

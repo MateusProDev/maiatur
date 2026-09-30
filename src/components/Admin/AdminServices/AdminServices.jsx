@@ -1,9 +1,36 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
-import { FiSettings, FiPlus, FiTrash, FiUpload, FiChevronDown, FiChevronUp, FiImage } from 'react-icons/fi';
+import { FiSettings, FiPlus, FiTrash, FiUpload, FiChevronDown, FiChevronUp, FiImage, FiAlertTriangle } from 'react-icons/fi';
 import { CLOUDINARY_CONFIG, createCloudinaryUploadFormData } from '../../../config/cloudinary';
 import './AdminServices.css';
+import './MissingImagesAlert.css';
+
+/*
+ * Imagens padrão dos serviços, servidas pelo Cloudinary (f_auto,q_auto:eco).
+ * Os PNGs locais antigos foram removidos por pesarem ~1,4 MB cada.
+ */
+const SERVICES_DEFAULT_IMAGE = {
+  transfer: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/q459tqsslmbtdmp5hojb.jpg',
+  passeio: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/fniea42zhtccycew2ogm.jpg',
+  citytour: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/awotkycgcb1cyqzezj6x.jpg'
+};
+
+/**
+ * Uma imagem é considerada "faltando" quando o campo está vazio, aponta para
+ * um placeholder ou para um caminho local legado que não existe mais.
+ * Nesses casos o card mostra o aviso magenta.
+ */
+const isImageMissing = (image) => {
+  if (!image || typeof image !== 'string') return true;
+  const value = image.trim();
+  if (!value) return true;
+  if (value.includes('placeholder.com')) return true;
+  if (value.includes('via.placeholder')) return true;
+  // Caminhos locais legados (PNGs removidos) começam com "/" e terminam em .png
+  if (value.startsWith('/') && /\.(png|jpe?g)$/i.test(value)) return true;
+  return false;
+};
 
 const AdminServices = () => {
   const [settings, setSettings] = useState({
@@ -42,7 +69,7 @@ const AdminServices = () => {
               id: Date.now(),
               title: 'Transfers & Receptivo',
               description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
-              image: '/aviaoservico.png',
+              image: SERVICES_DEFAULT_IMAGE.transfer,
               alt: 'Transfer e receptivo em Fortaleza',
               color: '#21A657',
               link: '/pacotes',
@@ -52,7 +79,7 @@ const AdminServices = () => {
               id: Date.now() + 1,
               title: 'Passeios Privativos',
               description: 'Experiências exclusivas com roteiros personalizados para você',
-              image: '/jericoaquaraservico.png',
+              image: SERVICES_DEFAULT_IMAGE.passeio,
               alt: 'Passeio privativo',
               color: '#EE7C35',
               link: '/pacotes',
@@ -62,7 +89,7 @@ const AdminServices = () => {
               id: Date.now() + 2,
               title: 'City Tours',
               description: 'Conheça as principais atrações e cultura local com nossos guias',
-              image: '/fortalezacityservico.png',
+              image: SERVICES_DEFAULT_IMAGE.citytour,
               alt: 'City tour em Fortaleza',
               color: '#F8C144',
               link: '/pacotes',
@@ -112,7 +139,7 @@ const AdminServices = () => {
       id: Date.now(),
       title: '',
       description: '',
-      image: 'https://via.placeholder.com/400x300',
+      image: '',
       alt: '',
       color: '#667eea',
       link: '/pacotes',
@@ -196,6 +223,9 @@ const AdminServices = () => {
     }
   };
 
+  /* Quantas imagens ainda faltam — o aviso some conforme cada uma é enviada. */
+  const missingImagesCount = settings.services.filter(s => isImageMissing(s.image)).length;
+
   if (loading) {
     return (
       <div className="admin-services-loading">
@@ -227,6 +257,46 @@ const AdminServices = () => {
       {message && (
         <div className={`message ${message.includes('❌') ? 'error' : 'success'}`}>
           {message}
+        </div>
+      )}
+
+      {/* Aviso de imagens faltantes — um item por imagem */}
+      {missingImagesCount > 0 && (
+        <div className="admin-services-missing-alert" role="alert">
+          <div className="missing-alert-header">
+            <FiAlertTriangle className="missing-alert-icon" />
+            <strong>
+              {missingImagesCount === 1
+                ? '1 serviço está sem imagem'
+                : `${missingImagesCount} serviços estão sem imagem`}
+            </strong>
+          </div>
+          <p className="missing-alert-text">
+            Os cards abaixo estão marcados em magenta no site. Envie a imagem de cada um
+            para que o aviso desapareça.
+          </p>
+          <ul className="missing-alert-list">
+            {settings.services.map((service, index) =>
+              isImageMissing(service.image) ? (
+                <li key={service.id}>
+                  <span className="missing-alert-item">
+                    #{index + 1} {service.title || 'Serviço sem título'}
+                  </span>
+                  <label htmlFor={`upload-quick-${service.id}`} className="missing-alert-btn">
+                    <FiUpload /> Adicionar imagem
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id={`upload-quick-${service.id}`}
+                    style={{ display: 'none' }}
+                    disabled={uploadingImage[service.id]}
+                    onChange={(e) => handleImageUpload(service.id, e.target.files[0])}
+                  />
+                </li>
+              ) : null
+            )}
+          </ul>
         </div>
       )}
 
@@ -317,9 +387,17 @@ const AdminServices = () => {
                 </div>
               ) : (
                 settings.services.map((service, index) => (
-                  <div key={service.id} className="service-item">
+                  <div
+                    key={service.id}
+                    className={`service-item ${isImageMissing(service.image) ? 'service-item--missing-image' : ''}`}
+                  >
                     <div className="service-item-header">
                       <span className="service-number">#{index + 1}</span>
+                      {isImageMissing(service.image) && (
+                        <span className="service-missing-flag">
+                          <FiAlertTriangle /> Sem imagem
+                        </span>
+                      )}
                       <div className="service-actions">
                         <button
                           onClick={() => moveService(index, 'up')}
@@ -446,9 +524,20 @@ const AdminServices = () => {
                         </div>
                       </div>
 
-                      {service.image && (
+                      {isImageMissing(service.image) ? (
+                        <div className="image-missing-preview">
+                          <FiAlertTriangle />
+                          <span>Sem imagem — este card aparece em magenta no site</span>
+                        </div>
+                      ) : (
                         <div className="image-preview">
-                          <img src={service.image} alt={service.alt || service.title || 'Imagem do serviço'} />
+                          <img
+                            src={service.image}
+                            alt={service.alt || service.title || 'Imagem do serviço'}
+                            onError={(e) => {
+                              e.currentTarget.parentElement.classList.add('image-preview--broken');
+                            }}
+                          />
                         </div>
                       )}
                     </div>
