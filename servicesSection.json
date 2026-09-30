@@ -8,7 +8,8 @@
       "id": 1731340800000,
       "title": "Transfers & Receptivo",
       "description": "Transporte seguro do aeroporto ao hotel com conforto e pontualidade",
-      "image": "/aviaoservico.png",
+      "image": "https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/q459tqsslmbtdmp5hojb.jpg",
+      "imageAlt": "Transfers e Receptivo em Fortaleza",
       "color": "#21A657",
       "link": "/pacotes",
       "linkText": "Saiba mais"
@@ -17,7 +18,8 @@
       "id": 1731340800001,
       "title": "Passeios Privativos",
       "description": "Experiências exclusivas com roteiros personalizados para você",
-      "image": "/jericoaquaraservico.png",
+      "image": "https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/fniea42zhtccycew2ogm.jpg",
+      "imageAlt": "Passeios Privativos em Fortaleza",
       "color": "#EE7C35",
       "link": "/pacotes",
       "linkText": "Saiba mais"
@@ -26,7 +28,8 @@
       "id": 1731340800002,
       "title": "City Tours",
       "description": "Conheça as principais atrações e cultura local com nossos guias",
-      "image": "/fortalezacityservico.png",
+      "image": "https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/awotkycgcb1cyqzezj6x.jpg",
+      "imageAlt": "City Tour em Fortaleza",
       "color": "#F8C144",
       "link": "/pacotes",
       "linkText": "Saiba mais"
