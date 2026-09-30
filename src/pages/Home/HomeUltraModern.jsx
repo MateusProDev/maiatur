@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
@@ -13,9 +13,9 @@ import TransferBeberibe from '../../components/TransferBeberibe/TransferBeberibe
 import HomeFAQSection from '../../components/HomeFAQSection/HomeFAQSection';
 import SEOHelmet from '../../components/SEOHelmet/SEOHelmet';
 import { seoData } from '../../utils/seoData';
-import { 
-  FiMapPin, 
-  FiStar, 
+import {
+  FiMapPin,
+  FiStar,
   FiArrowRight,
   FiAward,
   FiSun,
@@ -34,25 +34,50 @@ import './HomeUltraModern.css';
 
 import { autoOptimize, generateCloudinarySrcset } from '../../utils/cloudinaryOptimizer';
 
+/*
+ * Imagens padrão da seção de serviços, servidas pelo Cloudinary (f_auto,q_auto:eco).
+ * Os PNGs locais antigos (aviaoservico.png, jericoaquaraservico.png,
+ * fortalezacityservico.png) foram removidos por pesarem ~1,4 MB cada.
+ */
+export const SERVICES_DEFAULT_IMAGE = {
+  transfer: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/q459tqsslmbtdmp5hojb.jpg',
+  passeio: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/fniea42zhtccycew2ogm.jpg',
+  citytour: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/awotkycgcb1cyqzezj6x.jpg'
+};
+
+/*
+ * Verifica se a imagem do serviço está ausente/inválida.
+ * Nesses casos o card é renderizado em magenta, sinalizando que a imagem
+ * precisa ser enviada pelo painel.
+ */
+export const isServiceImageMissing = (image) => {
+  if (!image || typeof image !== 'string') return true;
+  const value = image.trim();
+  if (!value) return true;
+  if (value.includes('placeholder.com') || value.includes('via.placeholder')) return true;
+  if (value.startsWith('/') && /\.(png|jpe?g)$/i.test(value)) return true;
+  return false;
+};
+
 const DEFAULT_HOME_FEATURED_IMAGE = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=630&fit=crop';
 const HOME_CACHE_KEY = 'home_pacotes_data';
 const HOME_CACHE_TTL = 5 * 60 * 1000;
 
 const DEFAULT_SERVICES = [
   {
-    image: '/aviaoservico.png',
+    image: SERVICES_DEFAULT_IMAGE.transfer,
     title: 'Transfers & Receptivo',
     description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
     color: '#21A657'
   },
   {
-    image: '/jericoaquaraservico.png',
+    image: SERVICES_DEFAULT_IMAGE.passeio,
     title: 'Passeios Privativos',
     description: 'Experiências exclusivas com roteiros personalizados para você',
     color: '#EE7C35'
   },
   {
-    image: '/fortalezacityservico.png',
+    image: SERVICES_DEFAULT_IMAGE.citytour,
     title: 'City Tours',
     description: 'Conheça as principais atrações e cultura local com nossos guias',
     color: '#F8C144'
@@ -215,19 +240,19 @@ const HomeUltraModern = () => {
           // Fallback para dados estáticos se não encontrar no Firestore
           setServices([
             {
-              image: '/aviaoservico.png',
+              image: SERVICES_DEFAULT_IMAGE.transfer,
               title: 'Transfers & Receptivo',
               description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
               color: '#21A657'
             },
             {
-              image: '/jericoaquaraservico.png',
+              image: SERVICES_DEFAULT_IMAGE.passeio,
               title: 'Passeios Privativos',
               description: 'Experiências exclusivas com roteiros personalizados para você',
               color: '#EE7C35'
             },
             {
-              image: '/fortalezacityservico.png',
+              image: SERVICES_DEFAULT_IMAGE.citytour,
               title: 'City Tours',
               description: 'Conheça as principais atrações e cultura local com nossos guias',
               color: '#F8C144'
@@ -369,7 +394,7 @@ const HomeUltraModern = () => {
           }
           
           // Verificar se é transfer (qualquer tipo)
-          const isTransfer = categoriaPrincipal.includes('transfer') || 
+          const isTransfer = categoriaPrincipal.includes('transfer') ||
                             categoriasAdicionais.some(cat => cat.includes('transfer'));
           
           if (isTransfer) {
@@ -418,10 +443,9 @@ const HomeUltraModern = () => {
           avaliacoes: avaliacoesData
         }));
         localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
-        setLoading(false);
-
       } catch (error) {
-        console.error('Erro ao buscar dados:', error);
+        console.error("Erro ao carregar dados da Home:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -429,375 +453,263 @@ const HomeUltraModern = () => {
     fetchData();
   }, []);
 
-  // Auto-play testimonials
+  // Carrossel automático de depoimentos
   useEffect(() => {
-    if (avaliacoes.length > 0) {
-      const interval = setInterval(() => {
-        setCurrentTestimonial((prev) => 
-          prev === avaliacoes.length - 1 ? 0 : prev + 1
-        );
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [avaliacoes]);
-
-  const handleWhatsApp = (message = '') => {
-    const encodedMessage = encodeURIComponent(message);
-    const number = whatsappNumber || '5511999999999';
-    window.open(`https://wa.me/${number}?text=${encodedMessage}`, '_blank');
-  };
+    if (avaliacoes.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentTestimonial(prev => (prev + 1) % avaliacoes.length);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [avaliacoes.length]);
 
   const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => 
-      prev === avaliacoes.length - 1 ? 0 : prev + 1
-    );
+    setCurrentTestimonial(prev => (prev + 1) % avaliacoes.length);
   };
 
   const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => 
-      prev === 0 ? avaliacoes.length - 1 : prev - 1
-    );
+    setCurrentTestimonial(prev => (prev - 1 + avaliacoes.length) % avaliacoes.length);
   };
 
-  const carouselFeaturedImage = typeof carouselSettings.images?.[0] === 'string'
-    ? carouselSettings.images[0]
-    : carouselSettings.images?.[0]?.url;
-  const packageFeaturedImage = Object.values(pacotesPorCategoria)
-    .flat()
-    .map((pacote) => pacote.imagens?.[0] || pacote.imagem || pacote.image)
-    .find((image) => typeof image === 'string' && image.trim());
-  const featuredHomeImage = carouselFeaturedImage || packageFeaturedImage;
-
   return (
-    <div className="home-ultra-modern" aria-busy={loading}>
-      <SEOHelmet 
-        title={homeSeo.title}
-        description={homeSeo.description}
-        keywords={homeSeo.keywords}
-        canonical={homeSeo.canonical}
-        ogImage={homeSeo.ogImage || featuredHomeImage || DEFAULT_HOME_FEATURED_IMAGE}
+    <>
+      <SEOHelmet
+        title={homeSeo?.title || seoData.home.title}
+        description={homeSeo?.description || seoData.home.description}
+        keywords={homeSeo?.keywords || seoData.home.keywords}
+        canonical={homeSeo?.canonical || '/'}
+        ogImage={homeSeo?.ogImage || DEFAULT_HOME_FEATURED_IMAGE}
         ogType="website"
       />
-
       <Header />
+      
+      <main className="home-ultra-modern">
+        {/* Banner Carousel */}
+        <section className="home-hero-section">
+          <BannerCarousel />
+        </section>
 
-      {/* Hero Banner Carousel */}
-      <BannerCarousel />
-
-      {/* ========== EXPLORAR DESTINOS POR CATEGORIA ========== */}
-      <section className="destinos-section-ultra">
-        <div className="container-ultra">
-          <div className="section-header-ultra">
-            <span className="section-badge">
-              <FiMapPin /> Destinos em Destaque
-            </span>
-            {loading ? (
-              <div className="destinos-header-skeleton" aria-label="Carregando conteúdo da seção" aria-hidden="true">
-                <div className="destinos-header-skeleton-title" />
-                <div className="destinos-header-skeleton-description" />
-              </div>
-            ) : (
-              <>
-                <h2 className="section-title-ultra">
-                  {categoriasConfig.destinos_home?.titulo || "Escolha Sua Próxima Aventura"}
+        {/* Nossos Serviços */}
+        {services && services.length > 0 && (
+          <section className="home-services-section">
+            <div className="home-services-container">
+              <div className="home-services-header">
+                <span className="home-services-badge">
+                  {servicesSectionData.badge}
+                </span>
+                <h2 className="home-services-title">
+                  {servicesSectionData.title}
                 </h2>
-                <p className="section-description">
-                  {categoriasConfig.destinos_home?.descricao || "Pacotes exclusivos organizados por categoria para transformar sua viagem em uma experiência única"}
+                <p className="home-services-subtitle">
+                  {servicesSectionData.subtitle}
                 </p>
-              </>
-            )}
-          </div>
+              </div>
 
-          {loading ? (
-            <div className="destinos-skeleton" aria-label="Carregando destinos" aria-hidden="true">
-              {[1, 2, 3].map((item) => (
-                <div className="destino-skeleton-card" key={item}>
-                  <div className="destino-skeleton-image" />
-                  <div className="destino-skeleton-content">
-                    <div className="destino-skeleton-line destino-skeleton-line-title" />
-                    <div className="destino-skeleton-line" />
-                    <div className="destino-skeleton-line destino-skeleton-line-short" />
-                  </div>
+              <div className="home-services-grid">
+                {services.map((service, index) => {
+                  const imageMissing = isServiceImageMissing(service.image);
+
+                  return (
+                    <Link
+                      key={index}
+                      to={service.link || '/pacotes'}
+                      className={`home-service-card${imageMissing ? ' home-service-card--no-image' : ''}`}
+                    >
+                      <div className={`home-service-image-wrapper${imageMissing ? ' home-service-image-wrapper--no-image' : ''}`}>
+                        {imageMissing ? (
+                          <div className="home-service-image-missing" aria-label="Imagem pendente">
+                            <span>Imagem pendente</span>
+                          </div>
+                        ) : (
+                          <img
+                            src={autoOptimize(service.image, 'serviceCard')}
+                            srcSet={generateCloudinarySrcset(service.image, [400, 600, 800]) || undefined}
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+                            alt={service.alt || service.title || 'Serviço'}
+                            className="servico-image"
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            fetchPriority={index === 0 ? 'high' : 'auto'}
+                            decoding="async"
+                            width="665"
+                            height="374"
+                          />
+                        )}
+                        {!imageMissing && (
+                          <div
+                            className="home-service-overlay"
+                            style={{ background: `linear-gradient(135deg, ${service.color}dd, ${service.color}99)` }}
+                          />
+                        )}
+                      </div>
+                      <div className="home-service-content">
+                        <h3 className="home-service-title">{service.title}</h3>
+                        <p className="home-service-description">{service.description}</p>
+                        <span className="home-service-link">
+                          {service.linkText || 'Saiba mais'}
+                          <FiArrowRight />
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Pacotes em Destaque */}
+        {Object.keys(pacotesPorCategoria).length > 0 && (
+          <section className="home-pacotes-section">
+            <div className="home-pacotes-container">
+              <div className="home-pacotes-header">
+                <span className="home-pacotes-badge">Destinos Selecionados</span>
+                <h2 className="home-pacotes-title">
+                  {categoriasConfig.destinos_home.titulo}
+                </h2>
+                <p className="home-pacotes-subtitle">
+                  {categoriasConfig.destinos_home.descricao}
+                </p>
+              </div>
+
+              {Object.entries(pacotesPorCategoria).map(([categoria, pacotes]) => (
+                <div key={categoria} className="home-pacotes-categoria">
+                  <h3 className="home-pacotes-categoria-title">
+                    {categorias[categoria] || categoria}
+                  </h3>
+                  <PacotesCarousel pacotes={pacotes} />
                 </div>
               ))}
             </div>
-          ) : Object.keys(pacotesPorCategoria).length === 0 ? (
-            <div className="empty-state-ultra">
-              <FiMapPin className="empty-icon" />
-              <h3>Novos destinos em breve!</h3>
-              <p>Estamos preparando experiências incríveis para você</p>
-              <button onClick={() => handleWhatsApp('Gostaria de receber novidades sobre novos destinos!')} className="btn-notify">
-                <FaWhatsapp /> Me notifique
-              </button>
-            </div>
-          ) : (
-            <div className="carousels-section">
-              {Object.entries(pacotesPorCategoria).map(([categoria, pacotesCategoria]) => {
-                const verMaisLink = categoria === 'passeio' ? '/categoria/passeio' : '/categoria/transfer_chegada';
+          </section>
+        )}
 
-                return (
-                  <PacotesCarousel
-                    key={categoria}
-                    pacotes={pacotesCategoria}
-                    categoria={categorias[categoria] || categoria}
-                    autoPlayInterval={5000}
-                    verMaisLink={verMaisLink}
-                  />
-                );
-              })}
-            </div>
-          )}
+        {/* Transfer Beberibe */}
+        <TransferBeberibe />
 
-          <div className="section-cta-center">
-            <Link to="/pacotes" className="btn-view-all">
-              Ver Todos os Pacotes
-              <FiArrowRight />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ========== SERVIÇOS PREMIUM ========== */}
-      <section className="servicos-section-ultra">
-        <div className="container-ultra">
-          <div className="section-header-ultra center">
-            <span className="section-badge">
-              <FiSun /> {servicesSectionData.title}
-            </span>
-            <h2 className="section-title-ultra">
-              {servicesSectionData.badge}
-            </h2>
-            <p className="section-description">
-              {servicesSectionData.subtitle}
-            </p>
-          </div>
-
-          <div className="servicos-grid-ultra">
-            {services.map((service, index) => (
-              <div 
-                key={service.id || index} 
-                className="servico-card-ultra"
-                style={{ animationDelay: `${index * 0.15}s` }}
-              >
-                <div className="servico-image-wrapper">
-                  <img 
-                    src={autoOptimize(service.image, 'packageCard')}
-                    srcSet={generateCloudinarySrcset(service.image, [320, 480, 600]) || undefined}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
-                    alt={service.title}
-                    className="servico-image"
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    fetchPriority={index === 0 ? 'high' : undefined}
-                    decoding="async"
-                    width="665"
-                    height="374"
-                    onError={(e) => {
-                      console.error('❌ Erro ao carregar imagem:', service.image);
-                      e.target.src = '/placeholder-service.jpg';
-                    }}
-                  />
-                  <div className="servico-overlay"></div>
-                </div>
-                <div className="servico-content">
-                  <h3 className="servico-title">{service.title}</h3>
-                  <p className="servico-description">{service.description}</p>
-                  <button 
-                    onClick={() => handleWhatsApp(`Gostaria de saber mais sobre: ${service.title}`)}
-                    className="servico-link"
-                  >
-                    {service.linkText || 'Saiba mais'}
-                    <FiArrowRight />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========== POR QUE ESCOLHER ========== */}
-      {differentialsSettings.active && (
-        <section className="why-choose-ultra">
-          <div className="container-ultra">
-            <div className="why-choose-content">
-              <div className="why-choose-left">
-                <span className="section-badge">
-                  <FiAward /> {differentialsSettings.badge}
+        {/* Diferenciais */}
+        {differentialsSettings.active && (
+          <section className="home-differentials-section">
+            <div className="home-differentials-container">
+              <div className="home-differentials-header">
+                <span className="home-differentials-badge">
+                  {differentialsSettings.badge}
                 </span>
-                <h2 className="section-title-ultra">
+                <h2 className="home-differentials-title">
                   {differentialsSettings.title}
                 </h2>
-                <p className="section-text-large">
+                <p className="home-differentials-description">
                   {differentialsSettings.description}
                 </p>
+              </div>
 
-                <div className="features-list-ultra">
-                  {differentials.map((feature, index) => (
-                    <div key={feature.id || index} className="feature-item-ultra">
-                      <div className="feature-icon-circle">
-                        {getIconComponent(feature.icon)}
-                      </div>
-                      <div className="feature-text">
-                        <h3>{feature.title}</h3>
-                        <p>{feature.description}</p>
-                      </div>
+              <div className="home-differentials-grid">
+                {differentials.map((item, index) => (
+                  <div key={index} className="home-differential-card">
+                    <div className="home-differential-icon">
+                      {getIconComponent(item.icon)}
                     </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={() => navigate('/pacotes')}
-                  className="btn-cta-large"
-                >
-                  <FiPackage />
-                  Planejar Minha Viagem
-                </button>
-              </div>
-
-              <div className="why-choose-right">
-                <div className="image-collage">
-                  <div className="collage-item collage-1">
-                    <img
-                      src={autoOptimize(differentialsSettings.collageImages?.image1 || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=800&fit=crop', 'banner')}
-                      srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image1, [320, 480, 640, 800]) || undefined}
-                      sizes="(max-width: 768px) 70vw, 420px"
-                      alt="Destino"
-                      loading="lazy"
-                      decoding="async"
-                      width="600"
-                      height="800"
-                    />
+                    <h3 className="home-differential-title">{item.title}</h3>
+                    <p className="home-differential-description">{item.description}</p>
                   </div>
-                  <div className="collage-item collage-2">
-                    <img
-                      src={autoOptimize(differentialsSettings.collageImages?.image2 || 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=500&fit=crop', 'banner')}
-                      srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image2, [240, 320, 480, 640]) || undefined}
-                      sizes="(max-width: 768px) 55vw, 330px"
-                      alt="Experiência"
-                      loading="lazy"
-                      decoding="async"
-                      width="400"
-                      height="500"
-                    />
-                  </div>
-                  <div className="collage-item collage-3">
-                    <img
-                      src={autoOptimize(differentialsSettings.collageImages?.image3 || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=600&fit=crop', 'banner')}
-                      srcSet={generateCloudinarySrcset(differentialsSettings.collageImages?.image3, [240, 320, 480, 640]) || undefined}
-                      sizes="(max-width: 768px) 60vw, 360px"
-                      alt="Aventura"
-                      loading="lazy"
-                      decoding="async"
-                      width="500"
-                      height="600"
-                    />
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      {/* ========== CARROSSEL DE IMAGENS ========== */}
-      {carouselSettings.active && carouselSettings.images.length > 0 && (
-        <ImageCarousel
-          images={carouselSettings.images}
-          autoPlay={true}
-          speed={carouselSettings.speed}
-        />
-      )}
+        {/* Carrossel de Imagens */}
+        {carouselSettings.active && carouselSettings.images.length > 0 && (
+          <ImageCarousel
+            images={carouselSettings.images}
+            speed={carouselSettings.speed}
+          />
+        )}
 
-      {/* ========== TRANSFER BEBERIBE ========== */}
-      <TransferBeberibe />
+        {/* Avaliações */}
+        {avaliacoes.length > 0 && (
+          <section className="home-testimonials-section">
+            <div className="home-testimonials-container">
+              <div className="home-testimonials-header">
+                <span className="home-testimonials-badge">Depoimentos</span>
+                <h2 className="home-testimonials-title">
+                  O Que Nossos Clientes Dizem
+                </h2>
+              </div>
 
-      {/* ========== DEPOIMENTOS ========== */}
-      {avaliacoes.length > 0 && (
-        <section className="testimonials-section-ultra">
-          <div className="container-ultra">
-            <div className="section-header-ultra center">
-              <span className="section-badge">
-                <FiHeart /> Depoimentos
-              </span>
-              <h2 className="section-title-ultra">
-                O que nossos clientes
-                <span className="gradient-text"> dizem</span>
-              </h2>
-            </div>
+              <div className="home-testimonial-card">
+                <div className="home-testimonial-content">
+                  <div className="home-testimonial-stars">
+                    {[...Array(5)].map((_, i) => (
+                      <FiStar key={i} className="star-icon" />
+                    ))}
+                  </div>
+                  <p className="home-testimonial-text">
+                    "{avaliacoes[currentTestimonial]?.texto || avaliacoes[currentTestimonial]?.text || ''}"
+                  </p>
+                  <div className="home-testimonial-author">
+                    <strong>{avaliacoes[currentTestimonial]?.nome || avaliacoes[currentTestimonial]?.name || 'Cliente'}</strong>
+                  </div>
+                </div>
 
-            <div className="testimonials-slider-ultra">
-              <button onClick={prevTestimonial} className="slider-nav prev">
-                <FiChevronLeft />
-              </button>
-
-              <div className="testimonials-track">
-                {avaliacoes.map((avaliacao, index) => (
-                  <div 
-                    key={avaliacao.id}
-                    className={`testimonial-card-ultra ${index === currentTestimonial ? 'active' : ''}`}
-                    style={{ 
-                      transform: `translateX(${(index - currentTestimonial) * 105}%)`,
-                      opacity: index === currentTestimonial ? 1 : 0.3
-                    }}
-                  >
-                    <div className="testimonial-stars">
-                      {[...Array(avaliacao.nota || 5)].map((_, i) => (
-                        <FiStar key={i} className="star-filled" />
+                {avaliacoes.length > 1 && (
+                  <div className="home-testimonial-controls">
+                    <button onClick={prevTestimonial} className="testimonial-nav-btn">
+                      <FiChevronLeft />
+                    </button>
+                    <div className="testimonial-dots">
+                      {avaliacoes.map((_, index) => (
+                        <span
+                          key={index}
+                          className={`testimonial-dot ${index === currentTestimonial ? 'active' : ''}`}
+                          onClick={() => setCurrentTestimonial(index)}
+                        />
                       ))}
                     </div>
-                    
-                    <p className="testimonial-text">
-                      "{avaliacao.comentario}"
-                    </p>
-                    
-                    <div className="testimonial-author">
-                      <div className="author-avatar">
-                        {avaliacao.nomeCliente?.charAt(0) || 'C'}
-                      </div>
-                      <div className="author-info">
-                        <h3>{avaliacao.nomeCliente || 'Cliente Satisfeito'}</h3>
-                        <p>{avaliacao.destino || 'Viajante Transfer Fortaleza Tur'}</p>
-                      </div>
-                    </div>
+                    <button onClick={nextTestimonial} className="testimonial-nav-btn">
+                      <FiChevronRight />
+                    </button>
                   </div>
-                ))}
-              </div>
-
-              <button onClick={nextTestimonial} className="slider-nav next">
-                <FiChevronRight />
-              </button>
-
-              <div className="slider-dots">
-                {avaliacoes.map((_, index) => (
-                  <button 
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`dot ${index === currentTestimonial ? 'active' : ''}`}
-                  />
-                ))}
+                )}
               </div>
             </div>
+          </section>
+        )}
+
+        {/* Google Reviews */}
+        <GoogleReviews />
+
+        {/* Blog Preview */}
+        <BlogPreview />
+
+        {/* FAQ */}
+        <HomeFAQSection />
+
+        {/* CTA Final WhatsApp */}
+        <section className="home-cta-section">
+          <div className="home-cta-container">
+            <FiPackage className="home-cta-icon" />
+            <h2 className="home-cta-title">
+              Pronto para sua próxima aventura?
+            </h2>
+            <p className="home-cta-description">
+              Entre em contato conosco e monte o roteiro perfeito para sua viagem
+            </p>
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Olá! Gostaria de mais informações sobre os pacotes de viagem.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="home-cta-button"
+            >
+              <FaWhatsapp />
+              Falar no WhatsApp
+            </a>
           </div>
         </section>
-      )}
-
-      {/* ========== CTA FINAL ========== */}
-      <section className="cta-final-ultra">
-        <div className="cta-shapes">
-          <div className="cta-shape cta-shape-1"></div>
-          <div className="cta-shape cta-shape-2"></div>
-        </div>
-      </section>
-
-      <GoogleReviews />
-
-      <BlogPreview />
-
-      {/* ========== FAQ SECTION ========== */}
-      <HomeFAQSection />
+      </main>
 
       <Footer />
-    </div>
+    </>
   );
 };
 
