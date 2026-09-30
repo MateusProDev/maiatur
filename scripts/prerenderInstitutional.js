@@ -32,15 +32,27 @@ const firebaseConfig = {
 
 // Rotas institucionais para prerender
 const INSTITUTIONAL_ROUTES = [
-  '/',
   '/pacotes',
-  '/destinos',
   '/contato',
   '/blog',
   '/politica',
   '/categoria/passeio',
   '/categoria/transfer'
 ];
+
+/**
+ * Seletores que só existem DEPOIS que o conteúdo real renderizou.
+ * Esperar por eles (em vez de contar caracteres) garante que o HTML
+ * capturado contém o conteúdo, e não a tela de carregamento.
+ */
+const CONTENT_SELECTORS = {
+  '/pacotes': '.pacote-card-modern, .no-results-modern',
+  '/blog': 'article, .blog-post-card, .no-results-modern',
+  '/contato': 'form, main h1',
+  '/politica': 'main h1, main h2',
+  '/categoria/passeio': '.pacote-card-modern, .no-results-modern, main h1',
+  '/categoria/transfer': '.pacote-card-modern, .no-results-modern, main h1'
+};
 
 async function getPublishedBlogRoutes() {
   if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
@@ -66,38 +78,50 @@ async function getPublishedBlogRoutes() {
   }
 }
 
-function assertHtmlHasSeoContent(html, route) {
-  const lowerHtml = html.toLowerCase();
-  
-  // Verificar canonical
-  const hasCanonical = /<link[^>]+rel="canonical"/i.test(html);
-  if (!hasCanonical) {
-    console.warn(`[prerender-institutional] ${route}: canonical não encontrado`);
+/**
+ * O index.html precisa estar na forma ORIGINAL (shell da SPA) para que o
+ * React monte cada rota. Se o prerenderHome já tiver rodado, o shell foi
+ * substituído pelo snapshot da home e nenhuma outra rota renderiza.
+ */
+function ensureOriginalShell() {
+  const originalFile = path.join(BUILD_DIR, 'index.html.original');
+  const indexFile = path.join(BUILD_DIR, 'index.html');
+
+  if (fs.existsSync(originalFile)) {
+    fs.copyFileSync(originalFile, indexFile);
+    console.log('[prerender-institutional] index.html restaurado do original para servir o shell da SPA.');
   }
-  
-  // Verificar og:title e og:description
+}
+
+function assertHtmlHasSeoContent(html, route) {
+  const hasCanonical = /<link[^>]+rel="canonical"/i.test(html);
   const hasOgTitle = /property="og:title"/i.test(html);
   const hasOgDescription = /property="og:description"/i.test(html);
-  
-  if (!hasOgTitle || !hasOgDescription) {
-    console.warn(`[prerender-institutional] ${route}: OG tags incompletas (title: ${hasOgTitle}, description: ${hasOgDescription})`);
-  }
-  
-  // Verificar twitter:title e twitter:description
   const hasTwitterTitle = /name="twitter:title"/i.test(html);
   const hasTwitterDescription = /name="twitter:description"/i.test(html);
-  
-  if (!hasTwitterTitle || !hasTwitterDescription) {
-    console.warn(`[prerender-institutional] ${route}: Twitter tags incompletas (title: ${hasTwitterTitle}, description: ${hasTwitterDescription})`);
+  const hasH1 = /<h1[^>]*>/i.test(html);
+
+  const problems = [];
+  if (!hasCanonical) problems.push('canonical');
+  if (!hasOgTitle) problems.push('og:title');
+  if (!hasOgDescription) problems.push('og:description');
+  if (!hasTwitterTitle) problems.push('twitter:title');
+  if (!hasTwitterDescription) problems.push('twitter:description');
+  if (!hasH1) problems.push('<h1>');
+
+  if (problems.length > 0) {
+    console.warn(`[prerender-institutional] ${route}: ausente -> ${problems.join(', ')}`);
   }
-  
-  return hasCanonical && hasOgTitle && hasOgDescription && hasTwitterTitle && hasTwitterDescription;
+
+  return problems.length === 0;
 }
 
 async function runPrerenderInstitutional() {
   if (!fs.existsSync(BUILD_DIR)) {
     throw new Error('Build da CRA ainda não existe em build/. Execute o build antes do prerender.');
   }
+
+  ensureOriginalShell();
 
   const indexHtmlPath = path.join(BUILD_DIR, 'index.html');
   if (!fs.existsSync(indexHtmlPath)) {
@@ -133,7 +157,7 @@ async function runPrerenderInstitutional() {
         res.writeHead(200, { 'Content-Type': contentType });
         res.end(fs.readFileSync(requestedPath));
       } else {
-        // Fallback para SPA routing
+        // Fallback para SPA routing (sempre o shell original)
         const fallback = path.join(BUILD_DIR, 'index.html');
         if (!fs.existsSync(fallback)) {
           console.error('[prerender-institutional] index.html não encontrado para fallback');
@@ -174,89 +198,115 @@ async function runPrerenderInstitutional() {
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
   }
-  
+
+  const results = { ok: [], failed: [] };
+
   try {
     for (const route of routes) {
       const page = await browser.newPage({ waitUntil: 'load', timeout: 60000 });
-      
+
       try {
         const url = `http://127.0.0.1:${port}${route}`;
         console.log(`[prerender-institutional] visitando ${route}`);
 
-        // Configurar timeout maior para carregar todos os dados
         const response = await page.goto(url, {
           waitUntil: 'domcontentloaded',
           timeout: 60000
         });
 
         if (!response || response.status() < 200 || response.status() >= 400) {
-          console.warn(`[prerender-institutional] ${route} retornou status ${response ? response.status() : 'sem status'}`);
+          const msg = `${route} retornou status ${response ? response.status() : 'sem status'}`;
+          console.warn(`[prerender-institutional] ${msg}`);
+          results.failed.push(msg);
           await page.close();
           continue;
         }
 
-        // Esperar elementos essenciais carregarem
-        await page.waitForFunction((isBlogPost) => {
-          const body = document.body;
-          const bodyText = body ? body.innerText : '';
-          if (isBlogPost) {
+        const isBlogPost = route.startsWith('/blog/');
+
+        if (isBlogPost) {
+          await page.waitForFunction(() => {
             const heading = document.querySelector('.blog-post-page h1');
             const ogTitle = document.querySelector('meta[property="og:title"]')?.content || '';
             const ogType = document.querySelector('meta[property="og:type"]')?.content || '';
             return Boolean(heading && heading.textContent.trim() && ogTitle && ogType === 'article');
-          }
-          return Boolean(bodyText && String(bodyText).trim().length > 50);
-        }, route.startsWith('/blog/'), { timeout: 30000 });
+          }, { timeout: 30000 });
+        } else {
+          /* Espera pelo seletor de CONTEÚDO REAL da rota.
+             Só depois que um card/seção/título existir é que capturamos —
+             assim a tela de carregamento nunca entra no HTML salvo. */
+          const selector = CONTENT_SELECTORS[route] || 'h1';
+          await page.waitForSelector(selector, { timeout: 30000 });
 
-        // Esperar um pouco mais para garantir que dados carregaram
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+          /* Confirma que o estado de carregamento saiu de cena. */
+          await page.waitForFunction(() => {
+            const bodyText = document.body ? document.body.innerText : '';
+            const isLoading = /carregando/i.test(bodyText);
+            return !isLoading && String(bodyText).trim().length > 200;
+          }, { timeout: 20000 });
+        }
+
+        // Margem curta para imagens/metadados assentarem
+        await new Promise((resolve) => setTimeout(resolve, 1500));
 
         const html = await page.evaluate(() => document.documentElement.outerHTML);
 
         if (!html || !html.includes('<html')) {
-          console.warn(`[prerender-institutional] ${route} produziu HTML inválido`);
+          const msg = `${route} produziu HTML inválido`;
+          console.warn(`[prerender-institutional] ${msg}`);
+          results.failed.push(msg);
+          await page.close();
+          continue;
+        }
+
+        /* Falha explícita: HTML com tela de carregamento não deve ser salvo. */
+        const hasLoadingScreen = /Carregando\s+(pacotes|post|detalhes)/i.test(html);
+        if (hasLoadingScreen) {
+          const msg = `${route}: HTML capturado ainda contém a tela de carregamento`;
+          console.error(`[prerender-institutional] ${msg}`);
+          results.failed.push(msg);
           await page.close();
           continue;
         }
 
         const seoValid = assertHtmlHasSeoContent(html, route);
 
-        if (route.startsWith('/blog/')) {
+        if (isBlogPost) {
           const socialTitle = html.match(/<meta[^>]+property="og:title"[^>]+content="([^"]*)"/i)?.[1] || '';
           const articleType = html.match(/<meta[^>]+property="og:type"[^>]+content="([^"]*)"/i)?.[1] || '';
           if (!socialTitle || articleType !== 'article') {
-            throw new Error(`${route}: metadados Open Graph do artigo não carregaram antes da captura`);
+            const msg = `${route}: metadados Open Graph do artigo não carregaram antes da captura`;
+            console.warn(`[prerender-institutional] ${msg}`);
+            results.failed.push(msg);
+            await page.close();
+            continue;
           }
-        }
-
-        if (!seoValid) {
-          console.warn(`[prerender-institutional] ${route} tem problemas de SEO, mas continuando...`);
         }
 
         // Salvar arquivo prerenderizado
         let outFile;
-        if (route === '/') {
-          outFile = path.join(BUILD_DIR, 'index.html');
-        } else {
-          // Criar estrutura de diretórios para rotas
-          const routePath = route.slice(1); // remover /
-          const isBlogPost = route.startsWith('/blog/');
-          const routeDir = isBlogPost
-            ? path.join(BUILD_DIR, routePath)
-            : path.join(BUILD_DIR, path.dirname(routePath));
-          if (!fs.existsSync(routeDir)) {
-            fs.mkdirSync(routeDir, { recursive: true });
-          }
-          outFile = isBlogPost
-            ? path.join(routeDir, 'index.html')
-            : path.join(BUILD_DIR, routePath + '.html');
+        const routePath = route.slice(1); // remover /
+        const routeDir = isBlogPost
+          ? path.join(BUILD_DIR, routePath)
+          : path.join(BUILD_DIR, path.dirname(routePath));
+        if (!fs.existsSync(routeDir)) {
+          fs.mkdirSync(routeDir, { recursive: true });
         }
+        outFile = isBlogPost
+          ? path.join(routeDir, 'index.html')
+          : path.join(BUILD_DIR, routePath + '.html');
 
         fs.writeFileSync(outFile, html, 'utf8');
         console.log(`[prerender-institutional] ok ${route} -> ${outFile}`);
         console.log(`[prerender-institutional] HTML size: ${html.length} bytes`);
+        if (!seoValid) {
+          console.warn(`[prerender-institutional] ${route}: salvo, mas com metadados de SEO incompletos.`);
+        }
+        results.ok.push(route);
       } catch (error) {
+        const msg = `${route}: ${error.message}`;
         console.error(`[prerender-institutional] erro no prerender de ${route}:`, error.message);
+        results.failed.push(msg);
       } finally {
         await page.close();
       }
@@ -269,7 +319,25 @@ async function runPrerenderInstitutional() {
     server.close();
   }
 
-  console.log(`[prerender-institutional] Páginas institucionais pré-renderizadas com sucesso`);
+  console.log(`[prerender-institutional] Sucesso: ${results.ok.length}`);
+  console.log(`[prerender-institutional] Falhas: ${results.failed.length}`);
+  if (results.failed.length > 0) {
+    console.warn('[prerender-institutional] rotas com falha:');
+    results.failed.forEach((entry) => console.warn(`  - ${entry}`));
+  }
+
+  /* Falhar o build quando páginas institucionais não foram geradas impede
+     que um HTML incompleto seja publicado silenciosamente. */
+  if (results.ok.length === 0) {
+    throw new Error('PRERENDER INSTITUCIONAL FAILED: nenhuma página institucional foi gerada.');
+  }
+
+  if (results.failed.length > 0) {
+    throw new Error(
+      `PRERENDER INSTITUCIONAL FAILED: ${results.failed.length} rota(s) não foram pré-renderizadas. ` +
+      `Sem elas o crawler recebe apenas o shell vazio da SPA. Detalhes: ${results.failed.join(' | ')}`
+    );
+  }
 }
 
 async function main() {
@@ -279,8 +347,8 @@ async function main() {
     console.log('[prerender-institutional] Prerender institucional concluído com sucesso');
   } catch (error) {
     console.error('[prerender-institutional] falha:', error.message);
-    console.warn('[prerender-institutional] Prerender institucional falhou, mas o build continuará.');
-    process.exitCode = 0;
+    process.exitCode = 1;
+    throw error;
   }
 }
 

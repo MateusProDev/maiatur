@@ -16,8 +16,13 @@ if (isProduction) {
 }
 
 const BUILD_DIR = path.resolve(__dirname, '../build');
-const SITE_URL = process.env.REACT_APP_SITE_URL || process.env.SITE_URL || 'https://transferfortalezatur.com.br';
 
+/**
+ * A home é a ÚNICA página que sobrescreve build/index.html.
+ * Por isso este script roda por último (ver script "prerender" no package.json)
+ * e restaura o shell original antes de capturar. Os outros scripts de
+ * prerender dependem desse shell para o React montar cada rota.
+ */
 function assertHtmlHasHomeContent(html) {
   const required = [
     '<h1',
@@ -51,17 +56,18 @@ function assertHtmlHasHomeContent(html) {
   });
 
   if (missing.length > 0) {
-    console.warn(`[prerender-home] Avisos: conteúdo opcional ausente: ${missing.join(', ')}`);
+    throw new Error(
+      `PRERENDER HOME FAILED: HTML da home incompleto. Ausente: ${missing.join(', ')}`
+    );
   }
 
-  // Verificar conteúdo essencial
-  const hasEssentialContent = lowerHtml.includes('transfer') || 
-                               lowerHtml.includes('passeio') || 
+  const hasEssentialContent = lowerHtml.includes('transfer') ||
+                               lowerHtml.includes('passeio') ||
                                lowerHtml.includes('turismo') ||
                                lowerHtml.includes('fortaleza');
 
   if (!hasEssentialContent) {
-    throw new Error(`PRERENDER HOME FAILED: página inicial não contém conteúdo essencial de turismo/transfer.`);
+    throw new Error('PRERENDER HOME FAILED: página inicial não contém conteúdo essencial de turismo/transfer.');
   }
 
   return true;
@@ -75,6 +81,13 @@ async function runPrerenderHome() {
   const indexHtmlPath = path.join(BUILD_DIR, 'index.html');
   if (!fs.existsSync(indexHtmlPath)) {
     throw new Error('index.html não encontrado em build/. Execute "npm run build" antes do prerender para gerar os arquivos de build.');
+  }
+
+  /* Garante que partimos do shell original da SPA, não de um snapshot anterior. */
+  const originalFile = path.join(BUILD_DIR, 'index.html.original');
+  if (fs.existsSync(originalFile)) {
+    fs.copyFileSync(originalFile, indexHtmlPath);
+    console.log('[prerender-home] index.html restaurado do original antes de capturar.');
   }
 
   const server = http.createServer((req, res) => {
@@ -144,7 +157,7 @@ async function runPrerenderHome() {
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
   }
-  
+
   const page = await browser.newPage({ waitUntil: 'load', timeout: 60000 });
 
   try {
@@ -153,7 +166,6 @@ async function runPrerenderHome() {
 
     console.log(`[prerender-home] visitando ${route}`);
 
-    // Configurar timeout maior para carregar todos os dados do Firebase
     const response = await page.goto(url, {
       waitUntil: 'domcontentloaded',
       timeout: 60000
@@ -163,49 +175,47 @@ async function runPrerenderHome() {
       throw new Error(`[prerender-home] ${route} retornou status ${response ? response.status() : 'sem status'}`);
     }
 
-    // Esperar elementos essenciais carregarem
+    /* Espera pelo <h1> real da home — o seletor só existe depois que o React
+       montou e o conteúdo saiu da tela de carregamento. */
+    await page.waitForSelector('h1', { timeout: 30000 });
+
     await page.waitForFunction(() => {
-      const body = document.body;
-      const bodyText = body ? body.innerText : '';
-      // Verificar se há conteúdo significativo
-      return Boolean(bodyText && String(bodyText).trim().length > 100);
+      const bodyText = document.body ? document.body.innerText : '';
+      const isLoading = /carregando/i.test(bodyText);
+      return !isLoading && String(bodyText).trim().length > 200;
     }, { timeout: 30000 });
 
-    // Esperar um pouco mais para garantir que dados do Firebase carregaram
+    // Margem para o conteúdo dinâmico do Firebase assentar
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const html = await page.evaluate(() => document.documentElement.outerHTML);
 
     if (!html || !html.includes('<html')) {
-      throw new Error(`PRERENDER HOME FAILED: página inicial produziu HTML inválido.`);
+      throw new Error('PRERENDER HOME FAILED: página inicial produziu HTML inválido.');
     }
 
     assertHtmlHasHomeContent(html);
 
-    // Sobrescrever o index.html principal com o HTML pré-renderizado
-    const outFile = path.join(BUILD_DIR, 'index.html');
-    
-    // Backup do original
-    const originalFile = path.join(BUILD_DIR, 'index.html.original');
+    // Backup do shell original (só na primeira vez)
     if (!fs.existsSync(originalFile)) {
-      fs.copyFileSync(outFile, originalFile);
+      fs.copyFileSync(indexHtmlPath, originalFile);
       console.log(`[prerender-home] backup criado: ${originalFile}`);
     }
-    
-    fs.writeFileSync(outFile, html, 'utf8');
 
-    const saved = fs.readFileSync(outFile, 'utf8');
-    const hasData = saved.toLowerCase().includes('transfer') || 
-                   saved.toLowerCase().includes('passeio') || 
+    fs.writeFileSync(indexHtmlPath, html, 'utf8');
+
+    const saved = fs.readFileSync(indexHtmlPath, 'utf8');
+    const hasData = saved.toLowerCase().includes('transfer') ||
+                   saved.toLowerCase().includes('passeio') ||
                    saved.toLowerCase().includes('turismo');
 
     if (!hasData) {
-      throw new Error(`PRERENDER HOME FAILED: página inicial não contém conteúdo de turismo após prerender.`);
+      throw new Error('PRERENDER HOME FAILED: página inicial não contém conteúdo de turismo após prerender.');
     }
 
-    console.log(`[prerender-home] ok ${route} -> ${outFile}`);
+    console.log(`[prerender-home] ok ${route} -> ${indexHtmlPath}`);
     console.log(`[prerender-home] HTML size: ${html.length} bytes`);
-    console.log(`[prerender-home] Conteúdo dinâmico incluído no HTML estático`);
+    console.log('[prerender-home] Conteúdo dinâmico incluído no HTML estático');
   } catch (error) {
     console.error('[prerender-home] erro no prerender:', error.message);
     throw error;
@@ -215,7 +225,7 @@ async function runPrerenderHome() {
     server.close();
   }
 
-  console.log(`[prerender-home] Página inicial pré-renderizada com sucesso`);
+  console.log('[prerender-home] Página inicial pré-renderizada com sucesso');
 }
 
 async function main() {
