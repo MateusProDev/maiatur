@@ -3,6 +3,50 @@ import { collection, doc, setDoc, getDocs, updateDoc, getDoc } from "firebase/fi
 import { db } from "../../firebase/firebaseConfig";
 import "./InicializadorPage.css";
 
+/*
+ * Imagens padrão dos serviços, servidas pelo Cloudinary (f_auto,q_auto:eco).
+ * Os PNGs locais antigos (aviaoservico.png, jericoaquaraservico.png,
+ * fortalezacityservico.png) foram removidos por pesarem ~1,4 MB cada.
+ */
+const SERVICES_DEFAULT_IMAGE = {
+  transfer: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/q459tqsslmbtdmp5hojb.jpg',
+  passeio: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/fniea42zhtccycew2ogm.jpg',
+  citytour: 'https://res.cloudinary.com/dqejvdl8w/image/upload/f_auto,q_auto:eco,dpr_auto,c_fill,w_600,h_600/services/awotkycgcb1cyqzezj6x.jpg'
+};
+
+const DEFAULT_SERVICES = [
+  {
+    id: 1731340800000,
+    title: 'Transfers & Receptivo',
+    description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
+    image: SERVICES_DEFAULT_IMAGE.transfer,
+    alt: 'Transfers e Receptivo em Fortaleza',
+    color: '#21A657',
+    link: '/pacotes',
+    linkText: 'Saiba mais'
+  },
+  {
+    id: 1731340800001,
+    title: 'Passeios Privativos',
+    description: 'Experiências exclusivas com roteiros personalizados para você',
+    image: SERVICES_DEFAULT_IMAGE.passeio,
+    alt: 'Passeios Privativos em Fortaleza',
+    color: '#EE7C35',
+    link: '/pacotes',
+    linkText: 'Saiba mais'
+  },
+  {
+    id: 1731340800002,
+    title: 'City Tours',
+    description: 'Conheça as principais atrações e cultura local com nossos guias',
+    image: SERVICES_DEFAULT_IMAGE.citytour,
+    alt: 'City Tour em Fortaleza',
+    color: '#F8C144',
+    link: '/pacotes',
+    linkText: 'Saiba mais'
+  }
+];
+
 const InicializadorPage = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMigracao, setLoadingMigracao] = useState(false);
@@ -23,35 +67,7 @@ const InicializadorPage = () => {
         badge: 'Experiências Personalizadas',
         title: 'Nossos Serviços',
         subtitle: 'Cada detalhe pensado para tornar sua viagem perfeita',
-        services: [
-          {
-            id: 1731340800000,
-            title: 'Transfers & Receptivo',
-            description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade',
-            image: '/aviaoservico.png',
-            color: '#21A657',
-            link: '/pacotes',
-            linkText: 'Saiba mais'
-          },
-          {
-            id: 1731340800001,
-            title: 'Passeios Privativos',
-            description: 'Experiências exclusivas com roteiros personalizados para você',
-            image: '/jericoaquaraservico.png',
-            color: '#EE7C35',
-            link: '/pacotes',
-            linkText: 'Saiba mais'
-          },
-          {
-            id: 1731340800002,
-            title: 'City Tours',
-            description: 'Conheça as principais atrações e cultura local com nossos guias',
-            image: '/fortalezacityservico.png',
-            color: '#F8C144',
-            link: '/pacotes',
-            linkText: 'Saiba mais'
-          }
-        ]
+        services: DEFAULT_SERVICES
       };
 
       await setDoc(doc(db, 'content', 'servicesSection'), servicesData);
@@ -78,7 +94,6 @@ const InicializadorPage = () => {
     try {
       let resumoMensagens = [];
 
-      // listas: passeios, veiculos, hoteis, aeroportos
       const listas = [
         {
           id: 'passeios',
@@ -154,7 +169,6 @@ const InicializadorPage = () => {
         }
       }
 
-      // reservas/_modelo: criar ou adicionar campos faltantes
       const modeloRef = doc(db, 'reservas', '_modelo');
       const modeloSnap = await getDoc(modeloRef);
       const modeloPadrao = {
@@ -189,7 +203,6 @@ const InicializadorPage = () => {
         }
       }
 
-      // content/servicesSection: criar ou adicionar serviços faltantes (por id)
       const servicesRef = doc(db, 'content', 'servicesSection');
       const servicesSnap = await getDoc(servicesRef);
       const servicesDefault = {
@@ -197,11 +210,7 @@ const InicializadorPage = () => {
         badge: 'Experiências Personalizadas',
         title: 'Nossos Serviços',
         subtitle: 'Cada detalhe pensado para tornar sua viagem perfeita',
-        services: [
-          { id: 1731340800000, title: 'Transfers & Receptivo', description: 'Transporte seguro do aeroporto ao hotel com conforto e pontualidade', image: '/aviaoservico.png', color: '#21A657', link: '/pacotes', linkText: 'Saiba mais' },
-          { id: 1731340800001, title: 'Passeios Privativos', description: 'Experiências exclusivas com roteiros personalizados para você', image: '/jericoaquaraservico.png', color: '#EE7C35', link: '/pacotes', linkText: 'Saiba mais' },
-          { id: 1731340800002, title: 'City Tours', description: 'Conheça as principais atrações e cultura local com nossos guias', image: '/fortalezacityservico.png', color: '#F8C144', link: '/pacotes', linkText: 'Saiba mais' }
-        ]
+        services: DEFAULT_SERVICES
       };
 
       if (!servicesSnap.exists()) {
@@ -239,9 +248,7 @@ const InicializadorPage = () => {
     setLoading(true);
     setResultado("");
 
-
     try {
-      // 1. Criar lista de passeios
       await setDoc(doc(db, "listas", "passeios"), {
         items: [
           "Beach Park",
@@ -258,7 +265,6 @@ const InicializadorPage = () => {
         atualizadoEm: new Date().toISOString(),
       });
 
-      // 2. Criar lista de veículos
       await setDoc(doc(db, "listas", "veiculos"), {
         items: [
           "Carro até 4 pessoas",
@@ -273,7 +279,6 @@ const InicializadorPage = () => {
         atualizadoEm: new Date().toISOString(),
       });
 
-      // 2.1 Criar listas de hotéis e aeroportos
       await setDoc(doc(db, "listas", "hoteis"), {
         tipo: "hoteis",
         ativo: true,
@@ -304,7 +309,6 @@ const InicializadorPage = () => {
         atualizadoEm: new Date().toISOString(),
       });
 
-      // 3. Criar documento modelo (para fixar schema)
       await setDoc(doc(db, "reservas", "_modelo"), {
         tipo: "passeio",
         status: "pendente",
@@ -363,7 +367,6 @@ const InicializadorPage = () => {
       for (const docSnap of querySnapshot.docs) {
         const dados = docSnap.data();
         
-        // Se não tem categoria, adicionar "passeio" como padrão
         if (!dados.categoria) {
           await updateDoc(doc(db, 'pacotes', docSnap.id), {
             categoria: 'passeio'
