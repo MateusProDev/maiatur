@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./index.css";
 import App from "./App";
 import { setupErrorSuppression } from "./utils/errorSuppression";
 import "./utils/serviceWorkerCleanup"; // Limpar service workers problemáticos
