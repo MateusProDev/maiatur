@@ -1,6 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+/*
+ * CSS das seções da home carregado no bundle de ENTRADA.
+ *
+ * O HomeUltraModern é carregado com React.lazy + code splitting, então o
+ * import dentro do componente caía num chunk separado: o CSS só era injetado
+ * no <head> depois que aquele chunk de JS executava, e o HTML JÁ pré-renderizado
+ * aparecia sem estilo nesse intervalo (parte da página estilizada, parte crua).
+ * Importando aqui, o CSS está no <link> inicial e vale desde o primeiro paint.
+ */
+import "./pages/Home/HomeUltraModern.css";
+import "./pages/Home/ServicesMissingImages.css";
 import App from "./App";
 import { setupErrorSuppression } from "./utils/errorSuppression";
 import "./utils/serviceWorkerCleanup"; // Limpar service workers problemáticos
