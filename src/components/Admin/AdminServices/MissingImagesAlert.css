@@ -1,0 +1,145 @@
+
+/* ==========================================================================
+   Avisos de imagem pendente — painel admin
+   ========================================================================== */
+
+/* Faixa de alerta no topo do painel */
+.admin-services-missing-alert {
+  background: #FDF2F8 !important;
+  border: 2px solid #E91E8C !important;
+  border-radius: 12px !important;
+  padding: 1.25rem 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.missing-alert-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  color: #9D174D !important;
+  font-size: 1rem !important;
+}
+
+.missing-alert-icon {
+  color: #E91E8C !important;
+  font-size: 1.25rem !important;
+  flex-shrink: 0 !important;
+}
+
+.missing-alert-text {
+  margin: 0.5rem 0 0.75rem !important;
+  color: #9D174D !important;
+  font-size: 0.9rem !important;
+  line-height: 1.6 !important;
+}
+
+.missing-alert-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+.missing-alert-list li {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  flex-wrap: wrap !important;
+  background: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 0.6rem 0.9rem !important;
+}
+
+.missing-alert-item {
+  font-weight: 600 !important;
+  color: #831843 !important;
+  font-size: 0.9rem !important;
+}
+
+.missing-alert-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  background: #E91E8C !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 0.9rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.missing-alert-btn:hover {
+  background: #C4146F !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Card do serviço sem imagem */
+.service-item--missing-image {
+  border-color: #E91E8C !important;
+  background: linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%) !important;
+}
+
+.service-missing-flag {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  background: #E91E8C !important;
+  color: #ffffff !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+  padding: 0.3rem 0.7rem !important;
+  border-radius: 50px !important;
+  margin-left: auto !important;
+  margin-right: 0.75rem !important;
+}
+
+/* Prévia do aviso no lugar da imagem */
+.image-missing-preview {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  margin-top: 1rem !important;
+  padding: 1rem 1.25rem !important;
+  background: repeating-linear-gradient(
+    45deg,
+    #E91E8C,
+    #E91E8C 12px,
+    #C4146F 12px,
+    #C4146F 24px
+  ) !important;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+}
+
+.image-missing-preview svg {
+  font-size: 1.25rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Imagem quebrada na prévia */
+.image-preview--broken {
+  border-color: #E91E8C !important;
+  background: repeating-linear-gradient(
+    45deg,
+    #E91E8C,
+    #E91E8C 12px,
+    #C4146F 12px,
+    #C4146F 24px
+  ) !important;
+  min-height: 120px !important;
+}
+
+.image-preview--broken img {
+  visibility: hidden !important;
+}

@@ -1,0 +1,46 @@
+
+/* ==========================================================================
+   Avisos de imagem pendente — seção de serviços (home)
+   ========================================================================== */
+
+.home-service-card--no-image {
+  border: 2px solid #E91E8C;
+}
+
+.home-service-image-wrapper--no-image {
+  background: repeating-linear-gradient(
+    45deg,
+    #E91E8C,
+    #E91E8C 12px,
+    #C4146F 12px,
+    #C4146F 24px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.home-service-image-missing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.home-service-image-missing span {
+  display: inline-block;
+  background: #ffffff;
+  color: #C4146F;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
