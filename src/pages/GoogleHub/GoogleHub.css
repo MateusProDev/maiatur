@@ -46,6 +46,7 @@
   font-weight: 600;
   margin-bottom: 2rem;
   border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: fadeInDown 0.6s ease;
 }
 
 .google-icon {
@@ -65,11 +66,13 @@
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 900;
   margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease 0.2s backwards;
 }
 
 .google-hub-header p {
   font-size: 1.3rem;
   opacity: 0.95;
+  animation: fadeInUp 0.6s ease 0.4s backwards;
 }
 
 /* Actions Grid */
@@ -94,6 +97,7 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.6s ease backwards;
 }
 
 .action-card:nth-child(1) { animation-delay: 0.5s; }
@@ -198,6 +202,7 @@
   text-align: center;
   margin-bottom: 3rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.6s ease 0.9s backwards;
 }
 
 .quick-contact h3 {
@@ -268,6 +273,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
+  animation: fadeInUp 0.6s ease 1s backwards;
 }
 
 .trust-item {

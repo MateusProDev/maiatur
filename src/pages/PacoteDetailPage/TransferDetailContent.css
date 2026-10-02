@@ -71,6 +71,7 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  animation: fadeInUp 0.6s ease-out;
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
@@ -553,6 +554,8 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid #f1f5f9;
   transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
   overflow-x: hidden;
   max-width: 100%;
   box-sizing: border-box;
@@ -716,6 +719,8 @@
 /* CTA Section */
 .transfer-cta-section {
   margin: 1.25rem 0;
+  animation: fadeInUp 0.6s ease-out 0.6s;
+  animation-fill-mode: both;
 }
 
 .transfer-cta-card {
