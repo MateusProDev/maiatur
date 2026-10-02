@@ -36,7 +36,6 @@
   padding: 4rem 2rem;
   max-width: 800px;
   z-index: 2;
-  animation: fadeInUp 0.8s ease-out;
 }
 
 @keyframes fadeInUp {

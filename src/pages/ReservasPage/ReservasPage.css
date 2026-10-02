@@ -24,14 +24,12 @@
 .reservas-header {
   text-align: center;
   margin-bottom: clamp(2rem, 4vw, 4rem);
-  animation: fadeInDown 0.6s ease-out;
 }
 
 .reservas-logo {
   width: clamp(80px, 10vw, 120px);
   height: auto;
   margin-bottom: clamp(1rem, 2vw, 1.5rem);
-  animation: fadeInDown 0.6s ease-out;
 }
 
 @keyframes fadeInDown {

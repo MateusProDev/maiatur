@@ -43,7 +43,6 @@
 .hero-text {
   text-align: center;
   color: white;
-  animation: fadeInUp 1s ease-out;
 }
 
 .hero-subtitle {
